@@ -1,10 +1,15 @@
 input[type="text"] {
-    display: inline-block;
+    display: block;
     border-radius: 20px;
     width: 500px;
     height: auto;
     padding: 10px 10px;
     text-align: center;
+    float: center;
+}
+
+form {
+    display: inline-block;
 }
 
 header {
@@ -41,6 +46,12 @@ body {
 	min-width: 350px;
 }
 
+img {
+    display: block;
+    float: right;
+    padding: 0px 10px 0px 10px;
+}
+
 @media screen and (max-width:700px) {
     input[type="text"] {
         width: 300px;
@@ -50,11 +61,11 @@ body {
     }
 }
 
-@media screen and (max-width:350px) {
+@media screen and (min-width:1000px) {
     input[type="text"] {
-        width: 300px;
+        width: 700px;
         height: auto;
-        padding: 5px 1px;
+        padding: 10px 5px;
         text-align: center;
     }
 }
