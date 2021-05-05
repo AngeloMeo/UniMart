@@ -1,11 +1,15 @@
 package UniMartTeam.model;
 
+import java.util.List;
+
 public class Prodotto
 {
    private int codiceIAN;
    private String nome, foto, descrizione;
    private float prezzo, peso, volumeOccupato;
    private Categoria categoria;
+   private List<Possiede> possiedeList;
+   private List<Composto> compostoList;
 
    public int getCodiceIAN()
    {
@@ -85,5 +89,37 @@ public class Prodotto
    public void setCategoria(Categoria categoria)
    {
       this.categoria = categoria;
+   }
+
+   public void setPossiedeList(List<Possiede> possiedeList)
+   {
+      this.possiedeList = possiedeList;
+   }
+
+   public void addPossiedeList(Possiede element)
+   {
+      if (element != null)
+         possiedeList.add(element);
+   }
+
+   public List<Possiede> getPossiedeList()
+   {
+      return possiedeList;
+   }
+
+   public void setCompostoList(List<Composto> compostoList)
+   {
+      this.compostoList = compostoList;
+   }
+
+   public void addCompostoList(Composto element)
+   {
+      if (element != null)
+         compostoList.add(element);
+   }
+
+   public List<Composto> getCompostoList()
+   {
+      return compostoList;
    }
 }

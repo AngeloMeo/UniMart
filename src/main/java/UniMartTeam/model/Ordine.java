@@ -1,6 +1,7 @@
 package UniMartTeam.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Ordine
 {
@@ -11,6 +12,7 @@ public class Ordine
    private Utente cliente;
    private Coupon coupon;
    private Spedizione spedizione;
+   private List<Composto> compostoList;
 
    public Spedizione getSpedizione()
    {
@@ -90,5 +92,31 @@ public class Ordine
    public void setCliente(Utente cliente)
    {
       this.cliente = cliente;
+   }
+
+   public void setCompostoList(List<Composto> compostoList)
+   {
+      this.compostoList = compostoList;
+   }
+
+   public void addCompostoList(Composto element)
+   {
+      if (element != null)
+         compostoList.add(element);
+   }
+
+   public List<Composto> getCompostoList()
+   {
+      return compostoList;
+   }
+
+   public StatoOrdine getStatoOrdine()
+   {
+      return statoOrdine;
+   }
+
+   public void setStatoOrdine(StatoOrdine statoOrdine)
+   {
+      this.statoOrdine = statoOrdine;
    }
 }

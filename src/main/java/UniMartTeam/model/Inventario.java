@@ -1,10 +1,13 @@
 package UniMartTeam.model;
 
+import java.util.List;
+
 public class Inventario
 {
    private int codiceInventario;
    private String indirizzo, regione, nome, note;
    private Utente responsabile;
+   private List<Possiede> possiedeList;
 
    public Inventario()
    {
@@ -74,5 +77,21 @@ public class Inventario
    public void setResponsabile(Utente responsabile)
    {
       this.responsabile = responsabile;
+   }
+
+   public void setPossiedeList(List<Possiede> possiedeList)
+   {
+      this.possiedeList = possiedeList;
+   }
+
+   public void addPossiedeList(Possiede element)
+   {
+      if (element != null)
+         possiedeList.add(element);
+   }
+
+   public List<Possiede> getPossiedeList()
+   {
+      return possiedeList;
    }
 }
