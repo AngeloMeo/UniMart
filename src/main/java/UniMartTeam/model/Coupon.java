@@ -6,6 +6,7 @@ public class Coupon
    private StatoCoupon statoCoupon;
    private float sconto;
    private Utente creatore;
+   private Ordine ordine;
 
    public int getNumeroCoupon()
    {
@@ -45,5 +46,15 @@ public class Coupon
    public void setCreatore(Utente creatore)
    {
       this.creatore = creatore;
+   }
+
+   public void setOrdine(Ordine ordine)
+   {
+      this.ordine = ordine;
+   }
+
+   public Ordine getOrdine()
+   {
+      return ordine;
    }
 }
