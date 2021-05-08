@@ -2,6 +2,7 @@ package UniMartTeam.model.DAO;
 
 public class spedizioneDAO
 {
+
    /*doSave(DATA o)
    salva i dati nel database(insert)
 
