@@ -9,7 +9,7 @@ public class Ordine
 {
    private int numeroOrdine;
    private StatoOrdine statoOrdine;
-   private String feedback, metodoDiPagamento;
+   private String feedback, ricevutaPagamento;
    private LocalDate dataAcquisto;
    private Utente cliente;
    private Coupon coupon;
@@ -66,14 +66,14 @@ public class Ordine
       this.feedback = feedback;
    }
 
-   public String getMetodoDiPagamento()
+   public String getRicevutaPagamento()
    {
-      return metodoDiPagamento;
+      return ricevutaPagamento;
    }
 
-   public void setMetodoDiPagamento(String metodoDiPagamento)
+   public void setRicevutaPagamento(String ricevutaPagamento)
    {
-      this.metodoDiPagamento = metodoDiPagamento;
+      this.ricevutaPagamento = ricevutaPagamento;
    }
 
    public LocalDate getDataAcquisto()

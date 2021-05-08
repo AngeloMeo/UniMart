@@ -128,7 +128,7 @@ public class QueryBuilder
          StringJoiner commaSJ = new StringJoiner(",");
 
          for(String param : argv)
-            commaSJ.add(String.format("%s.%s", alias, param));
+            commaSJ.add(param);
 
          query.append(commaSJ.toString());
       }
@@ -140,6 +140,28 @@ public class QueryBuilder
    public QueryBuilder innerJoin(String table, String alias)
    {
       query.append(" INNER JOIN "+ table + " " + alias);
+
+      return this;
+   }
+
+   /*
+      0 FULL
+      1 LEFT
+      2 RIGHT
+    */
+   public QueryBuilder outerJoin(String table, String alias, int mode)
+   {
+      String joinMode = "";
+
+      if(mode == 0)
+         joinMode = " FULL JOIN ";
+      else if(mode == 1)
+         joinMode = " LEFT JOIN ";
+      else if(mode == 2)
+         joinMode = " RIGHT JOIN ";
+
+      if(joinMode.length() > 0)
+         query.append(joinMode + " " + table + " " + alias);
 
       return this;
    }
