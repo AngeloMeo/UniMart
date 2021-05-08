@@ -1,4 +1,4 @@
-package UniMartTeam.model;
+package UniMartTeam.model.EnumForBeans;
 
 public enum TipoUtente
 {

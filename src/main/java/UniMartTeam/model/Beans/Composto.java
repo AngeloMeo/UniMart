@@ -1,4 +1,4 @@
-package UniMartTeam.model;
+package UniMartTeam.model.Beans;
 
 public class Composto
 {

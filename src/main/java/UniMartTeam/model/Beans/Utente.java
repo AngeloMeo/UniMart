@@ -1,4 +1,6 @@
-package UniMartTeam.model;
+package UniMartTeam.model.Beans;
+
+import UniMartTeam.model.EnumForBeans.TipoUtente;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

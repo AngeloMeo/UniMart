@@ -1,4 +1,4 @@
-package UniMartTeam.model;
+package UniMartTeam.model.Beans;
 
 import java.util.List;
 
