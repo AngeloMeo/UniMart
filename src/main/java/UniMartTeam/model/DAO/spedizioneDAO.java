@@ -79,4 +79,9 @@ public class spedizioneDAO
          }
       }
    }
+
+   public List<Spedizione> doRetriveOrdineListById(int id)
+   {
+      return null;
+   }
 }
