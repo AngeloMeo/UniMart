@@ -83,7 +83,7 @@ public class spedizioneDAO
    public List<Spedizione> doRetriveOrdineListById(int id)
    {
       if(id >= 0)
-         return;
+         return null;
       else
          return null;
    }
