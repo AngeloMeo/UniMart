@@ -1,5 +1,6 @@
 package UniMartTeam.model.DAO;
 
+import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Spedizione;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
@@ -15,7 +16,7 @@ import java.util.*;
 
 public class SpedizioneDAO
 {
-   public List<Spedizione> doRetriveAll() throws SQLException
+   public static List<Spedizione> doRetriveAll() throws SQLException
    {
       try(Connection con = ConPool.getConnection())
       {
@@ -37,7 +38,7 @@ public class SpedizioneDAO
       }
    }
 
-   public List<Spedizione> doRetriveOrdineList() throws SQLException
+   public static List<Spedizione> doRetriveOrdineList() throws SQLException
    {
       try(Connection con = ConPool.getConnection())
       {
@@ -68,7 +69,7 @@ public class SpedizioneDAO
       }
    }
 
-   public Spedizione doRetriveOrdineListById(int id) throws SQLException
+   public static Spedizione doRetriveOrdineListById(int id) throws SQLException
    {
       try(Connection con = ConPool.getConnection())
       {
@@ -94,5 +95,59 @@ public class SpedizioneDAO
             return results;
          }
       }
+   }
+
+   public static boolean doSave(Spedizione s) throws SQLException
+   {
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("spedizione", "s");
+
+         try (PreparedStatement ps = con.prepareStatement(qb.insert("ID", "nome", "costo").getQuery()))
+         {
+            ps.setInt(1, s.getID());
+            ps.setString(2, s.getNome());
+            ps.setFloat(3, s.getCosto());
+
+            if (ps.executeUpdate() == 0)
+            {
+               throw new RuntimeException("INSERT error.");
+            }
+         }
+      }
+      return true;
+   }
+
+   public static boolean doUpdate(Spedizione s) throws SQLException
+   {
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("spedizione", "s");
+
+         try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "costo").getQuery()))
+         {
+            pss.setString(1, s.getNome());
+            pss.setFloat(2, s.getCosto());
+
+            if (pss.executeUpdate() == 0)
+               throw new RuntimeException("UPDATE error.");
+         }
+      }
+      return true;
+   }
+
+   public static boolean doDelete(int id) throws SQLException
+   {
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("spedizione", "s").delete().where("s.ID=" + id);
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            if (ps.executeUpdate() == 0)
+               throw new RuntimeException("DELETE Error");
+         }
+      }
+      return true;
    }
 }
