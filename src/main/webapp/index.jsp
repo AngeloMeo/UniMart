@@ -9,8 +9,10 @@
    <body>
       <%
          Spedizione sp = new Spedizione();
-         sp.setID(4);
-         SpedizioneDAO.doDelete(sp.getID());
+         sp.setID(3);
+         sp.setNome("express");
+         sp.setCosto(15.99F);
+         SpedizioneDAO.doUpdate(sp);
          ArrayList<Spedizione> arr = (ArrayList<Spedizione>) SpedizioneDAO.doRetriveAll();
 
          for(Spedizione s : arr)

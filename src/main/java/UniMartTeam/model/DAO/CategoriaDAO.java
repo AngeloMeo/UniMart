@@ -44,7 +44,7 @@ public class CategoriaDAO
             //update
             if (rs.next())
             {
-               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").getQuery()))
+               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").getQuery()))//TODO where
                {
                   pss.setString(1, c.getNome());
                   pss.setFloat(2, c.getAliquota());
@@ -157,7 +157,7 @@ public class CategoriaDAO
    {
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("categoria", "c").delete().where("c.nome=?");
+         QueryBuilder qb = new QueryBuilder("categoria", "").delete().where("nome=?");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {

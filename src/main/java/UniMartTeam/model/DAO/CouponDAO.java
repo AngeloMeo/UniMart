@@ -49,7 +49,7 @@ public class CouponDAO {
             {
                 ResultSet rs = ps.executeQuery();
                 //update
-                try(PreparedStatement pss = con.prepareStatement(qb.update("numeroCoupon", "stato", "sconto", "cfCreatore").getQuery())){
+                try(PreparedStatement pss = con.prepareStatement(qb.update("numeroCoupon", "stato", "sconto", "cfCreatore").getQuery())){//TODO where
 
                     pss.setInt(1, coupon.getNumeroCoupon());
                     pss.setString(2, coupon.getStatoCoupon().toString());
@@ -96,7 +96,7 @@ public class CouponDAO {
 
         try(Connection con = ConPool.getConnection()) {
 
-            QueryBuilder qb = new QueryBuilder("coupon", "c").delete().where("c.numeroCoupon=?");
+            QueryBuilder qb = new QueryBuilder("coupon", "").delete().where("numeroCoupon=?");
 
             try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
                 ps.setInt(1, numeroCoupon);

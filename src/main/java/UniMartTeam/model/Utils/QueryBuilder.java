@@ -80,7 +80,7 @@ public class QueryBuilder
 
    public QueryBuilder update(String...argv)
    {
-      query.append("UPDATE " + table);
+      query.append("UPDATE " + table + " SET ");
 
       StringJoiner commaSJ = new StringJoiner(",");
 

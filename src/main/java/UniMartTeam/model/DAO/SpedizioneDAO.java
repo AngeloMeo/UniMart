@@ -122,13 +122,14 @@ public class SpedizioneDAO
    {
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("spedizione", "s");
+         QueryBuilder qb = new QueryBuilder("spedizione", "").update("nome", "costo").where("ID=" + s.getID());
+         String query = qb.getQuery();
 
-         try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "costo").getQuery()))
+         try (PreparedStatement pss = con.prepareStatement(query))
          {
             pss.setString(1, s.getNome());
             pss.setFloat(2, s.getCosto());
-
+            System.out.println(query);
             if (pss.executeUpdate() == 0)
                throw new RuntimeException("UPDATE error.");
          }
