@@ -10,13 +10,13 @@
       <%
          SpedizioneDAO dao = new SpedizioneDAO();
 
-         ArrayList<Spedizione> arr = (ArrayList<Spedizione>) dao.doRetriveOrdineList();
+         ArrayList<Spedizione> arr = (ArrayList<Spedizione>) dao.doRetriveAll();
 
          for(Spedizione s : arr)
          {
       %>
 
-      <%= s.getNome() + " " + s.getCosto() + " " + s.getID() + " " + s.getOrdineList().toString()%>
+      <%= s.getNome() + " " + s.getCosto() + " " + s.getID()%>
       <br>
 
       <%}

@@ -68,11 +68,31 @@ public class SpedizioneDAO
       }
    }
 
-   public List<Spedizione> doRetriveOrdineListById(int id)
+   public Spedizione doRetriveOrdineListById(int id) throws SQLException
    {
-      if(id >= 0)
-         return null;
-      else
-         return null;
+      try(Connection con = ConPool.getConnection())
+      {
+         QueryBuilder query = new QueryBuilder("spedizione", "s").select().outerJoin("ordine", "o", 1).on("s.ID = o.metodoSpedizione").where("S.ID = " + Integer.toString(id));
+
+         try(PreparedStatement ps = con.prepareStatement(query.getQuery()))
+         {
+            ResultSet rs = ps.executeQuery();
+            Spedizione results = null;
+
+            if(rs.next())
+            {
+               results = SpedizioneExtractor.Extract(rs, "s");
+               results.setOrdineList(new ArrayList<Ordine>());
+               while(rs.next())
+               {
+                  Ordine o = OrdineExtractor.Extract(rs, "o", null, null, results);
+
+                  results.addOrdineList(o);
+                  results.addOrdineList(o);
+               }
+            }
+            return results;
+         }
+      }
    }
 }

@@ -28,7 +28,6 @@ public class OrdineExtractor {
             o.setCoupon(coupon);
             o.setSpedizione(sped);
 
-
             return o;
         }
         return null;
