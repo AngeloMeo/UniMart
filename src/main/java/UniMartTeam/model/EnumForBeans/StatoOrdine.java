@@ -6,6 +6,9 @@ public enum StatoOrdine
 
     public static StatoOrdine StringToEnum(String stato)
     {
+        if(stato == null)
+            return null;
+
         switch (stato)
         {
             case "Salvato": return Salvato;

@@ -15,7 +15,7 @@ public class ConPool
       if (datasource == null)
       {
          PoolProperties p = new PoolProperties();
-         p.setUrl("jdbc:mysql://localhost:3306/modellomvcdb?serverTimezone=" + TimeZone.getDefault().getID());
+         p.setUrl("jdbc:mysql://localhost:3306/unimart?serverTimezone=" + TimeZone.getDefault().getID());
          p.setDriverClassName("com.mysql.cj.jdbc.Driver");
          p.setUsername("root");
          p.setPassword("studentiTSW");

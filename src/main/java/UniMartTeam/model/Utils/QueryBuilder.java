@@ -168,7 +168,7 @@ public class QueryBuilder
 
    public QueryBuilder on(String condition)
    {
-      query.append(" ON " + "?");
+      query.append(" ON " + condition);
 
       return this;
    }
