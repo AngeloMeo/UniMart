@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 public class CouponExtractor
 {
-   public static Coupon Extract(ResultSet rs, String alias, Utente ut, Ordine or) throws SQLException
+   public static Coupon Extract(ResultSet rs, String alias, Utente utente, Ordine ordine) throws SQLException
    {
       if (rs != null)
       {
@@ -21,8 +21,8 @@ public class CouponExtractor
          c.setNumeroCoupon(rs.getInt("numeroCoupon"));
          c.setStatoCoupon(StatoCoupon.StringToEnum(rs.getString("stato")));
          c.setSconto(rs.getFloat("sconto"));
-         c.setCreatore(ut);
-         c.setOrdine(or);
+         c.setCreatore(utente);
+         c.setOrdine(ordine);
 
          return c;
       }
