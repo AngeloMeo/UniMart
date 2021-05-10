@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-public class spedizioneDAO
+public class SpedizioneDAO
 {
    public List<Spedizione> doRetriveAll() throws SQLException
    {
@@ -45,7 +45,7 @@ public class spedizioneDAO
       {
          QueryBuilder query = new QueryBuilder("spedizione", "s").select("s.ID","s.nome","s.costo","o.numeroOrdine","o.stato","o.feedback","o.ricevutaPagamento","o.dataAcquisto").outerJoin("ordine", "o", 1).on("s.ID = o.metodoSpedizione");
 
-         try(PreparedStatement ps = con.prepareStatement(query.select().getQuery()))
+         try(PreparedStatement ps = con.prepareStatement(query.getQuery()))
          {
             ResultSet rs = ps.executeQuery();
             List<Spedizione> results = new ArrayList<>();
@@ -59,7 +59,10 @@ public class spedizioneDAO
                o.setStatoOrdine(StatoOrdine.StringToEnum(rs.getString("o.stato")));
                o.setFeedback(rs.getString("o.feedback"));
                o.setRicevutaPagamento(rs.getString("o.ricevutaPagamento"));
-               o.setDataAcquisto(rs.getDate("o.dataAcquisto").toLocalDate());
+
+               if(rs.getDate("o.dataAcquisto") != null)
+                  o.setDataAcquisto(rs.getDate("o.dataAcquisto").toLocalDate());
+
                sTmp.setID(rs.getInt("s.ID"));
 
                int index = results.indexOf(sTmp);

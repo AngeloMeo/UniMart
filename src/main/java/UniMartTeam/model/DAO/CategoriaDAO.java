@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import UniMartTeam.model.Beans.Prodotto;
+import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 
-public class categoriaDAO
+public class CategoriaDAO
 {
    public void doSave(Categoria c) throws SQLException{
 
@@ -59,8 +60,8 @@ public class categoriaDAO
 
       try(Connection con = ConPool.getConnection())
       {
-
-         QueryBuilder qb = new QueryBuilder("categoria", "cat");
+         String alias = "cat";
+         QueryBuilder qb = new QueryBuilder("categoria", alias);
          try (PreparedStatement ps = con.prepareStatement(qb.select().limit(true).getQuery()))
          {
             ps.setInt(1, offset);
@@ -70,12 +71,7 @@ public class categoriaDAO
 
             while (rs.next())
             {
-
-               Categoria c = new Categoria();
-               c.setNome(rs.getString(1));
-               c.setAliquota(rs.getFloat(2));
-               list.add(c);
-
+               list.add(CategoriaExtractor.Extract(rs, alias));
             }
             return list;
          }
@@ -87,7 +83,8 @@ public class categoriaDAO
       try(Connection con = ConPool.getConnection())
       {
 
-         QueryBuilder qb = new QueryBuilder("categoria", "cat");
+         String alias = "cat";
+         QueryBuilder qb = new QueryBuilder("categoria", alias);
          try (PreparedStatement ps = con.prepareStatement(qb.select().getQuery()))
          {
 
@@ -96,11 +93,7 @@ public class categoriaDAO
 
             while (rs.next())
             {
-
-               Categoria c = new Categoria();
-               c.setNome(rs.getString(1));
-               c.setAliquota(rs.getFloat(2));
-               list.add(c);
+               list.add(CategoriaExtractor.Extract(rs, alias));
 
             }
             return list;
@@ -111,8 +104,8 @@ public class categoriaDAO
    public Categoria doRetrieveByKey(String categoryName) throws  SQLException{
 
       try(Connection con = ConPool.getConnection()){
-
-         QueryBuilder qb = new QueryBuilder("categoria", "cat").select().where("cat.nome=?");
+         String alias = "cat";
+         QueryBuilder qb = new QueryBuilder("categoria", alias).select().where("cat.nome=?");
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setString(1, categoryName);
@@ -120,11 +113,7 @@ public class categoriaDAO
 
             if(rs.next())
             {
-               Categoria c = new Categoria();
-               c.setNome(rs.getString(1));
-               c.setAliquota(rs.getFloat(2));
-
-               return c;
+               return CategoriaExtractor.Extract(rs, alias);
             }
             return null;
          }
@@ -132,21 +121,32 @@ public class categoriaDAO
       }
 
    }
-   public List<Prodotto> doRetrieveProducts(Categoria c) throws SQLException{
+   public List<Prodotto> doRetrieveProducts(Categoria c) throws SQLException {
 
-      try(Connection con = ConPool.getConnection()){
-         QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo", "p.peso", "p.foto" ).where("p.nomeCategoria=?");
-         try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
-            ps.setString(1,c.getNome());
+      try (Connection con = ConPool.getConnection()) {
+
+         QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo", "p.peso", "p.foto").where("p.nomeCategoria=?");
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery())) {
+            ps.setString(1, c.getNome());
             ResultSet rs = ps.executeQuery();
+            ArrayList<Prodotto> list = new ArrayList<>();
 
-            while(rs.next()){
-               ArrayList<Prodotto> list = new ArrayList<>();
-//retrieve products that belong in c Category
+            while (rs.next()) {
+               //ProdottoExtractor?
+
+               Prodotto p = new Prodotto();
+               p.setCodiceIAN(rs.getInt("p.codiceIAN"));
+               p.setNome(rs.getString("p.nome"));
+               p.setPrezzo(rs.getFloat("p.prezzo"));
+               p.setPeso(rs.getFloat("p.peso"));
+               p.setFoto(rs.getString("p.foto"));
+               list.add(p);
+
             }
-
+            return list;
          }
 
+      }
    }
    /*
 
