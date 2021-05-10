@@ -13,7 +13,7 @@ public class OrdineExtractor {
 
     public static Ordine Extract(ResultSet rs, String alias, Utente ut, Coupon coupon, Spedizione sped) throws SQLException {
 
-        if(rs != null && ut != null && coupon != null && sped != null){
+        if(rs != null){
             Ordine o = new Ordine();
 
             if(!alias.isEmpty())
@@ -25,10 +25,10 @@ public class OrdineExtractor {
             o.setRicevutaPagamento(rs.getString(alias+"metodoDiPagamento"));
             if(rs.getDate(alias + "dataDiNascita") != null)
                 o.setDataAcquisto(rs.getDate(alias+"dataAcquisto").toLocalDate());
-
             o.setCliente(ut);
             o.setCoupon(coupon);
             o.setSpedizione(sped);
+
 
             return o;
         }
