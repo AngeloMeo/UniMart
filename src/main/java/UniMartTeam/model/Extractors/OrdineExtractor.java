@@ -15,7 +15,7 @@ public class OrdineExtractor {
 
         if(rs != null){
             Ordine o = new Ordine();
-
+//
             if(!alias.isEmpty())
                 alias+=".";
 
