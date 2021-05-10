@@ -10,14 +10,12 @@ public class CategoriaExtractor {
 
         if(rs != null) {
             Categoria c = new Categoria();
-            if (alias.isEmpty()) {
-                c.setNome(rs.getString("nome"));
-                c.setAliquota(rs.getFloat("aliquota"));
-            }
-            else {
-                c.setNome(rs.getString(alias+".nome"));
-                c.setAliquota(rs.getFloat(alias+".aliquota"));
-            }
+
+            if(!alias.isEmpty())
+                alias+=".";
+
+            c.setNome(rs.getString(alias+"nome"));
+            c.setAliquota(rs.getFloat(alias+"aliquota"));
             return c;
         }
         return null;
