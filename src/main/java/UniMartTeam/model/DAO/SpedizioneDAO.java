@@ -3,6 +3,8 @@ package UniMartTeam.model.DAO;
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Spedizione;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
+import UniMartTeam.model.Extractors.OrdineExtractor;
+import UniMartTeam.model.Extractors.SpedizioneExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 import java.sql.Connection;
@@ -26,11 +28,7 @@ public class SpedizioneDAO
 
             while(rs.next())
             {
-               Spedizione s = new Spedizione();
-
-               s.setID(rs.getInt("id"));
-               s.setNome(rs.getString("nome"));
-               s.setCosto(rs.getFloat("costo"));
+               Spedizione s = SpedizioneExtractor.Extract(rs, "s");
                results.add(s);
             }
 
@@ -43,7 +41,7 @@ public class SpedizioneDAO
    {
       try(Connection con = ConPool.getConnection())
       {
-         QueryBuilder query = new QueryBuilder("spedizione", "s").select("s.ID","s.nome","s.costo","o.numeroOrdine","o.stato","o.feedback","o.ricevutaPagamento","o.dataAcquisto").outerJoin("ordine", "o", 1).on("s.ID = o.metodoSpedizione");
+         QueryBuilder query = new QueryBuilder("spedizione", "s").select().outerJoin("ordine", "o", 1).on("s.ID = o.metodoSpedizione");
 
          try(PreparedStatement ps = con.prepareStatement(query.getQuery()))
          {
@@ -52,25 +50,12 @@ public class SpedizioneDAO
 
             while(rs.next())
             {
-               Spedizione sTmp = new Spedizione();
-               Ordine o = new Ordine();
-
-               o.setNumeroOrdine(rs.getInt("o.numeroOrdine"));
-               o.setStatoOrdine(StatoOrdine.StringToEnum(rs.getString("o.stato")));
-               o.setFeedback(rs.getString("o.feedback"));
-               o.setRicevutaPagamento(rs.getString("o.ricevutaPagamento"));
-
-               if(rs.getDate("o.dataAcquisto") != null)
-                  o.setDataAcquisto(rs.getDate("o.dataAcquisto").toLocalDate());
-
-               sTmp.setID(rs.getInt("s.ID"));
-
+               Spedizione sTmp = SpedizioneExtractor.Extract(rs, "s");
+               Ordine o = OrdineExtractor.Extract(rs, "o", null, null, sTmp);
                int index = results.indexOf(sTmp);
                //eseguo questo blocco se la spedizione non è ancora presente nel mio arrayList
                if(index == -1)
                {
-                  sTmp.setCosto(rs.getFloat("s.costo"));
-                  sTmp.setNome(rs.getString("s.nome"));
                   sTmp.setOrdineList(new ArrayList<Ordine>());
                   sTmp.addOrdineList(o);
                   results.add(sTmp);
