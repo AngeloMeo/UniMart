@@ -24,7 +24,7 @@ public class CategoriaDAO
          {
             ps.setString(1, c.getNome());
             ps.setFloat(2, c.getAliquota());
-            if (ps.executeUpdate() != 1) {
+            if (ps.executeUpdate() == 0) {
                throw new RuntimeException("INSERT error.");
             }
          }
@@ -45,7 +45,7 @@ public class CategoriaDAO
                try(PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").getQuery())){
                   pss.setString(1, c.getNome());
                   pss.setFloat(2, c.getAliquota());
-                  if (pss.executeUpdate() != 1) {
+                  if (pss.executeUpdate() == 0) {
                      throw new RuntimeException("UPDATE error.");
                   }
                }
@@ -132,7 +132,6 @@ public class CategoriaDAO
             ArrayList<Prodotto> list = new ArrayList<>();
 
             while (rs.next()) {
-               //ProdottoExtractor?
 
                Prodotto p = new Prodotto();
                p.setCodiceIAN(rs.getInt("p.codiceIAN"));
@@ -148,13 +147,21 @@ public class CategoriaDAO
 
       }
    }
-   /*
 
-   doDelete(Key k)
-   elimina l'oggetto con key = k
-   posso usare anche doDelete(DATA o)
+   public void doDelete(String name) throws SQLException{
 
-   doRetriveByCond(Condizione)
-   restituisce una collezione di oggetti data una condizione
-*/
+      try(Connection con = ConPool.getConnection()) {
+
+         QueryBuilder qb = new QueryBuilder("categoria", "c").delete().where("c.nome=?");
+
+         try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
+            ps.setString(1, name);
+            if(ps.executeUpdate() == 0)
+               throw new RuntimeException("UPDATE Error");
+         }
+
+      }
+
+   }
+
 }
