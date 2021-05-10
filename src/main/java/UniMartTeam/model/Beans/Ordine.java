@@ -5,7 +5,7 @@ import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Ordine//TODO
+public class Ordine
 {
    private int numeroOrdine;
    private StatoOrdine statoOrdine;
@@ -44,16 +44,6 @@ public class Ordine//TODO
    public void setNumeroOrdine(int numeroOrdine)
    {
       this.numeroOrdine = numeroOrdine;
-   }
-
-   public StatoOrdine getStato()
-   {
-      return statoOrdine;
-   }
-
-   public void setStato(StatoOrdine statoOrdine)
-   {
-      this.statoOrdine = statoOrdine;
    }
 
    public String getFeedback()
