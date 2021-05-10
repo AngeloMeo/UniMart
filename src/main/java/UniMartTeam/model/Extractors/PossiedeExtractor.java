@@ -11,7 +11,7 @@ public class PossiedeExtractor
 {
    public static Possiede Extract(ResultSet rs, String alias, Inventario in, Prodotto pr) throws SQLException
    {
-      if (rs != null && in != null && pr != null)
+      if (rs != null)
       {
          Possiede p = new Possiede();
 

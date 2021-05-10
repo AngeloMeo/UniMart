@@ -10,7 +10,7 @@ public class CompostoExtractor
 {
    public static Composto Extract(ResultSet rs, String alias, Ordine or, Prodotto pr) throws SQLException
    {
-      if (rs != null && or != null && pr != null)
+      if (rs != null)
       {
          Composto c = new Composto();
 
