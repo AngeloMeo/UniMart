@@ -2,7 +2,7 @@ package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.StatoCoupon;
 
-public class Coupon
+public class Coupon//TODO
 {
    private int numeroCoupon;
    private StatoCoupon statoCoupon;

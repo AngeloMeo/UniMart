@@ -2,7 +2,7 @@ package UniMartTeam.model.Beans;
 
 import java.util.List;
 
-public class Inventario
+public class Inventario//TODO
 {
    private int codiceInventario;
    private String indirizzo, regione, nome, note;

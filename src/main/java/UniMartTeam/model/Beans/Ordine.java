@@ -5,7 +5,7 @@ import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Ordine
+public class Ordine//TODO
 {
    private int numeroOrdine;
    private StatoOrdine statoOrdine;
