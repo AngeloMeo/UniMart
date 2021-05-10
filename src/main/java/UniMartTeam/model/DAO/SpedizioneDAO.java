@@ -140,7 +140,7 @@ public class SpedizioneDAO
    {
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("spedizione", "s").delete().where("s.ID=" + id);
+         QueryBuilder qb = new QueryBuilder("spedizione", "").delete().where("ID=" + Integer.toString(id));
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
