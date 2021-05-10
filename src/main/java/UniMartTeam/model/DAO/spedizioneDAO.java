@@ -62,7 +62,7 @@ public class spedizioneDAO
                o.setDataAcquisto(rs.getDate("o.dataAcquisto").toLocalDate());
                sTmp.setID(rs.getInt("s.ID"));
 
-               int index = results.indexOf(sTmp);
+               int index = results.indexOf(sTmp);//test
                //eseguo questo blocco se la spedizione non è ancora presente nel mio arrayList
                if(index == -1)
                {
