@@ -8,9 +8,10 @@
    </head>
    <body>
       <%
-         SpedizioneDAO dao = new SpedizioneDAO();
-
-         ArrayList<Spedizione> arr = (ArrayList<Spedizione>) dao.doRetriveAll();
+         Spedizione sp = new Spedizione();
+         sp.setID(4);
+         SpedizioneDAO.doDelete(sp.getID());
+         ArrayList<Spedizione> arr = (ArrayList<Spedizione>) SpedizioneDAO.doRetriveAll();
 
          for(Spedizione s : arr)
          {
