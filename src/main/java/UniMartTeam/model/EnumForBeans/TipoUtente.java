@@ -1,6 +1,6 @@
 package UniMartTeam.model.EnumForBeans;
 
-public enum TipoUtente
+public enum TipoUtente//
 {
    Semplice, Amministratore;
 

@@ -7,7 +7,7 @@ import UniMartTeam.model.EnumForBeans.TipoUtente;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UtenteExtractor
+public class UtenteExtractor//
 {
    public static Utente Extract(ResultSet rs, String alias) throws SQLException
    {
