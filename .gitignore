@@ -56,3 +56,4 @@
 /target/UniMart-1.0-SNAPSHOT/WEB-INF/web.xml
 /.idea/workspace-SABATO.xml
 /target/classes/UniMartTeam/model/Extractors/CategoriaExtractor.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/Utils/QueryBuilder.class

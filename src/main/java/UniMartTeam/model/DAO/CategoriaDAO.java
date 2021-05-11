@@ -36,15 +36,15 @@ public class CategoriaDAO
    {
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("categoria", "cat");
+         QueryBuilder qb = new QueryBuilder("categoria", "");
 
-         try (PreparedStatement ps = con.prepareStatement(qb.select().where("cat.nome = " + c.getNome()).getQuery()))
+         try (PreparedStatement ps = con.prepareStatement(qb.select().where("nome = " + c.getNome()).getQuery()))
          {
             ResultSet rs = ps.executeQuery();
             //update
             if (rs.next())
             {
-               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").getQuery()))//TODO where
+               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").where("nome=" + c.getNome()).getQuery()))
                {
                   pss.setString(1, c.getNome());
                   pss.setFloat(2, c.getAliquota());
