@@ -129,7 +129,7 @@ public class SpedizioneDAO
          {
             pss.setString(1, s.getNome());
             pss.setFloat(2, s.getCosto());
-            System.out.println(query);
+
             if (pss.executeUpdate() == 0)
                throw new RuntimeException("UPDATE error.");
          }
