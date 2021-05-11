@@ -80,7 +80,6 @@ public class CouponDAO
          }
       }
    }
-   //TODO mettere reset.css vedi lezione lunedi
 /*
    public static List<Coupon> doRetrieveAll() throws SQLException
    {
