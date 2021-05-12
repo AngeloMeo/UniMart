@@ -1,10 +1,5 @@
 package UniMartTeam.model.DAO;
 
-/*
-* TODO:
-*  PossiedeList CompostoList
-*/
-
 import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Composto;
 import UniMartTeam.model.Beans.Prodotto;
@@ -12,8 +7,6 @@ import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,17 +57,16 @@ public class ProdottoDAO {
             QueryBuilder qb = new QueryBuilder("prodotto", "");
 
 
-            try (PreparedStatement ps = con.prepareStatement(qb.update("codiceIAN", "nome", "prezzo", "peso", "foto",
+            try (PreparedStatement ps = con.prepareStatement(qb.update("nome", "prezzo", "peso", "foto",
                     "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN()).getQuery()))
             {
-                ps.setInt(1, p.getCodiceIAN());
-                ps.setString(2, p.getNome());
-                ps.setFloat(3, p.getPrezzo());
-                ps.setFloat(4, p.getPeso());
-                ps.setString(5, p.getFoto());
-                ps.setFloat(6, p.getVolumeOccupato());
-                ps.setString(7, p.getDescrizione());
-                ps.setString(8, p.getCategoria().getNome());
+                ps.setString(1, p.getNome());
+                ps.setFloat(2, p.getPrezzo());
+                ps.setFloat(3, p.getPeso());
+                ps.setString(4, p.getFoto());
+                ps.setFloat(5, p.getVolumeOccupato());
+                ps.setString(6, p.getDescrizione());
+                ps.setString(7, p.getCategoria().getNome());
 
                 if (ps.executeUpdate() == 0)
                     return false;
@@ -130,7 +122,7 @@ public class ProdottoDAO {
         {
             String alias = "p";
             QueryBuilder qb = new QueryBuilder("prodotto", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select("*", "p.nomeCategoria AS nome").getQuery()))//TODO check
+            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").getQuery()))//TODO check
             {
                 return ListFiller(ps, alias);
             }
@@ -145,9 +137,9 @@ public class ProdottoDAO {
 
         try (Connection con = ConPool.getConnection())
         {
-            String alias = "cat";
-            QueryBuilder qb = new QueryBuilder("categoria", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select("*", "p.nomeCategoria AS nome").limit(true).getQuery()))
+            String alias = "p";
+            QueryBuilder qb = new QueryBuilder("prodotto", alias);
+            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").limit(true).getQuery()))
             {
                 ps.setInt(1, offset);
                 ps.setInt(2, size);
@@ -214,12 +206,14 @@ public class ProdottoDAO {
     }
 
     public static List<Composto> doRetrieveCompostoList() throws SQLException{
-
-
-
+        //TODO quando Facciamo ordineDAO
     }
 
-//todo: riga 220 funziona con gli altri metodi? è stata scritta apposta per doRetrieveByCategoria
+    public static List<Composto> doRetrievePossiedeList() throws SQLException{
+        //TODO quando Facciamo inventarioDAO
+    }
+
+
     private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException {
         ResultSet rs = preparedStatement.executeQuery();
         ArrayList<Prodotto> list = new ArrayList<>();

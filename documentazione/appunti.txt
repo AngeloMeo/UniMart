@@ -19,8 +19,6 @@ per ogni calsse DATA
         restituisce se possibile un oggetto con chiave k
 
 TODOList
-    UtenteDAO
     InventarioDAO(Comprende anche la tabella associativa Possiede)
-    ProdottoDAO
-    UtenteDAO
     OrdineDAO(Comprende anche la tabella associativa Composto)
+    ProdottoDAO da terminare

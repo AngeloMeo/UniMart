@@ -11,8 +11,7 @@ import java.util.List;
 
 public class Utente
 {
-   private String CF, nome, cognome, viaCivico, fotoProfilo, citta, regione, telefono, email, token,
-           username, passwordHash;
+   private String CF, nome, cognome, viaCivico, fotoProfilo, citta, regione, telefono, email, token, username, passwordHash;
    private TipoUtente tipoUtente;
    private LocalDate dataDiNascita;
    private List<Inventario> inventarioList;
