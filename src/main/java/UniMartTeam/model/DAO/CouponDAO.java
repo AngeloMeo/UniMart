@@ -144,7 +144,7 @@ public class CouponDAO
       }
    }
 
-   public static List<Coupon> doRetrieveByCond(Ordine o) throws SQLException
+   public static Coupon doRetrieveByCond(Ordine o) throws SQLException
    {
       if(o == null || o.getNumeroOrdine() == 0)
          return null;
@@ -157,7 +157,7 @@ public class CouponDAO
 
          try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
          {
-            return ListFiller(preparedStatement);
+            return ListFiller(preparedStatement).get(0);
          }
       }
    }
