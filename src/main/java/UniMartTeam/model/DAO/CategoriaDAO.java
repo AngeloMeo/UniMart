@@ -16,6 +16,9 @@ public class CategoriaDAO
 {
    public static boolean doSave(Categoria c) throws SQLException
    {
+      if(c == null)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("categoria", "cat");
@@ -34,6 +37,9 @@ public class CategoriaDAO
 
    public static boolean doSaveOrUpdate(Categoria c) throws SQLException
    {
+      if(c == null)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("categoria", "");
@@ -65,6 +71,9 @@ public class CategoriaDAO
 
    public static List<Categoria> doRetrieveAll(int offset, int size) throws SQLException
    {
+      if(offset<1 || size<1)
+         return null;
+
       try (Connection con = ConPool.getConnection())
       {
          String alias = "cat";
@@ -109,6 +118,9 @@ public class CategoriaDAO
 
    public static Categoria doRetrieveByKey(String categoryName) throws SQLException
    {
+      if(categoryName.isEmpty())
+         return null;
+
       try (Connection con = ConPool.getConnection())
       {
          String alias = "cat";
@@ -129,6 +141,9 @@ public class CategoriaDAO
 
    public static List<Prodotto> doRetrieveProducts(Categoria c) throws SQLException
    {
+      if(c == null)
+         return null;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo",
@@ -158,6 +173,9 @@ public class CategoriaDAO
 
    public static boolean doDelete(String name) throws SQLException
    {
+      if(name.isEmpty())
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("categoria", "").delete().where("nome=?");

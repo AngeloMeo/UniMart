@@ -20,6 +20,8 @@ public class CouponDAO
 {
    public static boolean doSave(Coupon coupon) throws SQLException
    {
+      if(coupon == null)
+         return false;
 
       try (Connection con = ConPool.getConnection())
       {
@@ -43,6 +45,9 @@ public class CouponDAO
 
    public static boolean doUpdate(Coupon coupon) throws SQLException
    {
+      if(coupon == null)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("coupon", "");
@@ -65,6 +70,10 @@ public class CouponDAO
 
    public static boolean doDelete(int numeroCoupon) throws SQLException
    {
+
+      if(numeroCoupon == 0)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("coupon", "").delete().where("numeroCoupon=?");
@@ -83,6 +92,9 @@ public class CouponDAO
 
    public static List<Coupon> doRetrieveAll(int offset, int size) throws SQLException
    {
+      if(offset<1 || size<1)
+         return null;
+
       try(Connection connection = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("coupon", "c");

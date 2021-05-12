@@ -71,6 +71,9 @@ public class SpedizioneDAO
 
    public static Spedizione doRetriveOrdineListById(int id) throws SQLException
    {
+      if(id==0)
+         return null;
+
       try(Connection con = ConPool.getConnection())
       {
          QueryBuilder query = new QueryBuilder("spedizione", "s").select().outerJoin("ordine", "o", 1).on("s.ID = o.metodoSpedizione").where("S.ID = " + Integer.toString(id));
@@ -99,6 +102,9 @@ public class SpedizioneDAO
 
    public static boolean doSave(Spedizione s) throws SQLException
    {
+      if(s == null || s.getID()==0)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("spedizione", "s");
@@ -118,6 +124,9 @@ public class SpedizioneDAO
 
    public static boolean doUpdate(Spedizione s) throws SQLException
    {
+      if(s == null || s.getID() == 0)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("spedizione", "").update("nome", "costo").where("ID=" + s.getID());
@@ -137,6 +146,9 @@ public class SpedizioneDAO
 
    public static boolean doDelete(int id) throws SQLException
    {
+      if(id == 0)
+         return false;
+
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("spedizione", "").delete().where("ID=" + Integer.toString(id));

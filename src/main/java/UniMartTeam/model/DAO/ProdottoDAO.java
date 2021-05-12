@@ -27,6 +27,9 @@ public class ProdottoDAO {
 
     public static boolean doSave(Prodotto p) throws SQLException{
 
+        if(p == null)
+            return false;
+
         try (Connection con = ConPool.getConnection() ) {
             QueryBuilder qb = new QueryBuilder("prodotto", "p").insert("codiceIAN", "nome", "prezzo", "peso",
             "foto", "volumeOccupato", "descrizione", "nomeCategoria");
