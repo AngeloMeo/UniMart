@@ -14,7 +14,7 @@ import UniMartTeam.model.Utils.QueryBuilder;
 
 public class CategoriaDAO
 {
-   public static void doSave(Categoria c) throws SQLException
+   public static boolean doSave(Categoria c) throws SQLException
    {
       try (Connection con = ConPool.getConnection())
       {
@@ -24,15 +24,15 @@ public class CategoriaDAO
          {
             ps.setString(1, c.getNome());
             ps.setFloat(2, c.getAliquota());
-            if (ps.executeUpdate() == 0)
-            {
-               throw new RuntimeException("INSERT error.");
+            if (ps.executeUpdate() == 0) {
+               return false;
             }
+            return true;
          }
       }
    }
 
-   public static void doSaveOrUpdate(Categoria c) throws SQLException
+   public static boolean doSaveOrUpdate(Categoria c) throws SQLException
    {
       try (Connection con = ConPool.getConnection())
       {
@@ -48,10 +48,11 @@ public class CategoriaDAO
                {
                   pss.setString(1, c.getNome());
                   pss.setFloat(2, c.getAliquota());
-                  if (pss.executeUpdate() == 0)
-                  {
-                     throw new RuntimeException("UPDATE error.");
+
+                  if (pss.executeUpdate() == 0) {
+                     return false;
                   }
+                  return true;
                }
             } else
             { //doSave
@@ -59,6 +60,7 @@ public class CategoriaDAO
             }
          }
       }
+      return false;
    }
 
    public static List<Categoria> doRetrieveAll(int offset, int size) throws SQLException
@@ -153,7 +155,7 @@ public class CategoriaDAO
       }
    }
 
-   public static void doDelete(String name) throws SQLException
+   public static boolean doDelete(String name) throws SQLException
    {
       try (Connection con = ConPool.getConnection())
       {
@@ -162,8 +164,11 @@ public class CategoriaDAO
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setString(1, name);
+
             if (ps.executeUpdate() == 0)
-               throw new RuntimeException("DELETE Error");
+               return false;
+
+            return true;
          }
       }
    }

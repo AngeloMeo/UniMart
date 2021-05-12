@@ -110,9 +110,7 @@ public class SpedizioneDAO
             ps.setFloat(3, s.getCosto());
 
             if (ps.executeUpdate() == 0)
-            {
-               throw new RuntimeException("INSERT error.");
-            }
+               return false;
          }
       }
       return true;
@@ -131,7 +129,7 @@ public class SpedizioneDAO
             pss.setFloat(2, s.getCosto());
 
             if (pss.executeUpdate() == 0)
-               throw new RuntimeException("UPDATE error.");
+               return false;
          }
       }
       return true;
@@ -146,7 +144,7 @@ public class SpedizioneDAO
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             if (ps.executeUpdate() == 0)
-               throw new RuntimeException("DELETE Error");
+               return false;
          }
       }
       return true;

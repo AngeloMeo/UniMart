@@ -32,9 +32,9 @@ public class CouponDAO
             ps.setString(2, coupon.getStatoCoupon().toString());
             ps.setFloat(3, coupon.getSconto());
             ps.setString(4, coupon.getCreatore().getCF());
-            if (ps.executeUpdate() == 0)
-            {
-               throw new RuntimeException("INSERT error.");
+
+            if (ps.executeUpdate() == 0) {
+               return false;
             }
             return true;
          }
@@ -59,7 +59,7 @@ public class CouponDAO
 
                if (pss.executeUpdate() == 0)
                {
-                  throw new RuntimeException("UPDATE error.");
+                  return false;
                }
                return true;
             }
@@ -78,8 +78,10 @@ public class CouponDAO
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setInt(1, numeroCoupon);
+
             if (ps.executeUpdate() == 0)
-               throw new RuntimeException("UPDATE Error");
+               return false;
+
             return true;
          }
       }
