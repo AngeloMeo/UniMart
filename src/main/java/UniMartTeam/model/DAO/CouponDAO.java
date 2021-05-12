@@ -47,23 +47,17 @@ public class CouponDAO
       {
          QueryBuilder qb = new QueryBuilder("coupon", "");
 
-         try (PreparedStatement ps = con.prepareStatement(qb.select().where("numeroCoupon = " + coupon.getNumeroCoupon()).getQuery()))
+         try (PreparedStatement pss = con.prepareStatement(qb.update("stato", "sconto", "cfCreatore").where("numeroCoupon=" + coupon.getNumeroCoupon()).getQuery()))
          {
-            ResultSet rs = ps.executeQuery();
-            //update
-            try (PreparedStatement pss = con.prepareStatement(qb.update("stato", "sconto", "cfCreatore").where("numeroCoupon=" + coupon.getNumeroCoupon()).getQuery()))
+            pss.setString(1, coupon.getStatoCoupon().toString());
+            pss.setFloat(2, coupon.getSconto());
+            pss.setString(3, coupon.getCreatore().getCF());
+
+            if (pss.executeUpdate() == 0)
             {
-               pss.setString(1, coupon.getStatoCoupon().toString());
-               pss.setFloat(2, coupon.getSconto());
-               pss.setString(3, coupon.getCreatore().getCF());
-
-               if (pss.executeUpdate() == 0)
-               {
-                  return false;
-               }
-               return true;
+               return false;
             }
-
+            return true;
          }
       }
 

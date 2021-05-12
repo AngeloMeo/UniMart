@@ -131,7 +131,8 @@ public class CategoriaDAO
    {
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo", "p.peso", "p.foto").where("p.nomeCategoria=?");
+         QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo",
+                 "p.peso", "p.foto").where("p.nomeCategoria=?");
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setString(1, c.getNome());
