@@ -109,11 +109,10 @@ public class SpedizioneDAO
       {
          QueryBuilder qb = new QueryBuilder("spedizione", "s");
 
-         try (PreparedStatement ps = con.prepareStatement(qb.insert("ID", "nome", "costo").getQuery()))
+         try (PreparedStatement ps = con.prepareStatement(qb.insert("nome", "costo").getQuery()))
          {
-            ps.setInt(1, s.getID());
-            ps.setString(2, s.getNome());
-            ps.setFloat(3, s.getCosto());
+            ps.setString(1, s.getNome());
+            ps.setFloat(2, s.getCosto());
 
             if (ps.executeUpdate() == 0)
                return false;
