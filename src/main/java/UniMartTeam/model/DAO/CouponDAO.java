@@ -1,5 +1,4 @@
 package UniMartTeam.model.DAO;
-
 import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Spedizione;
@@ -25,21 +24,24 @@ public class CouponDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("coupon", "c").insert("numeroCoupon", "stato", "sconto", "cfCreatore");
+         QueryBuilder qb = new QueryBuilder("coupon", "c").insert("stato", "sconto", "cfCreatore");
 
-         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
-         {
+         return executeStatement(con, coupon, qb);
+      }
+   }
 
-            ps.setInt(1, coupon.getNumeroCoupon());
-            ps.setString(2, coupon.getStatoCoupon().toString());
-            ps.setFloat(3, coupon.getSconto());
-            ps.setString(4, coupon.getCreatore().getCF());
+   private static boolean executeStatement(Connection con, Coupon coupon, QueryBuilder qb) throws SQLException
+   {
+      if(con == null || coupon == null || qb == null)
+         return false;
 
-            if (ps.executeUpdate() == 0) {
-               return false;
-            }
-            return true;
-         }
+      try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+      {
+         pss.setString(1, coupon.getStatoCoupon().toString());
+         pss.setFloat(2, coupon.getSconto());
+         pss.setString(3, coupon.getCreatore().getCF());
+
+         return (pss.executeUpdate() == 0) ? false : true;
       }
    }
 
@@ -50,22 +52,11 @@ public class CouponDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("coupon", "");
+         QueryBuilder qb = new QueryBuilder("coupon", "").update("stato", "sconto", "cfCreatore");
+         qb.where("numeroCoupon=" + coupon.getNumeroCoupon());
 
-         try (PreparedStatement pss = con.prepareStatement(qb.update("stato", "sconto", "cfCreatore").where("numeroCoupon=" + coupon.getNumeroCoupon()).getQuery()))
-         {
-            pss.setString(1, coupon.getStatoCoupon().toString());
-            pss.setFloat(2, coupon.getSconto());
-            pss.setString(3, coupon.getCreatore().getCF());
-
-            if (pss.executeUpdate() == 0)
-            {
-               return false;
-            }
-            return true;
-         }
+         return executeStatement(con, coupon, qb);
       }
-
    }
 
    public static boolean doDelete(int numeroCoupon) throws SQLException

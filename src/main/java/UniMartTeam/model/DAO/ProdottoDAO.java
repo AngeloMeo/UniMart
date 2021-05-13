@@ -24,27 +24,30 @@ public class ProdottoDAO {
             return false;
 
         try (Connection con = ConPool.getConnection() ) {
-            QueryBuilder qb = new QueryBuilder("prodotto", "p").insert("codiceIAN", "nome", "prezzo", "peso",
+            QueryBuilder qb = new QueryBuilder("prodotto", "p").insert("nome", "prezzo", "peso",
             "foto", "volumeOccupato", "descrizione", "nomeCategoria");
 
-            try (PreparedStatement ps = con.prepareStatement(qb.getQuery())) {
-
-                ps.setInt(1, p.getCodiceIAN());
-                ps.setString(2, p.getNome());
-                ps.setFloat(3, p.getPrezzo());
-                ps.setFloat(4, p.getPeso());
-                ps.setString(5, p.getFoto());
-                ps.setFloat(6, p.getVolumeOccupato());
-                ps.setString(7, p.getDescrizione());
-                ps.setString(8, p.getCategoria().getNome());
-
-                if (ps.executeUpdate() == 0)
-                    return false;
-
-                return true;
-            }
+            return executeStatement(con, p, qb);
         }
+    }
 
+    private static boolean executeStatement(Connection con, Prodotto p, QueryBuilder qb) throws SQLException
+    {
+        if(con == null || p == null || qb == null)
+            return false;
+
+        try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+        {
+            ps.setString(1, p.getNome());
+            ps.setFloat(2, p.getPrezzo());
+            ps.setFloat(3, p.getPeso());
+            ps.setString(4, p.getFoto());
+            ps.setFloat(5, p.getVolumeOccupato());
+            ps.setString(6, p.getDescrizione());
+            ps.setString(7, p.getCategoria().getNome());
+
+            return (ps.executeUpdate() == 0) ? false :  true;
+        }
     }
 
     public static boolean doUpdate(Prodotto p) throws SQLException {
@@ -54,29 +57,11 @@ public class ProdottoDAO {
 
         try (Connection con = ConPool.getConnection()) {
 
-            QueryBuilder qb = new QueryBuilder("prodotto", "");
+            QueryBuilder qb = new QueryBuilder("prodotto", "").update("nome", "prezzo", "peso", "foto",
+                    "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN());
 
-
-            try (PreparedStatement ps = con.prepareStatement(qb.update("nome", "prezzo", "peso", "foto",
-                    "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN()).getQuery()))
-            {
-                ps.setString(1, p.getNome());
-                ps.setFloat(2, p.getPrezzo());
-                ps.setFloat(3, p.getPeso());
-                ps.setString(4, p.getFoto());
-                ps.setFloat(5, p.getVolumeOccupato());
-                ps.setString(6, p.getDescrizione());
-                ps.setString(7, p.getCategoria().getNome());
-
-                if (ps.executeUpdate() == 0)
-                    return false;
-
-                return true;
-            }
-
-
+            return executeStatement(con, p, qb);
         }
-
     }
 
     public static boolean doDelete(int codiceIAN) throws SQLException{
