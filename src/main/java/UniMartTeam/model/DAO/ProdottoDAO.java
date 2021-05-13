@@ -92,7 +92,7 @@ public class ProdottoDAO {
         {
             QueryBuilder qb = new QueryBuilder("prodotto", "").select().where("codiceIAN=?");
 
-            try(PreparedStatement ps = con.prepareStatement(qb.toString()))
+            try(PreparedStatement ps = con.prepareStatement(qb.getQuery()))
             {
                 ps.setInt(1, codiceIAN);
                 return ListFiller(ps, "").get(0);
@@ -106,7 +106,7 @@ public class ProdottoDAO {
         {
             String alias = "p";
             QueryBuilder qb = new QueryBuilder("prodotto", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").getQuery()))//TODO check
+            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").getQuery()))
             {
                 return ListFiller(ps, alias);
             }
@@ -205,7 +205,7 @@ public class ProdottoDAO {
 
         while(rs.next())
         {
-            Categoria c = CategoriaExtractor.Extract(rs, "");//TODO check
+            Categoria c = CategoriaExtractor.Extract(rs, "");
             Prodotto p = ProdottoExtractor.Extract(rs, alias, c);
             list.add(p);
         }

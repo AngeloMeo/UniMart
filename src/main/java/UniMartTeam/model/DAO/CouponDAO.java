@@ -92,7 +92,7 @@ public class CouponDAO
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
          qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").limit(true);
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, size);
@@ -110,7 +110,7 @@ public class CouponDAO
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
          qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon");
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement);
          }
@@ -128,7 +128,7 @@ public class CouponDAO
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
          qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").where("CF=" + u.getCF());
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement);
          }
@@ -146,7 +146,7 @@ public class CouponDAO
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
          qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").where("numeroOrdine=" + o.getNumeroOrdine());
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement).get(0);
          }
@@ -164,7 +164,7 @@ public class CouponDAO
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
          qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").where("c.numeroCoupon=" + id);
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement).get(0);
          }

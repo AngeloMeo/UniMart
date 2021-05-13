@@ -250,7 +250,7 @@ public class UtenteDAO
             while(rs.next())
             {
                Coupon coupon = CouponExtractor.Extract(rs, alias, u, null);
-               //coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
+               coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
 
                u.setCouponList(new ArrayList<Coupon>());
                u.addCouponList(coupon);
