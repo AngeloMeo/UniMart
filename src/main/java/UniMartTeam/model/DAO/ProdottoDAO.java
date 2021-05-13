@@ -190,10 +190,12 @@ public class ProdottoDAO {
 
     public static List<Composto> doRetrieveCompostoList() throws SQLException{
         //TODO quando Facciamo ordineDAO
+        return null;
     }
 
     public static List<Composto> doRetrievePossiedeList() throws SQLException{
         //TODO quando Facciamo inventarioDAO
+        return null;
     }
 
 

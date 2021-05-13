@@ -132,7 +132,11 @@ public class QueryBuilder
 
          query.append(commaSJ.toString());
       }
-      query.append(" FROM " + table + " AS " + alias);
+
+      if(!alias.isEmpty())
+         query.append(" FROM " + table + " AS " + alias);
+      else
+         query.append(" FROM " + table);
 
       return this;
    }

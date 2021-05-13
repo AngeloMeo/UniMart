@@ -23,7 +23,7 @@ public class UtenteDAO
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.insert("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
-                 , "passwordHash", "tipoUtente", "dataDiNascita");
+                 , "passwordHash", "tipo", "dataDiNascita");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
@@ -56,7 +56,7 @@ public class UtenteDAO
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.update("nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
-                 , "passwordHash", "tipoUtente", "dataDiNascita");
+                 , "passwordHash", "tipo", "dataDiNascita");
          qb.where("CF = " + u.getCF());
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
@@ -106,9 +106,9 @@ public class UtenteDAO
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
-                 , "passwordHash", "tipoUtente", "dataDiNascita").limit(true);
+                 , "passwordHash", "tipo", "dataDiNascita").limit(true);
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             preparedStatement.setInt(1, offset);
             preparedStatement.setInt(2, size);
@@ -124,9 +124,9 @@ public class UtenteDAO
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
-                 , "passwordHash", "tipoUtente", "dataDiNascita");
+                 , "passwordHash", "tipo", "dataDiNascita");
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement);
          }
@@ -139,7 +139,7 @@ public class UtenteDAO
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
-                 , "passwordHash", "tipoUtente", "dataDiNascita");
+                 , "passwordHash", "tipo", "dataDiNascita");
 
          switch (mode)
          {
@@ -164,14 +164,14 @@ public class UtenteDAO
                break;
 
             case TIPOUTENTE:
-               qb.where("tipoUtente=" + param);
+               qb.where("tipo=" + param);
                break;
 
             default:
                return null;
          }
 
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.toString()))
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {
             return ListFiller(preparedStatement);
          }
@@ -250,7 +250,7 @@ public class UtenteDAO
             while(rs.next())
             {
                Coupon coupon = CouponExtractor.Extract(rs, alias, u, null);
-               coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
+               //coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
 
                u.setCouponList(new ArrayList<Coupon>());
                u.addCouponList(coupon);

@@ -85,3 +85,12 @@
 /target/classes/UniMartTeam/model/Extractors/UtenteExtractor.class
 /target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/Extractors/UtenteExtractor.class
 /documentazione/Organizzazione.jpg
+/target/UniMart-1.0-SNAPSHOT/css/normalize.css
+/target/classes/UniMartTeam/model/DAO/InventarioDAO.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/DAO/InventarioDAO.class
+/target/classes/UniMartTeam/model/DAO/OrdineDAO.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/DAO/OrdineDAO.class
+/target/classes/UniMartTeam/model/DAO/ProdottoDAO.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/DAO/ProdottoDAO.class
+/target/classes/UniMartTeam/model/DAO/UtenteDAO.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/model/DAO/UtenteDAO.class

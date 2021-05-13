@@ -108,14 +108,15 @@ public class OrdineDAO {
     }
 
     public static List<Ordine> doRetrieveAll(int offset, int size) throws SQLException{
-        if(offset<1 || size<1)
+        if(offset<0 || size<1)
             return null;
 
         try (Connection con = ConPool.getConnection())
         {
             String alias = "";
-            QueryBuilder qb = new QueryBuilder("ordine", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select().limit(true).getQuery()))
+            QueryBuilder qb = new QueryBuilder("ordine", alias).select().limit(true);
+
+            try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
             {
                 ps.setInt(1, offset);
                 ps.setInt(2, size);
