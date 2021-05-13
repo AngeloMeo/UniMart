@@ -125,7 +125,56 @@ public class OrdineDAO {
         }
     }
 
+    public static Ordine doRetrieveByID(int numeroOrdine) throws SQLException{
 
+        if(numeroOrdine == 0)
+            return null;
+
+        try(Connection con = ConPool.getConnection()){
+
+            QueryBuilder qb = new QueryBuilder("ordine", "").select().where("numeroOrdine = "+numeroOrdine);
+
+            try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
+                return ListFiller(ps).get(0);
+            }
+
+        }
+
+    }
+
+    public static List<Ordine> doRetrieveByCond(String cfCliente) throws SQLException{
+
+        if(cfCliente.isEmpty())
+            return null;
+
+        try(Connection con = ConPool.getConnection()){
+
+            QueryBuilder qb = new QueryBuilder("ordine", "").select().where("cfCliente="+cfCliente);
+
+            try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
+                return ListFiller(ps);
+            }
+
+        }
+
+    }
+
+    public static List<Ordine> doRetrieveByCond(int metodoSpedizione) throws SQLException{
+
+        if(metodoSpedizione == 0)
+            return null;
+
+        try(Connection con = ConPool.getConnection()){
+
+            QueryBuilder qb = new QueryBuilder("ordine", "").select().where("metodoSpedizione="+metodoSpedizione);
+
+            try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
+                return ListFiller(ps);
+            }
+
+        }
+
+    }
 
     private static List<Ordine> ListFiller(PreparedStatement preparedStatement) throws SQLException
     {
