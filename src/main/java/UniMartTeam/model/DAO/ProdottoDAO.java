@@ -56,7 +56,6 @@ public class ProdottoDAO {
             return false;
 
         try (Connection con = ConPool.getConnection()) {
-
             QueryBuilder qb = new QueryBuilder("prodotto", "").update("nome", "prezzo", "peso", "foto",
                     "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN());
 
