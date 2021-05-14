@@ -200,6 +200,9 @@ public class ProdottoDAO {
 
 
     private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException {
+        if(preparedStatement == null)
+            return null;
+
         ResultSet rs = preparedStatement.executeQuery();
         ArrayList<Prodotto> list = new ArrayList<>();
 

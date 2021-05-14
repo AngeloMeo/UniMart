@@ -173,6 +173,9 @@ public class CouponDAO
 
    private static List<Coupon> ListFiller(PreparedStatement preparedStatement) throws SQLException
    {
+      if(preparedStatement == null)
+         return null;
+
       ResultSet rs = preparedStatement.executeQuery();
       ArrayList<Coupon> list = new ArrayList<>();
 

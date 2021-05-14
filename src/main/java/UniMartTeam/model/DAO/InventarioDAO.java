@@ -1,12 +1,19 @@
 package UniMartTeam.model.DAO;
 
+import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Inventario;
+import UniMartTeam.model.Beans.Ordine;
+import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.Extractors.CouponExtractor;
+import UniMartTeam.model.Extractors.InventarioExtractor;
+import UniMartTeam.model.Extractors.OrdineExtractor;
+import UniMartTeam.model.Extractors.UtenteExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventarioDAO
 {
@@ -54,13 +61,6 @@ public class InventarioDAO
       }
    }
 
-   /*TODO
-      doRetriveAll
-      doRetriveByCond(codiceInventario, regione, idirizzo, nome, responsabile)
-      addProdotto
-      deleteProdotto
-      updateProdotto
-    */
    public static boolean doDelete(int codiceInventario) throws SQLException
    {
       if(codiceInventario <= 0)
@@ -78,4 +78,60 @@ public class InventarioDAO
          }
       }
    }
+
+   public static List<Inventario> doRetriveAll() throws SQLException
+   {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("inventario", "").select("*", "cfResponsabile AS CF");
+
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            return ListFiller(preparedStatement);
+         }
+      }
+   }
+
+   public static List<Inventario> doRetriveAll(int offset, int size) throws SQLException
+   {
+      if(offset<1 || size<1)
+         return null;
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("inventario", "").select("*", "cfResponsabile AS CF").limit(true);
+
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            preparedStatement.setInt(1, offset);
+            preparedStatement.setInt(2, size);
+
+            return ListFiller(preparedStatement);
+         }
+      }
+   }
+
+   private static List<Inventario> ListFiller(PreparedStatement preparedStatement) throws SQLException
+   {
+      if(preparedStatement == null)
+         return null;
+
+      ResultSet rs = preparedStatement.executeQuery();
+      ArrayList<Inventario> list = new ArrayList<>();
+
+      while(rs.next())
+         list.add(InventarioExtractor.Extract(rs, "", UtenteExtractor.Extract(rs, "")));
+
+      if(list.isEmpty())
+         list.add(new Inventario());
+
+      return list;
+   }
+
+  /*TODO
+   doRetriveByCond(codiceInventario, regione, idirizzo, nome, responsabile)
+   addProdotto
+   deleteProdotto
+   updateProdotto
+ */
 }
