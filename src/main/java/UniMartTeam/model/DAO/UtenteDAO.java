@@ -1,12 +1,10 @@
 package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.*;
-import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Extractors.*;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -250,7 +248,7 @@ public class UtenteDAO
             while(rs.next())
             {
                Coupon coupon = CouponExtractor.Extract(rs, alias, u, null);
-               coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
+               //TODO coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
 
                u.setCouponList(new ArrayList<Coupon>());
                u.addCouponList(coupon);

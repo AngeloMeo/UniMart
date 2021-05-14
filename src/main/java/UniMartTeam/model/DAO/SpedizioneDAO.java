@@ -1,9 +1,7 @@
 package UniMartTeam.model.DAO;
 
-import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Spedizione;
-import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.OrdineExtractor;
 import UniMartTeam.model.Extractors.SpedizioneExtractor;
 import UniMartTeam.model.Utils.ConPool;

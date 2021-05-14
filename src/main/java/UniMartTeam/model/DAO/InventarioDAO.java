@@ -1,22 +1,19 @@
 package UniMartTeam.model.DAO;
 
-import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Inventario;
-import UniMartTeam.model.Beans.Ordine;
-import UniMartTeam.model.Beans.Utente;
-import UniMartTeam.model.Extractors.CouponExtractor;
+import UniMartTeam.model.Beans.Possiede;
 import UniMartTeam.model.Extractors.InventarioExtractor;
-import UniMartTeam.model.Extractors.OrdineExtractor;
 import UniMartTeam.model.Extractors.UtenteExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InventarioDAO
 {
+   public static final int CODICE_INVENTARIO = 0, REGIONE = 1, INDIRIZZO = 2, NOME = 3, RESPONSABILE = 4;
+
    public static boolean doSave(Inventario inventario) throws SQLException
    {
       if(inventario == null)
@@ -57,7 +54,7 @@ public class InventarioDAO
          ps.setString(4, inventario.getNote());
          ps.setString(5, inventario.getResponsabile().getCF());
 
-         return (ps.executeUpdate() == 0) ? false : true;
+         return ps.executeUpdate() != 0;
       }
    }
 
@@ -74,7 +71,7 @@ public class InventarioDAO
          {
             ps.setInt(1, codiceInventario);
 
-            return (ps.executeUpdate() == 0) ? false : true;
+            return ps.executeUpdate() != 0;
          }
       }
    }
@@ -128,10 +125,130 @@ public class InventarioDAO
       return list;
    }
 
-  /*TODO
-   doRetriveByCond(codiceInventario, regione, idirizzo, nome, responsabile)
-   addProdotto
-   deleteProdotto
-   updateProdotto
- */
+   /**
+    * il parametro mode specifica l'attributo su cui eseguire il filtraggio
+    * la stringa param costituisce una condizione nel caso in cui il mode=CODICE_INVENTARIO,
+    * negli altri caso costituisce il valore di confronto
+    */
+   public static List<Inventario> doRetrieveByCond(int mode, String param) throws SQLException
+   {
+      try (Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("inventario", "").select("*", "cfResponsabile AS CF");
+
+         switch (mode)
+         {
+            case CODICE_INVENTARIO:
+               qb.where("codiceInventrario" + param);
+               break;
+
+            case REGIONE:
+               qb.where("regione=" + param);
+               break;
+            case NOME:
+               qb.where("nome=" + param);
+               break;
+
+            case INDIRIZZO:
+               qb.where("indirizzo=" + param);
+               break;
+
+            case RESPONSABILE:
+               qb.where("cfResponsabile=" + param);
+               break;
+
+            default:
+               return null;
+         }
+
+         try (PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            return ListFiller(preparedStatement);
+         }
+      }
+   }
+
+   public static boolean addProdottoInventario(Possiede possiede) throws SQLException
+   {
+      if(possiede != null && possiede.getProdotto() != null && possiede.getGiacenza() > 0 && possiede.getInventario() != null)
+      {
+         try (Connection con = ConPool.getConnection() )
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").insert("idInventario", "idProdotto", "giacenza");
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               pss.setInt(1, possiede.getInventario().getCodiceInventario());
+               pss.setInt(2, possiede.getProdotto().getCodiceIAN());
+               pss.setFloat(3, possiede.getGiacenza());
+
+               return pss.executeUpdate() != 0;
+            }
+         }
+      }
+      return false;
+   }
+
+   public static boolean updateProdottoInventario(Possiede possiede) throws SQLException
+   {
+      if(possiede != null && possiede.getProdotto() != null && possiede.getGiacenza() >= 0 && possiede.getInventario() != null)
+      {
+         try (Connection con = ConPool.getConnection() )
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").update("giacenza");
+            qb.where("idInventario=" + possiede.getInventario().getCodiceInventario() + " and idProdotto=" + possiede.getProdotto().getCodiceIAN());
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               pss.setFloat(1, possiede.getGiacenza());
+
+               return pss.executeUpdate() != 0;
+            }
+         }
+      }
+      return false;
+   }
+
+   public static boolean deleteProdottoInventario(Possiede possiede) throws SQLException
+   {
+      if(possiede != null)
+      {
+         try (Connection con = ConPool.getConnection() )
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").delete();
+            qb.where("idInventario=" + possiede.getInventario().getCodiceInventario() + " and idProdotto=" + possiede.getProdotto().getCodiceIAN());
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               return pss.executeUpdate() != 0;
+            }
+         }
+      }
+      return false;
+   }
+
+   public static boolean getProdottoInventarioStock(Possiede possiede) throws SQLException
+   {
+      if(possiede != null && possiede.getProdotto() != null && possiede.getInventario() != null)
+      {
+         try (Connection con = ConPool.getConnection() )
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select("giacenza");
+            qb.where("idInventario=" + possiede.getInventario().getCodiceInventario() + " and idProdotto=" + possiede.getProdotto().getCodiceIAN());
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               ResultSet rs = pss.executeQuery();
+
+               if (rs.next())
+               {
+                  possiede.setGiacenza(rs.getFloat("giacenza"));
+                  return true;
+               }
+            }
+         }
+      }
+
+      return false;
+   }
 }

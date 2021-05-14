@@ -1,7 +1,7 @@
 package UniMartTeam.model.DAO;
+
 import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Ordine;
-import UniMartTeam.model.Beans.Spedizione;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.Extractors.CouponExtractor;
 import UniMartTeam.model.Extractors.OrdineExtractor;
