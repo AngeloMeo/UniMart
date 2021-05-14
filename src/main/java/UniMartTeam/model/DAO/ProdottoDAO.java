@@ -1,7 +1,6 @@
 package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Categoria;
-import UniMartTeam.model.Beans.Composto;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Extractors.ProdottoExtractor;
@@ -14,209 +13,207 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProdottoDAO {
+public class ProdottoDAO
+{
+   public static final int PREZZO = 0, PESO = 1, VOLUME = 2;
 
-    public static final int PREZZO=0, PESO=1, VOLUME=2;
+   public static boolean doSave(Prodotto p) throws SQLException
+   {
+      if (p == null)
+         return false;
 
-    public static boolean doSave(Prodotto p) throws SQLException{
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("prodotto", "p").insert("nome", "prezzo", "peso",
+                 "foto", "volumeOccupato", "descrizione", "nomeCategoria");
 
-        if(p == null)
-            return false;
+         return executeStatement(con, p, qb);
+      }
+   }
 
-        try (Connection con = ConPool.getConnection() ) {
-            QueryBuilder qb = new QueryBuilder("prodotto", "p").insert("nome", "prezzo", "peso",
-            "foto", "volumeOccupato", "descrizione", "nomeCategoria");
+   private static boolean executeStatement(Connection con, Prodotto p, QueryBuilder qb) throws SQLException
+   {
+      if (con == null || p == null || qb == null)
+         return false;
 
-            return executeStatement(con, p, qb);
-        }
-    }
+      try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+      {
+         ps.setString(1, p.getNome());
+         ps.setFloat(2, p.getPrezzo());
+         ps.setFloat(3, p.getPeso());
+         ps.setString(4, p.getFoto());
+         ps.setFloat(5, p.getVolumeOccupato());
+         ps.setString(6, p.getDescrizione());
+         ps.setString(7, p.getCategoria().getNome());
 
-    private static boolean executeStatement(Connection con, Prodotto p, QueryBuilder qb) throws SQLException
-    {
-        if(con == null || p == null || qb == null)
-            return false;
+         return (ps.executeUpdate() == 0) ? false : true;
+      }
+   }
 
-        try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
-        {
-            ps.setString(1, p.getNome());
-            ps.setFloat(2, p.getPrezzo());
-            ps.setFloat(3, p.getPeso());
-            ps.setString(4, p.getFoto());
-            ps.setFloat(5, p.getVolumeOccupato());
-            ps.setString(6, p.getDescrizione());
-            ps.setString(7, p.getCategoria().getNome());
+   public static boolean doUpdate(Prodotto p) throws SQLException
+   {
 
-            return (ps.executeUpdate() == 0) ? false :  true;
-        }
-    }
+      if (p == null)
+         return false;
 
-    public static boolean doUpdate(Prodotto p) throws SQLException {
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("prodotto", "").update("nome", "prezzo", "peso", "foto",
+                 "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN());
 
-        if(p == null)
-            return false;
+         return executeStatement(con, p, qb);
+      }
+   }
 
-        try (Connection con = ConPool.getConnection()) {
-            QueryBuilder qb = new QueryBuilder("prodotto", "").update("nome", "prezzo", "peso", "foto",
-                    "volumeOccupato", "descrizione", "nomeCategoria").where("codiceIAN=" + p.getCodiceIAN());
+   public static boolean doDelete(int codiceIAN) throws SQLException
+   {
+      if (codiceIAN == 0)
+         return false;
 
-            return executeStatement(con, p, qb);
-        }
-    }
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("prodotto", "").delete().where("codiceIAN=?");
 
-    public static boolean doDelete(int codiceIAN) throws SQLException{
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setInt(1, codiceIAN);
 
-        if(codiceIAN == 0)
-            return false;
+            if (ps.executeUpdate() == 0)
+               return false;
 
-        try (Connection con = ConPool.getConnection()) {
-            QueryBuilder qb = new QueryBuilder("prodotto", "").delete().where("codiceIAN=?");
+            return true;
+         }
+      }
+   }
 
-            try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
-            {
-                ps.setInt(1, codiceIAN);
+   public static Prodotto doRetrieveByID(int codiceIAN) throws SQLException
+   {
+      if (codiceIAN == 0)
+         return null;
 
-                if (ps.executeUpdate() == 0)
-                    return false;
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("prodotto", "").select().where("codiceIAN=?");
 
-                return true;
-            }
-        }
-    }
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setInt(1, codiceIAN);
+            return ListFiller(ps, "").get(0);
+         }
+      }
+   }
 
-    public static Prodotto doRetrieveByID(int codiceIAN) throws SQLException{
+   public static List<Prodotto> doRetrieveAll() throws SQLException
+   {
+      try (Connection con = ConPool.getConnection())
+      {
+         String alias = "p";
+         QueryBuilder qb = new QueryBuilder("prodotto", alias);
+         try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").getQuery()))
+         {
+            return ListFiller(ps, alias);
+         }
+      }
 
-        if(codiceIAN == 0)
-            return null;
+   }
 
-        try(Connection con = ConPool.getConnection())
-        {
-            QueryBuilder qb = new QueryBuilder("prodotto", "").select().where("codiceIAN=?");
+   public static List<Prodotto> doRetrieveAll(int offset, int size) throws SQLException
+   {
+      if (offset < 1 || size < 1)
+         return null;
 
-            try(PreparedStatement ps = con.prepareStatement(qb.getQuery()))
-            {
-                ps.setInt(1, codiceIAN);
-                return ListFiller(ps, "").get(0);
-            }
-        }
-    }
+      try (Connection con = ConPool.getConnection())
+      {
+         String alias = "p";
+         QueryBuilder qb = new QueryBuilder("prodotto", alias);
+         try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").limit(true).getQuery()))
+         {
+            ps.setInt(1, offset);
+            ps.setInt(2, size);
 
-    public static List<Prodotto> doRetrieveAll() throws SQLException{
+            return ListFiller(ps, alias);
 
-        try (Connection con = ConPool.getConnection())
-        {
-            String alias = "p";
-            QueryBuilder qb = new QueryBuilder("prodotto", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").getQuery()))
-            {
-                return ListFiller(ps, alias);
-            }
-        }
+         }
+      }
+   }
 
-    }
+   public static List<Prodotto> doRetrieveByCategoria(Categoria c) throws SQLException
+   {
+      if (c == null)
+         return null;
 
-    public static List<Prodotto> doRetrieveAll(int offset, int size) throws SQLException{
+      try (Connection con = ConPool.getConnection())
+      {
 
-        if(offset<1 || size<1)
-            return null;
+         String alias = "p";
 
-        try (Connection con = ConPool.getConnection())
-        {
-            String alias = "p";
-            QueryBuilder qb = new QueryBuilder("prodotto", alias);
-            try (PreparedStatement ps = con.prepareStatement(qb.select("*", alias + ".nomeCategoria AS nome").limit(true).getQuery()))
-            {
-                ps.setInt(1, offset);
-                ps.setInt(2, size);
+         QueryBuilder qb = new QueryBuilder("prodotto", alias).select().where(alias + ".nomeCategoria=" + c.getNome());
 
-                return ListFiller(ps, alias);
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            return ListFiller(ps, alias);
+         }
 
-            }
-        }
-    }
+      }
 
-    public static List<Prodotto> doRetrieveByCategoria(Categoria c) throws SQLException{
+   }
 
-        if(c == null)
-            return null;
+   public static List<Prodotto> doRetrieveByLimit(int type, String param) throws SQLException
+   {
+      if (type < 0 || type > 2 || param.isEmpty())
+         return null;
 
-        try(Connection con = ConPool.getConnection()){
+      try (Connection con = ConPool.getConnection())
+      {
 
-            String alias = "p";
+         QueryBuilder qb = new QueryBuilder("prodotto", "p").select();
 
-            QueryBuilder qb = new QueryBuilder("prodotto", alias).select().where(alias+".nomeCategoria="+c.getNome());
+         switch (type)
+         {
 
-            try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
-                return ListFiller(ps, alias);
-            }
+            case PREZZO:
+               qb.where("p.prezzo " + param);
+               break;
 
-        }
+            case PESO:
+               qb.where("p.peso " + param);
+               break;
 
-    }
+            case VOLUME:
+               qb.where("p.volume " + param);
+               break;
 
-    public static List<Prodotto> doRetrieveByLimit(int type, String param) throws SQLException{
+            default:
+               return null;
+         }
 
-        if(type < 0 || type > 2 || param.isEmpty())
-            return null;
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            return ListFiller(ps, "p");
+         }
 
-        try(Connection con = ConPool.getConnection()){
+      }
 
-            QueryBuilder qb = new QueryBuilder("prodotto", "p").select();
+   }
 
-            switch(type){
+   private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException
+   {
+      if (preparedStatement == null)
+         return null;
 
-                case PREZZO:
-                    qb.where("p.prezzo "+param);
-                break;
+      ResultSet rs = preparedStatement.executeQuery();
+      ArrayList<Prodotto> list = new ArrayList<>();
 
-                case PESO:
-                    qb.where("p.peso "+param);
-                break;
+      while (rs.next())
+      {
+         Categoria c = CategoriaExtractor.Extract(rs, "");
+         Prodotto p = ProdottoExtractor.Extract(rs, alias, c);
+         list.add(p);
+      }
 
-                case VOLUME:
-                    qb.where("p.volume "+param);
-                break;
+      if (list.isEmpty())
+         list.add(new Prodotto());
 
-                default:
-                    return null;
-            }
-
-            try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
-                return ListFiller(ps, "p");
-            }
-
-        }
-
-    }
-
-    public static List<Composto> doRetrieveCompostoList() throws SQLException{
-        //TODO quando Facciamo ordineDAO
-        return null;
-    }
-
-    public static List<Composto> doRetrievePossiedeList() throws SQLException{
-        //TODO quando Facciamo inventarioDAO
-        return null;
-    }
-
-
-    private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException {
-        if(preparedStatement == null)
-            return null;
-
-        ResultSet rs = preparedStatement.executeQuery();
-        ArrayList<Prodotto> list = new ArrayList<>();
-
-        while(rs.next())
-        {
-            Categoria c = CategoriaExtractor.Extract(rs, "");
-            Prodotto p = ProdottoExtractor.Extract(rs, alias, c);
-            list.add(p);
-        }
-
-        if(list.isEmpty())
-            list.add(new Prodotto());
-
-        return list;
-    }
-
+      return list;
+   }
 }
