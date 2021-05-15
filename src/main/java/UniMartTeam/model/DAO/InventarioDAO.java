@@ -91,7 +91,7 @@ public class InventarioDAO
 
    public static List<Inventario> doRetriveAll(int offset, int size) throws SQLException
    {
-      if(offset<1 || size<1)
+      if(offset < 0 || size < 1)
          return null;
 
       try(Connection connection = ConPool.getConnection())
