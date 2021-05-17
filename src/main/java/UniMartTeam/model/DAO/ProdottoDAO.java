@@ -119,7 +119,7 @@ public class ProdottoDAO
 
    public static List<Prodotto> doRetrieveAll(int offset, int size) throws SQLException
    {
-      if (offset < 1 || size < 1)
+      if (offset < 0 || size < 1)
          return null;
 
       try (Connection con = ConPool.getConnection())
@@ -153,12 +153,32 @@ public class ProdottoDAO
          {
             return ListFiller(ps, alias);
          }
-
       }
-
    }
 
-   public static List<Prodotto> doRetrieveByLimit(int type, String param) throws SQLException
+   //creo questo metodo per effettuare una query con condizione utilizzando anche un offset e una size
+   public static List<Prodotto> doRetrieveByCondLimit(String cond, int offset, int size) throws SQLException
+   {
+      if (cond == null || cond.isEmpty() || offset < 0 || size < 1)
+         return null;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         String alias = "";
+
+         QueryBuilder qb = new QueryBuilder("prodotto", alias).select().where(alias + cond).limit(true);
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setInt(1, offset);
+            ps.setInt(2, size);
+
+            return ListFiller(ps, alias);
+         }
+      }
+   }
+
+   public static List<Prodotto> doRetrieveByCond(int type, String param) throws SQLException
    {
       if (param.isEmpty())
          return null;
@@ -190,9 +210,7 @@ public class ProdottoDAO
          {
             return ListFiller(ps, "p");
          }
-
       }
-
    }
 
    private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException
