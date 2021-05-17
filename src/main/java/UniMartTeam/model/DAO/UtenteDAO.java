@@ -218,12 +218,13 @@ public class UtenteDAO
          {
             ResultSet rs = ps.executeQuery();
 
+            u.setOrdineList(new ArrayList<Ordine>());
+
             while(rs.next())
             {
                Ordine ordine = OrdineExtractor.Extract(rs, alias, u, null, null);
                ordine.setCoupon(CouponDAO.doRetrieveByCond(ordine));
 
-               u.setOrdineList(new ArrayList<Ordine>());
                u.addOrdineList(ordine);
             }
             return u;
@@ -245,12 +246,13 @@ public class UtenteDAO
          {
             ResultSet rs = ps.executeQuery();
 
+            u.setCouponList(new ArrayList<Coupon>());
+
             while(rs.next())
             {
                Coupon coupon = CouponExtractor.Extract(rs, alias, u, null);
                coupon.setOrdine(OrdineDAO.doRetrieveByCond(coupon));
 
-               u.setCouponList(new ArrayList<Coupon>());
                u.addCouponList(coupon);
             }
             return u;
