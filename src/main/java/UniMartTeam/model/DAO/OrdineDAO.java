@@ -33,7 +33,13 @@ public class OrdineDAO
             ps.setInt(1, o.getNumeroOrdine());
             ps.setInt(2, o.getCoupon().getNumeroCoupon());
 
-            return esito && (ps.executeUpdate() == 0);
+            if(esito == false)
+            {
+               con.rollback();
+               return false;
+            }
+            else
+               return (ps.executeUpdate() == 0);
          }
       }
    }
@@ -87,7 +93,13 @@ public class OrdineDAO
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
-            return esito && ps.executeUpdate() != 0;
+            if(esito == false)
+            {
+               con.rollback();
+               return false;
+            }
+            else
+               return (ps.executeUpdate() == 0);
          }
       }
    }
