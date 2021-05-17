@@ -160,7 +160,7 @@ public class ProdottoDAO
 
    public static List<Prodotto> doRetrieveByLimit(int type, String param) throws SQLException
    {
-      if (type < 0 || type > 2 || param.isEmpty())
+      if (param.isEmpty())
          return null;
 
       try (Connection con = ConPool.getConnection())
@@ -170,7 +170,6 @@ public class ProdottoDAO
 
          switch (type)
          {
-
             case PREZZO:
                qb.where("p.prezzo " + param);
                break;
