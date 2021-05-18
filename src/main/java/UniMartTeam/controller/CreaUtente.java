@@ -9,11 +9,10 @@ import javax.servlet.annotation.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.GregorianCalendar;
 
 @WebServlet(name = "CreaUtente", value = "/CreaUtente")
 @MultipartConfig
@@ -42,12 +41,12 @@ public class CreaUtente extends HttpServlet
       u.setPasswordHash(request.getParameter("password"));
       u.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
 
-      ServletOutputStream os = response.getOutputStream();
+      //ServletOutputStream os = response.getOutputStream();
       String path = getServletContext().getInitParameter("uploadpath");
       Part filePart = request.getPart("fotoProfilo");
-      String fileName = filePart.getSubmittedFileName();
+      String fileName = u.getCF() + "_" + filePart.getSubmittedFileName();
       InputStream is = filePart.getInputStream();
-      Files.copy(is, Paths.get(path + fileName));
+      Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
 
       u.setFotoProfilo(fileName);
 

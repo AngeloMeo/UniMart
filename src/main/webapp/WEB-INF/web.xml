@@ -7,6 +7,6 @@
     <context-param>
         <description>Cartella dove vengono conservate le immagini</description>
         <param-name>uploadpath</param-name>
-        <param-value>C:/Users/Sabato/OneDrive - studenti.unisa.it/UNIVERSITA/2 ANNO/TSW/IdeaProjects/UniMart/src/main/webapp/images/</param-value>
+        <param-value>../webapps/uploads/</param-value>
     </context-param>
 </web-app>

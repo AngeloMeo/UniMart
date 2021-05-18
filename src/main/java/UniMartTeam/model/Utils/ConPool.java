@@ -21,7 +21,7 @@ public class ConPool
          p.setPassword("studentiTSW");
          p.setMaxActive(100);
          p.setInitialSize(10);
-         p.setMinIdle(1);
+         p.setMinIdle(10);
          p.setRemoveAbandonedTimeout(60);
          p.setRemoveAbandoned(true);
          datasource = new DataSource();
