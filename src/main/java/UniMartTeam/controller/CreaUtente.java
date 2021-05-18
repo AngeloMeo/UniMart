@@ -2,17 +2,12 @@ package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.UtenteDAO;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.*;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.GregorianCalendar;
 
 @WebServlet(name = "CreaUtente", value = "/CreaUtente")
 @MultipartConfig
@@ -21,41 +16,61 @@ public class CreaUtente extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-
+      request.getRequestDispatcher("/WEB-INF/results/creaUtente.jsp").forward(request, response);
    }
 
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      Utente u = new Utente();
-      u.setCF(request.getParameter("CF"));
-      u.setCognome(request.getParameter("cognome"));
-      u.setNome(request.getParameter("nome"));
-      u.setViaCivico(request.getParameter("viaCivico"));
-      u.setCitta(request.getParameter("citta"));
-      u.setTelefono(request.getParameter("telefono"));
-      u.setRegione(request.getParameter("regione"));
-      u.setEmail(request.getParameter("email"));
-      u.setToken(request.getParameter("token"));
-      u.setUsername(request.getParameter("username"));
-      u.setPasswordHash(request.getParameter("password"));
-      u.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
-
-      //ServletOutputStream os = response.getOutputStream();
-      String path = getServletContext().getInitParameter("uploadpath");
-      Part filePart = request.getPart("fotoProfilo");
-      String fileName = u.getCF() + "_" + filePart.getSubmittedFileName();
-      InputStream is = filePart.getInputStream();
-      Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
-
-      u.setFotoProfilo(fileName);
-
-      try
+      if(request.getParameter("CF") != null)
       {
-         UtenteDAO.doSave(u);
-      } catch (SQLException throwables)
-      {
-         throwables.printStackTrace();
+         Utente utente = new Utente();
+
+         utente.setCF(request.getParameter("CF"));
+         utente.setCognome(request.getParameter("cognome"));
+         utente.setNome(request.getParameter("nome"));
+         utente.setViaCivico(request.getParameter("viaCivico"));
+         utente.setCitta(request.getParameter("citta"));
+         utente.setTelefono(request.getParameter("telefono"));
+         utente.setRegione(request.getParameter("regione"));
+         utente.setEmail(request.getParameter("email"));
+         utente.setToken(request.getParameter("token"));
+         utente.setUsername(request.getParameter("username"));
+         utente.setPasswordHash(request.getParameter("password"));
+
+         if(request.getParameter("dataDiNascita") != null)
+            utente.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
+
+         try
+         {
+            utente.uploadFoto(request.getPart("fotoProfilo"), getServletContext().getInitParameter("uploadpath"));
+         }
+         catch (IOException e)
+         {
+            request.setAttribute("exceptionStackTrace", e.getMessage());
+            request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+         }
+
+         if(utente.validateObject(utente))
+         {
+            request.setAttribute("utente", utente);
+
+            try
+            {
+               UtenteDAO.doSave(utente);
+            }
+            catch (SQLException e)
+            {
+               request.setAttribute("exceptionStackTrace", e.getMessage());
+               request.setAttribute("message", "Errore nel salvataggio dell'utente nel Database(Servlet:CreaUtente Metodo:doPost)");
+               request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+            }
+         }
+
+         request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp").forward(request, response);
       }
+      else
+         response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
    }
 }

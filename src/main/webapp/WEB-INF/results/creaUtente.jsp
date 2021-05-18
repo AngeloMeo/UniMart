@@ -3,6 +3,8 @@
 <html>
    <head>
       <title>Crea Nuovo Utente</title>
+
+      <link type="text/css" rel="stylesheet" href="./css/normalize.css">
       <link type="text/css" rel="stylesheet" href="./css/creaUtente.css">
    </head>
    <body>

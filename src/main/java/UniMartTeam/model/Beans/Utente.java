@@ -2,8 +2,14 @@ package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
@@ -213,5 +219,26 @@ public class Utente
    {
       if (element != null)
          couponList.add(element);
+   }
+
+   public void uploadFoto(Part filePart, String path) throws IOException
+   {
+      try(InputStream is = filePart.getInputStream())
+      {
+         String fileName = getCF() + "_" + filePart.getSubmittedFileName();
+         Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
+
+         setFotoProfilo(fileName);
+      }
+   }
+
+   public boolean validateObject(Utente u)
+   {
+      if(u != null)
+         return (CF != null && nome != null && cognome != null && viaCivico != null && fotoProfilo != null &&
+                 citta != null && regione != null && telefono != null && email != null && token != null && username != null &&
+                 passwordHash != null &&  tipoUtente != null &&  dataDiNascita  != null);
+
+      return false;
    }
 }
