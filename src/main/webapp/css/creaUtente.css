@@ -27,3 +27,21 @@
     visibility: visible;
     opacity: 1;
 }
+
+h1 {
+    font-family: Calibri;
+    font-size: clamp(16px, 2vw, 35px);
+    line-height: 27.5px;
+    text-decoration: aqua;
+    text-align: center;
+    word-spacing: 0px;
+    background-color: #FFFFFF;
+    background-position: 0%;
+    color: aquamarine;
+    height: 90px;
+    width: 1500px;
+    padding: 38px 0px 24px 0px;
+    display: block;
+    transform: none;
+    box-sizing: border-box;
+}

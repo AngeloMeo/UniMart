@@ -54,7 +54,7 @@ public class CreaUtente extends HttpServlet
 
          if(utente.validateObject(utente))
          {
-            request.setAttribute("utente", utente);
+
 
             try
             {
@@ -66,6 +66,11 @@ public class CreaUtente extends HttpServlet
                request.setAttribute("message", "Errore nel salvataggio dell'utente nel Database(Servlet:CreaUtente Metodo:doPost)");
                request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
             }
+
+            utente.setPasswordHash("");
+            utente.setToken("");
+
+            request.setAttribute("utente", utente);
          }
 
          request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp").forward(request, response);

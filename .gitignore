@@ -106,3 +106,8 @@
 /target/classes/UniMartTeam/controller/Servlet.class
 /target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/controller/Servlet.class
 /.idea/webContexts.xml
+/target/UniMart-1.0-SNAPSHOT.war
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/controller/FileServlet.class
+/target/classes/UniMartTeam/controller/FileServlet.class
+/target/UniMart-1.0-SNAPSHOT/WEB-INF/classes/UniMartTeam/controller/FileServlet$Range.class
+/target/classes/UniMartTeam/controller/FileServlet$Range.class
