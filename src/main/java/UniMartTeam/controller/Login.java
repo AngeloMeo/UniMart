@@ -50,7 +50,7 @@ public class Login extends HttpServlet {
     }
     
     @Override//login
-    public void doPost(HttpServletRequest request, HttpServletResponse response){
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -78,10 +78,12 @@ public class Login extends HttpServlet {
         ssn.setAttribute("utente", fromDB);
 
         System.out.println("TTappost");
+        fromDB.setPasswordHash("");
+        fromDB.setToken("");
+        request.setAttribute("utente", fromDB);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp");
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.html");
-
-
+        dispatcher.forward(request, response);
     }
 
 
