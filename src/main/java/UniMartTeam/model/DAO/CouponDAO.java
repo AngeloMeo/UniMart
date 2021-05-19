@@ -181,12 +181,12 @@ public class CouponDAO
 
       while(rs.next())
       {
-         Utente utente = UtenteExtractor.Extract(rs, "");
-         Coupon coupon = CouponExtractor.Extract(rs, "c", utente, null);
-         Ordine ordine = OrdineExtractor.Extract(rs, "", utente, null, null);
+         Utente utente = new Utente();
+         utente.setCF(rs.getString("CF"));
+         Ordine ordine = new Ordine();
+         ordine.setNumeroOrdine(rs.getInt("numeroOrdine"));
 
-         coupon.setOrdine(ordine);
-         ordine.setCoupon(coupon);
+         Coupon coupon = CouponExtractor.Extract(rs, "c", utente, ordine);
 
          list.add(coupon);
       }

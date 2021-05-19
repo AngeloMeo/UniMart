@@ -2,6 +2,8 @@ package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.UtenteDAO;
+import UniMartTeam.model.Utils.ConPool;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -77,5 +79,22 @@ public class CreaUtente extends HttpServlet
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+   }
+
+   @Override
+   public void destroy()
+   {
+      try
+      {
+         ConPool.deleteConnection();
+      }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+      }
+      finally
+      {
+         super.destroy();
+      }
    }
 }
