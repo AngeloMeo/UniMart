@@ -156,7 +156,7 @@ public class OrdineDAO
       }
 
       if (list.isEmpty())
-         list.add(new Ordine());
+         list.add(null);
 
       return list;
    }

@@ -230,7 +230,7 @@ public class ProdottoDAO
       }
 
       if (list.isEmpty())
-         list.add(new Prodotto());
+         list.add(null);
 
       return list;
    }

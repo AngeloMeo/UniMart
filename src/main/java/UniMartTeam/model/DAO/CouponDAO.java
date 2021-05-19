@@ -192,7 +192,7 @@ public class CouponDAO
       }
 
       if(list.isEmpty())
-         list.add(new Coupon());
+         list.add(null);
 
       return list;
    }

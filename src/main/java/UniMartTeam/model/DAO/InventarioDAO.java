@@ -120,7 +120,7 @@ public class InventarioDAO
          list.add(InventarioExtractor.Extract(rs, "", UtenteExtractor.Extract(rs, "")));
 
       if(list.isEmpty())
-         list.add(new Inventario());
+         list.add(null);
 
       return list;
    }
