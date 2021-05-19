@@ -8,8 +8,10 @@
    </head>
    <body>
       <header>
-      <form target="_blank">
+      <form target="_blank" action="Search" method="get">
          <input type="text" name="searchBar" placeholder="Cerca per codice IAN, nome prodotto o categoria">
+         <input type="radio" name="type" value="ian">IAN
+         <input type="radio" name="type" value="nome">NOME
       </form>
 
       <a href="CreaUtente">

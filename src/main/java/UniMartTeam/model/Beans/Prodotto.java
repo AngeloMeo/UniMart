@@ -1,5 +1,11 @@
 package UniMartTeam.model.Beans;
 
+import javax.servlet.http.Part;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 public class Prodotto
@@ -100,6 +106,17 @@ public class Prodotto
    {
       if (element != null)
          possiedeList.add(element);
+   }
+
+   public void uploadFoto(Part filePart, String path) throws IOException
+   {
+      try(InputStream is = filePart.getInputStream())
+      {
+         String fileName = getCodiceIAN() + "_" + filePart.getSubmittedFileName();
+         Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
+
+         setFoto(fileName);
+      }
    }
 
    public List<Possiede> getPossiedeList()
