@@ -1,5 +1,6 @@
 package UniMartTeam.controller;
 
+import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.Utils.ConPool;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 
 @WebServlet("/Search")
@@ -20,23 +22,15 @@ public class Search extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String searchType;
-
-        switch(request.getParameter("type")){
-            case "nome":
-                searchType = "nome";
-            break;
-
-            case "ian":
-                searchType = "codiceIAN";
-            break;
-
-            default:
-                searchType = "nome";
-        }
-
         try {
-            request.setAttribute("list", ProdottoDAO.doRetrieveByCondLimit(searchType+" like '"+request.getParameter("searchBar")+"%'", 0, 50));
+
+            ArrayList<Prodotto> list = (ArrayList<Prodotto>) ProdottoDAO.doRetrieveByCondLimit("codiceIAN like '"+request.getParameter("searchBar")+"%' OR nome like '"+request.getParameter("searchBar")+"%'", 0, 50);
+
+            if(list != null && list.get(0).getCodiceIAN()!=0)
+                request.setAttribute("list", list);
+            else
+                request.setAttribute("list", null);
+
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
