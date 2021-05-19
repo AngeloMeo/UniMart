@@ -5,7 +5,7 @@ import UniMartTeam.model.EnumForBeans.StatoCoupon;
 public class Coupon
 {
    private int numeroCoupon;
-   private StatoCoupon statoCoupon;
+   private StatoCoupon statoCoupon = StatoCoupon.Disponibile;
    private float sconto;
    private Utente creatore;
    private Ordine ordine;

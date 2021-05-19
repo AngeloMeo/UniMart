@@ -276,7 +276,7 @@ public class UtenteDAO
       }
 
       if(list.isEmpty())
-         list.add(new Utente());
+         list.add(null);
 
       return list;
    }

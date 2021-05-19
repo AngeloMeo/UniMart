@@ -5,6 +5,10 @@
       <title>Coupon Manager</title>
    </head>
    <body>
+      <form action="./creaCoupon" method="get">
+         <button type="submit">Crea Nuovo Coupon</button>
+      </form>
+
       <c:choose>
          <c:when test="${couponList == null}">
             <h1>Non sono stati ancora creati dei coupon...</h1>
