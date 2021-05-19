@@ -10,7 +10,7 @@ import java.util.List;
 
 public class UtenteDAO
 {
-   public static final int CF = 1, NOME = 2, COGNOME = 3, CITTA = 4, REGIONE = 5, TIPOUTENTE = 6;
+   public static final int CF = 1, NOME = 2, COGNOME = 3, CITTA = 4, REGIONE = 5, TIPOUTENTE = 6, USERNAME = 7, EMAIL = 8;
 
    public static boolean doSave(Utente u) throws SQLException
    {
