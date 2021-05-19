@@ -57,7 +57,6 @@ public class CreaUtente extends HttpServlet
          if(utente.validateObject(utente))
          {
 
-
             try
             {
                UtenteDAO.doSave(utente);

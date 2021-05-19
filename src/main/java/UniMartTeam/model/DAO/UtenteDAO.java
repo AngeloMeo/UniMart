@@ -165,6 +165,15 @@ public class UtenteDAO
                qb.where("tipo=" + param);
                break;
 
+            case USERNAME:
+               qb.where("username=" + param);
+               break;
+
+            case EMAIL:
+               qb.where("email=" + param);
+               break;
+
+
             default:
                return null;
          }

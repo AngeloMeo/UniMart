@@ -18,6 +18,11 @@ import java.sql.SQLException;
 @WebServlet("/Login")
 public class Login extends HttpServlet {
 
+
+    /*
+    Controllo se c'è un utente in sessione; in tal caso forward ai rispettivi panel;
+    Altrimenti forward alla loginPage;
+    */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -52,11 +57,29 @@ public class Login extends HttpServlet {
 
         Utente dummy = new Utente();
         dummy.setPasswordHash(password);
+        Utente fromDB = null;
+        try {
+            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.USERNAME, "'"+username+"'").get(0);
 
-        Utente fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO., username);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
-        //caso username non trovato; password errata;
+        if(fromDB == null){
+            //username non trovato
+        }
 
+        if(!fromDB.getPasswordHash().equals(dummy.getPasswordHash())){
+            //password errata
+        }
+        request.getSession().invalidate();
+        HttpSession ssn = request.getSession(true);
+
+        ssn.setAttribute("utente", fromDB);
+
+        System.out.println("TTappost");
+
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/index.html");
 
 
     }
