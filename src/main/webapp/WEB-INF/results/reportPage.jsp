@@ -38,7 +38,7 @@
 
       <c:if test="${not empty utente.viaCivico}">
          <div>
-            <h2>Via e Civico${utente.viaCivico}</h2>
+            <h2>Via e Civico: ${utente.viaCivico}</h2>
          </div>
       </c:if>
 

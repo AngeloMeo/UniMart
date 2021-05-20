@@ -29,7 +29,7 @@ public class Login extends HttpServlet {
         HttpSession ssn = request.getSession();
         Utente u = (Utente) ssn.getAttribute("utente");
         if( u == null){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/login.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/login.jsp");
             dispatcher.forward(request, response);
         }
         else{

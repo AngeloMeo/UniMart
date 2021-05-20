@@ -21,15 +21,6 @@ public class CouponManager extends HttpServlet
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo();
-      try
-      {
-         request.getSession().invalidate();
-         request.getSession(true).setAttribute("utente", UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'MSFL415C400R'").get(0));
-      } catch (SQLException throwables)
-      {
-         throwables.printStackTrace();
-      }
-
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
