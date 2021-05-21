@@ -24,21 +24,29 @@ public class CouponManager extends HttpServlet
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
-      if(session != null && utente != null && !utente.getCF().isEmpty() && utente.getTipo().equals(TipoUtente.Amministratore))
+      if(session != null && utente != null)
       {
-         switch (path)
+         if(utente.getTipo().equals(TipoUtente.Amministratore))
          {
-            case "/list":
-               listCoupon(request, response);
-               break;
+            switch (path)
+            {
+               case "/list":
+                  if(session.getAttribute("ultimoCoupon") != null)
+                  {
+                     request.setAttribute("ultimoCoupon", session.getAttribute("ultimoCoupon"));
+                     session.removeAttribute("ultimoCoupon");
+                  }
 
-            case "/creaCoupon":
-               request.getRequestDispatcher("/WEB-INF/results/newCouponPage.jsp").forward(request, response);
-               return;
+                  listCoupon(request, response);
+                  return;
+            }
          }
-      }
 
-      response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
+         return;
+      }
+      else
+         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
    }
 
    @Override
@@ -48,8 +56,14 @@ public class CouponManager extends HttpServlet
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
-      if(session != null && utente != null && !utente.getCF().isEmpty() && utente.getTipo().equals(TipoUtente.Amministratore))
+      if(session != null && utente != null && !utente.getCF().isEmpty())
       {
+         if(!utente.getTipo().equals(TipoUtente.Amministratore))
+         {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
+            return;
+         }
+
          switch (path)
          {
             case "/creaCoupon":
@@ -72,8 +86,8 @@ public class CouponManager extends HttpServlet
                      request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                   }
 
-                  request.setAttribute("coupon", coupon);
-                  request.getRequestDispatcher("/WEB-INF/results/newCouponPage.jsp").forward(request, response);
+                  session.setAttribute("ultimoCoupon", coupon);
+                  response.sendRedirect(request.getContextPath() + "/CouponManager/list");
                }
                return;
          }
