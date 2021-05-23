@@ -1,0 +1,10 @@
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --ocra: #f29727;
+    --primary: #253340;
+    --primaryT: rgba(37, 51, 64, 0.1);
+    --secondary: #87CE1E;
+    --warning: #FF2F27;
+    --neutral: #EAEDED;
+}

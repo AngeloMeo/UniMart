@@ -1,10 +1,11 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" language="java" %>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
    <head>
       <title>Crea Nuovo Utente</title>
 
-      <link type="text/css" rel="stylesheet" href="./css/normalize.css">
+      <link href="./css/normalize.css" type="text/css" rel="stylesheet">
+      <link href="./css/general.css" type="text/css" rel="stylesheet">
       <link type="text/css" rel="stylesheet" href="./css/creaUtente.css">
    </head>
    <body>

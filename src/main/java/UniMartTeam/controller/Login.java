@@ -4,7 +4,6 @@ import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.UtenteDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,89 +14,99 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/Login")
-public class Login extends HttpServlet {
+@WebServlet(value = "/Login", loadOnStartup = 0)
+public class Login extends HttpServlet
+{
+   @Override
+   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
+      HttpSession ssn = request.getSession();
+      Utente u = (Utente) ssn.getAttribute("utente");
 
+      if (u == null)
+      {
+         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/login.jsp");
+         dispatcher.forward(request, response);
+         return;
+      }
 
-    /*
-    Controllo se c'è un utente in sessione; in tal caso forward ai rispettivi panel;
-    Altrimenti forward alla loginPage;
-    */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+      TipoUtente tipo = u.getTipo();
 
-        HttpSession ssn = request.getSession();
-        Utente u = (Utente) ssn.getAttribute("utente");
-        if( u == null){
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/login.jsp");
-            dispatcher.forward(request, response);
-        }
-        else{
+      switch (tipo)
+      {
+         case Semplice:
+            //forward al pannello utente
+            response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+            return;
 
-            TipoUtente tipo = u.getTipo();
+         case Amministratore:
+            //forward all'admin panel
+            response.sendRedirect(request.getServletContext().getContextPath() + "/CouponManager/list");
+            return;
 
-            switch (tipo){
-                case Semplice:
-                    //forward al pannello utente
-                    break;
-                case Amministratore:
-                    //forward all'admin panel
-                    break;
-            }
+         default:
+            response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+            return;
+      }
+   }
 
-        }
+   @Override
+   public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
+      //TODO aggiungere controllo in creaUtente.jsp in modo tale da impedire l'uso della @ come carattere per username
+      String usernameEmail = request.getParameter("usernameEmail");
+      String password = request.getParameter("password");
 
-    }
-    
-    @Override//login
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+      Utente dummy = new Utente();
+      dummy.setPasswordHash(password);
 
-        Utente dummy = new Utente();
-        dummy.setPasswordHash(password);
-        Utente fromDB = null;
-        try {
-            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.USERNAME, "'"+username+"'").get(0);
+      Utente fromDB = null;
+      try
+      {
+         if(usernameEmail.contains("@"))
+         {
+            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.EMAIL, "'" + usernameEmail + "'").get(0);
+         }
+         else
+            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.USERNAME, "'" + usernameEmail + "'").get(0);
+      }
+      catch (SQLException e)
+      {
+         request.setAttribute("exceptionStackTrace", e.getMessage());
+         request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:Login Metodo:doPost)");
+         request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+      }
 
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
+      if (fromDB == null || !fromDB.getPasswordHash().equals(dummy.getPasswordHash()))
+      {
+         request.setAttribute("loginFail", new Utente());
+         doGet(request, response);
+         return;
+      }
 
-        if(fromDB == null){
-            //username non trovato
-        }
+      request.getSession().invalidate();
+      HttpSession ssn = request.getSession(true);
 
-        if(!fromDB.getPasswordHash().equals(dummy.getPasswordHash())){
-            //password errata
-        }
-        request.getSession().invalidate();
-        HttpSession ssn = request.getSession(true);
+      fromDB.setPassword("");
+      fromDB.setToken("");
+      ssn.setAttribute("utente", fromDB);
+      ssn.setMaxInactiveInterval(10);
 
-        ssn.setAttribute("utente", fromDB);
+      doGet(request, response);
+   }
 
-        System.out.println("TTappost");
-        fromDB.setPasswordHash("");
-        fromDB.setToken("");
-        request.setAttribute("utente", fromDB);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp");
-
-        dispatcher.forward(request, response);
-    }
-
-
-    @Override
-    public void destroy(){
-        try {
-            ConPool.deleteConnection();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        finally {
-            super.destroy();
-        }
-
-    }
-
+   @Override
+   public void destroy()
+   {
+      try
+      {
+         ConPool.deleteConnection();
+      } catch (SQLException throwables)
+      {
+         throwables.printStackTrace();
+      } finally
+      {
+         super.destroy();
+      }
+   }
 }

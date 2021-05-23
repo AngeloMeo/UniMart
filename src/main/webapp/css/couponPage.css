@@ -6,29 +6,44 @@ body {
     box-sizing: border-box;
 }
 
-input[type=text] {
+input[type="text"], input[type="number"] {
     width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
     display: inline-block;
-    border: none;
     background: #f1f1f1;
 }
 
-input[type=text]:focus {
+input[type="number"]:focus {
     background-color: #ddd;
     outline: none;
 }
 
 button {
-    background-color: #04AA6D;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
+    opacity: 0.7;
+}
+
+#btn2 {
+    background-color: var(--ocra);
+    margin: 10px 0px;
+    border-radius: 25px;
     cursor: pointer;
-    width: auto;
-    opacity: 0.9;
+    width: 40%;
+    height: 50px;
+    position: relative;
+    left: 30%;
+}
+
+#btn1 {
+    transform: rotateZ(-90deg);
+    border-radius: 25px;
+    font-family: Verdana, sans-serif;
+    font-size: 25px;
+    position: fixed;
+    top: 50%;
+    right: -130px;
+    padding: 5px 15px 30px 15px;
+    background-color: var(--ocra);
 }
 
 label {
@@ -40,13 +55,14 @@ button:hover {
     opacity: 1;
 }
 
-.creabtn {
-    float: left;
-    width: 50%;
+label {
+    display: block;
+    text-align: center;
 }
 
 .container {
     padding: 16px;
+    float: inherit;
 }
 
 .creaCoupon {

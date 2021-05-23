@@ -1,17 +1,19 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
    <head>
       <title>Coupon Manager</title>
 
       <link href="../css/normalize.css" type="text/css" rel="stylesheet">
+      <link href="../css/general.css" type="text/css" rel="stylesheet">
       <link href="../css/couponPage.css" type="text/css" rel="stylesheet">
       <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-      <link rel="icon" href="./icons/logo.svg">
+      <link rel="icon" href="../icons/logo.svg">
    </head>
    <body>
 
-   <button onclick="modifyDivCreaCoupon()">Crea Nuovo Coupon</button>
+   <button onclick="modifyForCreaCoupon()" id="btn1">Crea Nuovo Coupon</button>
 
    <c:choose>
       <c:when test="${couponList == null}">
@@ -47,6 +49,7 @@
                   ${coupon.statoCoupon}</th>
                <th>${coupon.sconto}</th>
                <th>${coupon.creatore.CF}</th>
+               <th>Modifica Coupon</th>
                </tr>
             </c:forEach>
          </table>
@@ -64,7 +67,7 @@
             <label for="sconto">Sconto</label>
             <input type="number" name="sconto" id="sconto" placeholder="Sconto" required>
             <div class="clearfix">
-               <button type="submit" class="creabtn" >creaCoupon</button>
+               <button type="submit" id="btn2" >creaCoupon</button>
             </div>
          </div>
       </form>
@@ -77,11 +80,13 @@
            if (event.target == modal)
            {
                modal.style.display = "none";
+               document.getElementById('btn1').style.display = 'block';
            }
        }
 
-       function modifyDivCreaCoupon() {
-           document.getElementById('creaCoupon').style.display='block';
+       function modifyForCreaCoupon() {
+           document.getElementById('creaCoupon').style.display = 'block';
+           document.getElementById('btn1').style.display = 'none';
        }
    </script>
    </body>

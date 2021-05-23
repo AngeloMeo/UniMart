@@ -1,4 +1,4 @@
-input[type="text"] {
+input {
     display: block;
     border-radius: 20px;
     width: 500px;
@@ -8,7 +8,7 @@ input[type="text"] {
 }
 
 form {
-    display: inline-block;
+    display: block;
 }
 
 header {
@@ -54,9 +54,9 @@ img {
 @media screen and (max-width:700px) {
     input[type="text"] {
         width: 300px;
-        height: auto;
+        /*! height: auto; */
         padding: 5px 1px;
-        text-align: center;
+        /*! text-align: center; */
     }
 }
 

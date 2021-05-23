@@ -158,6 +158,11 @@ public class Utente
       }
    }
 
+   public void setPassword(String password)
+   {
+      this.passwordHash = password;
+   }
+
    public LocalDate getDataDiNascita()
    {
       return dataDiNascita;
