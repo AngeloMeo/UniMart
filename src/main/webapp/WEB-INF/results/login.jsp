@@ -24,7 +24,7 @@
 
             <div class="flex-container">
                 <button class="btn btn-lg btn-primary flex-item-40" type="submit">Login</button>
-                <button class="btn btn-lg btn-primary flex-item-40" type="submit" formaction="Registrati">Registrati</button>
+                <button class="btn btn-lg btn-primary flex-item-40" type="submit" formaction="CreaUtente" formmethod="get">Registrati</button>
             </div>
 
             <c:if test="${requestScope.get('loginFail') != null}">

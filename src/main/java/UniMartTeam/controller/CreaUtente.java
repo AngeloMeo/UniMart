@@ -72,6 +72,7 @@ public class CreaUtente extends HttpServlet
             utente.setToken("");
 
             request.getSession().invalidate();
+            request.setAttribute("utente", utente);
          }
 
          request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp").forward(request, response);
