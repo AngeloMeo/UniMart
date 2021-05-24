@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(value = "/Login", loadOnStartup = 0)
+@WebServlet(value = "/Login")
 public class Login extends HttpServlet
 {
    @Override
@@ -90,7 +90,7 @@ public class Login extends HttpServlet
       fromDB.setPassword("");
       fromDB.setToken("");
       ssn.setAttribute("utente", fromDB);
-      ssn.setMaxInactiveInterval(10);
+      ssn.setMaxInactiveInterval(500);
 
       doGet(request, response);
    }

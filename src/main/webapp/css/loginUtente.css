@@ -1,5 +1,5 @@
 .logo{
-    whidth: 250px;
+    width: 250px;
     height: 250px;
 }
 
@@ -70,7 +70,7 @@ h3, .h3 {
 }
 
 .text-muted {
-    color: #6c757d !important;
+    color: var(--white) !important;
 }
 
 .mt-5 {

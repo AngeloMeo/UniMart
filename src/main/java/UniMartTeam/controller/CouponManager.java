@@ -67,6 +67,7 @@ public class CouponManager extends HttpServlet
          switch (path)
          {
             case "/creaCoupon":
+            {
                Coupon coupon = null;
 
                if (request.getParameter("sconto") != null)
@@ -78,8 +79,7 @@ public class CouponManager extends HttpServlet
                   try
                   {
                      coupon.setNumeroCoupon(CouponDAO.doSave(coupon));
-                  }
-                  catch (SQLException e)
+                  } catch (SQLException e)
                   {
                      request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel salvataggio del coupon nel Database(Servlet:CouponMAnager Metodo:doPost)");
@@ -87,10 +87,56 @@ public class CouponManager extends HttpServlet
                   }
 
                   session.setAttribute("ultimoCoupon", coupon);
-                  response.sendRedirect(request.getContextPath() + "/CouponManager/list");
                }
-               return;
+            }
+            break;
+
+            case "/deleteCoupon":
+            {
+               if (checkParam(request) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
+               {
+                  int idCoupon = Integer.parseInt(request.getParameter("idCoupon"));
+
+                  try
+                  {
+                     CouponDAO.doDelete(idCoupon);
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("exceptionStackTrace", e.getMessage());
+                     request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:CouponManager Metodo:doPost)");
+                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                  }
+               }
+            }
+            break;
+
+            case "/updateCoupon":
+            {
+               if (checkParam(request) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
+               {
+                  Coupon coupon = new Coupon();
+
+                  coupon.setNumeroCoupon(Integer.parseInt(request.getParameter("idCoupon")));
+                  coupon.setSconto(Float.parseFloat(request.getParameter("sconto")));
+                  coupon.setCreatore(utente);
+
+                  try
+                  {
+                     CouponDAO.doUpdate(coupon);
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("exceptionStackTrace", e.getMessage());
+                     request.setAttribute("message", "Errore nel update del coupon nel Database(Servlet:CouponManager Metodo:doPost)");
+                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                  }
+               }
+            }
+            break;
          }
+         response.sendRedirect(request.getContextPath() + "/CouponManager/list");
+         return;
       }
 
       response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
@@ -111,6 +157,12 @@ public class CouponManager extends HttpServlet
       {
          super.destroy();
       }
+   }
+
+   private boolean checkParam(HttpServletRequest request)
+   {
+      return request.getParameter("CF_Creatore") != null && request.getParameter("sconto") != null &&
+              request.getParameter("idCoupon") != null;
    }
 
    private void listCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
