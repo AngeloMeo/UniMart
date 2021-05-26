@@ -66,7 +66,11 @@
                <td><label for="fotoProfilo">Foto Profilo</label></td>
                <td><input type="file" name="fotoProfilo" id="fotoProfilo" placeholder="Foto Profilo" required></td>
             </tr>
-            <tr><td><input type="submit" value="Registra Utente"></td></tr>
+            <tr>
+               <td colspan="2">
+                  <input id="button" type="submit" value="Registra Utente">
+               </td>
+            </tr>
             </table>
          </fieldset>
 

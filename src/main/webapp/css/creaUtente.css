@@ -1,26 +1,58 @@
+* {
+    box-sizing: border-box;
+}
+
 .mb-3 {
     margin-bottom: 1.5rem !important;
 }
-.logo{
-    width: 250px;
-    height: 250px;
-    flex: 1;
+img{
+    height: 200px;
+    padding: 20px;
+    grid-column: 1;
+    grid-row: 1;
+    display:block;
+    margin:0px auto;
+    text-align:center;
 }
 html {
     background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
-    height: 100%;
-
 }
 
 div{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-gap: 10px;
+    padding: 10px;
+    justify-content: center;
+}
+
+h1 {
+    text-align: center;
+    grid-column: 1;
+    grid-row: 2;
 }
 
 table{
     margin-right: 50px;
+    grid-column: 1;
+    grid-row: 3;
 }
 
 fieldset{
     border-width: 0px;
+}
+
+form {
+    margin: 5% 10%;
+}
+
+input {
+    text-align: center;
+    margin: 2% 25%;
+}
+
+#button {
+    height: 2%;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
 }
