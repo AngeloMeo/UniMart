@@ -7,8 +7,14 @@
     text-align: center !important;
 }
 
-.body {
-    background-image: linear-gradient(45deg, var(--primary), var(--primaryT));
+html{
+    height: 100%;
+}
+
+
+body {
+    background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
+    height: 100%;
 }
 
 form {
@@ -31,12 +37,6 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 h3, .h3 {
     font-size: clamp(20px, 2vw, 36px);
-}
-
-@media (min-width: 1200px) {
-    h3, .h3 {
-        font-size: 1.75rem;
-    }
 }
 
 .form-control {

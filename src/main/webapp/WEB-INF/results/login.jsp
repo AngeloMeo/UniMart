@@ -11,7 +11,7 @@
         <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
         <link rel="icon" href="./icons/logo.svg">
     </head>
-    <body class="text-center body">
+    <body class="text-center">
         <header style="border: 1px solid;">
             <h1>HEADER</h1>
         </header>
@@ -36,8 +36,6 @@
 
         <p class="mt-5 mb-3 text-muted">© UniMart Team</p>
 
-        <footer style="border: 1px solid;">
-            <h1>FOOTER</h1>
-        </footer>
+        <%@include file="footer.jsp"%>
     </body>
 </html>
