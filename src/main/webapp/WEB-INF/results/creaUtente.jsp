@@ -10,6 +10,7 @@
       <link rel="icon" href="./icons/logo.svg">
    </head>
    <body>
+   <div>
    <img class="mb-3 logo" src="./icons/logo.svg" alt="Logo" >
 
    <h1>Registrazione Nuovo Utente</h1>
@@ -70,5 +71,6 @@
          </fieldset>
 
       </form>
+   </div>
    </body>
 </html>

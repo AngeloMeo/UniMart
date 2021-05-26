@@ -4,11 +4,21 @@
 .logo{
     width: 250px;
     height: 250px;
+    flex: 1;
 }
 html {
     background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
     height: 100%;
 
+}
+
+div{
+    display: flex;
+    flex-direction: row;
+}
+
+table{
+    margin-right: 50px;
 }
 
 fieldset{
