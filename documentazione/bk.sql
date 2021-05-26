@@ -52,13 +52,31 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dump dei dati della tabella unimart.coupon: ~1 rows (circa)
+-- Dump dei dati della tabella unimart.coupon: ~19 rows (circa)
 DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
 INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
-	(2, 'Disponibile', 10, 'ERFDPG92A23L322U');
+	(3, 'Riscattato', 10, 'ERFDPG92A23L322U'),
+	(4, 'Disponibile', 100, 'ERFDPG92A23L322U'),
+	(5, 'Disponibile', 1, 'ERFDPG92A23L322U'),
+	(6, 'Disponibile', 3, 'ERFDPG92A23L322U'),
+	(7, 'Disponibile', 2, 'ERFDPG92A23L322U'),
+	(8, 'Disponibile', 4, 'ERFDPG92A23L322U'),
+	(9, 'Riscattato', 6, 'ERFDPG92A23L322U'),
+	(10, 'Disponibile', 7, 'ERFDPG92A23L322U'),
+	(11, 'Disponibile', 7, 'ERFDPG92A23L322U'),
+	(12, 'Disponibile', 12, 'ERFDPG92A23L322U'),
+	(13, 'Disponibile', 50, 'ERFDPG92A23L322U'),
+	(14, 'Riscattato', 60, 'ERFDPG92A23L322U'),
+	(17, 'Disponibile', 0.5, 'ERFDPG92A23L322U'),
+	(18, 'Riscattato', 6, 'ERFDPG92A23L322U'),
+	(19, 'Disponibile', 59, 'ERFDPG92A23L322U'),
+	(20, 'Disponibile', 2, 'ERFDPG92A23L322U'),
+	(34, 'Disponibile', 10, 'test'),
+	(38, 'Disponibile', 16, 'test'),
+	(39, 'Disponibile', 89, 'test');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 -- Dump della struttura di tabella unimart.coupon_applicato
@@ -207,22 +225,24 @@ CREATE TABLE IF NOT EXISTS `utente` (
   `telefono` varchar(10) NOT NULL DEFAULT '',
   `dataDiNascita` date NOT NULL,
   `email` varchar(100) NOT NULL DEFAULT '',
-  `token` varchar(100) NOT NULL DEFAULT '',
   `username` varchar(50) NOT NULL DEFAULT '',
   `passwordHash` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`CF`),
   UNIQUE KEY `Indice 2` (`username`),
-  UNIQUE KEY `Indice 3` (`token`),
   UNIQUE KEY `Indice 4` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Dump dei dati della tabella unimart.utente: ~1 rows (circa)
+-- Dump dei dati della tabella unimart.utente: ~7 rows (circa)
 DELETE FROM `utente`;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
-INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `token`, `username`, `passwordHash`) VALUES
-	('DCFJPG92A23L322U', 'sabato', 'genovese', 'po,2', NULL, 'Semplice', 'visciano', 'campania', '33334888', '2000-05-05', 's@s.com', '795cbb3993ff966ec0444d87de357bb33f302897', 'sabato', '795cbb3993ff966ec0444d87de357bb33f302897'),
-	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Amministratore', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
-	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'visciano', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'sabato', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897');
+INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
+	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
+	('DCFJPG92A23L322U', 'sabato', 'genovese', 'po,2', NULL, 'Semplice', 'visciano', 'campania', '33334888', '2000-05-05', 's@s.com', 'sabato', '795cbb3993ff966ec0444d87de357bb33f302897'),
+	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Amministratore', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
+	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
+	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
+	('test', 'test', 'test', 'test', 'test_wallpaper2.jpg', 'Amministratore', 'test', 'test', 'test', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

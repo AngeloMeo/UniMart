@@ -20,7 +20,7 @@ public class UtenteDAO
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
-         qb.insert("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
+         qb.insert("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
@@ -34,11 +34,10 @@ public class UtenteDAO
             ps.setString(7, u.getRegione());
             ps.setString(8, u.getTelefono());
             ps.setString(9, u.getEmail());
-            ps.setString(10, u.getToken());
-            ps.setString(11, u.getUsername());
-            ps.setString(12, u.getPasswordHash());
-            ps.setString(13, u.getTipo().toString());
-            ps.setDate(14, Date.valueOf(u.getDataDiNascita()));
+            ps.setString(10, u.getUsername());
+            ps.setString(11, u.getPasswordHash());
+            ps.setString(12, u.getTipo().toString());
+            ps.setDate(13, Date.valueOf(u.getDataDiNascita()));
 
             return (ps.executeUpdate() == 0) ? false : true;
          }
@@ -53,7 +52,7 @@ public class UtenteDAO
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
-         qb.update("nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
+         qb.update("nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita");
          qb.where("CF = " + u.getCF());
 
@@ -69,11 +68,10 @@ public class UtenteDAO
             ps.setString(6, u.getRegione());
             ps.setString(7, u.getTelefono());
             ps.setString(8, u.getEmail());
-            ps.setString(9, u.getToken());
-            ps.setString(10, u.getUsername());
-            ps.setString(11, u.getPasswordHash());
-            ps.setString(12, u.getTipo().toString());
-            ps.setDate(13, Date.valueOf(u.getDataDiNascita()));
+            ps.setString(9, u.getUsername());
+            ps.setString(10, u.getPasswordHash());
+            ps.setString(11, u.getTipo().toString());
+            ps.setDate(12, Date.valueOf(u.getDataDiNascita()));
 
             return (ps.executeUpdate() == 0) ? false : true;
          }
@@ -103,7 +101,7 @@ public class UtenteDAO
       try(Connection connection = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
-         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
+         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita").limit(true);
 
          try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
@@ -121,7 +119,7 @@ public class UtenteDAO
       try(Connection connection = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
-         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
+         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita");
 
          try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
@@ -136,7 +134,7 @@ public class UtenteDAO
       try(Connection connection = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("utente", "");
-         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "token", "username"
+         qb.select("CF", "nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita");
 
          switch (mode)

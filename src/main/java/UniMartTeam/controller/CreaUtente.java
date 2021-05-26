@@ -36,7 +36,6 @@ public class CreaUtente extends HttpServlet
          utente.setTelefono(request.getParameter("telefono"));
          utente.setRegione(request.getParameter("regione"));
          utente.setEmail(request.getParameter("email"));
-         utente.setToken(request.getParameter("token"));
          utente.setUsername(request.getParameter("username"));
          utente.setPasswordHash(request.getParameter("password"));
 
@@ -69,7 +68,6 @@ public class CreaUtente extends HttpServlet
             }
 
             utente.setPasswordHash("");
-            utente.setToken("");
 
             request.getSession().invalidate();
             request.setAttribute("utente", utente);

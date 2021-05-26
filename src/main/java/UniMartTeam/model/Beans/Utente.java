@@ -17,7 +17,7 @@ import java.util.List;
 
 public class Utente
 {
-   private String CF, nome, cognome, viaCivico, fotoProfilo, citta, regione, telefono, email, token, username, passwordHash;
+   private String CF, nome, cognome, viaCivico, fotoProfilo, citta, regione, telefono, email, username, passwordHash;
    private TipoUtente tipoUtente;
    private LocalDate dataDiNascita;
    private List<Inventario> inventarioList;
@@ -117,16 +117,6 @@ public class Utente
    public void setEmail(String email)
    {
       this.email = email;
-   }
-
-   public String getToken()
-   {
-      return token;
-   }
-
-   public void setToken(String token)
-   {
-      this.token = token;
    }
 
    public String getUsername()
@@ -241,7 +231,7 @@ public class Utente
    {
       if(u != null)
          return (CF != null && nome != null && cognome != null && viaCivico != null && fotoProfilo != null &&
-                 citta != null && regione != null && telefono != null && email != null && token != null && username != null &&
+                 citta != null && regione != null && telefono != null && email != null && username != null &&
                  passwordHash != null &&  tipoUtente != null &&  dataDiNascita  != null);
 
       return false;

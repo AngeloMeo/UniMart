@@ -45,11 +45,6 @@
             <label for="email">Email</label>
             <input type="email" name="email" id="email" placeholder="Email" required>
 
-            <label for="token" class="tooltip">Token
-               <span class="tooltiptext">Stringa che permette di autorizzare determinate operazioni</span>
-            </label>
-            <input type="password" name="token" id="token" placeholder="Token" required>
-
             <label for="username">Username</label>
             <input type="text" name="username" id="username" placeholder="Username" required>
 

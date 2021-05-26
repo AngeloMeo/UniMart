@@ -27,7 +27,6 @@ public class UtenteExtractor
          u.setRegione(rs.getString(alias + "regione"));
          u.setTelefono(rs.getString(alias + "telefono"));
          u.setEmail(rs.getString(alias + "email"));
-         u.setToken(rs.getString(alias + "token"));
          u.setPassword(rs.getString(alias + "passwordHash"));
          u.setTipo(TipoUtente.StringToEnum(rs.getString(alias + "tipo")));
 

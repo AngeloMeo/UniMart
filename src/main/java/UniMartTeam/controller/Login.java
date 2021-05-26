@@ -88,7 +88,6 @@ public class Login extends HttpServlet
       HttpSession ssn = request.getSession(true);
 
       fromDB.setPassword("");
-      fromDB.setToken("");
       ssn.setAttribute("utente", fromDB);
       ssn.setMaxInactiveInterval(500);
 
