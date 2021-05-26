@@ -23,10 +23,10 @@
       <c:otherwise>
          <table>
             <tr>
-               <td># Coupon${idC}</td>
-               <td>Stato</td>
-               <td>Sconto</td>
-               <td>Codice Fiscale Creatore</td>
+               <th># Coupon${idC}</th>
+               <th>Stato</th>
+               <th>Sconto</th>
+               <th>Codice Fiscale Creatore</th>
             </tr>
             <c:forEach items="${couponList}" var="coupon">
                <c:choose>
@@ -38,19 +38,19 @@
                   </c:otherwise>
                </c:choose>
 
-               <th>${coupon.numeroCoupon}</th>
+               <td>${coupon.numeroCoupon}</td>
                <c:choose>
                   <c:when test="${coupon.statoCoupon == 'Disponibile'}">
-                     <th style="color: green">
+                     <td style="color: green">
                   </c:when>
                   <c:otherwise>
-                     <th style="color: red">
+                     <td style="color: red">
                   </c:otherwise>
                </c:choose>
-                  ${coupon.statoCoupon}</th>
-               <th>${coupon.sconto}</th>
-               <th>${coupon.creatore.CF}</th>
-               <th>
+                  ${coupon.statoCoupon}</td>
+               <td>${coupon.sconto}</td>
+               <td>${coupon.creatore.CF}</td>
+               <td>
                <c:choose>
                   <c:when test="${coupon.creatore.CF == utente.CF}">
                      <button onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
@@ -59,7 +59,7 @@
                      <button onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')" disabled>Modifica</button>
                   </c:otherwise>
                </c:choose>
-               </th>
+               </td>
             </tr>
             </c:forEach>
          </table>
