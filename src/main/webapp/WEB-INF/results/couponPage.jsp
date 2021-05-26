@@ -13,7 +13,7 @@
       <link rel="icon" href="../icons/logo.svg">
    </head>
    <body>
-
+   <div class="column" style="background-color:#FF2F27;">Column</div>
    <button onclick="modifyForCreaCoupon()" id="btn1">Crea Nuovo Coupon</button>
 
    <c:choose>

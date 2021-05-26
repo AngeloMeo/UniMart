@@ -139,7 +139,7 @@ public class CouponManager extends HttpServlet
          return;
       }
 
-      response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+      response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
    }
 
    @Override

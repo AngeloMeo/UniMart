@@ -36,7 +36,7 @@ public class Login extends HttpServlet
       {
          case Semplice:
             //forward al pannello utente
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
             return;
 
          case Amministratore:
@@ -45,7 +45,7 @@ public class Login extends HttpServlet
             return;
 
          default:
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
             return;
       }
    }

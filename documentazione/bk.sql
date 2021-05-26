@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dump dei dati della tabella unimart.coupon: ~19 rows (circa)
 DELETE FROM `coupon`;
@@ -76,7 +76,8 @@ INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
 	(20, 'Disponibile', 2, 'ERFDPG92A23L322U'),
 	(34, 'Disponibile', 10, 'test'),
 	(38, 'Disponibile', 16, 'test'),
-	(39, 'Disponibile', 89, 'test');
+	(39, 'Disponibile', 89, 'test'),
+	(40, 'Disponibile', 15, 'test');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 -- Dump della struttura di tabella unimart.coupon_applicato
@@ -107,11 +108,13 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   PRIMARY KEY (`codiceInventario`),
   KEY `FK_utente` (`cfResponsabile`),
   CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Dump dei dati della tabella unimart.inventario: ~0 rows (circa)
 DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
+INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
+	(1, 'via ', 'campania', 'euroCampania', 'Magazzino alimentare', 'test');
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 
 -- Dump della struttura di tabella unimart.inventario_prodotto
@@ -242,7 +245,8 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
 	('test', 'test', 'test', 'test', 'test_wallpaper2.jpg', 'Amministratore', 'test', 'test', 'test', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
-	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c');
+	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
+	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'we', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -76,7 +76,7 @@ public class CreaUtente extends HttpServlet
          request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp").forward(request, response);
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
    }
 
    @Override

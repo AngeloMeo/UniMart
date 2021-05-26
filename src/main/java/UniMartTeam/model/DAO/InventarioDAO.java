@@ -2,6 +2,7 @@ package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Possiede;
+import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.Extractors.InventarioExtractor;
 import UniMartTeam.model.Extractors.UtenteExtractor;
 import UniMartTeam.model.Utils.ConPool;
@@ -117,7 +118,14 @@ public class InventarioDAO
       ArrayList<Inventario> list = new ArrayList<>();
 
       while(rs.next())
-         list.add(InventarioExtractor.Extract(rs, "", UtenteExtractor.Extract(rs, "")));
+      {
+         Inventario inventario = InventarioExtractor.Extract(rs, "", null);
+         Utente utente = UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'" + rs.getString("CF") + "'").get(0);
+
+         inventario.setResponsabile(utente);
+
+         list.add(inventario);
+      }
 
       if(list.isEmpty())
          list.add(null);

@@ -38,7 +38,7 @@ public class Search extends HttpServlet {
                 break;
 
             default:
-                response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+                response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
         }
 
     }
@@ -49,7 +49,7 @@ public class Search extends HttpServlet {
         Utente ut = null;
 
         if(ssn == null)
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.html");
+            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
         else
             ut = (Utente) ssn.getAttribute("utente");
 
