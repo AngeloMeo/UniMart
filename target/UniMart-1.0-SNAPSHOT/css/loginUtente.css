@@ -15,6 +15,7 @@ html{
 body {
     background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
     height: 100%;
+
 }
 
 form {
