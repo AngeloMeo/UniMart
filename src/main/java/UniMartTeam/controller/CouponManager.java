@@ -180,7 +180,7 @@ public class CouponManager extends HttpServlet
          request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
       }
 
-      if(couponList != null && couponList.get(0).getNumeroCoupon() != 0)
+      if(couponList != null && couponList.get(0) != null)
          request.setAttribute("couponList", couponList);
       else
          request.setAttribute("couponList", null);

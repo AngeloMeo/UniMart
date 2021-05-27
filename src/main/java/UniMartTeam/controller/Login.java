@@ -41,7 +41,8 @@ public class Login extends HttpServlet
 
          case Amministratore:
             //forward all'admin panel
-            response.sendRedirect(request.getServletContext().getContextPath() + "/CouponManager/list");
+            request.getRequestDispatcher("/WEB-INF/results/adminPanel.jsp").forward(request,response);
+            //response.sendRedirect(request.getServletContext().getContextPath() + "/WEB-INF/results/adminPanel.jsp");
             return;
 
          default:

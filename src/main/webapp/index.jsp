@@ -34,6 +34,5 @@
       Sed nec ullamcorper lorem. In hac habitasse platea dictumst. Vestibulum consequat id leo sit amet euismod. Ut et maximus nibh. Proin aliquam feugiat congue. Sed ante est, auctor a varius et, elementum ac tellus. Mauris ultricies ultrices velit et mollis. Phasellus ut volutpat orci. Aliquam enim velit, feugiat non posuere malesuada, pellentesque vitae dui.
    </div>
 </section>
-<%@include file="WEB-INF/results/footer.jsp"%>
 </body>
 </html>

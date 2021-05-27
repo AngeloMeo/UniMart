@@ -17,7 +17,6 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 
 @WebServlet(name= "Search", value = "/Search/*")
@@ -74,7 +73,7 @@ public class Search extends HttpServlet {
 
             ArrayList<Prodotto> list = (ArrayList<Prodotto>) ProdottoDAO.doRetrieveByCondLimit("codiceIAN like '"+request.getParameter("searchBar")+"%' OR nome like '"+request.getParameter("searchBar")+"%'", 0, 50);
 
-            if(list != null && list.get(0).getCodiceIAN()!=0)
+            if(list != null && list.get(0) != null)
                 request.setAttribute("list", list);
             else
                 request.setAttribute("list", null);

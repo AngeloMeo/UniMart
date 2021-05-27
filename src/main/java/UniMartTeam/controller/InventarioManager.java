@@ -41,7 +41,8 @@ public class InventarioManager extends HttpServlet
                      request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                   }
 
-                  if(inventarioList != null && inventarioList.get(0).getCodiceInventario() != 0)
+
+                  if(inventarioList != null && inventarioList.get(0) != null)
                      request.setAttribute("inventarioList", inventarioList);
                   else
                      request.setAttribute("inventarioList", null);

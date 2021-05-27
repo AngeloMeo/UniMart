@@ -17,7 +17,7 @@
         </header>
 
         <form action="Login" method="post">
-            <img class="mb-3" src="./icons/logo.svg" alt="Logo">
+            <a href="index.jsp"><img class="mb-3" src="./icons/logo.svg" alt="Logo"></a>
             <h1 class="h3 mb-3">Login</h1>
             <input type="text" class="form-control" name="usernameEmail" placeholder="Username o Email" autocomplete="off">
             <input type="password" class="form-control" name="password" placeholder="password" autocomplete="">
@@ -35,7 +35,5 @@
         </form>
 
         <p class="mt-5 mb-3 text-muted">© UniMart Team</p>
-
-        <%@include file="footer.jsp"%>
     </body>
 </html>

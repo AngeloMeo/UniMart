@@ -8,3 +8,7 @@
     --warning: #FF2F27;
     --neutral: #EAEDED;
 }
+
+.sidenavpresent {
+    margin-left: 200px; /* Same as the width of the sidenav */
+}

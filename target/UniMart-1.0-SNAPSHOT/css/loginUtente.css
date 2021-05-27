@@ -1,21 +1,23 @@
-.logo{
-    width: 250px;
-    height: 250px;
+img{
+    height: 200px;
+    padding: 20px;
+    grid-column: 1;
+    grid-row: 1;
+    display:block;
+    margin:0px auto;
+    text-align:center;
 }
 
 .text-center{
     text-align: center !important;
 }
 
-html{
-    height: 100%;
+html {
+    background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
 }
 
-
 body {
-    background: linear-gradient(45deg, var(--primary), var(--primaryT)) no-repeat;
-    height: 100%;
-
+    margin: 4% 1%;
 }
 
 form {
