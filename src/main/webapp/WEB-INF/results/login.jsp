@@ -17,7 +17,7 @@
         </header>
 
         <form action="Login" method="post">
-            <img class="mb-3 logo" src="./icons/logo.svg" alt="Logo">
+            <img class="mb-3" src="./icons/logo.svg" alt="Logo">
             <h1 class="h3 mb-3">Login</h1>
             <input type="text" class="form-control" name="usernameEmail" placeholder="Username o Email" autocomplete="off">
             <input type="password" class="form-control" name="password" placeholder="password" autocomplete="">
