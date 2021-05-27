@@ -8,11 +8,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Admin Panel</title>
-    <link rel="icon" href="./icons/logo.svg">
-    <link href="./css/normalize.css" type="text/css" rel="stylesheet">
-    <link href="./css/general.css" type="text/css" rel="stylesheet">
-    <link href="./css/adminPanel.css" type="text/css" rel="stylesheet">
+    <link href="../css/normalize.css" type="text/css" rel="stylesheet">
+    <link href="../css/general.css" type="text/css" rel="stylesheet">
+    <link href="../css/adminPanel.css" type="text/css" rel="stylesheet">
 </head>
 <body>
 <footer>

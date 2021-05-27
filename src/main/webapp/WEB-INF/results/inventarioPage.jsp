@@ -12,8 +12,9 @@
       <meta charset="utf-8">
       <link rel="icon" href="../icons/logo.svg">
    </head>
-   <body>
-      <div class="column" style="background-color:#FF2F27;">Column</div>
+   <body class="sidenavpresent">
+   <%@include file="adminPanel.jsp" %>
+
          <c:choose>
             <c:when test="${inventarioList == null}">
                <h1>Nessun inventario creato...</h1>
@@ -42,6 +43,5 @@
                </table>
             </c:otherwise>
          </c:choose>
-      <div class="column" style="background-color:#FF2F27;">Column</div>
    </body>
 </html>
