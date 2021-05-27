@@ -41,12 +41,12 @@ public class CouponManager extends HttpServlet
                   return;
             }
          }
-
+         System.out.println(utente.getTipo().equals(TipoUtente.Amministratore));
          response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
          return;
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");//TODO check
    }
 
    @Override
