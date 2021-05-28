@@ -5,11 +5,8 @@
     <head>
         <title>Login Page</title>
 
-        <link href="./css/normalize.css" type="text/css" rel="stylesheet">
-        <link href="./css/general.css" type="text/css" rel="stylesheet">
+        <%@include file="general.jsp" %>
         <link href="./css/loginUtente.css" type="text/css" rel="stylesheet">
-        <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-        <link rel="icon" href="./icons/logo.svg">
     </head>
     <body class="text-center">
         <header style="border: 1px solid;">

@@ -14,6 +14,7 @@ table{
 
 th, td{
     padding : 5px;
+    text-align: center;
 }
 
 
@@ -81,7 +82,7 @@ td > button {
     font-size: 25px;
     position: fixed;
     top: 50%;
-    right: -130px;
+    right: -135px;
     padding: 5px 15px 30px 15px;
     background-color: var(--ocra);
 }
@@ -109,7 +110,7 @@ label {
     float: inherit;
 }
 
-.creaCoupon {
+.creaModal {
     display: none;
     position: fixed;
     z-index: 1;
@@ -119,11 +120,10 @@ label {
     height: 100%;
     overflow: auto;
     background-color: rgba(71, 78, 93, 0.8);
-
     padding-top: 50px;
 }
 
-.creaCoupon-form {
+.creaModal-form {
     background-color: #fefefe;
     margin: 5% auto 15% auto;
     border: 1px solid #888;
@@ -140,11 +140,4 @@ hr {
     content: "";
     clear: both;
     display: table;
-}
-
-@media screen and (max-width: 300px)
-{
-    .creabtn {
-        width: 100%;
-    }
 }

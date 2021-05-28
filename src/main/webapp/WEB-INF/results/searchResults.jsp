@@ -4,6 +4,8 @@
 <html>
     <head>
         <title>Title</title>
+
+        <%@include file="general.jsp" %>
     </head>
     <body>
         <c:forEach items="${list}" var = "product">

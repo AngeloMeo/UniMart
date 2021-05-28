@@ -5,17 +5,20 @@
    <head>
       <title>Inventario Manager</title>
 
-      <link href="./css/normalize.css" type="text/css" rel="stylesheet">
-      <link href="./css/general.css" type="text/css" rel="stylesheet">
-      <link href="./css/inventarioPage.css" type="text/css" rel="stylesheet">
-      <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-      <meta charset="utf-8">
-      <link rel="icon" href="./icons/logo.svg">
+      <%@include file="general.jsp" %>
+      <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
+
+      <script>
+          $(document).ready(function(){
+              $("#btn1").click(function(){
+                  window.location.href = "./CouponManager";
+              });
+          });
+      </script>
    </head>
    <body class="sidenavpresent">
-
          <%@include file="adminPanel.jsp" %>
-
+         <button id="btn1">Crea Nuovo Inventario</button>
 
          <c:choose>
             <c:when test="${inventarioList == null}">
@@ -40,6 +43,16 @@
                         <td>${inventario.nome}</td>
                         <td>${inventario.responsabile.CF}</td>
                         <td>${inventario.note}</td>
+                        <td>
+                           <c:choose>
+                              <c:when test="${inventario.responsabile.CF == utente.CF}">
+                                 <button>Modifica</button>
+                              </c:when>
+                              <c:otherwise>
+                                 <button disabled>Modifica</button>
+                              </c:otherwise>
+                           </c:choose>
+                        </td>
                      </tr>
                   </c:forEach>
                </table>

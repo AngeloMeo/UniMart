@@ -4,6 +4,8 @@
 <html>
    <head>
       <title>Il Tuo Profilo</title>
+
+      <%@include file="general.jsp" %>
    </head>
    <body>
 

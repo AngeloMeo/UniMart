@@ -3,6 +3,8 @@
 <html>
    <head>
       <title>Error Page</title>
+
+      <%@include file="general.jsp" %>
    </head>
    <body>
       <h2>${message}</h2>

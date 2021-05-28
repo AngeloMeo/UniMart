@@ -4,10 +4,8 @@
    <head>
       <title>Crea Nuovo Utente</title>
 
-      <link href="./css/normalize.css" type="text/css" rel="stylesheet">
-      <link href="./css/general.css" type="text/css" rel="stylesheet">
+      <%@include file="general.jsp" %>
       <link type="text/css" rel="stylesheet" href="./css/creaUtente.css">
-      <link rel="icon" href="./icons/logo.svg">
    </head>
    <body>
    <div>

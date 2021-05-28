@@ -11,6 +11,7 @@
 
 .sidenavpresent {
     margin-left: 210px; /* Same as the width of the sidenav */
+    margin-right: 20px;
 }
 
 nav div a {

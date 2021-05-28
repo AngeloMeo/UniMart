@@ -1,19 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core' %>
+<%@ taglib prefix='c' uri='http://java.sun.com/jsp/jstl/core'%>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-<c:forEach items="${list}" var = "product">
+    <head>
+        <title>Title</title>
 
-    <tr>
-        <td>${product.nome}</td>
-        <td>${product.descrizione}</td>
-        <td>${product.prezzo}</td>
-    </tr>
+        <%@include file="general.jsp" %>
+    </head>
+    <body>
+        <c:forEach items="${list}" var = "product">
 
-</c:forEach>
-</body>
+            <tr>
+                <td>${product.nome}</td>
+                <td>${product.descrizione}</td>
+                <td>${product.prezzo}</td>
+            </tr>
+
+        </c:forEach>
+    </body>
 </html>

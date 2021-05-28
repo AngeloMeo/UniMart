@@ -35,12 +35,10 @@ public class Login extends HttpServlet
       switch (tipo)
       {
          case Semplice:
-            //forward al pannello utente
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
             break;
 
          case Amministratore:
-            //forward all'admin panel
             response.sendRedirect(request.getServletContext().getContextPath() + "/InventarioManager");
             break;
 
