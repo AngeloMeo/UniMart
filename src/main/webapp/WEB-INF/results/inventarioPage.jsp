@@ -5,15 +5,17 @@
    <head>
       <title>Inventario Manager</title>
 
-      <link href="../css/normalize.css" type="text/css" rel="stylesheet">
-      <link href="../css/general.css" type="text/css" rel="stylesheet">
-      <link href="../css/inventarioPage.css" type="text/css" rel="stylesheet">
+      <link href="./css/normalize.css" type="text/css" rel="stylesheet">
+      <link href="./css/general.css" type="text/css" rel="stylesheet">
+      <link href="./css/inventarioPage.css" type="text/css" rel="stylesheet">
       <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
       <meta charset="utf-8">
-      <link rel="icon" href="../icons/logo.svg">
+      <link rel="icon" href="./icons/logo.svg">
    </head>
    <body class="sidenavpresent">
-   <%@include file="adminPanel.jsp" %>
+
+         <%@include file="adminPanel.jsp" %>
+
 
          <c:choose>
             <c:when test="${inventarioList == null}">

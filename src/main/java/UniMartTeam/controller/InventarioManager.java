@@ -17,7 +17,7 @@ public class InventarioManager extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String path = request.getPathInfo().replace("/InventarioManager", "");
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
@@ -27,14 +27,13 @@ public class InventarioManager extends HttpServlet
          {
             switch (path)
             {
-               case "/list":
+               case "/":
                   List<Inventario> inventarioList = null;
 
                   try
                   {
                      inventarioList = InventarioDAO.doRetriveAll();
-                  }
-                  catch (SQLException e)
+                  } catch (SQLException e)
                   {
                      request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:InventarioManager Metodo:listInventario)");
@@ -42,18 +41,24 @@ public class InventarioManager extends HttpServlet
                   }
 
 
-                  if(inventarioList != null && inventarioList.get(0) != null)
+                  if (inventarioList != null && inventarioList.get(0) != null)
                      request.setAttribute("inventarioList", inventarioList);
                   else
                      request.setAttribute("inventarioList", null);
 
-                  request.getRequestDispatcher("/WEB-INF/results/inventarioPage.jsp").forward(request, response);
-                  return;
+                  String ex = "/WEB-INF/results/" + "inventarioPage" + ".jsp";
+
+                  request.getRequestDispatcher(ex).forward(request, response);
+                  break;
+               default:
+                  System.out.println("ciao qui " + path);
+                  break;
             }
          }
-
-         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
-         return;
+         else
+         {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
+         }
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/Login");

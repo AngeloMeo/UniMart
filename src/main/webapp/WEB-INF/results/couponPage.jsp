@@ -5,12 +5,12 @@
    <head>
       <title>Coupon Manager</title>
 
-      <link href="../css/normalize.css" type="text/css" rel="stylesheet">
-      <link href="../css/general.css" type="text/css" rel="stylesheet">
-      <link href="../css/couponPage.css" type="text/css" rel="stylesheet">
-      <script src="../js/couponPage.js" defer></script>
+      <link href="./css/normalize.css" type="text/css" rel="stylesheet">
+      <link href="./css/general.css" type="text/css" rel="stylesheet">
+      <link href="./css/couponPage.css" type="text/css" rel="stylesheet">
+      <script src="./js/couponPage.js" defer></script>
       <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-      <link rel="icon" href="../icons/logo.svg">
+      <link rel="icon" href="./icons/logo.svg">
    </head>
    <body class="sidenavpresent">
    <%@include file="adminPanel.jsp" %>

@@ -37,17 +37,17 @@ public class Login extends HttpServlet
          case Semplice:
             //forward al pannello utente
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-            return;
+            break;
 
          case Amministratore:
             //forward all'admin panel
             request.getRequestDispatcher("/WEB-INF/results/adminPanel.jsp").forward(request,response);
             //response.sendRedirect(request.getServletContext().getContextPath() + "/WEB-INF/results/adminPanel.jsp");
-            return;
+            break;
 
          default:
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-            return;
+            break;
       }
    }
 

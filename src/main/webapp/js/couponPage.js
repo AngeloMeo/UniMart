@@ -28,11 +28,11 @@ function createBtn(){
     if (idCoupon != null)
     {
         document.getElementById("btnDiv").innerHTML =
-            '<button type="submit" class="button" formaction="./updateCoupon">Salva Modifiche</button>' +
-            '<button type="submit" class="button" formaction="./deleteCoupon">Elimina Coupon</button>';
+            '<button type="submit" class="button" formaction="CouponManager/updateCoupon">Salva Modifiche</button>' +
+            '<button type="submit" class="button" formaction="CouponManager/deleteCoupon">Elimina Coupon</button>';
         document.getElementById("idCoupon").value = idCoupon;
         idCoupon = null;
     }
     else
-        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="./creaCoupon">Crea Coupon</button>';
+        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="CouponManager/creaCoupon">Crea Coupon</button>';
 }

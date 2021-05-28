@@ -20,7 +20,7 @@ public class CouponManager extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String path = request.getPathInfo();
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
@@ -30,7 +30,7 @@ public class CouponManager extends HttpServlet
          {
             switch (path)
             {
-               case "/list":
+               case "/":
                   if(session.getAttribute("ultimoCoupon") != null)
                   {
                      request.setAttribute("ultimoCoupon", session.getAttribute("ultimoCoupon"));
@@ -38,15 +38,17 @@ public class CouponManager extends HttpServlet
                   }
 
                   listCoupon(request, response);
-                  return;
+                  break;
+               default:
+                  System.out.println("ciao qui " + path);
+                  break;
             }
          }
-         System.out.println(utente.getTipo().equals(TipoUtente.Amministratore));
-         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
-         return;
+         else
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");//TODO check
+         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
    }
 
    @Override
@@ -135,7 +137,7 @@ public class CouponManager extends HttpServlet
             }
             break;
          }
-         response.sendRedirect(request.getContextPath() + "/CouponManager/list");
+         response.sendRedirect(request.getContextPath() + "/CouponManager");
          return;
       }
 
