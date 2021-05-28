@@ -10,5 +10,65 @@
 }
 
 .sidenavpresent {
-    margin-left: 200px; /* Same as the width of the sidenav */
+    margin-left: 210px; /* Same as the width of the sidenav */
 }
+
+nav div a {
+    background-color: red;
+    box-shadow: 0 5px 0 darkred;
+    color: white;
+    padding: 1em 1.5em;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+nav a:hover {
+    background-color: #ce0606;
+}
+
+nav a:active {
+    box-shadow: none;
+    top: 5px;
+}
+nav div {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+nav div a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+}
+
+nav div a:hover {
+    color: #f1f1f1;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+@media screen and (max-height: 450px) {
+    nav div {padding-top: 15px;}
+    nav div a {font-size: 18px;}
+}
+
