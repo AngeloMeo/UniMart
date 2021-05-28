@@ -11,24 +11,37 @@
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>
 
-      <form>
-         <label for="">Codice Inventario</label>
-         <input type="text">
+      <form method="post">
+         <c:if test="${inventario.codiceInventario != null}">
+            <label for="codiceInventario">Codice Inventario</label>
+            <input type="text" id="codiceInventario" name="codiceInventario" value="${inventario.codiceInventario}" readonly>
+         </c:if>
 
-         <label for="">Indirizzo</label>
-         <input type="text">
+         <label for="cfResponsabile">Codice Fiscale Responsabile</label>
+         <input type="text" id="cfResponsabile" name="cfResponsabile" value="${sessionScope.get("utente").CF}" readonly>
 
-         <label for="">Regione</label>
-         <input type="text">
+         <label for="indirizzo">Indirizzo</label>
+         <input type="text" id="indirizzo" name="indirizzo" placeholder="es. Via po,3" required>
 
-         <label for="">Nome</label>
-         <input type="text">
+         <label for="regione">Regione</label>
+         <input type="text" id="regione" name="regione" placeholder="es. Campania" required>
 
-         <label for="">Codice Fiscale Responsabile</label>
-         <input type="text">
+         <label for="nome">Nome</label>
+         <input type="text" id="nome" name="nome" placeholder="es. euroMart" required>
 
-         <label for="">Note</label>
-         <input type="text">
+         <label for="note">Note</label>
+         <textarea id="note" name="note" rows="6" cols="50" placeholder="es. note circa l'inventario" required>
+         </textarea>
+
+         <c:choose>
+            <c:when test="${inventario.codiceInventario == null}">
+               <button type="submit" formaction="./creaInventario">Crea Nuovo Inventario</button>
+            </c:when>
+            <c:otherwise>
+               <button type="submit" formaction="InventarioManager/modificaInventario">Modifica Inventario</button>
+               <button type="submit" formaction="InventarioManager/eliminaInventario">Elimina Inventario</button>
+            </c:otherwise>
+         </c:choose>
       </form>
    </body>
 </html>

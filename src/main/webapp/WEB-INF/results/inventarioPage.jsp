@@ -32,7 +32,14 @@
                      <th>Note</th>
                   </tr>
                   <c:forEach items="${inventarioList}" var="inventario">
-                     <tr>
+                     <c:choose>
+                        <c:when test="${ultimoInventario.codiceInventario == inventario.codiceInventario}">
+                           <tr style="background-color: yellow">
+                        </c:when>
+                        <c:otherwise>
+                           <tr>
+                        </c:otherwise>
+                     </c:choose>
                         <td>${inventario.codiceInventario}</td>
                         <td>${inventario.indirizzo}</td>
                         <td>${inventario.regione}</td>

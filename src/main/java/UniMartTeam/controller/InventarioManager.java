@@ -1,7 +1,9 @@
 package UniMartTeam.controller;
 
+import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
@@ -31,6 +33,12 @@ public class InventarioManager extends HttpServlet
             {
                case "/":
                   List<Inventario> inventarioList = null;
+
+                  if(session.getAttribute("ultimoInventario") != null)
+                  {
+                     request.setAttribute("ultimoInventario", session.getAttribute("ultimoInventario"));
+                     session.removeAttribute("ultimoInventario");
+                  }
 
                   try
                   {
@@ -74,7 +82,54 @@ public class InventarioManager extends HttpServlet
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+      HttpSession session = request.getSession();
+      Utente utente = (Utente) session.getAttribute("utente");
 
+      if(session != null && utente != null && !utente.getCF().isEmpty())
+      {
+         if(!utente.getTipo().equals(TipoUtente.Amministratore))
+         {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
+            return;
+         }
+
+         switch (path)
+         {
+            case "/creaInventario":
+            {
+               Inventario inventario = new Inventario();
+
+               inventario.setRegione(request.getParameter("regione"));
+               inventario.setResponsabile(utente);
+               inventario.setNote(request.getParameter("note"));
+               inventario.setIndirizzo(request.getParameter("indirizzo"));
+               inventario.setNome(request.getParameter("nome"));
+
+               if (inventario.validateObject())
+               {
+                  try
+                  {
+                     inventario.setCodiceInventario(InventarioDAO.doSave(inventario));
+                     session.setAttribute("ultimoInventario", inventario);
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("exceptionStackTrace", e.getMessage());
+                     request.setAttribute("message", "Errore nel salvataggio dell'inventario nel Database(Servlet:InventarioManager Metodo:doPost)");
+                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                  }
+               }
+            }
+            break;
+
+            //TODO eliminazione e aggiornamento
+         }
+         response.sendRedirect(request.getContextPath() + "/InventarioManager");
+         return;
+      }
+
+      response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
    }
 
    @Override

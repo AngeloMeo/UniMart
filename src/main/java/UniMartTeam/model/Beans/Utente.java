@@ -227,13 +227,10 @@ public class Utente
       }
    }
 
-   public boolean validateObject(Utente u)
+   public boolean validateObject()
    {
-      if(u != null)
-         return (CF != null && nome != null && cognome != null && viaCivico != null && fotoProfilo != null &&
+      return (CF != null && nome != null && cognome != null && viaCivico != null && fotoProfilo != null &&
                  citta != null && regione != null && telefono != null && email != null && username != null &&
                  passwordHash != null &&  tipoUtente != null &&  dataDiNascita  != null);
-
-      return false;
    }
 }

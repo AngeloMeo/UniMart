@@ -94,4 +94,13 @@ public class Inventario
    {
       return possiedeList;
    }
+
+   public boolean validateObject()
+   {
+      //note non viene considerato perchè facoltativo
+      return (!indirizzo.isEmpty() &&
+              !regione.isEmpty() &&
+              !nome.isEmpty() &&
+              responsabile != null);
+   }
 }

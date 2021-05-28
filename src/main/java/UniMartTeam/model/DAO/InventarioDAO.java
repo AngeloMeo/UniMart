@@ -15,16 +15,31 @@ public class InventarioDAO
 {
    public static final int CODICE_INVENTARIO = 0, REGIONE = 1, INDIRIZZO = 2, NOME = 3, RESPONSABILE = 4;
 
-   public static boolean doSave(Inventario inventario) throws SQLException
+   public static int doSave(Inventario inventario) throws SQLException
    {
       if(inventario == null)
-         return false;
+         return 0;
 
       try (Connection con = ConPool.getConnection() )
       {
          QueryBuilder qb = new QueryBuilder("inventario", "").insert("indirizzo", "regione", "nome", "note", "cfResponsabile");
 
-         return executeStatement(con, inventario, qb);
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
+         {
+            ps.setString(1, inventario.getIndirizzo());
+            ps.setString(2, inventario.getRegione());
+            ps.setString(3, inventario.getNome());
+            ps.setString(4, inventario.getNote());
+            ps.setString(5, inventario.getResponsabile().getCF());
+
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+
+            if(rs.next())
+               return rs.getInt(1);
+
+            return -1;
+         }
       }
    }
 

@@ -53,7 +53,7 @@ public class CreaUtente extends HttpServlet
             request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
          }
 
-         if(utente.validateObject(utente))
+         if(utente.validateObject())
          {
 
             try
