@@ -4,6 +4,8 @@ import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
+import UniMartTeam.model.Utils.ConPool;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -46,12 +48,17 @@ public class InventarioManager extends HttpServlet
                   else
                      request.setAttribute("inventarioList", null);
 
-                  String ex = "/WEB-INF/results/" + "inventarioPage" + ".jsp";
-
-                  request.getRequestDispatcher(ex).forward(request, response);
+                  request.getRequestDispatcher("/WEB-INF/results/inventarioPage.jsp").forward(request, response);
                   break;
+
+               case "/creaInventario":
+                  request.setAttribute("title", "Aggiunta Nuovo Inventario");
+                  request.setAttribute("forward", true);
+                  request.getRequestDispatcher("/WEB-INF/results/creaInventarioPage.jsp").forward(request, response);
+                  break;
+
                default:
-                  System.out.println("ciao qui " + path);
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
                   break;
             }
          }
@@ -68,5 +75,22 @@ public class InventarioManager extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
 
+   }
+
+   @Override
+   public void destroy()
+   {
+      try
+      {
+         ConPool.deleteConnection();
+      }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+      }
+      finally
+      {
+         super.destroy();
+      }
    }
 }

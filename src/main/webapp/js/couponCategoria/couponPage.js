@@ -17,5 +17,5 @@ function createBtn(){
         idCoupon = null;
     }
     else
-        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="CouponManager/creaModal">Crea Coupon</button>';
+        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="CouponManager/creaCoupon">Crea Coupon</button>';
 }

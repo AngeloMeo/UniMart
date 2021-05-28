@@ -7,18 +7,14 @@
 
       <%@include file="general.jsp" %>
       <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
-
-      <script>
-          $(document).ready(function(){
-              $("#btn1").click(function(){
-                  window.location.href = "./CouponManager";
-              });
-          });
-      </script>
    </head>
    <body class="sidenavpresent">
          <%@include file="adminPanel.jsp" %>
-         <button id="btn1">Crea Nuovo Inventario</button>
+
+         <form action="InventarioManager/creaInventario" method="get">
+            <button id="btn1">Crea Nuovo Inventario</button>
+         </form>
+
 
          <c:choose>
             <c:when test="${inventarioList == null}">

@@ -109,8 +109,11 @@ public class CategoriaDAO
             while (rs.next())
             {
                list.add(CategoriaExtractor.Extract(rs, alias));
-
             }
+
+            if(list.isEmpty())
+               list.add(null);
+
             return list;
          }
       }

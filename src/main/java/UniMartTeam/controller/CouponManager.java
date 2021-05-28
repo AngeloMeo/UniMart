@@ -68,7 +68,7 @@ public class CouponManager extends HttpServlet
 
          switch (path)
          {
-            case "/creaModal":
+            case "/creaCoupon":
             {
                Coupon coupon = null;
 
