@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-   <meta charset="UTF-8">
-   <link href="css/style.css" type="text/css" rel="stylesheet">
-   <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-   <link rel="icon" href="../icons/logo.svg">
    <title>Unimart</title>
+
+   <%@include file="WEB-INF/results/general.jsp"%>
+   <link href="css/homepage.css" type="text/css" rel="stylesheet">
+
 </head>
 <body>
 <header>
