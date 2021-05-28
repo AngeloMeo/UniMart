@@ -40,7 +40,7 @@ public class CouponManager extends HttpServlet
                   listCoupon(request, response);
                   break;
                default:
-                  System.out.println("ciao qui " + path);
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
                   break;
             }
          }
@@ -144,22 +144,7 @@ public class CouponManager extends HttpServlet
       response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
    }
 
-   @Override
-   public void destroy()
-   {
-      try
-      {
-         ConPool.deleteConnection();
-      }
-      catch (SQLException e)
-      {
-         e.printStackTrace();
-      }
-      finally
-      {
-         super.destroy();
-      }
-   }
+
 
    private boolean checkParam(HttpServletRequest request)
    {

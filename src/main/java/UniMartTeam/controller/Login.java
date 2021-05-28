@@ -14,12 +14,13 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(value = "/Login")
+@WebServlet(value = "/Login/*")
 public class Login extends HttpServlet
 {
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
       HttpSession ssn = request.getSession();
       Utente u = (Utente) ssn.getAttribute("utente");
 
@@ -30,22 +31,32 @@ public class Login extends HttpServlet
          return;
       }
 
-      TipoUtente tipo = u.getTipo();
+      switch(path){
+         case "/":
+            TipoUtente tipo = u.getTipo();
 
-      switch (tipo)
-      {
-         case Semplice:
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+            switch (tipo)
+            {
+               case Semplice:
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                  break;
+
+               case Amministratore:
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/InventarioManager");
+                  break;
+
+               default:
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                  break;
+            }
             break;
 
-         case Amministratore:
-            response.sendRedirect(request.getServletContext().getContextPath() + "/InventarioManager");
-            break;
-
-         default:
+         case "/Logout":
+            request.getSession().invalidate();
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
             break;
       }
+
    }
 
    @Override
