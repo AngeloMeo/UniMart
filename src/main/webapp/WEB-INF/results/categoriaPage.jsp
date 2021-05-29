@@ -11,13 +11,15 @@
 <head>
     <title>CategoriaManager</title>
   <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
+  <script src="./js/couponCategoria/general.js" defer></script>
+  <script src="./js/couponCategoria/categoriaPage.js" defer></script>
   <%@include file="general.jsp"%>
 </head>
 <body class="sidenavpresent">
 
 <%@include file="adminPanel.jsp"%>
 
-<button id="btn1">Crea Nuova Categoria</button>
+<button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
 
 <c:choose>
   <c:when test="${categoriaList == null}">
@@ -35,13 +37,30 @@
           <td>${cat.nome}</td>
           <td>${cat.aliquota}</td>
           <td>
-            <button>Modifica</button>
+            <button onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
           </td>
         </tr>
       </c:forEach>
     </table>
   </c:otherwise>
 </c:choose>
+
+<div id="creaModal" class="creaModal">
+  <form class="creaModal-form" method="post">
+    <div class="container">
+      <h1>Crea Categoria</h1>
+      <hr>
+      <label for="name">Nome</label>
+      <input type="text" name="nomecat" id="name" placeholder="name" >
+
+      <label for="aliquota">Aliquota</label>
+      <input type="number" name="ali" id="aliquota" placeholder="aliquota" required>
+
+      <div class="clearfix" id="btnDiv">
+      </div>
+    </div>
+  </form>
+</div>
 
 </body>
 </html>

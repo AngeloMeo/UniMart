@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(value = "/CategoriaManager/*")
+@WebServlet(name = "CategoriaManager", value = "/CategoriaManager/*")
 public class CategoriaManager extends HttpServlet {
 
 
@@ -51,9 +51,103 @@ public class CategoriaManager extends HttpServlet {
 
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
+        String path = request.getPathInfo();
+        HttpSession session = request.getSession();
+        Utente utente = (Utente) session.getAttribute("utente");
+
+        if(session != null && utente != null && !utente.getCF().isEmpty())
+        {
+            if(!utente.getTipo().equals(TipoUtente.Amministratore))
+            {
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
+                return;
+            }
+            switch (path)
+            {
+                case "/creaCategoria":
+                {
+                    Categoria categoria = null;
+
+                    if (checkParam(request))
+                    {
+                        categoria = new Categoria();
+                        categoria.setNome(request.getParameter("nomecat"));
+
+                        categoria.setAliquota(Float.parseFloat(request.getParameter("ali")));
+
+                        try
+                        {
+                            CategoriaDAO.doSave(categoria);
+                        } catch (SQLException e)
+                        {
+                            request.setAttribute("exceptionStackTrace", e.getMessage());
+                            request.setAttribute("message", "Errore nel salvataggio della Categoria nel Database(Servlet:CategoriaManager Metodo:doPost)");
+                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        }
+                    }
+                }
+                break;
+
+                case "/deleteCategoria":
+                {
+                    if (checkParam(request))
+                    {
+                        String catname = request.getParameter("nomecat");
+
+                        try
+                        {
+                            CategoriaDAO.doDelete(catname);
+                        }
+                        catch (SQLException e)
+                        {
+
+                            request.setAttribute("exceptionStackTrace", e.getMessage());
+                            request.setAttribute("message", "Errore nel eliminazione della categoria dal Database(Servlet:CategoriaManager Metodo:doPost)");
+                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        }
+                    }
+                }
+                break;
+
+                case "/updateCategoria":
+                {
+                    if (checkParam(request))
+                    {
+                        Categoria categoria = new Categoria();
+
+                        categoria.setNome(request.getParameter("nomecat"));
+                        categoria.setAliquota(Float.parseFloat(request.getParameter("ali")));
+
+                        try
+                        {
+                            CategoriaDAO.doSaveOrUpdate(categoria);
+                        }
+                        catch (SQLException e)
+                        {
+                            e.printStackTrace();
+                            request.setAttribute("exceptionStackTrace", e.getMessage());
+                            request.setAttribute("message", "Errore nel update del coupon nel Database(Servlet:CategoriaManager Metodo:doPost)");
+                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        }
+                    }
+                }
+                break;
+
+            }
+            response.sendRedirect(request.getContextPath() + "/CategoriaManager");
+            return;
+        }
+
+        response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+    }
 
 
+
+    private boolean checkParam(HttpServletRequest request)
+    {
+        return request.getParameter("nomecat") != null && request.getParameter("ali") != null;
     }
 
     private void listCategorie(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -67,7 +161,7 @@ public class CategoriaManager extends HttpServlet {
         catch (SQLException e)
         {
             request.setAttribute("exceptionStackTrace", e.getMessage());
-            request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:CouponManager Metodo:listCoupon)");
+            request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:CategoriaManager Metodo:listCategoria)");
             request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
         }
 

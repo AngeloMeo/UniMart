@@ -1,5 +1,4 @@
 var modal = document.getElementById('creaModal');
-var idCoupon = null;
 
 window.onclick = function(event) {
     if (event.target == modal)

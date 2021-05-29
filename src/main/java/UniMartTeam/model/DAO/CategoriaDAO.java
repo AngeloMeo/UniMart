@@ -44,16 +44,18 @@ public class CategoriaDAO
       {
          QueryBuilder qb = new QueryBuilder("categoria", "");
 
-         try (PreparedStatement ps = con.prepareStatement(qb.select().where("nome = " + c.getNome()).getQuery()))
+         try (PreparedStatement ps = con.prepareStatement(qb.select().where("nome = ?").getQuery()))
          {
+            ps.setString(1, c.getNome());
             ResultSet rs = ps.executeQuery();
             //update
             if (rs.next())
             {
-               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").where("nome=" + c.getNome()).getQuery()))
+               try (PreparedStatement pss = con.prepareStatement(qb.update("nome", "aliquota").where("nome = ?").getQuery()))
                {
                   pss.setString(1, c.getNome());
                   pss.setFloat(2, c.getAliquota());
+                  pss.setString(3, c.getNome());
 
                   if (pss.executeUpdate() == 0) {
                      return false;

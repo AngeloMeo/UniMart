@@ -7,9 +7,12 @@
       <title>${title}</title>
 
       <%@include file="general.jsp"%>
+
    </head>
    <body class="sidenavpresent">
-      <%@include file="adminPanel.jsp" %>
+      <jsp:include page="adminPanel.jsp">
+         <jsp:param name="forward" value="true"/>
+      </jsp:include>
 
       <form method="post">
          <c:if test="${inventario.codiceInventario != null}">
