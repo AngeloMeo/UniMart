@@ -40,21 +40,18 @@
                            <tr>
                         </c:otherwise>
                      </c:choose>
-                        <td>${inventario.codiceInventario}</td>
+                        <td class="tdSmall">${inventario.codiceInventario}</td>
                         <td>${inventario.indirizzo}</td>
-                        <td>${inventario.regione}</td>
+                        <td class="tdSmall">${inventario.regione}</td>
                         <td>${inventario.nome}</td>
-                        <td>${inventario.responsabile.CF}</td>
-                        <td>${inventario.note}</td>
+                        <td class="tdSmall">${inventario.responsabile.CF}</td>
+                        <td class="tdLarge">${inventario.note}</td>
                         <td>
-                           <c:choose>
-                              <c:when test="${inventario.responsabile.CF == utente.CF}">
-                                 <button>Modifica</button>
-                              </c:when>
-                              <c:otherwise>
-                                 <button disabled>Modifica</button>
-                              </c:otherwise>
-                           </c:choose>
+                           <c:if test="${inventario.responsabile.CF == utente.CF}">
+                              <form method="post" action="InventarioManager/getInventario">
+                                 <button type="submit" class="tdSmall" name="codiceInventario&CF" value="${inventario.codiceInventario},${inventario.responsabile.CF}">Modifica</button>
+                              </form>
+                           </c:if>
                         </td>
                      </tr>
                   </c:forEach>

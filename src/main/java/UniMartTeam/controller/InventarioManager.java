@@ -1,13 +1,10 @@
 package UniMartTeam.controller;
 
-import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Utente;
-import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -123,13 +120,104 @@ public class InventarioManager extends HttpServlet
             }
             break;
 
-            //TODO eliminazione e aggiornamento
+            case "/getInventario":
+            {
+               if (request.getParameter("codiceInventario&CF") != null)
+               {
+                  String[] info = request.getParameter("codiceInventario&CF").split(",");
+
+                  if (info.length == 2)
+                  {
+                     String codiceInventario = info[0], cfResponsabile = info[1];
+
+                     if (cfResponsabile.equalsIgnoreCase(utente.getCF()))
+                     {
+                        String cond = "='" + codiceInventario + "'";
+                        Inventario inventario = null;
+
+                        try
+                        {
+                           inventario = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, cond).get(0);
+                        } catch (SQLException e)
+                        {
+                           request.setAttribute("exceptionStackTrace", e.getMessage());
+                           request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
+                           request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        }
+
+                        if (inventario != null)
+                        {
+                           request.setAttribute("title", "Modifica Inventario");
+                           request.setAttribute("forward", true);
+                           request.setAttribute("inventario", inventario);
+                           request.getRequestDispatcher("/WEB-INF/results/creaInventarioPage.jsp").forward(request, response);
+                           return;
+                        }
+                     }
+                  }
+               }
+            }
+            break;
+
+            case "/deleteInventario":
+            {
+               if (request.getParameter("cfResponsabile") != null && request.getParameter("cfResponsabile").equalsIgnoreCase(utente.getCF()))
+               {
+                  int codiceInventario = Integer.parseInt(request.getParameter("codiceInventario"));
+
+                  try
+                  {
+                     InventarioDAO.doDelete(codiceInventario);
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("exceptionStackTrace", e.getMessage());
+                     request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
+                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                  }
+               }
+            }
+            break;
+
+            case "/updateInventario":
+            {
+               if (checkParam(request) && request.getParameter("cfResponsabile").equalsIgnoreCase(utente.getCF()))
+               {
+                  Inventario inventario = new Inventario();
+
+                  inventario.setResponsabile(utente);
+                  inventario.setCodiceInventario(Integer.parseInt(request.getParameter("codiceInventario")));
+                  inventario.setIndirizzo(request.getParameter("indirizzo"));
+                  inventario.setRegione(request.getParameter("regione"));
+                  inventario.setNome(request.getParameter("nome"));
+                  inventario.setNote(request.getParameter("note"));
+
+                  try
+                  {
+                     InventarioDAO.doUpdate(inventario);
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("exceptionStackTrace", e.getMessage());
+                     request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
+                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                  }
+               }
+            }
+            break;
          }
          response.sendRedirect(request.getContextPath() + "/InventarioManager");
          return;
       }
 
       response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+   }
+
+   private boolean checkParam(HttpServletRequest request)
+   {
+      return request.getParameter("codiceInventario") != null && request.getParameter("cfResponsabile") != null &&
+              request.getParameter("indirizzo") != null && request.getParameter("regione") != null &&
+              request.getParameter("nome") != null && request.getParameter("note") != null;
    }
 
    @Override

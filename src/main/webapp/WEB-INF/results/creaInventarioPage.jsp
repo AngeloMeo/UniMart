@@ -21,16 +21,17 @@
          <input type="text" id="cfResponsabile" name="cfResponsabile" value="${sessionScope.get("utente").CF}" readonly>
 
          <label for="indirizzo">Indirizzo</label>
-         <input type="text" id="indirizzo" name="indirizzo" placeholder="es. Via po,3" required>
+         <input type="text" id="indirizzo" name="indirizzo" placeholder="es. Via po,3" value="${inventario.indirizzo}" required>
 
          <label for="regione">Regione</label>
-         <input type="text" id="regione" name="regione" placeholder="es. Campania" required>
+         <input type="text" id="regione" name="regione" placeholder="es. Campania" value="${inventario.regione}" required>
 
          <label for="nome">Nome</label>
-         <input type="text" id="nome" name="nome" placeholder="es. euroMart" required>
+         <input type="text" id="nome" name="nome" placeholder="es. euroMart" value="${inventario.nome}" required>
 
          <label for="note">Note</label>
          <textarea id="note" name="note" rows="6" cols="50" placeholder="es. note circa l'inventario" required>
+            ${inventario.note}
          </textarea>
 
          <c:choose>
@@ -38,8 +39,8 @@
                <button type="submit" formaction="./creaInventario">Crea Nuovo Inventario</button>
             </c:when>
             <c:otherwise>
-               <button type="submit" formaction="InventarioManager/modificaInventario">Modifica Inventario</button>
-               <button type="submit" formaction="InventarioManager/eliminaInventario">Elimina Inventario</button>
+               <button type="submit" formaction="./updateInventario">Modifica Inventario</button>
+               <button type="submit" formaction="./deleteInventario">Elimina Inventario</button>
             </c:otherwise>
          </c:choose>
       </form>

@@ -12,9 +12,18 @@ table{
     flex: 1;
 }
 
-th, td{
-    padding : 5px;
+th, td {
+    padding : 1px;
     text-align: center;
+}
+
+.tdLarge {
+    word-break: break-all;
+    max-width: 200px;
+}
+
+.tdSmall {
+    max-width: 80px;
 }
 
 
@@ -48,7 +57,7 @@ button {
     opacity: 0.7;
 }
 
-td > button {
+td > button, td > form > button {
     background-color: var(--primary);
     width: 100%;
     border-radius: 7px;
@@ -77,14 +86,15 @@ td > button {
 
 #btn1 {
     transform: rotateZ(-90deg);
-    border-radius: 25px;
+    border-radius: 20px 20px 0px 0px;
     font-family: Verdana, sans-serif;
     font-size: 25px;
     position: fixed;
     top: 50%;
-    right: -135px;
-    padding: 5px 15px 30px 15px;
+    right: -140px;
+    padding: 0px 15px 30px 15px;
     background-color: var(--ocra);
+    height: 80px;
 }
 
 label {

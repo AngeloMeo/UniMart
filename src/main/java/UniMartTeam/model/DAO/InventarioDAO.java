@@ -162,7 +162,7 @@ public class InventarioDAO
          switch (mode)
          {
             case CODICE_INVENTARIO:
-               qb.where("codiceInventrario" + param);
+               qb.where("codiceInventario" + param);
                break;
 
             case REGIONE:
