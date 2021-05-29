@@ -49,14 +49,9 @@
                   <td>${coupon.sconto}</td>
                   <td>${coupon.creatore.CF}</td>
                   <td>
-                  <c:choose>
-                     <c:when test="${coupon.creatore.CF == utente.CF}">
-                        <button onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
-                     </c:when>
-                     <c:otherwise>
-                        <button onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')" disabled>Modifica</button>
-                     </c:otherwise>
-                  </c:choose>
+                     <c:if test="${coupon.creatore.CF == utente.CF}">
+                        <button class="tdSmall"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
+                     </c:if>
                   </td>
                </tr>
                </c:forEach>
