@@ -6,13 +6,14 @@
 
       <%@include file="general.jsp" %>
       <link type="text/css" rel="stylesheet" href="./css/creaUtente.css">
+      <script src="./js/check/creaUtente.js" defer></script>
    </head>
    <body>
    <div>
    <img class="mb-3 logo" src="./icons/logo.svg" alt="Logo" >
 
    <h1>Registrazione Nuovo Utente</h1>
-      <form method="post" action="CreaUtente" enctype="multipart/form-data">
+      <form method="post" action="CreaUtente" onsubmit="checkUsername()" enctype="multipart/form-data">
 
          <fieldset>
             <table>

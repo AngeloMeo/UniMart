@@ -3,6 +3,7 @@ package UniMartTeam.controller;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.UtenteDAO;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -24,7 +25,8 @@ public class CreaUtente extends HttpServlet
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      if(request.getParameter("CF") != null)
+      //TODO validator
+      if(request.getParameter("CF") != null && !request.getParameter("username").contains("@"))
       {
          Utente utente = new Utente();
 
