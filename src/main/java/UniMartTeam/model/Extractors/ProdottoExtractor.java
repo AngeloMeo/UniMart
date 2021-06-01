@@ -19,6 +19,7 @@ public class ProdottoExtractor {
             p.setCodiceIAN(rs.getInt(alias+"codiceIAN"));
             p.setNome(rs.getString(alias+"nome"));
             p.setPrezzo(rs.getFloat(alias+"prezzo"));
+            p.setPeso(rs.getFloat(alias+"peso"));
             p.setFoto(rs.getString(alias+"foto"));
             p.setVolumeOccupato(rs.getFloat(alias+"volumeOccupato"));
             p.setDescrizione(rs.getString(alias+"descrizione"));
