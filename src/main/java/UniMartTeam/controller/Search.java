@@ -5,6 +5,7 @@ import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
+import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 
 import javax.servlet.RequestDispatcher;
@@ -45,22 +46,36 @@ public class Search extends HttpServlet {
     private void listOrders(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
         HttpSession ssn = request.getSession();
-        Utente ut = null;
+        Utente utente = (Utente) ssn.getAttribute("utente");
 
-        if(ssn == null)
+        if(ssn == null && utente != null && !utente.getCF().isEmpty() )
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-        else
-            ut = (Utente) ssn.getAttribute("utente");
 
-        try {
+        if(!utente.getTipo().equals(TipoUtente.Amministratore))
+        {
+            try {
 
-            ArrayList<Ordine> list = (ArrayList<Ordine>) OrdineDAO.doRetrieveByCond(ut);
+                ArrayList<Ordine> list = (ArrayList<Ordine>) OrdineDAO.doRetrieveByCond(utente);
 
-            request.setAttribute("list", list);
+                request.setAttribute("list", list);
 
-        } catch (SQLException throwables){
-            throwables.printStackTrace();
+            } catch (SQLException throwables){
+                throwables.printStackTrace();
+            }
         }
+        else{
+            try {
+
+                ArrayList<Ordine> list = (ArrayList<Ordine>) OrdineDAO.doRetrieveAll();
+
+                request.setAttribute("list", list);
+
+            } catch (SQLException throwables){
+                throwables.printStackTrace();
+            }
+        }
+
+        //TODO lato admin
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/results/showOrders.jsp");
         dispatcher.forward(request, response);

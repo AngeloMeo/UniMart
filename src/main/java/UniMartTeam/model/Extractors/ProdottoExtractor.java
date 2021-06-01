@@ -14,7 +14,7 @@ public class ProdottoExtractor {
         if(rs != null) {
             Prodotto p = new Prodotto();
 
-            if(!alias.isEmpty())
+            if(!alias.isEmpty() && !alias.contains("."))
                 alias+=".";
             p.setCodiceIAN(rs.getInt(alias+"codiceIAN"));
             p.setNome(rs.getString(alias+"nome"));

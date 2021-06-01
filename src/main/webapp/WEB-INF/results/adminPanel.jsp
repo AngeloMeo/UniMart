@@ -12,5 +12,6 @@
         <a href="${path}./CouponManager">Coupon</a>
         <a href="${path}./InventarioManager">Inventario</a>
         <a href="${path}./CategoriaManager">Categoria</a>
+        <a href="${path}./ProdottoManager">Prodotti</a>
     </div>
 </nav>
