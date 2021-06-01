@@ -89,10 +89,10 @@ public class ProdottoManager extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
                 return;
             }
-
+            Prodotto p = null;
             switch (path){
                 case "/getProdotto":
-                    Prodotto p = null;
+
                     try
                     {
                         p = ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("codiceIAN")));
@@ -114,11 +114,45 @@ public class ProdottoManager extends HttpServlet {
                         return;
                     }
                 break;
-            }
+                case "/creaProdotto":
 
+                    p = new Prodotto();
+
+                    p.setNome(request.getParameter("nome"));
+                    p.setPrezzo(convert(request.getParameter("prezzo")));
+                    p.setPeso(convert(request.getParameter("peso")));
+                    p.setVolumeOccupato(convert(request.getParameter("volumeOccupato")));
+                    p.setDescrizione(request.getParameter("descrizione"));
+                    Categoria c = new Categoria();
+                    c.setNome(request.getParameter("categoria"));
+                    p.setCategoria(c);
+                    try
+                    {
+                        p.uploadFoto(request.getPart("fotoProfilo"), getServletContext().getInitParameter("uploadpath"));
+                    }
+                    catch (IOException e)
+                    {
+                        request.setAttribute("exceptionStackTrace", e.getMessage());
+                        request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+                        request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                    }
+                break;
+                case: //TODO
+            }
+            response.sendRedirect(request.getContextPath() + "/ProdottoManager");
+            return;
         }
 
         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+    }
+
+    private float convert(String c){
+        try {
+            return Float.parseFloat(c);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+        return -0.1F;
     }
 
     private List<Categoria> retriveCategoria()

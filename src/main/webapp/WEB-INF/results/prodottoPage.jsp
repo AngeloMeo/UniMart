@@ -10,7 +10,7 @@
 <body class="sidenavpresent">
 
 <form action="ProdottoManager/CreaProdotto" method="get">
-    <button id="btn1">Crea Nuovo Inventario</button>
+    <button id="btn1">Aggiungi Prodotto</button>
 </form>
 
 <%@include file="adminPanel.jsp"%>

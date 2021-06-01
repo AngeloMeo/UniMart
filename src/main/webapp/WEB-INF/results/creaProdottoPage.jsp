@@ -33,7 +33,7 @@
     <input type="number" id="volumeOccupato" name="volumeOccupato" value="${prodotto.volumeOccupato}">
 
     <label for="descrizione">Descrizione</label>
-    <input type="text" id="descrizione" name="descrizione" value="${prodotto.descrizione}" required>
+    <input type="textarea" id="descrizione" name="descrizione" value="${prodotto.descrizione}" required>
 
     <label for="categoria">Categoria</label>
     <select id="categoria" name="categoria">
