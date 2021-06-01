@@ -63,17 +63,7 @@ public class Search extends HttpServlet {
                 throwables.printStackTrace();
             }
         }
-        else{
-            try {
 
-                ArrayList<Ordine> list = (ArrayList<Ordine>) OrdineDAO.doRetrieveAll();
-
-                request.setAttribute("list", list);
-
-            } catch (SQLException throwables){
-                throwables.printStackTrace();
-            }
-        }
 
         //TODO lato admin
 

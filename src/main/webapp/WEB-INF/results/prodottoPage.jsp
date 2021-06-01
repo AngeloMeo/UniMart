@@ -15,7 +15,7 @@
 <body class="sidenavpresent">
 
 button
-
+<%@include file="adminPanel.jsp"%>
 <c:choose>
     <c:when test="${prodottoList == null}">
         <h1>Nessun prodotto creato...</h1>
