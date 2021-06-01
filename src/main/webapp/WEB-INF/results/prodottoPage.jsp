@@ -15,7 +15,7 @@
 <body class="sidenavpresent">
 
 button
-
+<%@include file="adminPanel.jsp"%>
 <c:choose>
     <c:when test="${prodottoList == null}">
         <h1>Nessun prodotto creato...</h1>
@@ -32,7 +32,7 @@ button
             <tr>
                 <td>${prodotto.codiceIAN}</td>
                 <td>${prodotto.nome}</td>
-                <td><c:out value="${prodotto.categoria.nome}"></c:out></td>
+                <td>${prodotto.categoria.nome}</td>
                 <td>${prodotto.prezzo}</td>
             </tr>
         </c:forEach>
