@@ -1,4 +1,3 @@
-
 function modifyForUpdateCategoria(nome, aliquota) {
     name = nome;
     document.getElementById('name').value = nome;
