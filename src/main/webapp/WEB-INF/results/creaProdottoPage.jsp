@@ -42,7 +42,6 @@
         </c:forEach>
     </select>
 
-
     <c:choose>
 
         <c:when test="${prodotto.codiceIAN == null}">

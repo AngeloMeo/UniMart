@@ -48,6 +48,10 @@ public class ProdottoManager extends HttpServlet {
                             request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:ProdottoManager Metodo:listProdotti)");
                             request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                         }
+
+                        if (prodottoList.get(0) == null)
+                            prodottoList = null;
+
                         request.setAttribute("prodottoList", prodottoList);
                         request.getRequestDispatcher("/WEB-INF/results/prodottoPage.jsp").forward(request, response);
                     break;
