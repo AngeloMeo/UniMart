@@ -1,5 +1,6 @@
 package UniMartTeam.controller;
 
+import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CategoriaDAO;
@@ -54,11 +55,8 @@ public class ProdottoManager extends HttpServlet {
                     case "/CreaProdotto":
                         request.setAttribute("title", "Nuovo Prodotto");
                         request.setAttribute("forward", true);
-                        try {
-                            request.setAttribute("categoria", CategoriaDAO.doRetrieveAll());
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
-                        }
+                        request.setAttribute("categoria", retriveCategoria());
+
                         request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
                     break;
 
@@ -100,13 +98,15 @@ public class ProdottoManager extends HttpServlet {
                         request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
                         request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                     }
+
                     if (p != null)
                     {
                         request.setAttribute("title", "Modifica Prodotto");
                         request.setAttribute("forward", true);
                         request.setAttribute("prodotto", p);
-                        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp");
-                        rd.forward(request, response);//?
+                        request.setAttribute("categoria", retriveCategoria());
+
+                        request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
                         return;
                     }
                 break;
@@ -115,6 +115,18 @@ public class ProdottoManager extends HttpServlet {
         }
 
         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+    }
+
+    private List<Categoria> retriveCategoria()
+    {
+        try {
+            return CategoriaDAO.doRetrieveAll();
+        }
+        catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return null;
     }
 
     @Override

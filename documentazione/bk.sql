@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
@@ -65,7 +65,9 @@ INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
 	(39, 'Disponibile', 89, 'test'),
 	(42, 'Disponibile', 15, 'test'),
 	(44, 'Disponibile', 100, 'test'),
-	(47, 'Disponibile', 23, 'test');
+	(47, 'Disponibile', 23, 'test'),
+	(48, 'Disponibile', 19, 'test'),
+	(49, 'Disponibile', 18, 'test');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `coupon_applicato`;
@@ -169,10 +171,12 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
+INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
+	(1, 'abbracci', 15, 10, '', 2, 'biscotti buoni', 'frutta secca');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `spedizione`;
