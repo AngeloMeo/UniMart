@@ -13,7 +13,7 @@
    <img class="mb-3 logo" src="./icons/logo.svg" alt="Logo" >
 
    <h1>Registrazione Nuovo Utente</h1>
-      <form method="post" action="CreaUtente" onsubmit="checkUsername()" enctype="multipart/form-data">
+      <form method="post" name=reg action="CreaUtente" onsubmit="return checkUsername()" enctype="multipart/form-data">
 
          <fieldset>
             <table>

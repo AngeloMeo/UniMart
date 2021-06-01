@@ -5,5 +5,5 @@ function checkUsername(){
         return false;
     }
     else
-        return true;
+        document.reg.submit();
 }
