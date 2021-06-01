@@ -18,7 +18,7 @@
          <fieldset>
             <table>
             <tr>
-               <td><label for="CF">Codice Ficale</label></td>
+               <td><label for="CF">Codice Fiscale</label></td>
                <td><input type="text" name="CF" id="CF" placeholder="Codice Fiscale" required></td>
             </tr>
             <tr>
@@ -35,7 +35,7 @@
             </tr>
             <tr>
                <td><label for="citta">Città</label></td>
-               <td><input type="text" name="citta" id="citta" placeholder="citta" required></td>
+               <td><input type="text" name="citta" id="citta" placeholder="Città" required></td>
             </tr>
             <tr>
                <td><label for="regione">Regione</label></td>

@@ -15,7 +15,10 @@
 </head>
 <body class="sidenavpresent">
 
-button
+<form action="ProdottoManager/CreaProdotto" method="get">
+    <button id="btn1">Crea Nuovo Inventario</button>
+</form>
+
 <%@include file="adminPanel.jsp"%>
 <c:choose>
     <c:when test="${prodottoList == null}">
@@ -35,6 +38,11 @@ button
                 <td>${prodotto.nome}</td>
                 <td>${prodotto.categoria.nome}</td>
                 <td>${prodotto.prezzo}</td>
+                <td>
+                <form method="post" action="ProdottoManager/getProdotto">
+                    <button type="submit" class="tdSmall" name="codiceIAN" value="${prodotto.codiceIAN}">Modifica</button>
+                </form>
+                </td>
             </tr>
         </c:forEach>
         </table>

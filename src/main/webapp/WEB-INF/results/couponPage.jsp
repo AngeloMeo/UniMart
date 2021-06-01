@@ -64,7 +64,7 @@
             <div class="container">
                <h1>Crea Coupon</h1>
                <hr>
-               <input type="hidden" name="idCoupon" id="idCoupon" value="0" required/>
+               <input type="hidden" name="idCoupon" id="idCoupon" value="null" required/>
                <label for="CF_Creatore">Codice Fiscale Creatore</label>
                <input type="text" name="CF_Creatore" id="CF_Creatore" placeholder="CF Creatore" value="${sessionScope.utente.CF}" readonly>
 
