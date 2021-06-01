@@ -32,7 +32,7 @@ button
             <tr>
                 <td>${prodotto.codiceIAN}</td>
                 <td>${prodotto.nome}</td>
-                <td><c:out value="${prodotto.categoria.nome}"></c:out></td>
+                <td>${prodotto.categoria.nome}</td>
                 <td>${prodotto.prezzo}</td>
             </tr>
         </c:forEach>
