@@ -6,10 +6,8 @@ import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +34,7 @@ public class ProdottoDAO
       if (con == null || p == null || qb == null)
          return false;
 
-      try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+      try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
       {
          ps.setString(1, p.getNome());
          ps.setFloat(2, p.getPrezzo());
@@ -46,7 +44,13 @@ public class ProdottoDAO
          ps.setString(6, p.getDescrizione());
          ps.setString(7, p.getCategoria().getNome());
 
-         return (ps.executeUpdate() == 0) ? false : true;
+         ps.executeUpdate();
+         ResultSet rs = ps.getGeneratedKeys();
+
+         if(rs.next())
+            p.setCodiceIAN(rs.getInt(1));
+
+         return true;
       }
    }
 

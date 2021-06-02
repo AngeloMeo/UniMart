@@ -93,6 +93,7 @@ public class ProdottoManager extends HttpServlet {
             }
             Prodotto p = null;
             switch (path){
+
                 case "/getProdotto":
 
                     try
@@ -116,6 +117,7 @@ public class ProdottoManager extends HttpServlet {
                         return;
                     }
                 break;
+
                 case "/creaProdotto":
 
                     p = new Prodotto();
@@ -125,13 +127,17 @@ public class ProdottoManager extends HttpServlet {
                     p.setPeso(convert(request.getParameter("peso")));
                     p.setVolumeOccupato(convert(request.getParameter("volumeOccupato")));
                     p.setDescrizione(request.getParameter("descrizione"));
+                    p.setFoto("");
                     Categoria c = new Categoria();
                     c.setNome(request.getParameter("categoria"));
                     p.setCategoria(c);
 
-                    try
-                    {
+                    try {
+                        ProdottoDAO.doSave(p);
                         p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
+                        ProdottoDAO.doUpdate(p);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
                     }
                     catch (IOException e)
                     {
@@ -139,12 +145,9 @@ public class ProdottoManager extends HttpServlet {
                         request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
                         request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                     }
-                    try {
-                        ProdottoDAO.doSave(p);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+
                     break;
+
                 case "/updateProdotto":
                     p = new Prodotto();
                     p.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN")));
