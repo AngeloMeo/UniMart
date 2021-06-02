@@ -117,6 +117,9 @@ public class ProdottoManager extends HttpServlet {
 
                 case "/creaProdotto":
 
+                    if(convert(request.getParameter("prezzo")) == -0.1F || convert(request.getParameter("peso")) == -0.1F || convert(request.getParameter("volumeOccupato")) == -0.1F)
+                        return;
+
                     p = new Prodotto();
 
                     p.setNome(request.getParameter("nome"));
