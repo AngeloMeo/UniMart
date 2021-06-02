@@ -22,6 +22,20 @@ public class Prodotto
       return codiceIAN;
    }
 
+   @Override
+   public String toString() {
+      return "Prodotto{" +
+              "codiceIAN=" + codiceIAN +
+              ", nome='" + nome + '\'' +
+              ", foto='" + foto + '\'' +
+              ", descrizione='" + descrizione + '\'' +
+              ", prezzo=" + prezzo +
+              ", peso=" + peso +
+              ", volumeOccupato=" + volumeOccupato +
+              ", categoria=" + categoria.getNome() +
+              '}';
+   }
+
    public void setCodiceIAN(int codiceIAN)
    {
       this.codiceIAN = codiceIAN;

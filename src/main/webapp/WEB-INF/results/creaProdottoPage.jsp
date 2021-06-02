@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
 <head>
     <title>${title}</title>
@@ -9,8 +10,8 @@
 <jsp:include page="adminPanel.jsp">
     <jsp:param name="forward" value="true"/>
 </jsp:include>
-
-<form method="post">
+NORMALIZE.CSS NON PRESENTE
+<form method="post" enctype="multipart/form-data">
 
     <c:if test="${prodotto.codiceIAN != null}">
         <label for="codiceIAN">Codice IAN</label>
@@ -21,7 +22,7 @@
     <input type="text" id="nome" name="nome" value="${prodotto.nome}" required>
 
     <label for="prezzo">Prezzo</label>
-    <input type="text" id="prezzo" name="nome" value="${prodotto.prezzo}" required>
+    <input type="text" id="prezzo" name="prezzo" value="${prodotto.prezzo}" required>
 
     <label for="peso">Peso</label>
     <input type="text" id="peso" name="peso" value="${prodotto.peso}" required>

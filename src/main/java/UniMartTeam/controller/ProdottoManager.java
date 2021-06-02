@@ -11,6 +11,7 @@ import UniMartTeam.model.Utils.ConPool;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "ProdottoManager", value = "/ProdottoManager/*")
+@MultipartConfig
 public class ProdottoManager extends HttpServlet {
 
 
@@ -59,7 +61,7 @@ public class ProdottoManager extends HttpServlet {
                     case "/CreaProdotto":
                         request.setAttribute("title", "Nuovo Prodotto");
                         request.setAttribute("forward", true);
-                        request.setAttribute("categoria", retriveCategoria());
+                        request.setAttribute("categoria", retrieveCategoria());
 
                         request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
                     break;
@@ -108,7 +110,7 @@ public class ProdottoManager extends HttpServlet {
                         request.setAttribute("title", "Modifica Prodotto");
                         request.setAttribute("forward", true);
                         request.setAttribute("prodotto", p);
-                        request.setAttribute("categoria", retriveCategoria());
+                        request.setAttribute("categoria", retrieveCategoria());
 
                         request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
                         return;
@@ -126,9 +128,10 @@ public class ProdottoManager extends HttpServlet {
                     Categoria c = new Categoria();
                     c.setNome(request.getParameter("categoria"));
                     p.setCategoria(c);
+
                     try
                     {
-                        p.uploadFoto(request.getPart("fotoProfilo"), getServletContext().getInitParameter("uploadpath"));
+                        p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
                     }
                     catch (IOException e)
                     {
@@ -136,8 +139,54 @@ public class ProdottoManager extends HttpServlet {
                         request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
                         request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                     }
+                    try {
+                        ProdottoDAO.doSave(p);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    break;
+                case "/updateProdotto":
+                    p = new Prodotto();
+                    p.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN")));
+                    p.setNome(request.getParameter("nome"));
+                    p.setPrezzo(convert(request.getParameter("prezzo")));
+                    p.setPeso(convert(request.getParameter("peso")));
+                    p.setVolumeOccupato(convert(request.getParameter("volumeOccupato")));
+                    p.setDescrizione(request.getParameter("descrizione"));
+                    Categoria c1 = new Categoria();
+                    c1.setNome(request.getParameter("categoria"));
+                    p.setCategoria(c1);
+                    if(request.getPart("foto") != null){
+                        try
+                        {
+                            p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
+                        }
+                        catch (IOException e)
+                        {
+                            request.setAttribute("exceptionStackTrace", e.getMessage());
+                            request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        }
+                    }
+                    else{
+
+                        int ian = Integer.parseInt(request.getParameter("codiceIAN"));
+                        String name = null;
+                        try {
+                            name = ProdottoDAO.doRetrieveByID(ian).getFoto();
+                        } catch (SQLException throwables) {
+                            throwables.printStackTrace();
+                        }
+                        p.setFoto(name);
+
+
+                    }
+                    try {
+                        ProdottoDAO.doUpdate(p);
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                 break;
-                case: //TODO
             }
             response.sendRedirect(request.getContextPath() + "/ProdottoManager");
             return;
@@ -155,7 +204,7 @@ public class ProdottoManager extends HttpServlet {
         return -0.1F;
     }
 
-    private List<Categoria> retriveCategoria()
+    private List<Categoria> retrieveCategoria()
     {
         try {
             return CategoriaDAO.doRetrieveAll();
