@@ -149,6 +149,10 @@ public class ProdottoManager extends HttpServlet {
                     break;
 
                 case "/updateProdotto":
+
+                    if(convert(request.getParameter("prezzo")) == -0.1F || convert(request.getParameter("peso")) == -0.1F || convert(request.getParameter("volumeOccupato")) == -0.1F)
+                        return;
+
                     p = new Prodotto();
                     p.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN")));
                     p.setNome(request.getParameter("nome"));
@@ -212,8 +216,8 @@ public class ProdottoManager extends HttpServlet {
             return Float.parseFloat(c);
         }catch (NumberFormatException e){
             e.printStackTrace();
+            return -0.1F;
         }
-        return -0.1F;
     }
 
     private List<Categoria> retrieveCategoria()

@@ -53,6 +53,14 @@
                               </form>
                            </c:if>
                         </td>
+                        <td>
+                           <c:if test="${inventario.responsabile.CF == utente.CF}">
+                              <form method="post" action="GiacenzeManager/">
+                                 <button type="submit" class="tdSmall" name="codiceInventario&CF" value="${inventario.codiceInventario},${inventario.responsabile.CF}">AddProduct</button>
+                              </form>
+                           </c:if>
+                        </td>
+
                      </tr>
                   </c:forEach>
                </table>

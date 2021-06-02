@@ -1,5 +1,6 @@
 package UniMartTeam.model.Beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Inventario
@@ -84,8 +85,23 @@ public class Inventario
       this.possiedeList = possiedeList;
    }
 
+   @Override
+   public String toString() {
+      return "Inventario{" +
+              "codiceInventario=" + codiceInventario +
+              ", indirizzo='" + indirizzo + '\'' +
+              ", regione='" + regione + '\'' +
+              ", nome='" + nome + '\'' +
+              ", note='" + note + '\'' +
+              ", responsabile=" + responsabile.getNome() +
+              '}';
+   }
+
    public void addPossiedeList(Possiede element)
    {
+      if(possiedeList == null)
+         possiedeList = new ArrayList<>();
+
       if (element != null)
          possiedeList.add(element);
    }

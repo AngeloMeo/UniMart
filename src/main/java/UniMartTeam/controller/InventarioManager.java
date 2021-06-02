@@ -39,7 +39,7 @@ public class InventarioManager extends HttpServlet
 
                   try
                   {
-                     inventarioList = InventarioDAO.doRetriveAll();
+                     inventarioList = InventarioDAO.doRetrieveAll();
                   } catch (SQLException e)
                   {
                      request.setAttribute("exceptionStackTrace", e.getMessage());
@@ -120,7 +120,7 @@ public class InventarioManager extends HttpServlet
             }
             break;
 
-            case "/getInventario":
+            case "/getInventario"://TODO spostiamo in get?
             {
                if (request.getParameter("codiceInventario&CF") != null)
                {
@@ -141,7 +141,7 @@ public class InventarioManager extends HttpServlet
                         } catch (SQLException e)
                         {
                            request.setAttribute("exceptionStackTrace", e.getMessage());
-                           request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
+                           request.setAttribute("message", "Errore nel retrieve dell'inventario dal Database(Servlet:InventarioManager Metodo:doPost)");
                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                         }
 

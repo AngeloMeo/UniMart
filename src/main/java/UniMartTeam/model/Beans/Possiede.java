@@ -26,6 +26,15 @@ public class Possiede
       this.prodotto = prodotto;
    }
 
+   @Override
+   public String toString() {
+      return "Possiede{" +
+              "inventario=" + inventario.getCodiceInventario() +
+              ", prodotto=" + prodotto.getNome() +
+              ", giacenza=" + giacenza +
+              '}';
+   }
+
    public float getGiacenza()
    {
       return giacenza;

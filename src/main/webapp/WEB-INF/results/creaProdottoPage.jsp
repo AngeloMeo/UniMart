@@ -47,7 +47,7 @@
             <br>
 
             <label for="volumeOccupato">Volume Occupato</label>
-            <input type="number" id="volumeOccupato" name="volumeOccupato" value="${prodotto.volumeOccupato}">
+            <input type="text" id="volumeOccupato" name="volumeOccupato" value="${prodotto.volumeOccupato}">
 
             <br>
 
