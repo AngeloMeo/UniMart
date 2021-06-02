@@ -4,12 +4,10 @@ import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CategoriaDAO;
-import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -77,7 +75,6 @@ public class ProdottoManager extends HttpServlet {
             response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
     }
 
-//doPost: attento alla foto, se null significa che non c'è bisogno di aggiornare
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
@@ -190,6 +187,15 @@ public class ProdottoManager extends HttpServlet {
                         throwables.printStackTrace();
                     }
                 break;
+                case "/deleteProdotto":
+
+                    try {
+                        ProdottoDAO.doDelete(Integer.parseInt(request.getParameter("codiceIAN")));
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+
+                    break;
             }
             response.sendRedirect(request.getContextPath() + "/ProdottoManager");
             return;

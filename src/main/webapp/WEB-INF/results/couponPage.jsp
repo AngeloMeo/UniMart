@@ -61,7 +61,7 @@
 
       <div id="creaModal" class="creaModal">
          <form class="creaModal-form" method="post">
-            <div class="container">
+            <div class="container" id="panel">
                <h1>Crea Coupon</h1>
                <hr>
                <input type="hidden" name="idCoupon" id="idCoupon" value="null" required/>
