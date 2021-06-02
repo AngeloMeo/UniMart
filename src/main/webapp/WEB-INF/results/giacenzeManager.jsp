@@ -31,7 +31,7 @@
                             <td class="tdSmall">${list.prodotto.codiceIAN}</td>
                             <input type="hidden" name="codiceIAN${index}" value="${list.prodotto.codiceIAN}">
                             <td class="tdSmall">${list.prodotto.nome}</td>
-                            <input type="hidden" name="nome${index}" value="${list.prodotto.nome}">
+
                             <td class="tdSmall">${list.prodotto.categoria.nome}</td>
 
                             <td class="tdSmall">${list.prodotto.prezzo}</td>

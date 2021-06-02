@@ -63,38 +63,73 @@ public class GiacenzeManager extends HttpServlet {
                 switch(path){
 
                     case "/Modify": {
+                        Enumeration<String> paramss = request.getParameterNames();
+                        while(paramss.hasMoreElements()){
+                            String paramName = paramss.nextElement();
+                            System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
+                        }
+
                         String codiceInventario = request.getParameter("codiceInventario");
 
                         Inventario i = fillInventario(request, codiceInventario);
 
                         Enumeration<String> params = request.getParameterNames();
+
                         int index = 0;
+                        Inventario inventarioDummy = new Inventario();
+
+                        String paramName = params.nextElement(); //codiceInventario
+                        inventarioDummy.setCodiceInventario(Integer.parseInt(request.getParameter(paramName)));
+
                         while (params.hasMoreElements()) {
 
-                            String paramName = params.nextElement();
-
-                            System.out.println("Parameter Name : " + paramName + ", Value : " + request.getParameter(paramName));
 
                             List<Possiede> list = i.getPossiedeList();
 
-                            Possiede p = new Possiede();
+                            Possiede fromPage = new Possiede();
 
-                            Inventario inventarioDummy = new Inventario();
-                            inventarioDummy.setCodiceInventario(Integer.parseInt(request.getParameter("codiceInventario")));
-                            p.setInventario(inventarioDummy);
+                            fromPage.setInventario(inventarioDummy);
 
                             Prodotto prodottoDummy = new Prodotto();
-                            //3 parametri null a turno, mutex
-                            //prodottoDummy.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN"+index))); //null
-                            prodottoDummy.setNome(request.getParameter("nome"+index));//null
-                            p.setProdotto(prodottoDummy);
 
-                            p.setGiacenza(Float.parseFloat(request.getParameter("giacenza"+index)));//null
+                            paramName = params.nextElement();//IAN
+                            prodottoDummy.setCodiceIAN(Integer.parseInt(request.getParameter(paramName)));
+                            fromPage.setProdotto(prodottoDummy);
 
-                            if(!list.get(index).equals(p)) {
-                                System.out.println("diverso");
-                                System.out.println(list.get(index).toString());
-                                System.out.println(p.toString());
+                            paramName =params.nextElement();//Giacenza
+                            fromPage.setGiacenza(Float.parseFloat(request.getParameter(paramName)));
+
+                            if(!list.get(index).equals(fromPage)) {
+
+                                Possiede fromDB = list.get(index);
+
+                                if(fromPage.getGiacenza()==0){
+                                    try {
+                                        InventarioDAO.deleteProdottoInventario(fromPage);
+                                    } catch (SQLException throwables) {
+                                        throwables.printStackTrace();
+                                    }
+                                }
+                                else if(fromPage.getGiacenza()>0){
+
+                                    if(fromDB.getGiacenza()==0){
+                                        try {
+                                            InventarioDAO.addProdottoInventario(fromPage);
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    }
+                                    else if(fromDB.getGiacenza()>0){
+                                        try {
+                                            InventarioDAO.updateProdottoInventario(fromPage);
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                    }
+
+                                }
+
+
                             }
                             index++;
                         }

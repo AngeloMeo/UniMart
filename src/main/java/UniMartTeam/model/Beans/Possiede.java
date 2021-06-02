@@ -30,8 +30,8 @@ public class Possiede
 
    @Override
    public String toString() {
-      return getClass().getName()+":"+"Codice Inventario:"+inventario.getCodiceInventario()+" Prodotto:Nome:"+ prodotto.getNome() +
-              " Prodotto:IAN " + /*prodotto.getCodiceIAN() +*/ " Giacenza: " + getGiacenza();//todo correggi
+      return getClass().getName()+":"+"Codice Inventario:"+inventario.getCodiceInventario()+
+              " Prodotto:IAN " + prodotto.getCodiceIAN() + " Giacenza: " + getGiacenza();
    }
 
    @Override
