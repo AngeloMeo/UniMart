@@ -5,7 +5,7 @@
 <html>
    <head>
       <title>${title}</title>
-
+      <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
       <%@include file="general.jsp"%>
 
    </head>

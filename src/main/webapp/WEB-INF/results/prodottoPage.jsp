@@ -26,14 +26,22 @@
                 <th>Nome</th>
                 <th>Categoria</th>
                 <th>Prezzo</th>
+                <th>Foto</th>
             </tr>
         <c:forEach items="${prodottoList}" var="prodotto">
             <tr>
-                <td>${prodotto.codiceIAN}</td>
-                <td>${prodotto.nome}</td>
-                <td>${prodotto.categoria.nome}</td>
-                <td>${prodotto.prezzo}</td>
-                <td>
+                <td class="tdSmall">${prodotto.codiceIAN}</td>
+                <td class="tdSmall">${prodotto.nome}</td>
+                <td class="tdSmall">${prodotto.categoria.nome}</td>
+                <td class="tdSmall">${prodotto.prezzo}</td>
+                <td class="tdSmall">
+                <c:if test="${not empty prodotto.foto}">
+
+                        <img src="file/${prodotto.foto}" height="100" width="100">
+
+                </c:if>
+                </td>
+                <td class="tdSmall">
                 <form method="post" action="ProdottoManager/getProdotto">
                     <button type="submit" class="tdSmall" name="codiceIAN" value="${prodotto.codiceIAN}">Modifica</button>
                 </form>
