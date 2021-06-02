@@ -24,7 +24,7 @@ public class Prodotto
 
    @Override
    public String toString() {
-      return "Prodotto{" +
+      return getClass().getName()+ "{" +
               "codiceIAN=" + codiceIAN +
               ", nome='" + nome + '\'' +
               ", foto='" + foto + '\'' +

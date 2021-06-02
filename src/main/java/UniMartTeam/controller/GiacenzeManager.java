@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 @WebServlet(name = "GiacenzeManager", value = "/GiacenzeManager/*")
@@ -61,6 +62,47 @@ public class GiacenzeManager extends HttpServlet {
             {
                 switch(path){
 
+                    case "/Modify": {
+                        String codiceInventario = request.getParameter("codiceInventario");
+
+                        Inventario i = fillInventario(request, codiceInventario);
+
+                        Enumeration<String> params = request.getParameterNames();
+                        int index = 0;
+                        while (params.hasMoreElements()) {
+
+                            String paramName = params.nextElement();
+
+                            System.out.println("Parameter Name : " + paramName + ", Value : " + request.getParameter(paramName));
+
+                            List<Possiede> list = i.getPossiedeList();
+
+                            Possiede p = new Possiede();
+
+                            Inventario inventarioDummy = new Inventario();
+                            inventarioDummy.setCodiceInventario(Integer.parseInt(request.getParameter("codiceInventario")));
+                            p.setInventario(inventarioDummy);
+
+                            Prodotto prodottoDummy = new Prodotto();
+                            //3 parametri null a turno, mutex
+                            //prodottoDummy.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN"+index))); //null
+                            prodottoDummy.setNome(request.getParameter("nome"+index));//null
+                            p.setProdotto(prodottoDummy);
+
+                            p.setGiacenza(Float.parseFloat(request.getParameter("giacenza"+index)));//null
+
+                            if(!list.get(index).equals(p)) {
+                                System.out.println("diverso");
+                                System.out.println(list.get(index).toString());
+                                System.out.println(p.toString());
+                            }
+                            index++;
+                        }
+
+
+                    }
+                    break;
+
                     case "/addGiacenze": {
 
                         Inventario i = null;
@@ -99,38 +141,10 @@ public class GiacenzeManager extends HttpServlet {
 
                                 if (cfResponsabile.equalsIgnoreCase(utente.getCF())) {
 
-                                    Inventario i = null;
-                                    List<Prodotto> prodotti = null;
-
-                                    try {
-                                        i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + codiceInventario).get(0);//TODO problema in DAO con =
-                                        prodotti = ProdottoDAO.doRetrieveAll();
-                                    } catch (SQLException throwables) {
-                                        throwables.printStackTrace();
-                                    }
-
-                                    ArrayList<Possiede> possiedeArrayList = new ArrayList<>();
-
-                                    for(Prodotto p : prodotti){
-
-                                        Possiede possiede = new Possiede();
-                                        possiede.setInventario(i);
-                                        possiede.setProdotto(p);
-                                        try {
-                                            if(!InventarioDAO.getProdottoInventarioStock(possiede))
-                                                possiede.setGiacenza(0);
-                                        } catch (SQLException throwables) {
-                                            throwables.printStackTrace();
-                                        }
-                                        possiedeArrayList.add(possiede);
-
-                                    }
-
-                                    i.setPossiedeList(possiedeArrayList);
+                                    Inventario i = fillInventario(request, codiceInventario);
 
                                     if (i != null) {
                                         request.setAttribute("inventario", i);
-                                        request.setAttribute("productsList", prodotti);
                                         request.getRequestDispatcher("/WEB-INF/results/giacenzeManager.jsp").forward(request, response);
                                     } else
                                         //errore
@@ -154,6 +168,37 @@ public class GiacenzeManager extends HttpServlet {
 
     }
 
+    private Inventario fillInventario(HttpServletRequest request, String codiceInventario){
+        Inventario i = null;
+        List<Prodotto> prodotti = null;
+
+        try {
+            i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + codiceInventario).get(0);//TODO problema in DAO con =
+            prodotti = ProdottoDAO.doRetrieveAll();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        ArrayList<Possiede> possiedeArrayList = new ArrayList<>();
+
+        for(Prodotto p : prodotti){
+
+            Possiede possiede = new Possiede();
+            possiede.setInventario(i);
+            possiede.setProdotto(p);
+            try {
+                if(!InventarioDAO.getProdottoInventarioStock(possiede))
+                    possiede.setGiacenza(0);
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            possiedeArrayList.add(possiede);
+
+        }
+        i.setPossiedeList(possiedeArrayList);
+
+        return i;
+    }
     @Override
     public void destroy()
     {

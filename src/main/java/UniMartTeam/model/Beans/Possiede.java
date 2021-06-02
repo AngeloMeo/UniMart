@@ -1,5 +1,7 @@
 package UniMartTeam.model.Beans;
 
+import java.util.Objects;
+
 public class Possiede
 {
    private Inventario inventario;
@@ -28,11 +30,13 @@ public class Possiede
 
    @Override
    public String toString() {
-      return "Possiede{" +
-              "inventario=" + inventario.getCodiceInventario() +
-              ", prodotto=" + prodotto.getNome() +
-              ", giacenza=" + giacenza +
-              '}';
+      return getClass().getName()+":"+"Codice Inventario:"+inventario.getCodiceInventario()+" Prodotto:Nome:"+ prodotto.getNome() +
+              " Prodotto:IAN " + /*prodotto.getCodiceIAN() +*/ " Giacenza: " + getGiacenza();//todo correggi
+   }
+
+   @Override
+   public boolean equals(Object p){
+      return this.toString().equals(p.toString());
    }
 
    public float getGiacenza()

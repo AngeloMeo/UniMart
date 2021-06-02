@@ -11,11 +11,11 @@
     <c:set var="index" scope="page" value="0"></c:set>
 
     <c:choose>
-        <c:when test="${prodottoList == null}">
+        <c:when test="${inventario.possiedeList == null}">
             <h1>Nessun prodotto creato...</h1>
         </c:when>
         <c:otherwise>
-            <form action="" method="post">
+            <form action="GiacenzeManager/Modify" method="post">
                 <input type="hidden" name="codiceInventario" id="codiceInventario" value="${inventario.codiceInventario}">
                 <table>
                     <tr>
@@ -26,56 +26,36 @@
                         <th>Foto</th>
                         <th>Giacenza</th>
                     </tr>
-                    <c:forEach items="${productsList}" var="prodotto">
+                    <c:forEach items="${inventario.possiedeList}" var="list">
                         <tr>
-                            <td class="tdSmall">${prodotto.codiceIAN}</td>
-                            <input type="hidden" name="codiceIAN${index}" value="${prodotto.codiceIAN}">
-                            <td class="tdSmall">${prodotto.nome}</td>
-                            <input type="hidden" name="nome${index}" value="${prodotto.nome}">
-                            <td class="tdSmall">${prodotto.categoria.nome}</td>
-                            <input type="hidden" name="catNome${index}" value="${prodotto.categoria.nome}">
-                            <td class="tdSmall">${prodotto.prezzo}</td>
-                            <input type="hidden" name="prezzo${index}" value="${prodotto.prezzo}">
-                            <td class="tdSmall">
-                                <c:if test="${not empty prodotto.foto}">
+                            <td class="tdSmall">${list.prodotto.codiceIAN}</td>
+                            <input type="hidden" name="codiceIAN${index}" value="${list.prodotto.codiceIAN}">
+                            <td class="tdSmall">${list.prodotto.nome}</td>
+                            <input type="hidden" name="nome${index}" value="${list.prodotto.nome}">
+                            <td class="tdSmall">${list.prodotto.categoria.nome}</td>
 
-                                    <img src="file/${prodotto.foto}" height="100" width="100">
+                            <td class="tdSmall">${list.prodotto.prezzo}</td>
+
+                            <td class="tdSmall">
+                                <c:if test="${not empty list.prodotto.foto}">
+
+                                    <img src="file/${list.prodotto.foto}" height="100" width="100">
 
                                 </c:if>
                             </td>
                             <td class="tdSmall">
-                                <input type="number" name="giacenza${index}" value="">
+                                <input type="number" name="giacenza${index}" value="${list.giacenza}">
                             </td>
                         </tr>
+                        <c:set var="index" value="${index+1}"/>
                     </c:forEach>
                 </table>
+                <button type="submit">Salva modifiche</button>
             </form>
         </c:otherwise>
     </c:choose>
 
 
-    <form method="post" action="GiacenzeManager/addGiacenze" >
-        <div>
 
-            <input type="hidden" name="codiceInventario" id="codiceInventario" value="${inventario.codiceInventario}">
-
-            <c:set var="index" scope="page" value="${index}+1"/>
-
-            <label for="prodotto">Prodotto:</label>
-            <select id="prodotto" name="prodotto">
-
-                <c:forEach items="${productsList}" var="products">
-                    <option value="${products.codiceIAN}">${products.nome}</option>
-                </c:forEach>
-
-            </select>
-
-            <label for="giacenza">Giacenza:</label>
-            <input type="number" name="giacenza" id="giacenza">
-
-            <input type="checkbox" name="elimina" id="elimina" value="Elimina" onchange="">/*disabilita gli altri campi*/
-        </div>
-        <button type="submit">Invio</button>
-    </form>
 </body>
 </html>
