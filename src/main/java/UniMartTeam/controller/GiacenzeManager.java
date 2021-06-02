@@ -109,6 +109,25 @@ public class GiacenzeManager extends HttpServlet {
                                         throwables.printStackTrace();
                                     }
 
+                                    ArrayList<Possiede> possiedeArrayList = new ArrayList<>();
+
+                                    for(Prodotto p : prodotti){
+
+                                        Possiede possiede = new Possiede();
+                                        possiede.setInventario(i);
+                                        possiede.setProdotto(p);
+                                        try {
+                                            if(!InventarioDAO.getProdottoInventarioStock(possiede))
+                                                possiede.setGiacenza(0);
+                                        } catch (SQLException throwables) {
+                                            throwables.printStackTrace();
+                                        }
+                                        possiedeArrayList.add(possiede);
+
+                                    }
+
+                                    i.setPossiedeList(possiedeArrayList);
+
                                     if (i != null) {
                                         request.setAttribute("inventario", i);
                                         request.setAttribute("productsList", prodotti);
