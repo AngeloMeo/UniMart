@@ -18,7 +18,7 @@ public class InventarioManager extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/InventarioManager", "");
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 
@@ -79,7 +79,7 @@ public class InventarioManager extends HttpServlet
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/InventarioManager", "");
       HttpSession session = request.getSession();
       Utente utente = (Utente) session.getAttribute("utente");
 

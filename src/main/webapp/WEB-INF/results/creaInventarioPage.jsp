@@ -39,11 +39,11 @@
 
          <c:choose>
             <c:when test="${inventario.codiceInventario == null}">
-               <button type="submit" formaction="./creaInventario">Crea Nuovo Inventario</button>
+               <button type="submit" formaction="InventarioManager/creaInventario">Crea Nuovo Inventario</button>
             </c:when>
             <c:otherwise>
-               <button type="submit" formaction="./updateInventario">Modifica Inventario</button>
-               <button type="submit" formaction="./deleteInventario">Elimina Inventario</button>
+               <button type="submit" formaction="InventarioManager/updateInventario">Modifica Inventario</button>
+               <button type="submit" formaction="InventarioManager/deleteInventario">Elimina Inventario</button>
             </c:otherwise>
          </c:choose>
       </form>

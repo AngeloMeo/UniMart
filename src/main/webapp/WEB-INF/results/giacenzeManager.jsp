@@ -4,9 +4,9 @@
 <head>
     <title>${title}</title>
     <%@include file="general.jsp"%>
-    <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
+    <link href="../css/adminPages.css" type="text/css" rel="stylesheet">
 </head>
-<body>
+<body class="sidenavpresent">
     <%@include file="adminPanel.jsp" %>
     <c:set var="index" scope="page" value="0"></c:set>
 
