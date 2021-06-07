@@ -163,7 +163,8 @@ public class ProdottoManager extends HttpServlet {
                     Categoria c1 = new Categoria();
                     c1.setNome(request.getParameter("categoria"));
                     p.setCategoria(c1);
-                    if(request.getPart("foto") != null){
+
+                    if(!request.getPart("foto").getSubmittedFileName().isEmpty() && request.getPart("foto") != null){
                         try
                         {
                             p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
@@ -176,7 +177,6 @@ public class ProdottoManager extends HttpServlet {
                         }
                     }
                     else{
-
                         int ian = Integer.parseInt(request.getParameter("codiceIAN"));
                         String name = null;
                         try {
@@ -185,8 +185,6 @@ public class ProdottoManager extends HttpServlet {
                             throwables.printStackTrace();
                         }
                         p.setFoto(name);
-
-
                     }
                     try {
                         ProdottoDAO.doUpdate(p);

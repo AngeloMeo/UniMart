@@ -39,7 +39,7 @@
             <br>
 
             <c:if test="${not empty prodotto.foto}">
-                <img src="file/${prodotto.foto}" height="100" width="100">
+                <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
             </c:if>
             <label for="foto">Foto</label>
             <input type="file" id="foto" name="foto">

@@ -66,7 +66,6 @@ public class GiacenzeManager extends HttpServlet {
                         Enumeration<String> paramss = request.getParameterNames();
                         while(paramss.hasMoreElements()){
                             String paramName = paramss.nextElement();
-                            System.out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
                         }
 
                         String codiceInventario = request.getParameter("codiceInventario");
@@ -182,6 +181,7 @@ public class GiacenzeManager extends HttpServlet {
                                         request.setAttribute("inventario", i);
                                         request.setAttribute("forward", true);
                                         request.getRequestDispatcher("/WEB-INF/results/giacenzeManager.jsp").forward(request, response);
+                                        return;
                                     } else
                                         //errore
                                         System.out.println("errore");
