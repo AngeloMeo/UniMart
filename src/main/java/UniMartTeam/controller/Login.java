@@ -62,7 +62,6 @@ public class Login extends HttpServlet
    @Override
    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      //TODO aggiungere controllo in creaUtente.jsp in modo tale da impedire l'uso della @ come carattere per username
       String usernameEmail = request.getParameter("usernameEmail");
       String password = request.getParameter("password");
 
@@ -98,7 +97,6 @@ public class Login extends HttpServlet
 
       fromDB.setPassword("");
       ssn.setAttribute("utente", fromDB);
-      ssn.setMaxInactiveInterval(500);
 
       doGet(request, response);
    }

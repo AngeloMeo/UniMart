@@ -174,4 +174,21 @@ public class CouponManager extends HttpServlet
 
       request.getRequestDispatcher("/WEB-INF/results/couponPage.jsp").forward(request, response);
    }
+
+   @Override
+   public void destroy()
+   {
+      try
+      {
+         ConPool.deleteConnection();
+      }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+      }
+      finally
+      {
+         super.destroy();
+      }
+   }
 }

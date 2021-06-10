@@ -13,5 +13,6 @@
         <a href="${path}./InventarioManager">Inventario</a>
         <a href="${path}./CategoriaManager">Categoria</a>
         <a href="${path}./ProdottoManager">Prodotti</a>
+        <a href="${path}./UtenteManager">Utenti</a>
     </div>
 </nav>

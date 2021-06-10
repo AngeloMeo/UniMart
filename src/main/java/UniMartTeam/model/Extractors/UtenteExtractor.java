@@ -22,6 +22,7 @@ public class UtenteExtractor
          u.setNome(rs.getString(alias + "nome"));
          u.setCognome(rs.getString(alias + "cognome"));
          u.setViaCivico(rs.getString(alias + "viaCivico"));
+         u.setUsername(rs.getString(alias + "username"));
          u.setFotoProfilo(rs.getString(alias + "fotoProfilo"));
          u.setCitta(rs.getString(alias + "citta"));
          u.setRegione(rs.getString(alias + "regione"));

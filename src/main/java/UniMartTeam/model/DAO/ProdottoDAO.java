@@ -181,7 +181,6 @@ public class ProdottoDAO
          }
       }
    }
-//TODO case? che roba è?
    public static List<Prodotto> doRetrieveByCond(int type, String param) throws SQLException
    {
       if (param.isEmpty())
