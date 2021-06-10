@@ -27,10 +27,9 @@ public class ProdottoManager extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-        HttpSession session = request.getSession();
-        Utente utente = (Utente) session.getAttribute("utente");
+        Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-        if(session != null && utente != null)
+        if(utente != null)
         {
             if(utente.getTipo().equals(TipoUtente.Amministratore))
             {
@@ -79,10 +78,9 @@ public class ProdottoManager extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-        HttpSession session = request.getSession();
-        Utente utente = (Utente) session.getAttribute("utente");
+        Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-        if(session != null && utente != null && !utente.getCF().isEmpty()) {
+        if(utente != null && !utente.getCF().isEmpty()) {
 
             if (!utente.getTipo().equals(TipoUtente.Amministratore)) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");

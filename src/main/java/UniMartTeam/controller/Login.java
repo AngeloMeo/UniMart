@@ -52,11 +52,10 @@ public class Login extends HttpServlet
             break;
 
          case "/Logout":
-            request.getSession().invalidate();
+            SessionManager.invalidateSession(request);
             response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
             break;
       }
-
    }
 
    @Override
@@ -92,11 +91,11 @@ public class Login extends HttpServlet
          return;
       }
 
-      request.getSession().invalidate();
-      HttpSession ssn = request.getSession(true);
-
       fromDB.setPassword("");
-      ssn.setAttribute("utente", fromDB);
+
+      SessionManager.invalidateSession(request);
+      SessionManager sessionManager = new SessionManager(request, true);
+      sessionManager.setAttribute(fromDB, "utente");
 
       doGet(request, response);
    }

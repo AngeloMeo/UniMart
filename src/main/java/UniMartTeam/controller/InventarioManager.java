@@ -19,10 +19,10 @@ public class InventarioManager extends HttpServlet
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/InventarioManager", "");
-      HttpSession session = request.getSession();
-      Utente utente = (Utente) session.getAttribute("utente");
+      SessionManager sessionManager = new SessionManager(request);
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
 
-      if(session != null && utente != null)
+      if(utente != null)
       {
          if(utente.getTipo().equals(TipoUtente.Amministratore))
          {
@@ -31,10 +31,10 @@ public class InventarioManager extends HttpServlet
                case "/":
                   List<Inventario> inventarioList = null;
 
-                  if(session.getAttribute("ultimoInventario") != null)
+                  if(sessionManager.getObjectFromSession("ultimoInventario") != null)
                   {
-                     request.setAttribute("ultimoInventario", session.getAttribute("ultimoInventario"));
-                     session.removeAttribute("ultimoInventario");
+                     request.setAttribute("ultimoInventario", sessionManager.getObjectFromSession("ultimoInventario"));
+                     sessionManager.removeAttribute("ultimoInventario");
                   }
 
                   try
@@ -80,10 +80,10 @@ public class InventarioManager extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/InventarioManager", "");
-      HttpSession session = request.getSession();
-      Utente utente = (Utente) session.getAttribute("utente");
+      SessionManager sessionManager = new SessionManager(request);
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
 
-      if(session != null && utente != null && !utente.getCF().isEmpty())
+      if(utente != null && !utente.getCF().isEmpty())
       {
          if(!utente.getTipo().equals(TipoUtente.Amministratore))
          {
@@ -108,7 +108,7 @@ public class InventarioManager extends HttpServlet
                   try
                   {
                      inventario.setCodiceInventario(InventarioDAO.doSave(inventario));
-                     session.setAttribute("ultimoInventario", inventario);
+                     sessionManager.setAttribute(inventario, "ultimoInventario");
                   }
                   catch (SQLException e)
                   {

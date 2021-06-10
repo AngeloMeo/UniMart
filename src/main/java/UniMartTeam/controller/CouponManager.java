@@ -3,10 +3,8 @@ package UniMartTeam.controller;
 import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CouponDAO;
-import UniMartTeam.model.DAO.UtenteDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -21,20 +19,20 @@ public class CouponManager extends HttpServlet
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-      HttpSession session = request.getSession();
-      Utente utente = (Utente) session.getAttribute("utente");
+      SessionManager sessionManager = new SessionManager(request);
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
 
-      if(session != null && utente != null)
+      if(utente != null)
       {
          if(utente.getTipo().equals(TipoUtente.Amministratore))
          {
             switch (path)
             {
                case "/":
-                  if(session.getAttribute("ultimoCoupon") != null)
+                  if(sessionManager.getObjectFromSession("ultimoCoupon") != null)
                   {
-                     request.setAttribute("ultimoCoupon", session.getAttribute("ultimoCoupon"));
-                     session.removeAttribute("ultimoCoupon");
+                     request.setAttribute("ultimoCoupon", sessionManager.getObjectFromSession("ultimoCoupon"));
+                     sessionManager.removeAttribute("ultimoCoupon");
                   }
 
                   listCoupon(request, response);
@@ -54,11 +52,11 @@ public class CouponManager extends HttpServlet
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String path = request.getPathInfo();
-      HttpSession session = request.getSession();
-      Utente utente = (Utente) session.getAttribute("utente");
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+      SessionManager sessionManager = new SessionManager(request);
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
 
-      if(session != null && utente != null && !utente.getCF().isEmpty())
+      if(utente != null && !utente.getCF().isEmpty())
       {
          if(!utente.getTipo().equals(TipoUtente.Amministratore))
          {
@@ -88,7 +86,7 @@ public class CouponManager extends HttpServlet
                      request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
                   }
 
-                  session.setAttribute("ultimoCoupon", coupon);
+                  sessionManager.setAttribute(coupon, "ultimoCoupon");
                }
             }
             break;

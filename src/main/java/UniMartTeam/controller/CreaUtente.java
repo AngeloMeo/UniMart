@@ -25,7 +25,6 @@ public class CreaUtente extends HttpServlet
    @Override
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      //TODO validator class
       if(request.getParameter("CF") != null && !request.getParameter("username").contains("@"))
       {
          Utente utente = new Utente();
@@ -57,7 +56,6 @@ public class CreaUtente extends HttpServlet
 
          if(utente.validateObject())
          {
-
             try
             {
                UtenteDAO.doSave(utente);
@@ -71,7 +69,7 @@ public class CreaUtente extends HttpServlet
 
             utente.setPasswordHash("");
 
-            request.getSession().invalidate();
+            SessionManager.invalidateSession(request);
             request.setAttribute("utente", utente);
          }
 

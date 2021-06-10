@@ -1,13 +1,10 @@
 package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Categoria;
-import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CategoriaDAO;
-import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,16 +16,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 @WebServlet(name = "CategoriaManager", value = "/CategoriaManager/*")
-public class CategoriaManager extends HttpServlet {
-
-
+public class CategoriaManager extends HttpServlet
+{
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
-        HttpSession session = request.getSession();
-        Utente utente = (Utente) session.getAttribute("utente");
+        Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-        if(session != null && utente != null)
+        if(utente != null)
         {
             if(utente.getTipo().equals(TipoUtente.Amministratore))
             {
@@ -49,15 +44,14 @@ public class CategoriaManager extends HttpServlet {
             response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
     }
 
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String path = request.getPathInfo();
         HttpSession session = request.getSession();
-        Utente utente = (Utente) session.getAttribute("utente");
+        Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-        if(session != null && utente != null && !utente.getCF().isEmpty())
+        if(utente != null && !utente.getCF().isEmpty())
         {
             if(!utente.getTipo().equals(TipoUtente.Amministratore))
             {
@@ -102,7 +96,6 @@ public class CategoriaManager extends HttpServlet {
                         }
                         catch (SQLException e)
                         {
-
                             request.setAttribute("exceptionStackTrace", e.getMessage());
                             request.setAttribute("message", "Errore nel eliminazione della categoria dal Database(Servlet:CategoriaManager Metodo:doPost)");
                             request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);

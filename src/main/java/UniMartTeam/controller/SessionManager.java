@@ -23,10 +23,25 @@ public class SessionManager
       }
    }
 
+   public SessionManager(HttpServletRequest request, boolean createNew)
+   {
+      if(request != null)
+      {
+         this.session = request.getSession(createNew);
+         this.session.setMaxInactiveInterval(interval);
+      }
+   }
+
    public void setMaxInactiveInterval(int interval)
    {
       if(session != null)
          session.setMaxInactiveInterval(interval);
+   }
+
+   public static void invalidateSession(HttpServletRequest request)
+   {
+      if(request != null)
+         request.getSession().invalidate();
    }
 
    public HttpSession getSession()
@@ -41,7 +56,7 @@ public class SessionManager
 
    public Object getObjectFromSession(String nameParam)
    {
-     if(session == null)
+     if(checkParam(nameParam))
          return null;
       else
       {
@@ -51,37 +66,42 @@ public class SessionManager
       }
    }
 
-   public boolean setAttribute(Object obj, String nomeParam)
+   public boolean setAttribute(Object obj, String nameParam)
    {
-      if(obj == null && nomeParam.isEmpty() && session == null)
+      if(obj == null && checkParam(nameParam))
          return false;
       else
-         session.setAttribute(nomeParam, obj);
+         session.setAttribute(nameParam, obj);
 
       return true;
    }
 
-   public boolean removeAttribute(String nomeParam)
+   public boolean removeAttribute(String nameParam)
    {
-      if(nomeParam.isEmpty() && session == null)
+      if(checkParam(nameParam))
          return false;
       else
-         session.removeAttribute(nomeParam);
+         session.removeAttribute(nameParam);
 
       return true;
    }
 
    public static Object getObjectFromSession(HttpServletRequest request, String nameParam)
    {
-      HttpSession session = request.getSession();
+      SessionManager sessionManager = new SessionManager(request);
 
-      if(session == null)
+      if(sessionManager.checkParam(nameParam))
          return null;
       else
       {
-         Object obj = session.getAttribute(nameParam);
+         Object obj = sessionManager.getObjectFromSession(nameParam);
 
          return (obj == null) ? null : obj;
       }
+   }
+
+   private boolean checkParam(String nameParam)
+   {
+      return (session == null && nameParam != null && nameParam.isEmpty());
    }
 }
