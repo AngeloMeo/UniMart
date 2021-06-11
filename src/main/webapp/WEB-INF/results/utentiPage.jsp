@@ -6,6 +6,26 @@
 
       <%@include file="general.jsp" %>
       <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
+      <script type="text/javascript" src="./js/utentiPage/utentiPage.js" defer></script>
+      <script>
+          $(document).ready(
+              function () {
+                  $(".tipoUtente").click(
+                      function () {
+                        $.post("./UtenteManager/modificaTipo",
+                         {
+                             cfUtente: $(this).siblings(".cfUtente").text()
+                         },
+                         function(data, status)
+                         {
+                             var obj = JSON.parse(data);
+                             $("#" + obj.CF).html(obj.CF + "<span class='tooltiptext'>" + $("span").html() + "</span>");
+                         });
+                      }
+                  )
+              }
+          );
+      </script>
    </head>
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>
@@ -28,11 +48,14 @@
                <c:forEach items="${requestScope.utenteList}" var="utenteItem">
                   <c:if test="${sessionScope.utente.CF != utenteItem.CF}">
                      <tr>
-                        <td>${utenteItem.CF}</td>
+                        <td class="cfUtente">${utenteItem.CF}</td>
                         <td>${utenteItem.username}</td>
                         <td>${utenteItem.nome}</td>
                         <td>${utenteItem.cognome}</td>
-                        <td>${utenteItem.tipo}</td>
+                        <td class="tipoUtente tooltip" id="${utenteItem.CF}">
+                           ${utenteItem.tipo}
+                           <span class="tooltiptext">Click Per Cambiare Tipo Utente</span>
+                        </td>
                         <td>${utenteItem.telefono}</td>
                         <td>${utenteItem.viaCivico}</td>
                      </tr>

@@ -5,6 +5,7 @@ import UniMartTeam.model.EnumForBeans.TipoUtente;
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -15,7 +16,7 @@ import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Utente
+public class Utente implements Serializable
 {
    private String CF, nome, cognome, viaCivico, fotoProfilo, citta, regione, telefono, email, username, passwordHash;
    private TipoUtente tipoUtente;
