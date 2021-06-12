@@ -47,7 +47,7 @@ input {
     margin: 2% 25%;
 }
 
-#button {
+.button {
     height: 2%;
     width: 100%;
     align-items: center;

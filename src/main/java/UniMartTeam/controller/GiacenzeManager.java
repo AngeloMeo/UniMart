@@ -205,7 +205,7 @@ public class GiacenzeManager extends HttpServlet
 
       try
       {
-         i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + codiceInventario).get(0);//TODO problema in DAO con =
+         i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + codiceInventario).get(0);
          prodotti = ProdottoDAO.doRetrieveAll();
       }
       catch (SQLException throwables)

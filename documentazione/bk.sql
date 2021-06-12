@@ -4,7 +4,6 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
 DROP DATABASE IF EXISTS `unimart`;
 CREATE DATABASE IF NOT EXISTS `unimart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `unimart`;
@@ -26,7 +25,6 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `categoria`;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
 INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
 	('frutta secca', 10);
@@ -43,23 +41,22 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
 INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
-	(3, 'Riscattato', 10, 'ERFDPG92A23L322U'),
+	(3, 'Disponibile', 10, 'ERFDPG92A23L322U'),
 	(4, 'Disponibile', 100, 'ERFDPG92A23L322U'),
 	(5, 'Disponibile', 1, 'ERFDPG92A23L322U'),
 	(6, 'Disponibile', 3, 'ERFDPG92A23L322U'),
 	(7, 'Disponibile', 2, 'ERFDPG92A23L322U'),
 	(8, 'Disponibile', 4, 'ERFDPG92A23L322U'),
-	(9, 'Riscattato', 6, 'ERFDPG92A23L322U'),
+	(9, 'Disponibile', 6, 'ERFDPG92A23L322U'),
 	(10, 'Disponibile', 7, 'ERFDPG92A23L322U'),
 	(11, 'Disponibile', 7, 'ERFDPG92A23L322U'),
 	(12, 'Disponibile', 12, 'ERFDPG92A23L322U'),
 	(13, 'Disponibile', 50, 'ERFDPG92A23L322U'),
-	(14, 'Riscattato', 60, 'ERFDPG92A23L322U'),
+	(14, 'Disponibile', 60, 'ERFDPG92A23L322U'),
 	(17, 'Disponibile', 0.5, 'ERFDPG92A23L322U'),
-	(18, 'Riscattato', 6, 'ERFDPG92A23L322U'),
+	(18, 'Disponibile', 6, 'ERFDPG92A23L322U'),
 	(19, 'Disponibile', 59, 'ERFDPG92A23L322U'),
 	(20, 'Disponibile', 2, 'ERFDPG92A23L322U'),
 	(39, 'Disponibile', 89, 'test'),
@@ -80,8 +77,9 @@ CREATE TABLE IF NOT EXISTS `coupon_applicato` (
   CONSTRAINT `FK_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `coupon_applicato`;
 /*!40000 ALTER TABLE `coupon_applicato` DISABLE KEYS */;
+INSERT INTO `coupon_applicato` (`idCoupon`, `idOrdine`) VALUES
+	(44, 1);
 /*!40000 ALTER TABLE `coupon_applicato` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `inventario`;
@@ -97,7 +95,6 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
 	(1, 'via po, 2', 'Campania', 'euroCampania', 'Magazzino alimentare', 'test'),
@@ -117,13 +114,12 @@ CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
   CONSTRAINT `FK__prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine`;
 CREATE TABLE IF NOT EXISTS `ordine` (
-  `numeroOrdine` int NOT NULL,
+  `numeroOrdine` int NOT NULL AUTO_INCREMENT,
   `stato` enum('salvato','accettato','preparazione','spedito','in consegna','consegnato','annullato') NOT NULL,
   `feedback` text,
   `ricevutaPagamento` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -136,10 +132,12 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
+INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`) VALUES
+	(1, 'salvato', 'ok', 'tutto ok', '2021-06-12 18:52:11', 'we', 1),
+	(3, 'salvato', 'tutto bene', '45', '2021-06-12 18:52:11', 'we', 3);
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -154,7 +152,6 @@ CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
   CONSTRAINT `FK_ordine_prodotto_prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `ordine_prodotto`;
 /*!40000 ALTER TABLE `ordine_prodotto` DISABLE KEYS */;
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
@@ -173,7 +170,6 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
 	(1, 'abbracci', 15, 10, '', 2, 'biscotti buoni', 'frutta secca');
@@ -187,7 +183,6 @@ CREATE TABLE IF NOT EXISTS `spedizione` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `spedizione`;
 /*!40000 ALTER TABLE `spedizione` DISABLE KEYS */;
 INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
 	(1, 'eco', 5.99),
@@ -215,7 +210,6 @@ CREATE TABLE IF NOT EXISTS `utente` (
   UNIQUE KEY `Indice 4` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-DELETE FROM `utente`;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
 INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
 	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
@@ -227,6 +221,24 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
 	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'we', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
+
+DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
+	UPDATE coupon c SET c.stato = 'Riscattato' WHERE c.numeroCoupon = NEW.idCoupon; 
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+DROP TRIGGER IF EXISTS `coupon_before_delete`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
+	UPDATE coupon c SET c.stato = 'Disponibile' WHERE c.numeroCoupon = OLD.idCoupon; 
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

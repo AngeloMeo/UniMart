@@ -10,15 +10,25 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(name = "UtenteManager", value = "/UtenteManager/*")
+@MultipartConfig
 public class UtenteManager extends HttpServlet
 {
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/UtenteManager", "");
+
+      if (path.equalsIgnoreCase("/creaUtente") || path.equalsIgnoreCase("/modificaProfilo"))
+      {
+         request.setAttribute("forward", true);
+         request.getRequestDispatcher("/WEB-INF/results/creaModificaUtente.jsp").forward(request, response);
+         return;
+      }
+
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
       if(utente != null)
@@ -68,19 +78,89 @@ public class UtenteManager extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/UtenteManager", "");
+
+      if((path.equalsIgnoreCase("/CreaUtente") || path.equalsIgnoreCase("/modificaProfilo")) && request.getParameter("CF") != null && !request.getParameter("username").contains("@"))
+      {
+         Utente utente = new Utente();
+
+         if(path.equalsIgnoreCase("/CreaUtente"))
+            utente.setCF(request.getParameter("CF"));
+         else
+         {
+            utente.setCF(((Utente)SessionManager.getObjectFromSession(request, "utente")).getCF());
+            utente.setTipo(((Utente)SessionManager.getObjectFromSession(request, "utente")).getTipo());
+         }
+
+         utente.setCognome(request.getParameter("cognome"));
+         utente.setNome(request.getParameter("nome"));
+         utente.setViaCivico(request.getParameter("viaCivico"));
+         utente.setCitta(request.getParameter("citta"));
+         utente.setTelefono(request.getParameter("telefono"));
+         utente.setRegione(request.getParameter("regione"));
+         utente.setEmail(request.getParameter("email"));
+         utente.setUsername(request.getParameter("username"));
+         utente.setPasswordHash(request.getParameter("password"));
+
+         if (request.getParameter("dataDiNascita") != null)
+            utente.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
+
+         try
+         {
+            utente.uploadFoto(request.getPart("fotoProfilo"), getServletContext().getInitParameter("uploadpath"));
+         } catch (IOException e)
+         {
+            request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+            return;
+         }
+
+         if (utente.validateObject())
+         {
+            try
+            {
+               if(path.equalsIgnoreCase("/modificaProfilo"))
+                  UtenteDAO.doUpdate(utente);
+               else
+                  UtenteDAO.doSave(utente);
+            }
+            catch (SQLException e)
+            {
+               request.setAttribute("message", "Errore nel salvataggio dell'utente nel Database(Servlet:CreaUtente Metodo:doPost)");
+               request.setAttribute("exceptionStackTrace", e.getStackTrace());
+               response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+               return;
+            }
+
+            utente.setPasswordHash("");
+
+            SessionManager.invalidateSession(request);
+            SessionManager sessionManager = new SessionManager(request);
+            sessionManager.setAttribute(utente, "utente");
+
+            request.getRequestDispatcher("/WEB-INF/results/reportPage.jsp").forward(request, response);
+            return;
+         }
+      }
+      else
+      {
+         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+         return;
+      }
+
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-      if(utente != null)
+      if (utente != null)
       {
-         if(utente.getTipo().equals(TipoUtente.Amministratore))
+         switch (path)
          {
-            switch (path)
+            case "/modificaTipo":
             {
-               case "/modificaTipo":
+               if (utente.getTipo().equals(TipoUtente.Amministratore))
                {
                   String cfUtente = request.getParameter("cfUtente");
 
-                  if(cfUtente != null)
+                  if (cfUtente != null)
                   {
                      Utente utenteRequest = new Utente();
                      utenteRequest.setCF(cfUtente);
@@ -95,8 +175,7 @@ public class UtenteManager extends HttpServlet
                            utenteRequest.setTipo(TipoUtente.Semplice);
 
                         UtenteDAO.doUpdate(utenteRequest);
-                     }
-                     catch (SQLException e)
+                     } catch (SQLException e)
                      {
                         request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:UtenteManager Metodo:modificaTipo)");
                         request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -110,15 +189,15 @@ public class UtenteManager extends HttpServlet
                      response.getWriter().println(json.toJson(utenteRequest));
                   }
                }
-               break;
-
-               default:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-                  break;
+               else
+                  response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
             }
+            break;
+
+            default:
+               response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+               break;
          }
-         else
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/Login");

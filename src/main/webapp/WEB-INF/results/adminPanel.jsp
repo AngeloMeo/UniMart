@@ -14,5 +14,7 @@
         <a href="${path}./CategoriaManager">Categoria</a>
         <a href="${path}./ProdottoManager">Prodotti</a>
         <a href="${path}./UtenteManager">Utenti</a>
+        <a href="${path}./OrdiniManager">Ordini</a>
+        <a href="${path}./UtenteManager/modificaProfilo">Modifica Profilo</a>
     </div>
 </nav>

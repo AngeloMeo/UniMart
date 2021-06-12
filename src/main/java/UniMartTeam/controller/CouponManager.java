@@ -81,9 +81,10 @@ public class CouponManager extends HttpServlet
                      coupon.setNumeroCoupon(CouponDAO.doSave(coupon));
                   } catch (SQLException e)
                   {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel salvataggio del coupon nel Database(Servlet:CouponMAnager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
 
                   sessionManager.setAttribute(coupon, "ultimoCoupon");

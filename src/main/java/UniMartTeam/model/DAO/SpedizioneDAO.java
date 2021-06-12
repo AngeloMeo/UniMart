@@ -158,4 +158,26 @@ public class SpedizioneDAO
       }
       return true;
    }
+
+   public static Spedizione doRetriveById(int id) throws SQLException
+   {
+      try(Connection con = ConPool.getConnection())
+      {
+         QueryBuilder query = new QueryBuilder("spedizione", "s").select().where("ID=?");
+
+         try(PreparedStatement ps = con.prepareStatement(query.getQuery()))
+         {
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            if(rs.next())
+            {
+               Spedizione s = SpedizioneExtractor.Extract(rs, "s");
+               return s;
+            }
+
+            return null;
+         }
+      }
+   }
 }

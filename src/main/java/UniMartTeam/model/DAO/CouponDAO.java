@@ -144,7 +144,7 @@ public class CouponDAO
       {
          QueryBuilder qb = new QueryBuilder("coupon", "c");
          qb.select("c.numeroCoupon", "c.stato", "c.sconto", "c.cfCreatore AS CF", "ca.idOrdine AS numeroOrdine");
-         qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").where("numeroOrdine=" + o.getNumeroOrdine());
+         qb.outerJoin("coupon_applicato", "ca",1).on("ca.idCoupon=c.numeroCoupon").where("ca.idOrdine='" + o.getNumeroOrdine()+"'");
 
          try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
          {

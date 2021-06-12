@@ -11,7 +11,7 @@
 
       <c:if test="${not empty utente.fotoProfilo}">
          <div>
-            <img src="file/${utente.fotoProfilo}" height="200" width="200">
+            <img src="${pageContext.request.contextPath}/file/${utente.fotoProfilo}" height="200" width="200">
          </div>
       </c:if>
 

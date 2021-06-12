@@ -146,12 +146,12 @@ public class OrdineDAO
 
       while (rs.next())
       {
-         Utente utente = UtenteExtractor.Extract(rs, "");
-         Spedizione spedizione = SpedizioneExtractor.Extract(rs, "");
+         Utente utente = UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'" + rs.getString("cfCliente") + "'").get(0);
+         Spedizione spedizione = SpedizioneDAO.doRetriveById(rs.getInt("ID"));
          Ordine ordine = OrdineExtractor.Extract(rs, "", utente, null, spedizione);
          Coupon coupon = CouponDAO.doRetrieveByCond(ordine);
-
          ordine.setCoupon(coupon);
+
          list.add(ordine);
       }
 
