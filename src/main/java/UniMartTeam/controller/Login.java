@@ -79,9 +79,10 @@ public class Login extends HttpServlet
       }
       catch (SQLException e)
       {
-         request.setAttribute("exceptionStackTrace", e.getMessage());
          request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:Login Metodo:doPost)");
-         request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+         request.setAttribute("exceptionStackTrace", e.getStackTrace());
+         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+         return;
       }
 
       if (fromDB == null || !fromDB.getPasswordHash().equals(dummy.getPasswordHash()))

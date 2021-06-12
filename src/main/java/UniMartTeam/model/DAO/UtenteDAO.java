@@ -54,12 +54,10 @@ public class UtenteDAO
          QueryBuilder qb = new QueryBuilder("utente", "");
          qb.update("nome", "cognome", "viaCivico", "fotoProfilo", "citta", "regione", "telefono", "email", "username"
                  , "passwordHash", "tipo", "dataDiNascita");
-         qb.where("CF = " + u.getCF());
+         qb.where("CF = '" + u.getCF() + "'");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
-            ResultSet rs = ps.executeQuery();
-
             ps.setString(1, u.getNome());
             ps.setString(2, u.getCognome());
             ps.setString(3, u.getViaCivico());
@@ -278,7 +276,6 @@ public class UtenteDAO
       while(rs.next())
       {
          Utente utente = UtenteExtractor.Extract(rs, "");
-
          list.add(utente);
       }
 

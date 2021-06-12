@@ -40,12 +40,13 @@ public class ProdottoManager extends HttpServlet {
                         try
                         {
                              prodottoList = ProdottoDAO.doRetrieveAll();
-                        } catch (SQLException e)
+                        }
+                        catch (SQLException e)
                         {
-                            e.printStackTrace();
-                            request.setAttribute("exceptionStackTrace", e.getMessage());
                             request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:ProdottoManager Metodo:listProdotti)");
-                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                            return;
                         }
 
                         if (prodottoList.get(0) == null)
@@ -96,9 +97,10 @@ public class ProdottoManager extends HttpServlet {
                         p = ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("codiceIAN")));
                     } catch (SQLException e)
                     {
-                        request.setAttribute("exceptionStackTrace", e.getMessage());
                         request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
-                        request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
                     }
 
                     if (p != null)
@@ -134,14 +136,13 @@ public class ProdottoManager extends HttpServlet {
                         ProdottoDAO.doSave(p);
                         p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
                         ProdottoDAO.doUpdate(p);
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
                     }
-                    catch (IOException e)
+                    catch (SQLException | IOException e)
                     {
-                        request.setAttribute("exceptionStackTrace", e.getMessage());
                         request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
-                        request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
                     }
 
                     break;
@@ -169,9 +170,10 @@ public class ProdottoManager extends HttpServlet {
                         }
                         catch (IOException e)
                         {
-                            request.setAttribute("exceptionStackTrace", e.getMessage());
                             request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
-                            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                            return;
                         }
                     }
                     else{
@@ -194,8 +196,11 @@ public class ProdottoManager extends HttpServlet {
 
                     try {
                         ProdottoDAO.doDelete(Integer.parseInt(request.getParameter("codiceIAN")));
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    } catch (SQLException e) {
+                        request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
                     }
 
                     break;

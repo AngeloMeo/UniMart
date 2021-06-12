@@ -80,9 +80,11 @@ public class GiacenzeManager extends HttpServlet
                            try
                            {
                               InventarioDAO.deleteProdottoInventario(fromPage);
-                           } catch (SQLException throwables)
+                           } catch (SQLException e)
                            {
-                              throwables.printStackTrace();
+                              request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                              response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                              return;
                            }
                         }
                         else if (fromPage.getGiacenza() > 0)
@@ -92,9 +94,11 @@ public class GiacenzeManager extends HttpServlet
                               try
                               {
                                  InventarioDAO.addProdottoInventario(fromPage);
-                              } catch (SQLException throwables)
+                              } catch (SQLException e)
                               {
-                                 throwables.printStackTrace();
+                                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                 return;
                               }
                            }
                            else if (fromDB.getGiacenza() > 0)
@@ -102,9 +106,11 @@ public class GiacenzeManager extends HttpServlet
                               try
                               {
                                  InventarioDAO.updateProdottoInventario(fromPage);
-                              } catch (SQLException throwables)
+                              } catch (SQLException e)
                               {
-                                 throwables.printStackTrace();
+                                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                 return;
                               }
                            }
                         }
@@ -120,9 +126,11 @@ public class GiacenzeManager extends HttpServlet
                   try
                   {
                      i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + request.getParameter("codiceInventario")).get(0);
-                  } catch (SQLException throwables)
+                  } catch (SQLException e)
                   {
-                     throwables.printStackTrace();
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
 
                   Possiede p = new Possiede();
@@ -133,9 +141,11 @@ public class GiacenzeManager extends HttpServlet
                   try
                   {
                      p.setProdotto(ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("prodotto"))));
-                  } catch (SQLException throwables)
+                  } catch (SQLException e)
                   {
-                     throwables.printStackTrace();
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
                   p.setGiacenza(Float.parseFloat(request.getParameter("giacenza")));
                   i.addPossiedeList(p);
@@ -170,9 +180,7 @@ public class GiacenzeManager extends HttpServlet
                               request.setAttribute("forward", true);
                               request.getRequestDispatcher("/WEB-INF/results/giacenzeManager.jsp").forward(request, response);
                               return;
-                           } else
-                              //errore
-                              System.out.println("errore");
+                           }
                         }
                      }
                   }

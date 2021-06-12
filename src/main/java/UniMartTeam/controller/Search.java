@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 @WebServlet(name= "Search", value = "/Search/*")
 public class Search extends HttpServlet {
-
+//TODO
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -59,8 +59,10 @@ public class Search extends HttpServlet {
 
                 request.setAttribute("list", list);
 
-            } catch (SQLException throwables){
-                throwables.printStackTrace();
+            } catch (SQLException e){
+                request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                return;
             }
         }
 

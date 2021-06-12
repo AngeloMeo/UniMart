@@ -112,15 +112,16 @@ public class InventarioManager extends HttpServlet
                   }
                   catch (SQLException e)
                   {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel salvataggio dell'inventario nel Database(Servlet:InventarioManager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
                }
             }
             break;
 
-            case "/getInventario"://TODO spostiamo in get?
+            case "/getInventario":
             {
                if (request.getParameter("codiceInventario&CF") != null)
                {
@@ -140,9 +141,10 @@ public class InventarioManager extends HttpServlet
                            inventario = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, cond).get(0);
                         } catch (SQLException e)
                         {
-                           request.setAttribute("exceptionStackTrace", e.getMessage());
                            request.setAttribute("message", "Errore nel retrieve dell'inventario dal Database(Servlet:InventarioManager Metodo:doPost)");
-                           request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                           request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                           response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                           return;
                         }
 
                         if (inventario != null)
@@ -171,9 +173,10 @@ public class InventarioManager extends HttpServlet
                   }
                   catch (SQLException e)
                   {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
                }
             }
@@ -198,9 +201,10 @@ public class InventarioManager extends HttpServlet
                   }
                   catch (SQLException e)
                   {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
                }
             }

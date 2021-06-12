@@ -9,4 +9,9 @@
         <param-name>uploadpath</param-name>
         <param-value>../webapps/uploads/</param-value>
     </context-param>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/results/errorPage.jsp</location>
+    </error-page>
 </web-app>

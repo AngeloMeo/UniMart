@@ -7,25 +7,6 @@
       <%@include file="general.jsp" %>
       <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
       <script type="text/javascript" src="./js/utentiPage/utentiPage.js" defer></script>
-      <script>
-          $(document).ready(
-              function () {
-                  $(".tipoUtente").click(
-                      function () {
-                        $.post("./UtenteManager/modificaTipo",
-                         {
-                             cfUtente: $(this).siblings(".cfUtente").text()
-                         },
-                         function(data, status)
-                         {
-                             var obj = JSON.parse(data);
-                             $("#" + obj.CF).html(obj.CF + "<span class='tooltiptext'>" + $("span").html() + "</span>");
-                         });
-                      }
-                  )
-              }
-          );
-      </script>
    </head>
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>
@@ -53,7 +34,7 @@
                         <td>${utenteItem.nome}</td>
                         <td>${utenteItem.cognome}</td>
                         <td class="tipoUtente tooltip" id="${utenteItem.CF}">
-                           ${utenteItem.tipo}
+                           <div>${utenteItem.tipo}</div>
                            <span class="tooltiptext">Click Per Cambiare Tipo Utente</span>
                         </td>
                         <td>${utenteItem.telefono}</td>

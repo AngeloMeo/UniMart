@@ -5,8 +5,6 @@ import UniMartTeam.model.DAO.UtenteDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -36,11 +34,13 @@ public class UtenteManager extends HttpServlet
                   try
                   {
                      utenteList = UtenteDAO.doRetrieveAll();
-                  } catch (SQLException e)
+                  }
+                  catch (SQLException e)
                   {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
                      request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:UtenteManager Metodo:listUtente)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
                   }
 
                   if (utenteList != null && utenteList.get(0) != null)
@@ -78,26 +78,37 @@ public class UtenteManager extends HttpServlet
             {
                case "/modificaTipo":
                {
+                  String cfUtente = request.getParameter("cfUtente");
 
-                  Utente utenteRequest = new Utente();
-                  utenteRequest.setCF(request.getParameter("cfUtente"));
-                  utenteRequest.setTipo(TipoUtente.Amministratore);
-                  /*try
+                  if(cfUtente != null)
                   {
-                     utenteRequest = UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'" + utenteRequest.getCF() + "'").get(0);
+                     Utente utenteRequest = new Utente();
+                     utenteRequest.setCF(cfUtente);
 
-                     //utenteList = UtenteDAO.doRetrieveAll();
-                  } catch (SQLException e)
-                  {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
-                     request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:UtenteManager Metodo:modificaTipo)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
-                     return;
-                  }*/
-                  utente.setCF(request.getParameter("cfUtente"));
-                  Gson json = new Gson();
-                  response.setContentType("application/JSON");
-                  response.getWriter().println(json.toJson(utente));
+                     try
+                     {
+                        utenteRequest = UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'" + utenteRequest.getCF() + "'").get(0);
+
+                        if (utenteRequest.getTipo().equals(TipoUtente.Semplice))
+                           utenteRequest.setTipo(TipoUtente.Amministratore);
+                        else if (utenteRequest.getTipo().equals(TipoUtente.Amministratore))
+                           utenteRequest.setTipo(TipoUtente.Semplice);
+
+                        UtenteDAO.doUpdate(utenteRequest);
+                     }
+                     catch (SQLException e)
+                     {
+                        request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:UtenteManager Metodo:modificaTipo)");
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
+                     }
+
+                     Gson json = new Gson();
+                     response.setContentType("application/JSON");
+                     response.setCharacterEncoding("UTF-8");
+                     response.getWriter().println(json.toJson(utenteRequest));
+                  }
                }
                break;
 

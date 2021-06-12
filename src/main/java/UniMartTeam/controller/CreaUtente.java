@@ -19,7 +19,7 @@ public class CreaUtente extends HttpServlet
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      request.getRequestDispatcher("/WEB-INF/results/creaUtente.jsp").forward(request, response);
+      request.getRequestDispatcher("/WEB-INF/results/creaModificaUtente.jsp").forward(request, response);
    }
 
    @Override
@@ -49,9 +49,10 @@ public class CreaUtente extends HttpServlet
          }
          catch (IOException e)
          {
-            request.setAttribute("exceptionStackTrace", e.getMessage());
             request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
-            request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+            return;
          }
 
          if(utente.validateObject())
@@ -62,9 +63,10 @@ public class CreaUtente extends HttpServlet
             }
             catch (SQLException e)
             {
-               request.setAttribute("exceptionStackTrace", e.getMessage());
                request.setAttribute("message", "Errore nel salvataggio dell'utente nel Database(Servlet:CreaUtente Metodo:doPost)");
-               request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+               request.setAttribute("exceptionStackTrace", e.getStackTrace());
+               response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+               return;
             }
 
             utente.setPasswordHash("");
