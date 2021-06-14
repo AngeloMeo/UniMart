@@ -11,13 +11,13 @@ public enum StatoOrdine
 
       switch (stato)
       {
-         case "Salvato": return Salvato;
-         case "Accettato": return Accettato;
-         case "Preparazione": return Preparazione;
-         case "Spedito": return Spedito;
-         case "InConsegna": return InConsegna;
-         case "Consegnato": return Consegnato;
-         case "Annullato": return Annullato;
+         case "salvato": return Salvato;
+         case "accettato": return Accettato;
+         case "preparazione": return Preparazione;
+         case "spedito": return Spedito;
+         case "in consegna": return InConsegna;
+         case "consegnato": return Consegnato;
+         case "annullato": return Annullato;
          default: return null;
       }
    }

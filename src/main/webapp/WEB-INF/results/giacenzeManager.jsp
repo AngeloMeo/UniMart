@@ -38,9 +38,7 @@
 
                             <td class="tdSmall">
                                 <c:if test="${not empty list.prodotto.foto}">
-
-                                    <img src="${pageContext.request.contextPath}/file/${list.prodotto.foto}" height="100" width="100">
-
+                                    <img src="${pageContext.request.contextPath}/file/${list.prodotto.foto}" height="100" width="100" alt="Foto Prodotto">
                                 </c:if>
                             </td>
                             <td class="tdSmall">

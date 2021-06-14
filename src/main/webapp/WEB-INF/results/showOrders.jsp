@@ -6,6 +6,15 @@
        <title>Ordini Effettuati</title>
 
        <%@include file="general.jsp" %>
+
+       <script>
+           $(document).ready(function(){
+               $("td").click(function(){
+                   if($(this).siblings(".numeroOrdine").text())
+                     $(window.location).attr('href', "./OrdiniManager/getOrdine?id=" + $(this).siblings(".numeroOrdine").text());
+               });
+           });
+       </script>
     </head>
     <body class="sidenavpresent">
         <c:choose>
@@ -34,7 +43,7 @@
                  </tr>
                  <c:forEach items="${ordiniList}" var="ordine">
                     <tr>
-                       <td>${ordine.numeroOrdine}</td>
+                       <td class="numeroOrdine">${ordine.numeroOrdine}</td>
                        <td>${ordine.statoOrdine}</td>
                        <td>${ordine.feedback}</td>
                        <td>${ordine.cliente.CF}</td>

@@ -4,8 +4,7 @@ import UniMartTeam.model.Beans.*;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.CompostoExtractor;
 import UniMartTeam.model.Extractors.OrdineExtractor;
-import UniMartTeam.model.Extractors.SpedizioneExtractor;
-import UniMartTeam.model.Extractors.UtenteExtractor;
+import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 import java.sql.*;
@@ -117,6 +116,35 @@ public class OrdineDAO
       }
    }
 
+   public static Ordine doRetiveProducts(Ordine ordine) throws SQLException
+   {
+      if(ordine != null)
+      {
+         try (Connection con = ConPool.getConnection())
+         {
+            QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.*", "op.prezzoAcquisto", "op.quantita");
+            qb.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
+
+            try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+            {
+               ResultSet rs = ps.executeQuery();
+               ordine.setCompostoList(new ArrayList<Composto>());
+
+               while(rs.next())
+               {
+                  Categoria categoria = new Categoria();
+
+                  categoria.setNome(rs.getString("nomeCategoria"));
+                  Prodotto prodotto = ProdottoExtractor.Extract(rs, "", categoria);
+                  ordine.addCompostoList(CompostoExtractor.Extract(rs, "", ordine, prodotto));
+               }
+            }
+         }
+      }
+
+      return ordine;
+   }
+
    public static List<Ordine> doRetrieveAll(int offset, int size) throws SQLException
    {
       if (offset < 0 || size < 1)
@@ -168,10 +196,12 @@ public class OrdineDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("ordine", "").select().where("numeroOrdine = " + numeroOrdine);
+         QueryBuilder qb = new QueryBuilder("ordine", "").select("*", "cfCliente AS CF", "metodoSpedizione AS ID").where("numeroOrdine = ?");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
+            ps.setInt(1, numeroOrdine);
+
             return ListFiller(ps).get(0);
          }
       }
@@ -184,10 +214,12 @@ public class OrdineDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("ordine", "").select().where("cfCliente=" + u.getCF());
+         QueryBuilder qb = new QueryBuilder("ordine", "").select().where("cfCliente=?");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
+            ps.setString(1, u.getCF());
+
             return ListFiller(ps);
          }
       }

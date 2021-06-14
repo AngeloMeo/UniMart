@@ -1,7 +1,6 @@
 package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
-
 import java.time.LocalDate;
 import java.util.List;
 
