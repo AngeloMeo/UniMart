@@ -8,7 +8,7 @@ public class Ordine
 {
    private int numeroOrdine;
    private StatoOrdine statoOrdine;
-   private String feedback, ricevutaPagamento;
+   private String feedback, ricevutaPagamento, viaCivico, citta, regione;
    private LocalDate dataAcquisto;
    private Utente cliente;
    private Coupon coupon;
@@ -109,5 +109,35 @@ public class Ordine
    public void setStatoOrdine(StatoOrdine statoOrdine)
    {
       this.statoOrdine = statoOrdine;
+   }
+
+   public String getViaCivico()
+   {
+      return viaCivico;
+   }
+
+   public void setViaCivico(String viaCivico)
+   {
+      this.viaCivico = viaCivico;
+   }
+
+   public String getCitta()
+   {
+      return citta;
+   }
+
+   public void setCitta(String citta)
+   {
+      this.citta = citta;
+   }
+
+   public String getRegione()
+   {
+      return regione;
+   }
+
+   public void setRegione(String regione)
+   {
+      this.regione = regione;
    }
 }

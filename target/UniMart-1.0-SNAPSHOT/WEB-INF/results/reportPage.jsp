@@ -74,5 +74,7 @@
             <h2>Username: ${utente.username}</h2>
          </div>
       </c:if>
+
+      <button onclick="javascript:history.go(-2)">Torna Indietro</button>
    </body>
 </html>

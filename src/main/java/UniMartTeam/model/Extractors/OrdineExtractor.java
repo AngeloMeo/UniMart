@@ -22,6 +22,9 @@ public class OrdineExtractor {
             o.setStatoOrdine(StatoOrdine.StringToEnum(rs.getString(alias+"stato")));
             o.setFeedback(rs.getString(alias+"feedback"));
             o.setRicevutaPagamento(rs.getString(alias+"ricevutaPagamento"));
+            o.setViaCivico(rs.getString(alias + "viaCivico"));
+            o.setCitta(rs.getString(alias + "citta"));
+            o.setRegione(rs.getString(alias + "regione"));
             if(rs.getDate(alias + "dataAcquisto") != null)
                 o.setDataAcquisto(rs.getDate(alias+"dataAcquisto").toLocalDate());
             o.setCliente(ut);

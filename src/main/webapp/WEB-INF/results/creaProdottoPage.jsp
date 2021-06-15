@@ -59,7 +59,16 @@
             <label for="categoria">Categoria</label>
             <select id="categoria" name="categoria">
                 <c:forEach items="${categoria}" var="cat">
-                    <option>${cat.nome}</option>
+                    <c:choose>
+                        <c:when test="${prodotto.categoria.nome == cat.nome}">
+                            <option selected>
+                        </c:when>
+                        <c:otherwise>
+                            <option>
+                        </c:otherwise>
+                    </c:choose>
+
+                    ${cat.nome}</option>
                 </c:forEach>
             </select>
 

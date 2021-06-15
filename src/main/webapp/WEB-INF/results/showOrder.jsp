@@ -58,6 +58,14 @@
             <h4>Sconto: ${ordine.coupon.sconto}</h4>
          </c:if>
 
+         <fieldset>
+            <caption>Indirizzo Spedizione</caption>
+
+            <h4>Via e Civico: ${ordine.viaCivico}</h4>
+            <h4>Citt&agrave;: ${ordine.citta}</h4>
+            <h4>Regione: ${ordine.regione}</h4>
+         </fieldset>
+
          <h4>Spedizione Scelta: ${ordine.spedizione.nome}</h4>
          <h4>Ricevuta Acquisto: ${ordine.ricevutaPagamento}</h4>
          <h4>Data Acquisto: ${ordine.dataAcquisto}</h4>

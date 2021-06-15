@@ -1,9 +1,7 @@
 package UniMartTeam.model.Extractors;
 
-import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
