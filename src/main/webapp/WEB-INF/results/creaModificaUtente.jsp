@@ -34,7 +34,7 @@
                <table>
                   <tr>
                      <td><label for="CF">Codice Fiscale</label></td>
-                     <td><input type="text" name="CF" id="CF" placeholder="Codice Fiscale" value="${sessionScope.utente.CF}" readonly required></td>
+                     <td><input type="text" name="CF" id="CF" placeholder="Codice Fiscale" value="${sessionScope.utente.CF}" required></td>
                   </tr>
                   <tr>
                      <td><label for="nome">Nome</label></td>
@@ -78,17 +78,28 @@
                   </tr>
                   <tr>
                      <td><label for="fotoProfilo">Foto Profilo</label></td>
-                     <td><input type="file" name="fotoProfilo" id="fotoProfilo" placeholder="Foto Profilo" required></td>
+                     <td><input type="file" name="fotoProfilo" id="fotoProfilo" placeholder="Foto Profilo"></td>
                   </tr>
                   <tr>
                      <c:choose>
                         <c:when test="${sessionScope.utente != null}">
+                           <script>
+                               $(document).ready(function(){
+                                   $("#CF").prop('required', true);
+                                   $("#CF").prop('readOnly', true);
+                               });
+                           </script>
                            <td>
                               <input class="button" type="submit" formaction="./UtenteManager/modificaProfilo" value="Modifica Utente">
                               <input class="button" type="submit" onclick="javascript:history.go(-1)" value="Annulla">
                            </td>
                         </c:when>
                         <c:otherwise>
+                           <script>
+                               $(document).ready(function(){
+                                   $("#fotoProfilo").prop('required', true);
+                               });
+                           </script>
                            <td colspan="2">
                               <input class="button" type="submit" formaction="./UtenteManager/creaUtente" value="Registra Utente">
                            </td>

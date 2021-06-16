@@ -219,13 +219,14 @@ public class Utente implements Serializable
 
    public void uploadFoto(Part filePart, String path) throws IOException
    {
-      try(InputStream is = filePart.getInputStream())
-      {
-         String fileName = getCF() + "_" + filePart.getSubmittedFileName();
-         Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
+      if(!filePart.getSubmittedFileName().isEmpty())
+         try(InputStream is = filePart.getInputStream())
+         {
+            String fileName = getCF() + "_" + filePart.getSubmittedFileName();
+            Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
 
-         setFotoProfilo(fileName);
-      }
+            setFotoProfilo(fileName);
+         }
    }
 
    public boolean validateObject()

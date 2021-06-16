@@ -214,7 +214,7 @@ public class OrdineDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("ordine", "").select().where("cfCliente=?");
+         QueryBuilder qb = new QueryBuilder("ordine", "").select("*", "cfCliente AS CF", "metodoSpedizione AS ID").where("cfCliente=?");
 
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
