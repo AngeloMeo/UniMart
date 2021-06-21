@@ -6,9 +6,9 @@
       <title>Coupon Manager</title>
 
       <%@include file="general.jsp" %>
-      <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
-      <script src="./js/couponCategoria/general.js" defer></script>
-      <script src="./js/couponCategoria/couponPage.js" defer></script>
+      <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+      <script src="${pageContext.request.contextPath}/js/couponCategoria/general.js" defer></script>
+      <script src="${pageContext.request.contextPath}/js/couponCategoria/couponPage.js" defer></script>
    </head>
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>
@@ -49,7 +49,7 @@
                   <td>${coupon.sconto}</td>
                   <td>${coupon.creatore.CF}</td>
                   <td>
-                     <c:if test="${coupon.creatore.CF == utente.CF}">
+                     <c:if test="${coupon.creatore.CF == utente.CF && coupon.statoCoupon == 'Disponibile'}">
                         <button class="tdSmall"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
                      </c:if>
                   </td>

@@ -49,12 +49,12 @@ public class Login extends HttpServlet
                   response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
                   break;
             }
-            break;
+         break;
 
          case "/Logout":
-            SessionManager.invalidateSession(request);
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-            break;
+         SessionManager.invalidateSession(request);
+         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+         break;
       }
    }
 

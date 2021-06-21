@@ -3,6 +3,7 @@ package UniMartTeam.controller;
 import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CouponDAO;
+import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 import javax.servlet.*;
@@ -97,16 +98,18 @@ public class CouponManager extends HttpServlet
                if (checkParam(request) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
                {
                   int idCoupon = Integer.parseInt(request.getParameter("idCoupon"));
-
-                  try
+                  if (checkStatus(idCoupon))
                   {
-                     CouponDAO.doDelete(idCoupon);
-                  }
-                  catch (SQLException e)
-                  {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
-                     request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:CouponManager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     try
+                     {
+                        CouponDAO.doDelete(idCoupon);
+                     }
+                     catch (SQLException e)
+                     {
+                        request.setAttribute("exceptionStackTrace", e.getMessage());
+                        request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:CouponManager Metodo:doPost)");
+                        request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     }
                   }
                }
             }
@@ -119,18 +122,21 @@ public class CouponManager extends HttpServlet
                   Coupon coupon = new Coupon();
 
                   coupon.setNumeroCoupon(Integer.parseInt(request.getParameter("idCoupon")));
-                  coupon.setSconto(Float.parseFloat(request.getParameter("sconto")));
-                  coupon.setCreatore(utente);
 
-                  try
+                  if (checkStatus(coupon.getNumeroCoupon()))
                   {
-                     CouponDAO.doUpdate(coupon);
-                  }
-                  catch (SQLException e)
-                  {
-                     request.setAttribute("exceptionStackTrace", e.getMessage());
-                     request.setAttribute("message", "Errore nel update del coupon nel Database(Servlet:CouponManager Metodo:doPost)");
-                     request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     coupon.setSconto(Float.parseFloat(request.getParameter("sconto")));
+                     coupon.setCreatore(utente);
+
+                     try
+                     {
+                        CouponDAO.doUpdate(coupon);
+                     } catch (SQLException e)
+                     {
+                        request.setAttribute("exceptionStackTrace", e.getMessage());
+                        request.setAttribute("message", "Errore nel update del coupon nel Database(Servlet:CouponManager Metodo:doPost)");
+                        request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+                     }
                   }
                }
             }
@@ -149,6 +155,22 @@ public class CouponManager extends HttpServlet
    {
       return request.getParameter("CF_Creatore") != null && request.getParameter("sconto") != null &&
               request.getParameter("idCoupon") != null;
+   }
+
+   private boolean checkStatus(int id)
+   {
+      Coupon coupon = null;
+
+      try
+      {
+         coupon = CouponDAO.doRetrieveById(id);
+      }
+      catch (SQLException e)
+      {
+         return false;
+      }
+
+      return coupon.getStatoCoupon().equals(StatoCoupon.Riscattato) ? false : true;
    }
 
    private void listCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

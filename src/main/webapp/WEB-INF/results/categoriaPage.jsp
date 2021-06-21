@@ -4,9 +4,9 @@
 <html>
 <head>
     <title>CategoriaManager</title>
-  <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
-  <script src="./js/couponCategoria/general.js" defer></script>
-  <script src="./js/couponCategoria/categoriaPage.js" defer></script>
+  <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+  <script src="${pageContext.request.contextPath}/js/couponCategoria/general.js" defer></script>
+  <script src="${pageContext.request.contextPath}/js/couponCategoria/categoriaPage.js" defer></script>
   <%@include file="general.jsp"%>
 </head>
 <body class="sidenavpresent">

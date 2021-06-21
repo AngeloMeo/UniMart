@@ -5,13 +5,12 @@
 <html>
    <head>
       <title>${title}</title>
-      <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
       <%@include file="general.jsp"%>
 
    </head>
    <body class="sidenavpresent">
       <jsp:include page="adminPanel.jsp">
-         <jsp:param name="forward" value="true"/>
       </jsp:include>
 
       <form method="post">

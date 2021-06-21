@@ -177,7 +177,6 @@ public class GiacenzeManager extends HttpServlet
                            if (i != null)
                            {
                               request.setAttribute("inventario", i);
-                              request.setAttribute("forward", true);
                               request.getRequestDispatcher("/WEB-INF/results/giacenzeManager.jsp").forward(request, response);
                               return;
                            }

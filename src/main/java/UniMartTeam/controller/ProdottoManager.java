@@ -58,7 +58,6 @@ public class ProdottoManager extends HttpServlet {
 
                     case "/CreaProdotto":
                         request.setAttribute("title", "Nuovo Prodotto");
-                        request.setAttribute("forward", true);
                         request.setAttribute("categoria", retrieveCategoria());
 
                         request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
@@ -106,7 +105,6 @@ public class ProdottoManager extends HttpServlet {
                     if (p != null)
                     {
                         request.setAttribute("title", "Modifica Prodotto");
-                        request.setAttribute("forward", true);
                         request.setAttribute("prodotto", p);
                         request.setAttribute("categoria", retrieveCategoria());
 

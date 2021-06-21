@@ -1,20 +1,13 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
-<c:if test="${forward != null}">
-    <c:set var="path" scope="page" value="."/>
-</c:if>
-
 <nav>
     <div>
         <a href="index.jsp">Index</a>
-        <a href="${path}./Login/Logout">Logout</a>
-        <a href="${path}./CouponManager">Coupon</a>
-        <a href="${path}./InventarioManager">Inventario</a>
-        <a href="${path}./CategoriaManager">Categoria</a>
-        <a href="${path}./ProdottoManager">Prodotti</a>
-        <a href="${path}./UtenteManager">Utenti</a>
-        <a href="${path}./OrdiniManager">Ordini</a>
-        <a href="${path}./UtenteManager/modificaProfilo">Modifica Profilo</a>
+        <a href="${pageContext.request.contextPath}/Login/Logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/CouponManager">Coupon</a>
+        <a href="${pageContext.request.contextPath}/InventarioManager">Inventario</a>
+        <a href="${pageContext.request.contextPath}/CategoriaManager">Categoria</a>
+        <a href="${pageContext.request.contextPath}/ProdottoManager">Prodotti</a>
+        <a href="${pageContext.request.contextPath}/UtenteManager">Utenti</a>
+        <a href="${pageContext.request.contextPath}/OrdiniManager">Ordini</a>
+        <a href="${pageContext.request.contextPath}/UtenteManager/modificaProfilo">Modifica Profilo</a>
     </div>
 </nav>

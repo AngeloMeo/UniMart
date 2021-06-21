@@ -58,7 +58,6 @@ public class InventarioManager extends HttpServlet
 
                case "/creaInventario":
                   request.setAttribute("title", "Aggiunta Nuovo Inventario");
-                  request.setAttribute("forward", true);
                   request.getRequestDispatcher("/WEB-INF/results/creaInventarioPage.jsp").forward(request, response);
                   break;
 
@@ -150,7 +149,6 @@ public class InventarioManager extends HttpServlet
                         if (inventario != null)
                         {
                            request.setAttribute("title", "Modifica Inventario");
-                           request.setAttribute("forward", true);
                            request.setAttribute("inventario", inventario);
                            request.getRequestDispatcher("/WEB-INF/results/creaInventarioPage.jsp").forward(request, response);
                            return;

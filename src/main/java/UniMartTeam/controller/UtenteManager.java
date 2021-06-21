@@ -24,7 +24,6 @@ public class UtenteManager extends HttpServlet
 
       if (path.equalsIgnoreCase("/creaUtente") || path.equalsIgnoreCase("/modificaProfilo"))
       {
-         request.setAttribute("forward", true);
          request.getRequestDispatcher("/WEB-INF/results/creaModificaUtente.jsp").forward(request, response);
          return;
       }
