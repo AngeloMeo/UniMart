@@ -5,8 +5,8 @@
       <title>Utenti Presenti</title>
 
       <%@include file="general.jsp" %>
-      <link href="./css/adminPages.css" type="text/css" rel="stylesheet">
-      <script type="text/javascript" src="./js/utentiPage/utentiPage.js" defer></script>
+      <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/utentiPage/utentiPage.js" defer></script>
    </head>
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>

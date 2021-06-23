@@ -19,9 +19,7 @@
     <body class="sidenavpresent">
         <c:choose>
            <c:when test="${utente.tipo == 'Amministratore'}">
-               <jsp:include page="adminPanel.jsp">
-                   <jsp:param name="forward" value="true"/>
-               </jsp:include>
+               <jsp:include page="adminPanel.jsp"></jsp:include>
            </c:when>
            <c:otherwise>
            </c:otherwise>

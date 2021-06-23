@@ -5,7 +5,7 @@
 <link href="${pageContext.request.contextPath}/css/normalize.css" type="text/css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/css/general.css" type="text/css" rel="stylesheet">
 <meta name="viewport" content="width=device-width, viewport-fit=cover, initial-scale=1">
-<meta name="description" content="Ecommerce alimentari UniMart">
+<meta name="description" content="E-commerce alimentari UniMart">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="format-detection" content="telephone-no">
 <meta name="apple-mobile-web-app-title" content="UniMart">

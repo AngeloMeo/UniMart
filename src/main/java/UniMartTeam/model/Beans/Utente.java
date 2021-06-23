@@ -1,7 +1,6 @@
 package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.TipoUtente;
-
 import javax.servlet.http.Part;
 import java.io.IOException;
 import java.io.InputStream;
@@ -220,13 +219,15 @@ public class Utente implements Serializable
    public void uploadFoto(Part filePart, String path) throws IOException
    {
       if(!filePart.getSubmittedFileName().isEmpty())
-         try(InputStream is = filePart.getInputStream())
+      {
+         try (InputStream is = filePart.getInputStream())
          {
             String fileName = getCF() + "_" + filePart.getSubmittedFileName();
             Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
 
             setFotoProfilo(fileName);
          }
+      }
    }
 
    public boolean validateObject()

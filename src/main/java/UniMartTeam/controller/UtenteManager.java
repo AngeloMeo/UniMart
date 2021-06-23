@@ -77,6 +77,7 @@ public class UtenteManager extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/UtenteManager", "");
+      Utente utenteSession = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
       if((path.equalsIgnoreCase("/CreaUtente") || path.equalsIgnoreCase("/modificaProfilo")) && request.getParameter("CF") != null && !request.getParameter("username").contains("@"))
       {
@@ -99,6 +100,7 @@ public class UtenteManager extends HttpServlet
          utente.setEmail(request.getParameter("email"));
          utente.setUsername(request.getParameter("username"));
          utente.setPasswordHash(request.getParameter("password"));
+         utente.setFotoProfilo(utenteSession.getFotoProfilo()); //Caso in cui l'utente non aggiorna la foto profilo
 
          if (request.getParameter("dataDiNascita") != null)
             utente.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
@@ -141,21 +143,14 @@ public class UtenteManager extends HttpServlet
             return;
          }
       }
-      else
-      {
-         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
-         return;
-      }
 
-      Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
-
-      if (utente != null)
+      if (utenteSession != null)
       {
          switch (path)
          {
             case "/modificaTipo":
             {
-               if (utente.getTipo().equals(TipoUtente.Amministratore))
+               if (utenteSession.getTipo().equals(TipoUtente.Amministratore))
                {
                   String cfUtente = request.getParameter("cfUtente");
 
