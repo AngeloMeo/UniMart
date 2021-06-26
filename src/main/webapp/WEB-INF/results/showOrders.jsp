@@ -6,6 +6,7 @@
        <title>Ordini Effettuati</title>
 
        <%@include file="general.jsp" %>
+       <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
 
        <script>
            $(document).ready(function(){

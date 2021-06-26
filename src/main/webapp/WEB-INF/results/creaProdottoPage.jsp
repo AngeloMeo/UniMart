@@ -11,8 +11,7 @@
     </head>
     <body class="sidenavpresent">
 
-        <jsp:include page="adminPanel.jsp">
-        </jsp:include>
+        <%@include file="adminPanel.jsp" %>
 
         <form method="post" enctype="multipart/form-data">
             <c:if test="${prodotto.codiceIAN != null}">

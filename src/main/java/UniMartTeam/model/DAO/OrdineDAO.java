@@ -123,10 +123,11 @@ public class OrdineDAO
          try (Connection con = ConPool.getConnection())
          {
             QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.*", "op.prezzoAcquisto", "op.quantita");
-            qb.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
+            qb.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto").where("op.idOrdine=?");
 
             try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
             {
+               ps.setInt(1, ordine.getNumeroOrdine());
                ResultSet rs = ps.executeQuery();
                ordine.setCompostoList(new ArrayList<Composto>());
 
