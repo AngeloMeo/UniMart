@@ -5,44 +5,7 @@
 
       <%@include file="WEB-INF/results/general.jsp"%>
       <link href="css/homepage.css" type="text/css" rel="stylesheet">
-
-      <script>
-          $(document).ready(
-              function () {
-                  const regex = /[^\s]/gm;
-
-                  $('#searchBar').bind('input', function () {
-
-                      if(regex.exec($(this).val()) !== null)
-                          $.get(
-                            'SearchManager/',
-                              {
-                                  text: $(this).val()
-                              },
-                              function (data)
-                              {
-                                var obj = JSON.parse(data);
-
-                                $('#resultsSearch').empty();
-                                $('#resultsSearch').css("display", "block");
-                                $('#resultsSearch').css("border", "1px solid #A5ACB2");
-                                $('#resultsSearch').css("backgroundColor", "white");
-
-                                for(let i in obj)
-                                  {
-                                      $('#resultsSearch').append(obj[i] + "<br>");
-                                  }
-                              }
-                          );
-                      else
-                      {
-                          $('#resultsSearch').empty();
-                          $('#resultsSearch').css("display", "none");
-                      }
-
-                  });
-              });
-      </script>
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/navbar/navbar.js" defer></script>
    </head>
    <body>
       <header>
@@ -53,8 +16,16 @@
 
          </div>
 
-         <a href="Login">
-            <img src="icons/account_circle_white.svg">
+         <a href="Login" id="login">
+            <c:choose>
+               <c:when test="${utente != null}">
+                  <img src="${pageContext.request.contextPath}/file/${utente.fotoProfilo}" height="48px" width="48px" style="border-radius: 30px">
+               </c:when>
+               <c:otherwise>
+                  <img src="icons/account_circle_white.svg">
+               </c:otherwise>
+            </c:choose>
+
          </a>
 
       </header>

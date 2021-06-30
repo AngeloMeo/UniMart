@@ -74,7 +74,7 @@ public class UtenteManager extends HttpServlet
    }
 
    @Override
-   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   protected synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/UtenteManager", "");
       Utente utenteSession = (Utente) SessionManager.getObjectFromSession(request, "utente");

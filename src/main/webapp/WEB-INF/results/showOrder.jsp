@@ -38,7 +38,7 @@
                   <td>${composto.quantita}</td>
                   <td>${composto.prodotto.categoria.nome}</td>
                   <td>${composto.prodotto.peso}</td>
-                  <c:set var="totale" scope="page" value="${totale + composto.prezzo}"/>
+                  <c:set var="totale" scope="page" value="${totale + (composto.prezzo + ((composto.prezzo * composto.prodotto.categoria.aliquota)/100)) * composto.quantita}"/>
                </tr>
             </c:forEach>
                <tr>
@@ -47,6 +47,14 @@
                      <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale}" />
                   </td>
                </tr>
+               <c:if test="${ordine.coupon != null}">
+                  <tr>
+                     <td colspan="4">
+                        Totale con coupon:
+                        <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale - ((totale * ordine.coupon.sconto)/100)}" />
+                     </td>
+                  </tr>
+               </c:if>
          </table>
       </fieldset>
 

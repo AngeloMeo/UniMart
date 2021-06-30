@@ -1,6 +1,7 @@
 package UniMartTeam.model.Beans;
 
 import java.util.List;
+import java.util.Objects;
 
 public class Categoria
 {
@@ -42,5 +43,20 @@ public class Categoria
    public List<Prodotto> getProdottoList()
    {
       return prodottoList;
+   }
+
+   @Override
+   public boolean equals(Object o)
+   {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Categoria categoria = (Categoria) o;
+      return Float.compare(categoria.aliquota, aliquota) == 0 && Objects.equals(nome, categoria.nome) && Objects.equals(prodottoList, categoria.prodottoList);
+   }
+
+   @Override
+   public int hashCode()
+   {
+      return Objects.hash(nome);
    }
 }

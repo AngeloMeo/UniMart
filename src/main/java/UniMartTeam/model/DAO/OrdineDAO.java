@@ -133,10 +133,7 @@ public class OrdineDAO
 
                while(rs.next())
                {
-                  Categoria categoria = new Categoria();
-
-                  categoria.setNome(rs.getString("nomeCategoria"));
-                  Prodotto prodotto = ProdottoExtractor.Extract(rs, "", categoria);
+                  Prodotto prodotto = ProdottoExtractor.Extract(rs, "", CategoriaDAO.doRetrieveByKey(rs.getString("nomeCategoria")));
                   ordine.addCompostoList(CompostoExtractor.Extract(rs, "", ordine, prodotto));
                }
             }

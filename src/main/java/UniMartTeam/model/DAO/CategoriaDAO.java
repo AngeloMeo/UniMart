@@ -121,6 +121,49 @@ public class CategoriaDAO
       }
    }
 
+   public static List<Categoria> doRetrieveByKey(String categoryName, boolean likeMode, boolean limit, int start, int end) throws SQLException
+   {
+      if(categoryName.isEmpty())
+         return null;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         List<Categoria> results = new ArrayList<>();
+         String alias = "cat";
+         QueryBuilder qb = new QueryBuilder("categoria", alias).select();
+
+         if (likeMode)
+            qb.where("cat.nome LIKE(?)");
+         else
+            qb.where("cat.nome=?");
+
+         if (limit)
+            qb.limit(true);
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setString(1, categoryName);
+            if (limit)
+            {
+               ps.setInt(2, start);
+               ps.setInt(3, end);
+            }
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next())
+            {
+               results.add(CategoriaExtractor.Extract(rs, alias));
+            }
+
+            if (results.isEmpty())
+               results.add(null);
+
+            return results;
+         }
+      }
+   }
+
    public static Categoria doRetrieveByKey(String categoryName) throws SQLException
    {
       if(categoryName.isEmpty())
@@ -130,6 +173,7 @@ public class CategoriaDAO
       {
          String alias = "cat";
          QueryBuilder qb = new QueryBuilder("categoria", alias).select().where("cat.nome=?");
+
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setString(1, categoryName);
