@@ -13,7 +13,7 @@
             <h1>HEADER</h1>
         </header>
 
-        <form action="Login" method="post">
+        <form action="LoginManager" method="post">
             <a href="index.jsp"><img class="mb-3" src="./icons/logo.svg" alt="Logo"></a>
             <h1 class="h3 mb-3">Login</h1>
             <input type="text" class="form-control" name="usernameEmail" placeholder="Username o Email" autocomplete="off">

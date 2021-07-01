@@ -14,8 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet(value = "/Login/*")
-public class Login extends HttpServlet
+@WebServlet(value = "/LoginManager/*")
+public class LoginManager extends HttpServlet
 {
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -79,7 +79,7 @@ public class Login extends HttpServlet
       }
       catch (SQLException e)
       {
-         request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:Login Metodo:doPost)");
+         request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:LoginManager Metodo:doPost)");
          request.setAttribute("exceptionStackTrace", e.getStackTrace());
          response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
          return;

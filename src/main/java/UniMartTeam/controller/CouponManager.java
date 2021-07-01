@@ -47,7 +47,7 @@ public class CouponManager extends HttpServlet
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
    }
 
    @Override

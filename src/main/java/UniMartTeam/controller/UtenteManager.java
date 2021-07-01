@@ -70,7 +70,7 @@ public class UtenteManager extends HttpServlet
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
    }
 
    @Override
@@ -100,7 +100,8 @@ public class UtenteManager extends HttpServlet
          utente.setEmail(request.getParameter("email"));
          utente.setUsername(request.getParameter("username"));
          utente.setPasswordHash(request.getParameter("password"));
-         utente.setFotoProfilo(utenteSession.getFotoProfilo()); //Caso in cui l'utente non aggiorna la foto profilo
+         if(utenteSession != null)
+            utente.setFotoProfilo(utenteSession.getFotoProfilo()); //Caso in cui l'utente non aggiorna la foto profilo
 
          if (request.getParameter("dataDiNascita") != null)
             utente.setDataDiNascita(LocalDate.parse(request.getParameter("dataDiNascita")));
@@ -194,7 +195,7 @@ public class UtenteManager extends HttpServlet
          }
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
    }
 
    @Override

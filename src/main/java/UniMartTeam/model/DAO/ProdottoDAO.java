@@ -141,6 +141,43 @@ public class ProdottoDAO
       }
    }
 
+   public static List<Prodotto> doRetrieveNamesLike(String key) throws SQLException{
+
+      if(key.isBlank())
+         return null;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         String alias = "";
+
+         QueryBuilder qb = new QueryBuilder("prodotto", alias).select().where(alias + "codiceIAN like '"+key+"%' OR nome like '"+key+"%'");
+
+         try(PreparedStatement ps = con.prepareStatement(qb.getQuery())){
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Prodotto> list = new ArrayList<>();
+
+            if(!alias.isEmpty() && !alias.contains("."))
+               alias+=".";
+
+            while (rs.next())
+            {
+               Prodotto p = new Prodotto();
+               p.setCodiceIAN(rs.getInt(alias+"codiceIAN"));
+               p.setNome(rs.getString(alias+"nome"));
+               list.add(p);
+            }
+
+            if (list.isEmpty())
+               list.add(null);
+
+            return list;
+         }
+
+
+      }
+
+   }
+
    public static List<Prodotto> doRetrieveByCategoria(Categoria c) throws SQLException
    {
       if (c == null)

@@ -1,7 +1,7 @@
 <nav>
     <div>
         <a href="index.jsp">Index</a>
-        <a href="${pageContext.request.contextPath}/Login/Logout">Logout</a>
+        <a href="${pageContext.request.contextPath}/LoginManager/Logout">Logout</a>
         <a href="${pageContext.request.contextPath}/CouponManager">Coupon</a>
         <a href="${pageContext.request.contextPath}/InventarioManager">Inventario</a>
         <a href="${pageContext.request.contextPath}/CategoriaManager">Categoria</a>

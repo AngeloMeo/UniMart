@@ -91,7 +91,7 @@ public class OrdiniManager extends HttpServlet
          }
       }
       else
-         response.sendRedirect(request.getServletContext().getContextPath() + "/Login");
+         response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
    }
 
    @Override
