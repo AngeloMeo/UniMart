@@ -1,6 +1,8 @@
 package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.EnumForBeans.StatoCoupon;
+import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Extractors.*;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
@@ -284,4 +286,37 @@ public class UtenteDAO
 
       return list;
    }
+
+   public static int countClients() throws SQLException{
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("utente", "u");
+         qb.select("COUNT(*)").where("u.tipo = '" + TipoUtente.Semplice + "'");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
+   public static int countUsers() throws SQLException{
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("utente", "u");
+         qb.select("COUNT(*)");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
 }

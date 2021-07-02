@@ -3,6 +3,7 @@ package UniMartTeam.model.DAO;
 import UniMartTeam.model.Beans.Coupon;
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.Extractors.CouponExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
@@ -196,4 +197,39 @@ public class CouponDAO
 
       return list;
    }
+
+   public static int countClaimedCoupon() throws SQLException{
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("coupon", "c");
+         qb.select("COUNT(*)").where("c.stato = '" + StatoCoupon.Riscattato + "'");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
+   public static int countCoupon() throws SQLException{
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("coupon", "c");
+         qb.select("COUNT(*)");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
+
+
 }

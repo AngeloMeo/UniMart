@@ -3,6 +3,7 @@ package UniMartTeam.model.DAO;
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Possiede;
 import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.InventarioExtractor;
 import UniMartTeam.model.Extractors.UtenteExtractor;
 import UniMartTeam.model.Utils.ConPool;
@@ -248,6 +249,21 @@ public class InventarioDAO
          }
       }
       return false;
+   }
+
+   public static int countInventari() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("inventario", "i");
+         qb.select("COUNT(*)");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
    }
 
    public static boolean getProdottoInventarioStock(Possiede possiede) throws SQLException

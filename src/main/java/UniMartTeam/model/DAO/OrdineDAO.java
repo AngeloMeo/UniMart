@@ -1,6 +1,7 @@
 package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.CompostoExtractor;
 import UniMartTeam.model.Extractors.OrdineExtractor;
@@ -374,5 +375,61 @@ public class OrdineDAO
          }
       }
       return null;
+   }
+   public static int/*TODO*/ productCounter() throws SQLException{
+
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("we", ""); //TODO
+
+
+
+      }
+      return 0;
+   }
+
+   public static int countOrdiniSalvati() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("ordine", "o");
+         qb.select("COUNT(*)").where("o.stato = '" + StatoOrdine.Salvato + "'");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
+   public static int countOrdiniEvasi() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("ordine", "o");
+         qb.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Salvato + "'");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
+   public static int countOrdiniTotali() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("ordine", "o");
+         qb.select("COUNT(*)");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
    }
 }

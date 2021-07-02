@@ -173,8 +173,7 @@ public class CouponManager extends HttpServlet
       return coupon.getStatoCoupon().equals(StatoCoupon.Riscattato) ? false : true;
    }
 
-   private void listCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-   {
+   private void listCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       List<Coupon> couponList = null;
 
       try
@@ -183,6 +182,7 @@ public class CouponManager extends HttpServlet
       }
       catch (SQLException e)
       {
+         e.printStackTrace();
          request.setAttribute("exceptionStackTrace", e.getMessage());
          request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:CouponManager Metodo:listCoupon)");
          request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
@@ -192,6 +192,7 @@ public class CouponManager extends HttpServlet
          request.setAttribute("couponList", couponList);
       else
          request.setAttribute("couponList", null);
+
 
       request.getRequestDispatcher("/WEB-INF/results/couponPage.jsp").forward(request, response);
    }
