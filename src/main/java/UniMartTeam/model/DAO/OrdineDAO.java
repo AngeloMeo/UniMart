@@ -432,4 +432,21 @@ public class OrdineDAO
       }
       return 0;
    }
+
+   public static int countProdottiVenduti() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder query = new QueryBuilder("prodotto", "p");
+         query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
+         query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
+         try(PreparedStatement preparedStatement = connection.prepareStatement(query.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+      return 0;
+   }
+
 }
