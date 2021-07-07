@@ -5,6 +5,7 @@ import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.OrdineDAO;
+import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 import javax.servlet.*;
@@ -102,6 +103,82 @@ public class OrdiniManager extends HttpServlet
                   request.setAttribute("ordine", ordine);
 
                   request.getRequestDispatcher("/WEB-INF/results/showOrder.jsp").forward(request, response);
+               }
+               break;
+
+            case "/deleteOrdine":
+               if(request.getParameter("id") != null)
+               {
+                  int id = Integer.parseInt(request.getParameter("id"));
+
+                  try
+                  {
+                     if (utente.getTipo().equals(TipoUtente.Semplice))
+                     {
+                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
+
+                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato))
+                        {
+                           ordine.setStatoOrdine(StatoOrdine.Annullato);
+                           OrdineDAO.doUpdate(ordine);
+                           response.getWriter().println("Ordine Eliminato");
+                        }
+                     }
+                     response.getWriter().println("Azione non permessa");
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
+                  }
+               }
+               break;
+         }
+      }
+      else
+         response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
+   }
+
+   @Override
+   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   {
+      String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/OrdiniManager", "");
+      Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+
+      if (utente != null)
+      {
+         switch (path)
+         {
+            case "/deleteOrdine":
+               if(request.getParameter("id") != null)
+               {
+                  int id = Integer.parseInt(request.getParameter("id"));
+
+                  try
+                  {
+                     if (utente.getTipo().equals(TipoUtente.Semplice))
+                     {
+                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
+
+                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato))
+                        {
+                           ordine.setStatoOrdine(StatoOrdine.Annullato);
+                           OrdineDAO.doUpdate(ordine);
+                           response.getWriter().println("Ordine Eliminato");
+                        }
+                     }
+                     else
+                        response.getWriter().println("Azione non permessa");
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
+                  }
                }
                break;
          }

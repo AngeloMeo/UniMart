@@ -118,7 +118,7 @@ public class OrdineDAO
    }
 
    public static Ordine doRetiveProducts(Ordine ordine) throws SQLException
-   {
+   {//TODO mod
       if(ordine != null)
       {
          try (Connection con = ConPool.getConnection())
@@ -291,7 +291,7 @@ public class OrdineDAO
    }
 
    public static boolean addProdottoOrdine(Composto composto) throws SQLException
-   {
+   {//TODO mod
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -313,12 +313,12 @@ public class OrdineDAO
    }
 
    private static boolean verificaIntegritaOggettoComposto(Composto composto)
-   {
+   {//TODO mod
       return (composto != null && composto.getProdotto() != null && composto.getOrdine() != null && composto.getPrezzo() >= 0 && composto.getQuantita() > 0);
    }
 
    public static boolean updateProdottoOrdine(Composto composto) throws SQLException
-   {
+   {//TODO mod
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -338,7 +338,7 @@ public class OrdineDAO
    }
 
    public static boolean deleteProdottoOrdine(Composto composto) throws SQLException
-   {
+   {//TODO mod
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection())
@@ -356,7 +356,7 @@ public class OrdineDAO
    }
 
    public static Composto getInfoProdottoInOrdine(Composto composto) throws SQLException
-   {
+   {//TODO mod
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -375,17 +375,6 @@ public class OrdineDAO
          }
       }
       return null;
-   }
-   public static int/*TODO*/ productCounter() throws SQLException{
-
-      try(Connection connection = ConPool.getConnection())
-      {
-         QueryBuilder qb = new QueryBuilder("we", ""); //TODO
-
-
-
-      }
-      return 0;
    }
 
    public static int countOrdiniSalvati() throws SQLException {
@@ -456,7 +445,4 @@ public class OrdineDAO
       }
       return null;
    }
-
-
-
 }

@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class CompostoExtractor
 {
    public static Composto Extract(ResultSet rs, String alias, Ordine or, Prodotto pr) throws SQLException
-   {
+   {//TODO mod
       if (rs != null)
       {
          Composto c = new Composto();

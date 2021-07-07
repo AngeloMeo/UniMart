@@ -10,8 +10,7 @@
 
    </head>
    <body class="sidenavpresent">
-      <jsp:include page="adminPanel.jsp">
-      </jsp:include>
+      <%@include file="adminPanel.jsp"%>
 
       <form method="post">
          <c:if test="${inventario.codiceInventario != null}">

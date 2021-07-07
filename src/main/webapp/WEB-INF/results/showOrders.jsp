@@ -20,14 +20,20 @@
                $("button").click(function(){
                    if (confirm("Vuoi eliminare tale ordine ?"))
                    {
-                       alert($(this).find(".numeroOrdine").text());
                        $.post("./OrdiniManager/deleteOrdine",
                            {
-                               id: $(this).text()
+                               id: $(this).attr('value')
                            },
-                           function (data, status) {
+                           function (data, status)
+                           {
+                               if(status == 'success')
+                                   alert(data);
+                               else
+                                   alert(data);
 
-                           });
+                               location.reload();
+                           }
+                       )
                    }
                    else
                    {
@@ -74,7 +80,7 @@
                        <td>${ordine.spedizione.nome}</td>
                        <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Accettato'}">
                           <td>
-                             <button>Elimina Ordine</button>
+                             <button value="${ordine.numeroOrdine}">Elimina Ordine</button>
                           </td>
                        </c:if>
                     </tr>
