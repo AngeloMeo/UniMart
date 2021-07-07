@@ -1,6 +1,8 @@
 package UniMartTeam.controller;
 
+import UniMartTeam.model.Beans.Composto;
 import UniMartTeam.model.Beans.Ordine;
+import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
@@ -83,8 +85,22 @@ public class OrdiniManager extends HttpServlet
                      return;
                   }
 
+                  float totale = 0;
+
+                  for(Composto c : ordine.getCompostoList())
+                     totale += (c.getPrezzo() * c.getQuantita());
+
+                  request.setAttribute("totale", totale);
+
+                  if(ordine.getCoupon() != null)
+                  {
+                     totale -= ((totale * ordine.getCoupon().getSconto()) / 100);
+                     request.setAttribute("totaleCoupon", totale);
+                  }
+
                   request.removeAttribute("ordine");
                   request.setAttribute("ordine", ordine);
+
                   request.getRequestDispatcher("/WEB-INF/results/showOrder.jsp").forward(request, response);
                }
                break;

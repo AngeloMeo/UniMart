@@ -29,6 +29,8 @@ public class SearchManager extends HttpServlet
             String text = request.getParameter("text");
             HashMap<String, Object> results = new HashMap<>();
 
+            if(text != null)
+               text = text.trim();
 
             try
             {

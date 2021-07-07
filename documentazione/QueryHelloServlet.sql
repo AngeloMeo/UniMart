@@ -1,25 +1,39 @@
+//UTENTI ADMIN
+
 SELECT COUNT(*) AS 'Coupon Totali' FROM coupon;
+QueryBuilder query = new QueryBuilder("coupon", "").select("COUNT(*) AS 'Coupon Totali'");
+
 SELECT COUNT(*) AS 'Coupon Riscattati' FROM coupon WHERE coupon.stato = 'Riscattato';
+QueryBuilder query = new QueryBuilder("coupon", "").select("COUNT(*) AS 'Coupon Riscattati'").where("stato = 'Riscattato'");
 
 SELECT COUNT(*) AS 'Utenti Totali' FROM utente;
+QueryBuilder query = new QueryBuilder("utente", "").select("COUNT(*) AS 'Utenti Totali'");
+
 SELECT COUNT(*) AS 'Clienti' FROM utente WHERE utente.tipo = 'Semplice';
+QueryBuilder query = new QueryBuilder("utente", "").select("COUNT(*) AS 'Clienti'").where("tipo = 'Semplice'");
 
-select sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', SUM(op.prezzoAcquisto) AS 'Incasso Ordini' 
-FROM prodotto p RIGHT join ordine_prodotto op on p.codiceIAN = op.idProdotto;
-
-SELECT COUNT(*) AS 'Ordini Salvati' FROM ordine o WHERE o.stato = 'Salvato';
 SELECT COUNT(*) AS 'Ordini Evasi' FROM ordine o WHERE o.stato != 'Salvato';
-SELECT COUNT(*) AS 'Ordini Totali' FROM ordine o;
+QueryBuilder query = new QueryBuilder("ordine", "").select("COUNT(*) AS 'Ordini Evasi'").where("stato != 'Salvato'");
 
 SELECT COUNT(*) AS 'Numero Inventari' FROM inventario;
+QueryBuilder query = new QueryBuilder("inventario", "").select("COUNT(*) AS 'Numero Inventari'");
 
-NOTA:
-	per richiamare una VIEW: SELECT * FROM prodotto_preferito;
+select sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini' 
+FROM prodotto p RIGHT join ordine_prodotto op on p.codiceIAN = op.idProdotto;
+QueryBuilder query = new QueryBuilder("prodotto", "p");
+query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
+query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
 
-CREATE VIEW spedizione_preferita as
-SELECT metodoSpedizione, MAX(Utilizzi) AS 'Spedizione Scelta Maggiormente' FROM (SELECT o.metodoSpedizione, COUNT(*) AS 'Utilizzi' FROM ordine o GROUP BY o.metodoSpedizione) AS temp;
+//ENTRAMBI
 
-CREATE VIEW prodotto_preferito as
-SELECT idProdotto, MAX(QuantitàTotale) AS 'Prodotto Acquistato Maggiormente' FROM
-(SELECT op.idProdotto, sum(op.quantita) AS 'QuantitàTotale' FROM prodotto p RIGHT join ordine_prodotto op on p.codiceIAN = op.idProdotto GROUP BY op.idProdotto) AS temp;
+SELECT COUNT(*) AS 'Ordini Salvati' FROM ordine o WHERE o.stato = 'Salvato';
+QueryBuilder query = new QueryBuilder("ordine", "").select("COUNT(*) AS 'Ordini Evasi'").where("stato = 'Salvato'");
 
+SELECT * FROM spedizione_preferita;
+QueryBuilder query = new QueryBuilder("spedizione_preferita", "").select();
+
+SELECT * FROM prodotto_preferito;
+QueryBuilder query = new QueryBuilder("prodotto_preferito", "").select();
+
+SELECT COUNT(*) AS 'Ordini Totali' FROM ordine o;
+QueryBuilder query = new QueryBuilder("ordine", "").select("COUNT(*) AS 'Ordini Totali'");

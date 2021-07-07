@@ -3,12 +3,14 @@ $(document).ready(
         const regex = /[^\s]/;
 
         $('#searchBar').bind('input', function () {
-            if(regex.test($(this).val()))
+            let text = $.trim($(this).val());
+
+            if(regex.test(text))
             {
                 $.get(
                     'SearchManager/',
                     {
-                        text: $(this).val()
+                        text: text
                     },
                     function (data)
                     {
