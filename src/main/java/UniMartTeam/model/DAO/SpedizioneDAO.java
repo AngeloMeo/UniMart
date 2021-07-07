@@ -2,6 +2,7 @@ package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Ordine;
 import UniMartTeam.model.Beans.Spedizione;
+import UniMartTeam.model.Beans.Views.SpedizionePreferita;
 import UniMartTeam.model.Extractors.OrdineExtractor;
 import UniMartTeam.model.Extractors.SpedizioneExtractor;
 import UniMartTeam.model.Utils.ConPool;
@@ -180,4 +181,25 @@ public class SpedizioneDAO
          }
       }
    }
+
+   public static SpedizionePreferita favouriteSpedizione() throws SQLException {
+      try(Connection connection = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("spedizione_preferita", "").select();
+         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         {
+            ResultSet rs = preparedStatement.executeQuery();
+            if(rs.next()){
+               SpedizionePreferita sped = new SpedizionePreferita();
+               sped.setID(rs.getInt("ID"));
+               sped.setNome(rs.getString("nome"));
+               sped.setCosto(rs.getFloat("costo"));
+               sped.setUtilizzi(rs.getInt("Utilizzi"));
+               return sped;
+            }
+         }
+      }
+      return null;
+   }
+
 }

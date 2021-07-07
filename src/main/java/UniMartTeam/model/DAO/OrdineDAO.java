@@ -1,7 +1,7 @@
 package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.*;
-import UniMartTeam.model.EnumForBeans.StatoCoupon;
+import UniMartTeam.model.Beans.Views.ProdottiStats;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.CompostoExtractor;
 import UniMartTeam.model.Extractors.OrdineExtractor;
@@ -433,20 +433,30 @@ public class OrdineDAO
       return 0;
    }
 
-   public static int countProdottiVenduti() throws SQLException {
+
+   public static ProdottiStats countProdottiVenduti() throws SQLException {
       try(Connection connection = ConPool.getConnection())
       {
+         ArrayList<Float> list = new ArrayList<>();
+
          QueryBuilder query = new QueryBuilder("prodotto", "p");
          query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
          query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
          try(PreparedStatement preparedStatement = connection.prepareStatement(query.getQuery()))
          {
             ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next())
-               return rs.getInt(1);
+            if(rs.next()){
+               ProdottiStats ps = new ProdottiStats();
+               ps.setQuantitaProdottiVenduti(rs.getFloat("Quantità Prodotti Venduti"));
+               ps.setProdottiVenduti(rs.getInt("Prodotti Venduti"));
+               ps.setIncasso(rs.getInt("Incasso Ordini"));
+               return ps;
+            }
          }
       }
-      return 0;
+      return null;
    }
+
+
 
 }
