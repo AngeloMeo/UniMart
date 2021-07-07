@@ -38,7 +38,7 @@ public class HelloServlet extends HttpServlet
             } catch (SQLException throwables) {
                throwables.printStackTrace();
             }
-            request.getRequestDispatcher("/WEB-INF/results/userPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/results/dashboardAdmin.jsp").forward(request, response);
 
          }
          else if(utente.getTipo().equals(TipoUtente.Semplice))
