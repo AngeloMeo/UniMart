@@ -202,8 +202,15 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 
 DROP VIEW IF EXISTS `prodotto_preferito`;
 CREATE TABLE `prodotto_preferito` (
-	`idProdotto` INT(10) NULL,
-	`Prodotto Acquistato Maggiormente` DOUBLE NULL
+	`codiceIAN` INT(10) NULL,
+	`nome` VARCHAR(150) NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`prezzo` FLOAT UNSIGNED NULL,
+	`peso` FLOAT UNSIGNED NULL,
+	`foto` VARCHAR(200) NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`volumeOccupato` FLOAT UNSIGNED NULL,
+	`descrizione` TEXT NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`nomeCategoria` VARCHAR(100) NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`Quantità Totale Acquistata` DOUBLE NULL
 ) ENGINE=MyISAM;
 
 DROP TABLE IF EXISTS `spedizione`;
@@ -224,8 +231,10 @@ INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
 
 DROP VIEW IF EXISTS `spedizione_preferita`;
 CREATE TABLE `spedizione_preferita` (
-	`metodoSpedizione` INT(10) NULL,
-	`Spedizione Scelta Maggiormente` BIGINT(19) NULL
+	`ID` INT(10) NULL,
+	`nome` VARCHAR(80) NULL COLLATE 'utf8mb4_0900_ai_ci',
+	`costo` FLOAT NULL,
+	`Utilizzi` BIGINT(19) NULL
 ) ENGINE=MyISAM;
 
 DROP TABLE IF EXISTS `utente`;
@@ -299,11 +308,11 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 DROP VIEW IF EXISTS `prodotto_preferito`;
 DROP TABLE IF EXISTS `prodotto_preferito`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `prodotto_preferito` AS select `temp`.`idProdotto` AS `idProdotto`,max(`temp`.`QuantitàTotale`) AS `Prodotto Acquistato Maggiormente` from (select `op`.`idProdotto` AS `idProdotto`,sum(`op`.`quantita`) AS `QuantitàTotale` from (`ordine_prodotto` `op` left join `prodotto` `p` on((`p`.`codiceIAN` = `op`.`idProdotto`))) group by `op`.`idProdotto`) `temp`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `prodotto_preferito` AS select `temp`.`codiceIAN` AS `codiceIAN`,`temp`.`nome` AS `nome`,`temp`.`prezzo` AS `prezzo`,`temp`.`peso` AS `peso`,`temp`.`foto` AS `foto`,`temp`.`volumeOccupato` AS `volumeOccupato`,`temp`.`descrizione` AS `descrizione`,`temp`.`nomeCategoria` AS `nomeCategoria`,max(`temp`.`QuantitàTotale`) AS `Quantità Totale Acquistata` from (select `p`.`codiceIAN` AS `codiceIAN`,`p`.`nome` AS `nome`,`p`.`prezzo` AS `prezzo`,`p`.`peso` AS `peso`,`p`.`foto` AS `foto`,`p`.`volumeOccupato` AS `volumeOccupato`,`p`.`descrizione` AS `descrizione`,`p`.`nomeCategoria` AS `nomeCategoria`,`op`.`idProdotto` AS `idProdotto`,sum(`op`.`quantita`) AS `QuantitàTotale` from (`ordine_prodotto` `op` left join `prodotto` `p` on((`p`.`codiceIAN` = `op`.`idProdotto`))) group by `op`.`idProdotto`) `temp`;
 
 DROP VIEW IF EXISTS `spedizione_preferita`;
 DROP TABLE IF EXISTS `spedizione_preferita`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `spedizione_preferita` AS select `temp`.`metodoSpedizione` AS `metodoSpedizione`,max(`temp`.`Utilizzi`) AS `Spedizione Scelta Maggiormente` from (select `o`.`metodoSpedizione` AS `metodoSpedizione`,count(0) AS `Utilizzi` from `ordine` `o` group by `o`.`metodoSpedizione`) `temp`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `spedizione_preferita` AS select `s`.`ID` AS `ID`,`s`.`nome` AS `nome`,`s`.`costo` AS `costo`,max(`temp`.`Utilizzi`) AS `Utilizzi` from ((select `o`.`metodoSpedizione` AS `metodoSpedizione`,count(0) AS `Utilizzi` from `ordine` `o` group by `o`.`metodoSpedizione`) `temp` left join `spedizione` `s` on((`s`.`ID` = `temp`.`metodoSpedizione`)));
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

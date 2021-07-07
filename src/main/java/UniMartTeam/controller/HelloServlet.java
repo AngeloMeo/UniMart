@@ -2,15 +2,14 @@ package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 
-@WebServlet(name = "HelloServlet", value = "/HelloServlet")
+@WebServlet(name = "HelloServlet", value = "/HelloServlet", loadOnStartup = 0)
 public class HelloServlet extends HttpServlet
-{//TODO da fare
+{
    @Override
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
