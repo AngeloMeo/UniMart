@@ -38,7 +38,7 @@ public class LoginManager extends HttpServlet
             switch (tipo)
             {
                case Semplice:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
                   break;
 
                case Amministratore:

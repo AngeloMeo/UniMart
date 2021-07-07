@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>CategoriaManager</title>
-  <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
   <script src="${pageContext.request.contextPath}/js/couponCategoria/general.js" defer></script>
   <script src="${pageContext.request.contextPath}/js/couponCategoria/categoriaPage.js" defer></script>
   <%@include file="general.jsp"%>

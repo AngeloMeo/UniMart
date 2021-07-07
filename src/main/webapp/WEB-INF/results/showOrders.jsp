@@ -6,13 +6,33 @@
        <title>Ordini Effettuati</title>
 
        <%@include file="general.jsp" %>
-       <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+       <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
 
        <script>
            $(document).ready(function(){
-               $("td").click(function(){
-                   if($(this).siblings(".numeroOrdine").text())
-                     $(window.location).attr('href', "./OrdiniManager/getOrdine?id=" + $(this).siblings(".numeroOrdine").text());
+               $(".numeroOrdine").click(function(){
+                   if($(this).text())
+                     $(window.location).attr('href', "./OrdiniManager/getOrdine?id=" + $(this).text());
+               });
+           });
+
+           $(document).ready(function(){
+               $("button").click(function(){
+                   if (confirm("Vuoi eliminare tale ordine ?"))
+                   {
+                       alert($(this).find(".numeroOrdine").text());
+                       $.post("./OrdiniManager/deleteOrdine",
+                           {
+                               id: $(this).text()
+                           },
+                           function (data, status) {
+
+                           });
+                   }
+                   else
+                   {
+                       alert('Nessuna modifica effettuata');
+                   }
                });
            });
        </script>
@@ -23,6 +43,7 @@
                <jsp:include page="adminPanel.jsp"></jsp:include>
            </c:when>
            <c:otherwise>
+              <jsp:include page="userPanel.jsp"></jsp:include>
            </c:otherwise>
         </c:choose>
 
@@ -39,6 +60,9 @@
                     <th>CF Cliente</th>
                     <th>Data Acquisto</th>
                     <th>Metodo Spedizione</th>
+                    <c:if test="${utente.tipo == 'Semplice'}">
+                       <th>Gestisci</th>
+                    </c:if>
                  </tr>
                  <c:forEach items="${ordiniList}" var="ordine">
                     <tr>
@@ -48,6 +72,11 @@
                        <td>${ordine.cliente.CF}</td>
                        <td>${ordine.dataAcquisto}</td>
                        <td>${ordine.spedizione.nome}</td>
+                       <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Accettato'}">
+                          <td>
+                             <button>Elimina Ordine</button>
+                          </td>
+                       </c:if>
                     </tr>
                  </c:forEach>
               </table>

@@ -5,7 +5,7 @@
 <html>
    <head>
       <title>${title}</title>
-      <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
       <%@include file="general.jsp"%>
 
    </head>

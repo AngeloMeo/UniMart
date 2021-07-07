@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html>
    <head>
       <title>Utenti Presenti</title>
 
       <%@include file="general.jsp" %>
-      <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
       <script type="text/javascript" src="${pageContext.request.contextPath}/js/utentiPage/utentiPage.js" defer></script>
    </head>
    <body class="sidenavpresent">

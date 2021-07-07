@@ -5,7 +5,7 @@
     <head>
         <title>${title}</title>
         <%@include file="general.jsp"%>
-        <link href="${pageContext.request.contextPath}/css/adminPages.css" type="text/css" rel="stylesheet">
+        <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
         <%@include file="adminPanel.jsp" %>
