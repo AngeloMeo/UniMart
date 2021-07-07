@@ -2,6 +2,7 @@ package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
+import UniMartTeam.model.Beans.Views.ProdottoPreferito;
 import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
@@ -253,6 +254,27 @@ public class ProdottoDAO
       }
    }
 
+
+   public static ProdottoPreferito getProdottoPreferito() throws SQLException {
+      try (Connection connection = ConPool.getConnection()) {
+         QueryBuilder qb = new QueryBuilder("prodotto_preferito", "").select();
+
+         try (PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery())) {
+
+            ResultSet rs = preparedStatement.executeQuery();
+
+            if (rs.next()){
+               Categoria c = new Categoria();
+               c.setNome(rs.getString(""+"nomeCategoria"));
+               ProdottoPreferito pp = (ProdottoPreferito) ProdottoExtractor.Extract(rs, "", c);
+               pp.setnAcquisti(rs.getInt("Quantità Totale Acquistata"));
+               return pp;
+            }
+
+         }
+      }
+      return null;
+   }
    private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException
    {
       if (preparedStatement == null)

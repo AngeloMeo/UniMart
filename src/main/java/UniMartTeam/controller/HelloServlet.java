@@ -1,11 +1,13 @@
 package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.DAO.*;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "HelloServlet", value = "/HelloServlet")
 public class HelloServlet extends HttpServlet
@@ -19,6 +21,24 @@ public class HelloServlet extends HttpServlet
       {
          if(utente.getTipo().equals(TipoUtente.Amministratore))
          {
+            try {
+
+               request.setAttribute("CouponTotali", CouponDAO.countCoupon());
+               request.setAttribute("CouponRiscattati", CouponDAO.countClaimedCoupon());
+               request.setAttribute("UtentiTotali", UtenteDAO.countUsers());
+               request.setAttribute("ClientiTotali", UtenteDAO.countClients());
+               request.setAttribute("OrdiniEvasi", OrdineDAO.countOrdiniEvasi());
+               request.setAttribute("NumeroInventari", InventarioDAO.countInventari());
+               request.setAttribute("ProdottiStats", OrdineDAO.countProdottiVenduti());
+               request.setAttribute("OrdiniSalvati", OrdineDAO.countOrdiniSalvati());
+               request.setAttribute("SpedizionePreferita", SpedizioneDAO.favouriteSpedizione());
+               request.setAttribute("ProdottoPreferito", ProdottoDAO.getProdottoPreferito());
+               request.setAttribute("OrdiniTotali", OrdineDAO.countOrdiniTotali());
+
+            } catch (SQLException throwables) {
+               throwables.printStackTrace();
+            }
+            request.getRequestDispatcher("/WEB-INF/results/userPage.jsp").forward(request, response);
 
          }
          else if(utente.getTipo().equals(TipoUtente.Semplice))
