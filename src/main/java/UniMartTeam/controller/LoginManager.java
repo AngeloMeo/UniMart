@@ -42,7 +42,7 @@ public class LoginManager extends HttpServlet
                   break;
 
                case Amministratore:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/InventarioManager");
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/HelloServlet");
                   break;
 
                default:

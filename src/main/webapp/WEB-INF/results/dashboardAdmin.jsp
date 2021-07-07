@@ -1,16 +1,17 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: angel
-  Date: 07/07/2021
-  Time: 17:25
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
 <html>
 <head>
-    <title>Title</title>
+    <title>Dashboard</title>
+
+    <%@include file="general.jsp" %>
+    <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
+
 </head>
-<body>
+<body class="sidenavpresent">
+<%@include file="adminPanel.jsp" %>
 
 </body>
 </html>

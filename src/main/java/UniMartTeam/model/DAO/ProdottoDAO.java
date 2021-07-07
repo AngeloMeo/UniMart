@@ -266,15 +266,32 @@ public class ProdottoDAO
             if (rs.next()){
                Categoria c = new Categoria();
                c.setNome(rs.getString(""+"nomeCategoria"));
-               ProdottoPreferito pp = (ProdottoPreferito) ProdottoExtractor.Extract(rs, "", c);
-               pp.setnAcquisti(rs.getInt("Quantità Totale Acquistata"));
-               return pp;
+               Prodotto p = ProdottoExtractor.Extract(rs, "", c);
+               return fill(p, rs);
             }
 
          }
       }
       return null;
    }
+
+   private static ProdottoPreferito fill(Prodotto p, ResultSet rs) throws SQLException{
+      ProdottoPreferito pp = new ProdottoPreferito();
+
+      pp.setCodiceIAN(p.getCodiceIAN());
+      pp.setNome(p.getNome());
+      pp.setFoto(p.getFoto());
+      pp.setDescrizione(p.getDescrizione());
+      pp.setPrezzo(p.getPrezzo());
+      pp.setPeso(p.getPeso());
+      pp.setVolumeOccupato(p.getVolumeOccupato());
+      pp.setCategoria(p.getCategoria());
+      pp.setPossiedeList(p.getPossiedeList());
+      pp.setCompostoList(p.getCompostoList());
+      pp.setnAcquisti(rs.getInt("Quantità Totale Acquistata"));
+      return pp;
+   }
+
    private static List<Prodotto> ListFiller(PreparedStatement preparedStatement, String alias) throws SQLException
    {
       if (preparedStatement == null)
