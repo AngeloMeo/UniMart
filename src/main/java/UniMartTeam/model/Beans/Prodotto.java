@@ -22,20 +22,6 @@ public class Prodotto
       return codiceIAN;
    }
 
-   @Override
-   public String toString() {
-      return getClass().getName()+ "{" +
-              "codiceIAN=" + codiceIAN +
-              ", nome='" + nome + '\'' +
-              ", foto='" + foto + '\'' +
-              ", descrizione='" + descrizione + '\'' +
-              ", prezzo=" + prezzo +
-              ", peso=" + peso +
-              ", volumeOccupato=" + volumeOccupato +
-              ", categoria=" + categoria.getNome() +
-              '}';
-   }
-
    public void setCodiceIAN(int codiceIAN)
    {
       this.codiceIAN = codiceIAN;
@@ -154,5 +140,17 @@ public class Prodotto
       return compostoList;
    }
 
-
+   @Override
+   public String toString() {
+      return getClass().getName()+ "{" +
+              "codiceIAN=" + codiceIAN +
+              ", nome='" + nome + '\'' +
+              ", foto='" + foto + '\'' +
+              ", descrizione='" + descrizione + '\'' +
+              ", prezzo=" + prezzo +
+              ", peso=" + peso +
+              ", volumeOccupato=" + volumeOccupato +
+              ", categoria=" + categoria.getNome() +
+              '}';
+   }
 }

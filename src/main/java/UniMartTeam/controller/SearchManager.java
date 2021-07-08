@@ -97,10 +97,11 @@ public class SearchManager extends HttpServlet
                return;
             }
 
+            Prodotto prodotto = null;
+
             try
             {
-               Prodotto prodotto = ProdottoDAO.doRetrieveByID(codiceIAN);
-               System.out.println(prodotto.toString());
+               prodotto = ProdottoDAO.doRetrieveByID(codiceIAN);
             }
             catch (SQLException e)
             {
@@ -109,8 +110,14 @@ public class SearchManager extends HttpServlet
                request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
             }
 
-            //TODO redirect alla pagina del prodotto
+            if (prodotto != null)
+            {
+               request.setAttribute("prodotto", prodotto);
+               request.getRequestDispatcher("/WEB-INF/results/schedaProdotto.jsp").forward(request, response);
+               return;
+            }
 
+            response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
             break;
 
          case "/categoria":
@@ -126,10 +133,10 @@ public class SearchManager extends HttpServlet
 
                   List<Prodotto> prodotti = CategoriaDAO.doRetrieveProducts(cat);
 
-                  for(Prodotto prodotto : prodotti)
-                     System.out.println(prodotto.toString());
-
-                  //TODO redirect alla pagina dei prodotti di quella categoria
+                  request.setAttribute("prodotti", prodotti);
+                  request.setAttribute("categoria", cat.getNome());
+                  request.getRequestDispatcher("/WEB-INF/results/risultatiRicerca.jsp").forward(request, response);
+                  return;
                }
                catch (SQLException e)
                {

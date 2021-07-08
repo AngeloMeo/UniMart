@@ -31,24 +31,10 @@ public class LoginManager extends HttpServlet
          return;
       }
 
-      switch(path){
+      switch(path)
+      {
          case "/":
-            TipoUtente tipo = u.getTipo();
-
-            switch (tipo)
-            {
-               case Semplice:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
-                  break;
-
-               case Amministratore:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/HelloServlet");
-                  break;
-
-               default:
-                  response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
-                  break;
-            }
+            response.sendRedirect(request.getServletContext().getContextPath() + "/HelloServlet");
          break;
 
          case "/Logout":

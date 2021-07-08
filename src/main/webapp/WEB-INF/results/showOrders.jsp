@@ -8,40 +8,7 @@
        <%@include file="general.jsp" %>
        <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
 
-       <script>
-           $(document).ready(function(){
-               $(".numeroOrdine").click(function(){
-                   if($(this).text())
-                     $(window.location).attr('href', "./OrdiniManager/getOrdine?id=" + $(this).text());
-               });
-           });
-
-           $(document).ready(function(){
-               $("button").click(function(){
-                   if (confirm("Vuoi eliminare tale ordine ?"))
-                   {
-                       $.post("./OrdiniManager/deleteOrdine",
-                           {
-                               id: $(this).attr('value')
-                           },
-                           function (data, status)
-                           {
-                               if(status == 'success')
-                                   alert(data);
-                               else
-                                   alert(data);
-
-                               location.reload();
-                           }
-                       )
-                   }
-                   else
-                   {
-                       alert('Nessuna modifica effettuata');
-                   }
-               });
-           });
-       </script>
+       <script type="text/javascript" src="${pageContext.request.contextPath}/js/showOrders.js" defer></script>
     </head>
     <body class="sidenavpresent">
         <c:choose>

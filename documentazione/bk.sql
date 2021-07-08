@@ -199,14 +199,15 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
 	(1, 'abbracci', 15.15, 10, '1_inventario.jpg', 2, 'biscotti buoni', 'biscotti'),
 	(2, 'Mandorle', 1.5, 1.9, '2_inventario.jpg', 2, 'Buone da mangiare', 'frutta secca'),
-	(3, 'fettuccine', 1.5, 6, '2_inventario.jpg', 3, 'Buone da mangiare', 'pasta');
+	(3, 'fettuccine', 1.5, 6, '2_inventario.jpg', 3, 'Buone da mangiare', 'pasta'),
+	(4, 'candele', 1.9, 5, '2_inventario.jpg', 1, 'Ottime', 'pasta');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP VIEW IF EXISTS `prodotto_preferito`;
@@ -274,7 +275,7 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Amministratore', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
-	('test', 'test', 'test', 'test', 'test_wallpaper.jpg', 'Amministratore', 'Visciano', 'Campania', '1234', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
+	('test', 'test', 'test', 'via test', 'test_wallpaper.jpg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
 	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;

@@ -17,12 +17,12 @@ public class HelloServlet extends HttpServlet
    {
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
 
-      if(utente != null)
+      if (utente != null)
       {
-         if(utente.getTipo().equals(TipoUtente.Amministratore))
+         if (utente.getTipo().equals(TipoUtente.Amministratore))
          {
-            try {
-
+            try
+            {
                request.setAttribute("CouponTotali", CouponDAO.countCoupon());
                request.setAttribute("CouponRiscattati", CouponDAO.countClaimedCoupon());
                request.setAttribute("UtentiTotali", UtenteDAO.countUsers());
@@ -34,17 +34,21 @@ public class HelloServlet extends HttpServlet
                request.setAttribute("SpedizionePreferita", SpedizioneDAO.favouriteSpedizione());
                request.setAttribute("ProdottoPreferito", ProdottoDAO.getProdottoPreferito());
                request.setAttribute("OrdiniTotali", OrdineDAO.countOrdiniTotali());
-
-            } catch (SQLException throwables) {
-               throwables.printStackTrace();
             }
+            catch (SQLException e)
+            {
+               request.setAttribute("message", "Errore nel salvataggio del coupon nel Database(Servlet:CouponMAnager Metodo:doPost)");
+               request.setAttribute("exceptionStackTrace", e.getStackTrace());
+               response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+               return;
+            }
+
             request.getRequestDispatcher("/WEB-INF/results/dashboardAdmin.jsp").forward(request, response);
-
+            return;
          }
-         else if(utente.getTipo().equals(TipoUtente.Semplice))
+         else if (utente.getTipo().equals(TipoUtente.Semplice))
          {
-
-
+            return;
          }
          else
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");

@@ -74,7 +74,14 @@
             <h2>Username: ${utente.username}</h2>
          </div>
       </c:if>
+//TODO sistemare
+      <button onclick="x()">Torna Home</button>
+      <script>
+          function x() {
+              let path = request.getServletContext().getContextPath();
+              alert(path);
+          }
 
-      <button onclick="javascript:history.go(-2)">Torna Indietro</button>
+      </script>
    </body>
 </html>
