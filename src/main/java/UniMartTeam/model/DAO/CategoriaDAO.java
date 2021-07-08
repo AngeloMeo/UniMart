@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Extractors.CategoriaExtractor;
+import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 
@@ -195,8 +196,7 @@ public class CategoriaDAO
 
       try (Connection con = ConPool.getConnection())
       {
-         QueryBuilder qb = new QueryBuilder("prodotto", "p").select("p.codiceIAN", "p.nome", "p.prezzo",
-                 "p.peso", "p.foto").where("p.nomeCategoria=?");
+         QueryBuilder qb = new QueryBuilder("prodotto", "p").select().where("p.nomeCategoria=?");
          try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
          {
             ps.setString(1, c.getNome());
@@ -204,17 +204,8 @@ public class CategoriaDAO
             ArrayList<Prodotto> list = new ArrayList<>();
 
             while (rs.next())
-            {
+               list.add(ProdottoExtractor.Extract(rs, "p", c));
 
-               Prodotto p = new Prodotto();
-               p.setCodiceIAN(rs.getInt("p.codiceIAN"));
-               p.setNome(rs.getString("p.nome"));
-               p.setPrezzo(rs.getFloat("p.prezzo"));
-               p.setPeso(rs.getFloat("p.peso"));
-               p.setFoto(rs.getString("p.foto"));
-               list.add(p);
-
-            }
             return list;
          }
       }

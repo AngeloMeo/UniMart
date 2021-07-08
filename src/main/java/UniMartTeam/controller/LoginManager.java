@@ -46,14 +46,14 @@ public class LoginManager extends HttpServlet
                   break;
 
                default:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                  response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                   break;
             }
          break;
 
          case "/Logout":
          SessionManager.invalidateSession(request);
-         response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+            response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
          break;
       }
    }

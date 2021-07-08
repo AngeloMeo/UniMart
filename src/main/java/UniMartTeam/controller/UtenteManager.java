@@ -62,7 +62,7 @@ public class UtenteManager extends HttpServlet
                   break;
 
                default:
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                  response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                   break;
             }
          }
@@ -190,7 +190,7 @@ public class UtenteManager extends HttpServlet
             break;
 
             default:
-               response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+               response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                break;
          }
       }

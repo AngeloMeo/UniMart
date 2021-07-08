@@ -207,7 +207,7 @@ public class ProdottoManager extends HttpServlet {
             return;
         }
 
-        response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+        response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
     }
 
     private float convert(String c){

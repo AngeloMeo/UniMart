@@ -25,12 +25,16 @@ $(document).ready(
                         {
                             for(let i in obj['categorie'])
                             {
-                                $('#resultsSearch').append(obj['categorie'][i] + "<br>");
+                                let text = obj['categorie'][i];
+
+                                $('#resultsSearch').append("<a href='SearchManager/categoria?id=" + text + "'>" + text + "</a><br>");
                             }
 
                             for(let i in obj['prodotti'])
                             {
-                                $('#resultsSearch').append(obj['prodotti'][i] + "<br>");
+                                let text = obj['prodotti'][i];
+                                let key = text.substring(text.indexOf(':') + 2);
+                                $('#resultsSearch').append("<a href='SearchManager/prodotto?id=" + key + "'>" + text + "</a><br>");
                             }
                         }
                         else

@@ -69,7 +69,7 @@ public class SearchManager extends HttpServlet
             catch (SQLException e)
             {
                request.setAttribute("exceptionStackTrace", e.getStackTrace());
-               request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:SearchManager Metodo:list/)");
+               request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:SearchManager Metodo:/)");
                request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
             }
 
@@ -83,8 +83,69 @@ public class SearchManager extends HttpServlet
 
             break;
 
+         case "/prodotto":
+
+            int codiceIAN = 0;
+
+            try
+            {
+               codiceIAN = Integer.parseInt(request.getParameter("id"));
+            }
+            catch (NumberFormatException ex)
+            {
+               response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
+               return;
+            }
+
+            try
+            {
+               Prodotto prodotto = ProdottoDAO.doRetrieveByID(codiceIAN);
+               System.out.println(prodotto.toString());
+            }
+            catch (SQLException e)
+            {
+               request.setAttribute("exceptionStackTrace", e.getStackTrace());
+               request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:SearchManager Metodo:/prodotto)");
+               request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+            }
+
+            //TODO redirect alla pagina del prodotto
+
+            break;
+
+         case "/categoria":
+
+            String categoria = request.getParameter("id");
+
+            if(categoria != null)
+            {
+               try
+               {
+                  Categoria cat = new Categoria();
+                  cat.setNome(categoria);
+
+                  List<Prodotto> prodotti = CategoriaDAO.doRetrieveProducts(cat);
+
+                  for(Prodotto prodotto : prodotti)
+                     System.out.println(prodotto.toString());
+
+                  //TODO redirect alla pagina dei prodotti di quella categoria
+               }
+               catch (SQLException e)
+               {
+                  request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                  request.setAttribute("message", "Errore nel recupero info dal Database(Servlet:SearchManager Metodo:/prodotto)");
+                  request.getRequestDispatcher("/WEB-INF/results/errorPage.jsp").forward(request, response);
+               }
+            }
+
+            break;
+
          default:
-            response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+         {
+            response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
+            return;
+         }
       }
    }
 

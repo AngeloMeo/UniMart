@@ -37,7 +37,7 @@ public class OrdiniManager extends HttpServlet
                      ordiniList = OrdineDAO.doRetrieveByCond(utente);
                   else
                   {
-                     response.sendRedirect(request.getServletContext().getContextPath() + "/index.jsp");
+                     response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                      return;
                   }
                } catch (SQLException e)

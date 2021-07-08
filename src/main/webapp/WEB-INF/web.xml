@@ -10,6 +10,11 @@
         <param-value>../webapps/uploads/</param-value>
     </context-param>
 
+    <context-param>
+        <param-name>homepage</param-name>
+        <param-value>/index.jsp</param-value>
+    </context-param>
+
     <error-page>
         <error-code>500</error-code>
         <location>/WEB-INF/results/errorPage.jsp</location>
