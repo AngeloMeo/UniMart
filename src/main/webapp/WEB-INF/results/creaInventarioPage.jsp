@@ -31,9 +31,7 @@
          <input type="text" id="nome" name="nome" placeholder="es. euroMart" value="${inventario.nome}" required>
 
          <label for="note">Note</label>
-         <textarea id="note" name="note" rows="6" cols="50" placeholder="es. note circa l'inventario" required>
-            ${inventario.note}
-         </textarea>
+         <textarea id="note" name="note" rows="6" cols="50" placeholder="es. note circa l'inventario" required>${inventario.note}</textarea>
 
          <c:choose>
             <c:when test="${inventario.codiceInventario == null}">

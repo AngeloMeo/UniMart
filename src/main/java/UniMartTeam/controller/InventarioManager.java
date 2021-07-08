@@ -98,7 +98,7 @@ public class InventarioManager extends HttpServlet
 
                inventario.setRegione(request.getParameter("regione"));
                inventario.setResponsabile(utente);
-               inventario.setNote(request.getParameter("note"));
+               inventario.setNote(request.getParameter("note").trim());
                inventario.setIndirizzo(request.getParameter("indirizzo"));
                inventario.setNome(request.getParameter("nome"));
 
@@ -132,7 +132,7 @@ public class InventarioManager extends HttpServlet
 
                      if (cfResponsabile.equalsIgnoreCase(utente.getCF()))
                      {
-                        String cond = "='" + codiceInventario + "'";
+                        String cond = "'" + codiceInventario + "'";
                         Inventario inventario = null;
 
                         try

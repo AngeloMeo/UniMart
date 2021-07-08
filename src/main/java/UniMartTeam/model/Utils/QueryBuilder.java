@@ -51,6 +51,14 @@ public class QueryBuilder
       return this;
    }
 
+   public QueryBuilder orderBy(String cond)
+   {
+      if(cond != null && cond.length() > 0)
+         query.append(" ORDER BY " + cond);
+
+      return this;
+   }
+
    public QueryBuilder having(String cond)
    {
       if(cond != null && cond.length() > 0)
@@ -147,10 +155,8 @@ public class QueryBuilder
       return this;
    }
 
-   /*
-      0 FULL
-      1 LEFT
-      2 RIGHT
+   /**
+    * @param  mode: 0 FULL, 1 LEFT, 2 RIGHT
     */
    public QueryBuilder outerJoin(String table, String alias, int mode)
    {

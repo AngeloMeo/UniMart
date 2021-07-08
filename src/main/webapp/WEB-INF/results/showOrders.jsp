@@ -78,7 +78,7 @@
                        <td>${ordine.cliente.CF}</td>
                        <td>${ordine.dataAcquisto}</td>
                        <td>${ordine.spedizione.nome}</td>
-                       <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Accettato'}">
+                       <c:if test="${utente.tipo == 'Semplice' && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito')}">
                           <td>
                              <button value="${ordine.numeroOrdine}">Elimina Ordine</button>
                           </td>

@@ -1,7 +1,7 @@
 package UniMartTeam.model.Beans;
 
 public class Composto
-{//TODO mod
+{
    private float prezzo, quantita;
    private Ordine ordine;
    private Prodotto prodotto;

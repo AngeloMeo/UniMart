@@ -109,8 +109,8 @@ DELETE FROM `inventario`;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
 	(1, 'via po, 2', 'Campania', 'euroCampania', 'Magazzino alimentare', 'test'),
 	(2, 'test', 'test', 'test', 'test', 'ERFDPG92A23L322U'),
-	(6, 'via rossi,9', 'Lazio', 'LazioMart', 'Contiene anche prodotti tipici della regione.         ', 'test'),
-	(7, 'ciao', 'ewfwe', 'ewrwe', '                                    \r\n         werewerherugeirpngvujeuidv uierguiheruighuiehrgiurehiugheriughieurpgrehvuinnfvieurhgirneviugierhuignreiugvrehguierninvuignreiuviojasjiioijfdfhdiufckcidkodsjiofrgroehgioejiorgoegvmijviuiomerijvoejrf9jegao\r\n         \r\n         ', 'test');
+	(6, 'via rossi,9', 'Lazio', 'LazioMart', 'Contiene anche prodotti tipici della regione.Lazio', 'test'),
+	(7, 'ciao', 'ewfwe', 'ewrwe', 'ehguierninvuignreiuviojasjiioijfdfhdiufckcidkodsjiofrgroehgioejiorgoegvmijviuiomok', 'test');
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `inventario_prodotto`;
@@ -126,6 +126,13 @@ CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
 
 DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
+INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
+	(1, 1, 15),
+	(7, 1, 10),
+	(1, 2, 15),
+	(7, 2, 6),
+	(1, 3, 9),
+	(7, 3, 16);
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine`;
@@ -146,14 +153,15 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
 INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
 	(1, 'salvato', 'ok', '000', '2021-06-12 18:52:11', 'we', 1, 'Campania', 'nola', 'via po,3'),
 	(2, 'preparazione', 'bene', '123', '2021-06-12 18:52:11', 'we', 3, 'Campania', 'visciano', 'via po,3'),
-	(3, 'spedito', 'bene', '9999', '2021-06-12 18:52:11', 'we', 3, 'Campania', 'visciano', 'via po,3');
+	(3, 'accettato', 'bene', '9999', '2021-06-12 18:52:11', 'we', 3, 'Campania', 'visciano', 'via po,3'),
+	(5, 'annullato', 'bene', '99', '2021-06-12 00:00:00', 'we', 3, 'Campania', 'visciano', 'via po,3');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -162,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
   `idProdotto` int NOT NULL,
   `prezzoAcquisto` float NOT NULL,
   `quantita` float NOT NULL,
-  PRIMARY KEY (`idOrdine`,`idProdotto`),
+  PRIMARY KEY (`idOrdine`,`idProdotto`) USING BTREE,
   KEY `FK_ordine_prodotto_prodotto` (`idProdotto`),
   CONSTRAINT `FK_ordine_prodotto_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE,
   CONSTRAINT `FK_ordine_prodotto_prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON UPDATE CASCADE
@@ -174,7 +182,8 @@ INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quan
 	(1, 1, 14, 3),
 	(1, 2, 1.8, 4),
 	(2, 1, 11, 2),
-	(3, 1, 10, 2);
+	(3, 1, 10, 2),
+	(5, 3, 6, 8);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto`;
@@ -267,7 +276,7 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
 	('test', 'test', 'test', 'test', 'test_wallpaper.jpg', 'Amministratore', 'Visciano', 'Campania', '1234', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
-	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'we', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
+	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
 
 DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;

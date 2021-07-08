@@ -2,6 +2,7 @@ package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Possiede;
+import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.InventarioExtractor;
@@ -163,7 +164,7 @@ public class InventarioDAO
          switch (mode)
          {
             case CODICE_INVENTARIO:
-               qb.where("codiceInventario" + param);
+               qb.where("codiceInventario=" + param);
                break;
 
             case REGIONE:
@@ -231,6 +232,61 @@ public class InventarioDAO
          }
       }
       return false;
+   }
+
+   public static boolean updateQuantitaProdottoInventario(Possiede possiede) throws SQLException
+   {
+      if(possiede != null && possiede.getProdotto() != null && possiede.getGiacenza() >= 0)
+      {
+         try (Connection con = ConPool.getConnection())
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select();
+            qb.where("idProdotto=" + possiede.getProdotto().getCodiceIAN()).orderBy("giacenza").limit(false);
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               pss.setInt(1, 1);
+
+               ResultSet rs = pss.executeQuery();
+
+               if(rs.next())
+               {
+                  Inventario inventario = new Inventario();
+                  inventario.setCodiceInventario(rs.getInt("idInventario"));
+                  possiede.setGiacenza(possiede.getGiacenza() + rs.getFloat("giacenza"));
+                  possiede.setInventario(inventario);
+
+                  return updateProdottoInventario(possiede);
+               }
+            }
+
+            Inventario inventario = new Inventario();
+            inventario.setCodiceInventario(getCodiceInventarioRandom());
+            possiede.setInventario(inventario);
+            return addProdottoInventario(possiede);
+         }
+      }
+      return false;
+   }
+
+   public static int getCodiceInventarioRandom() throws SQLException
+   {
+      try (Connection con = ConPool.getConnection() )
+      {
+         QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select("idInventario").orderBy("RAND()").limit(false);
+
+         try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+         {
+            pss.setInt(1, 1);
+
+            ResultSet rs = pss.executeQuery();
+
+            if(rs.next())
+               return rs.getInt(1);
+         }
+      }
+
+      return 0;
    }
 
    public static boolean deleteProdottoInventario(Possiede possiede) throws SQLException

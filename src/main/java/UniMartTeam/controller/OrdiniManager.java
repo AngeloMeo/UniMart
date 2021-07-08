@@ -1,9 +1,7 @@
 package UniMartTeam.controller;
 
-import UniMartTeam.model.Beans.Composto;
-import UniMartTeam.model.Beans.Ordine;
-import UniMartTeam.model.Beans.Prodotto;
-import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
@@ -161,10 +159,23 @@ public class OrdiniManager extends HttpServlet
                      if (utente.getTipo().equals(TipoUtente.Semplice))
                      {
                         Ordine ordine = OrdineDAO.doRetrieveByID(id);
+                        OrdineDAO.doRetiveProducts(ordine);
 
-                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato))
+                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato) ||
+                                ordine.getStatoOrdine().equals(StatoOrdine.Preparazione) ||
+                                ordine.getStatoOrdine().equals(StatoOrdine.Spedito))
                         {
                            ordine.setStatoOrdine(StatoOrdine.Annullato);
+
+                           for(Composto c : ordine.getCompostoList())
+                           {
+                              Possiede possiede = new Possiede();
+                              possiede.setProdotto(c.getProdotto());
+                              possiede.setGiacenza(c.getQuantita());
+
+                              InventarioDAO.updateQuantitaProdottoInventario(possiede);
+                           }
+
                            OrdineDAO.doUpdate(ordine);
                            response.getWriter().println("Ordine Eliminato");
                         }

@@ -18,11 +18,14 @@ QueryBuilder query = new QueryBuilder("ordine", "").select("COUNT(*) AS 'Ordini 
 SELECT COUNT(*) AS 'Numero Inventari' FROM inventario;
 QueryBuilder query = new QueryBuilder("inventario", "").select("COUNT(*) AS 'Numero Inventari'");
 
-select sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini' 
-FROM prodotto p RIGHT join ordine_prodotto op on p.codiceIAN = op.idProdotto;
+select sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'
+FROM (prodotto p RIGHT join ordine_prodotto op on p.codiceIAN = op.idProdotto) left join ordine o on op.idOrdine = o.numeroOrdine
+where stato != 'Salvato' AND stato != 'Annullato';
+
 QueryBuilder query = new QueryBuilder("prodotto", "p");
 query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
-query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
+query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto").outerJoin("ordine", "o", 1).on("op.idOrdine = o.numeroOrdine");
+query.where("stato != 'Salvato' AND stato != 'Annullato'");
 
 //ENTRAMBI
 

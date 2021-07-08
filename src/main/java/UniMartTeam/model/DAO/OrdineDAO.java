@@ -118,7 +118,7 @@ public class OrdineDAO
    }
 
    public static Ordine doRetiveProducts(Ordine ordine) throws SQLException
-   {//TODO mod
+   {
       if(ordine != null)
       {
          try (Connection con = ConPool.getConnection())
@@ -291,7 +291,7 @@ public class OrdineDAO
    }
 
    public static boolean addProdottoOrdine(Composto composto) throws SQLException
-   {//TODO mod
+   {
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -313,12 +313,12 @@ public class OrdineDAO
    }
 
    private static boolean verificaIntegritaOggettoComposto(Composto composto)
-   {//TODO mod
+   {
       return (composto != null && composto.getProdotto() != null && composto.getOrdine() != null && composto.getPrezzo() >= 0 && composto.getQuantita() > 0);
    }
 
    public static boolean updateProdottoOrdine(Composto composto) throws SQLException
-   {//TODO mod
+   {
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -338,7 +338,7 @@ public class OrdineDAO
    }
 
    public static boolean deleteProdottoOrdine(Composto composto) throws SQLException
-   {//TODO mod
+   {
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection())
@@ -356,7 +356,7 @@ public class OrdineDAO
    }
 
    public static Composto getInfoProdottoInOrdine(Composto composto) throws SQLException
-   {//TODO mod
+   {
       if(verificaIntegritaOggettoComposto(composto))
       {
          try (Connection con = ConPool.getConnection() )
@@ -430,7 +430,9 @@ public class OrdineDAO
 
          QueryBuilder query = new QueryBuilder("prodotto", "p");
          query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
-         query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto");
+         query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto").outerJoin("ordine", "o", 1).on("op.idOrdine = o.numeroOrdine");
+         query.where("stato != 'Salvato' AND stato != 'Annullato'");
+
          try(PreparedStatement preparedStatement = connection.prepareStatement(query.getQuery()))
          {
             ResultSet rs = preparedStatement.executeQuery();
