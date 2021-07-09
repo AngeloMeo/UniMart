@@ -441,6 +441,7 @@ public class OrdineDAO
                ps.setQuantitaProdottiVenduti(rs.getFloat("Quantità Prodotti Venduti"));
                ps.setProdottiVenduti(rs.getInt("Prodotti Venduti"));
                ps.setIncasso(rs.getInt("Incasso Ordini"));
+
                return ps;
             }
          }

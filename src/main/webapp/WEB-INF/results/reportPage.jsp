@@ -74,14 +74,13 @@
             <h2>Username: ${utente.username}</h2>
          </div>
       </c:if>
-//TODO sistemare
-      <button onclick="x()">Torna Home</button>
-      <script>
-          function x() {
-              let path = request.getServletContext().getContextPath();
-              alert(path);
-          }
 
+      <button onclick="fun();">Torna Alla Dashboard</button>
+      <script>
+          function fun()
+          {
+              window.location = "${pageContext.request.contextPath}/HelloServlet";
+          }
       </script>
    </body>
 </html>

@@ -29,7 +29,7 @@ public class HelloServlet extends HttpServlet
                request.setAttribute("ClientiTotali", UtenteDAO.countClients());
                request.setAttribute("OrdiniEvasi", OrdineDAO.countOrdiniEvasi());
                request.setAttribute("NumeroInventari", InventarioDAO.countInventari());
-               request.setAttribute("ProdottiStats", OrdineDAO.countProdottiVenduti());
+               request.setAttribute("ProdottiStatistiche", OrdineDAO.countProdottiVenduti());
                request.setAttribute("OrdiniSalvati", OrdineDAO.countOrdiniSalvati());
                request.setAttribute("SpedizionePreferita", SpedizioneDAO.favouriteSpedizione());
                request.setAttribute("ProdottoPreferito", ProdottoDAO.getProdottoPreferito());
@@ -47,7 +47,8 @@ public class HelloServlet extends HttpServlet
             return;
          }
          else if (utente.getTipo().equals(TipoUtente.Semplice))
-         {
+         {//TODO
+            request.getRequestDispatcher("/WEB-INF/results/dashboardUtente.jsp").forward(request, response);
             return;
          }
          else

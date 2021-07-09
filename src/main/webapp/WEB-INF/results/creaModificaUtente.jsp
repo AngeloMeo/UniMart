@@ -24,7 +24,7 @@
                <h1>Modifica Profilo</h1>
             </c:when>
             <c:otherwise>
-               <img class="mb-3 logo" src="../icons/logo.svg" alt="Logo">
+               <img class="mb-3 logo" src="${pageContext.request.contextPath}/icons/logo.svg" alt="Logo">
                <h1>Registrazione Nuovo Utente</h1>
             </c:otherwise>
          </c:choose>
