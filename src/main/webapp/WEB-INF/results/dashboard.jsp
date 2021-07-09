@@ -10,7 +10,14 @@
         <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
-        <%@include file="adminPanel.jsp" %>
+        <c:choose>
+            <c:when test="${utente.tipo == 'Semplice'}">
+                <%@include file="userPanel.jsp" %>
+            </c:when>
+            <c:otherwise>
+                <%@include file="adminPanel.jsp" %>
+            </c:otherwise>
+        </c:choose>
 
         <c:if test="${CouponTotali != null}">
             <div>Coupon Totali: ${CouponTotali}</div>
@@ -45,7 +52,14 @@
         </c:if>
 
         <c:if test="${SpedizionePreferita != null}">
-            <div>Spedizione Preferita: Nome = ${SpedizionePreferita.nome} Utilizzi = ${SpedizionePreferita.utilizzi}</div>
+            <c:choose>
+                <c:when test="${utente.tipo == 'Semplice'}">
+                    <div>Spedizione Preferita: ${SpedizionePreferita.nome}</div>
+                </c:when>
+                <c:otherwise>
+                    <div>Spedizione Preferita: Nome = ${SpedizionePreferita.nome} Utilizzi = ${SpedizionePreferita.utilizzi}</div>
+                </c:otherwise>
+            </c:choose>
         </c:if>
 
         <c:if test="${OrdiniTotali != null}">
@@ -55,7 +69,14 @@
         <c:if test="${ProdottoPreferito != null}">
             <div>Prodotto Più Venduto:
                 <img src="file/${ProdottoPreferito.foto}" height="100" width="100">
-                Nome = ${ProdottoPreferito.nome} Acquistato = ${ProdottoPreferito.nAcquisti}
+                <c:choose>
+                    <c:when test="${utente.tipo == 'Semplice'}">
+                        ${ProdottoPreferito.nome}
+                    </c:when>
+                    <c:otherwise>
+                        Nome = ${ProdottoPreferito.nome} Acquistato = ${ProdottoPreferito.nAcquisti}
+                    </c:otherwise>
+                </c:choose>
             </div>
         </c:if>
     </body>

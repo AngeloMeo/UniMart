@@ -377,49 +377,84 @@ public class OrdineDAO
       return null;
    }
 
-   public static int countOrdiniSalvati() throws SQLException {
-      try(Connection connection = ConPool.getConnection())
-      {
-         QueryBuilder qb = new QueryBuilder("ordine", "o");
-         qb.select("COUNT(*)").where("o.stato = '" + StatoOrdine.Salvato + "'");
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
-         {
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next())
-               return rs.getInt(1);
-         }
-      }
-      return 0;
+   public static int countOrdiniSalvati() throws SQLException
+   {
+      QueryBuilder query = new QueryBuilder("ordine", "o");
+      query.select("COUNT(*)").where("o.stato = '" + StatoOrdine.Salvato + "'");
+
+      return executeQueryCount(query);
    }
 
-   public static int countOrdiniEvasi() throws SQLException {
-      try(Connection connection = ConPool.getConnection())
-      {
-         QueryBuilder qb = new QueryBuilder("ordine", "o");
-         qb.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Salvato + "'");
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
-         {
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next())
-               return rs.getInt(1);
-         }
-      }
-      return 0;
+   public static int countOrdiniEvasi() throws SQLException
+   {
+      QueryBuilder query = new QueryBuilder("ordine", "o");
+      query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Consegnato + "'");
+
+      return executeQueryCount(query);
    }
 
-   public static int countOrdiniTotali() throws SQLException {
-      try(Connection connection = ConPool.getConnection())
+   public static int countOrdiniTotali() throws SQLException
+   {
+      QueryBuilder query = new QueryBuilder("ordine", "o").select("COUNT(*)");
+
+      return executeQueryCount(query);
+   }
+
+   public static int countOrdiniSalvati(Utente u) throws SQLException
+   {
+      if(u != null && u.validateObject())
       {
-         QueryBuilder qb = new QueryBuilder("ordine", "o");
-         qb.select("COUNT(*)");
-         try(PreparedStatement preparedStatement = connection.prepareStatement(qb.getQuery()))
+         QueryBuilder query = new QueryBuilder("ordine", "");
+         query.select("COUNT(*)").where("stato = '" + StatoOrdine.Salvato + "' AND cfCliente='" + u.getCF() + "'");
+
+         return executeQueryCount(query);
+      }
+
+      return -1;
+   }
+
+   public static int countOrdiniEvasi(Utente u) throws SQLException
+   {
+      if(u != null && u.validateObject())
+      {
+         QueryBuilder query = new QueryBuilder("ordine", "o");
+         query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Consegnato + "' AND cfCliente='" + u.getCF() + "'");
+
+         return executeQueryCount(query);
+      }
+
+      return -1;
+   }
+
+   public static int countOrdiniTotali(Utente u) throws SQLException
+   {
+      if(u != null && u.validateObject())
+      {
+         QueryBuilder query = new QueryBuilder("ordine", "o").select("COUNT(*)").where("cfCliente='" + u.getCF() + "'");
+
+         return executeQueryCount(query);
+      }
+
+      return -1;
+   }
+
+   private static int executeQueryCount(QueryBuilder query) throws SQLException
+   {
+      if(query != null)
+      {
+         try(Connection connection = ConPool.getConnection())
          {
-            ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next())
-               return rs.getInt(1);
+            try(PreparedStatement preparedStatement = connection.prepareStatement(query.getQuery()))
+            {
+               ResultSet rs = preparedStatement.executeQuery();
+
+               if(rs.next())
+                  return rs.getInt(1);
+            }
          }
       }
-      return 0;
+
+      return -1;
    }
 
 

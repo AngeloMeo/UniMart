@@ -19,9 +19,9 @@ public class HelloServlet extends HttpServlet
 
       if (utente != null)
       {
-         if (utente.getTipo().equals(TipoUtente.Amministratore))
+         try
          {
-            try
+            if (utente.getTipo().equals(TipoUtente.Amministratore))
             {
                request.setAttribute("CouponTotali", CouponDAO.countCoupon());
                request.setAttribute("CouponRiscattati", CouponDAO.countClaimedCoupon());
@@ -35,24 +35,30 @@ public class HelloServlet extends HttpServlet
                request.setAttribute("ProdottoPreferito", ProdottoDAO.getProdottoPreferito());
                request.setAttribute("OrdiniTotali", OrdineDAO.countOrdiniTotali());
             }
-            catch (SQLException e)
+            else if (utente.getTipo().equals(TipoUtente.Semplice))
             {
-               request.setAttribute("message", "Errore nel salvataggio del coupon nel Database(Servlet:CouponMAnager Metodo:doPost)");
-               request.setAttribute("exceptionStackTrace", e.getStackTrace());
-               response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+               request.setAttribute("SpedizionePreferita", SpedizioneDAO.favouriteSpedizione());
+               request.setAttribute("ProdottoPreferito", ProdottoDAO.getProdottoPreferito());
+               request.setAttribute("OrdiniEvasi", OrdineDAO.countOrdiniEvasi(utente));
+               request.setAttribute("OrdiniSalvati", OrdineDAO.countOrdiniSalvati(utente));
+               request.setAttribute("OrdiniTotali", OrdineDAO.countOrdiniTotali(utente));
+            }
+            else
+            {
+               response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
                return;
             }
 
-            request.getRequestDispatcher("/WEB-INF/results/dashboardAdmin.jsp").forward(request, response);
+            request.getRequestDispatcher("/WEB-INF/results/dashboard.jsp").forward(request, response);
             return;
          }
-         else if (utente.getTipo().equals(TipoUtente.Semplice))
-         {//TODO
-            request.getRequestDispatcher("/WEB-INF/results/dashboardUtente.jsp").forward(request, response);
+         catch (SQLException e)
+         {
+            request.setAttribute("message", "Errore Database(Servlet:HelloServlet Metodo:doGet)");
+            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
             return;
          }
-         else
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");

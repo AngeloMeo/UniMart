@@ -1,4 +1,3 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <footer style="background-color: #87CE1E; height: 20px;">
    <a href="LoginManager">Login</a>
    <a href="CouponManager/list">CouponManager</a>
