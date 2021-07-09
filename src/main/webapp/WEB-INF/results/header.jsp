@@ -1,3 +1,5 @@
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/navbar/navbar.js" defer></script>
+
 <header>
   <form autocomplete="off">
     <input type="text" id="searchBar" placeholder="Cerca per codice IAN, nome prodotto o categoria" required>
@@ -12,7 +14,7 @@
         <img src="${pageContext.request.contextPath}/file/${utente.fotoProfilo}" height="48px" width="48px" style="border-radius: 30px">
       </c:when>
       <c:otherwise>
-        <img src="icons/account_circle_white.svg">
+        <img src="${pageContext.request.contextPath}/icons/account_circle_white.svg">
       </c:otherwise>
     </c:choose>
   </a>

@@ -10,7 +10,7 @@
         <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
-
+        <%@include file="header.jsp" %>
         <%@include file="adminPanel.jsp" %>
 
         <form method="post" enctype="multipart/form-data">
@@ -83,5 +83,6 @@
                 </c:otherwise>
             </c:choose>
         </form>
+        <%@include file="footer.jsp"%>
     </body>
 </html>

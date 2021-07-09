@@ -9,6 +9,7 @@
        <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
 
        <script type="text/javascript" src="${pageContext.request.contextPath}/js/showOrders.js" defer></script>
+       <script type="text/javascript" src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/ordinePage.js" defer></script>
     </head>
     <body class="sidenavpresent">
         <c:choose>
@@ -19,6 +20,8 @@
               <jsp:include page="userPanel.jsp"></jsp:include>
            </c:otherwise>
         </c:choose>
+
+        <%@include file="header.jsp" %>
 
         <c:choose>
            <c:when test="${ordiniList == null}">
@@ -47,7 +50,12 @@
                        <td>${ordine.spedizione.nome}</td>
                        <c:if test="${utente.tipo == 'Semplice' && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito')}">
                           <td>
-                             <button value="${ordine.numeroOrdine}">Elimina Ordine</button>
+                             <button class="deleteBtn" value="${ordine.numeroOrdine}">Elimina Ordine</button>
+                          </td>
+                       </c:if>
+                       <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Consegnato'}">
+                          <td>
+                             <button onclick="modifyForOrdine(${ordine.numeroOrdine}, '${ordine.feedback}')">Scrivi Feedback</button>
                           </td>
                        </c:if>
                     </tr>
@@ -55,5 +63,18 @@
               </table>
            </c:otherwise>
         </c:choose>
+
+        <div id="creaModal" class="creaModal">
+           <form class="creaModal-form" method="post" action="OrdiniManager/feedbackOrdine">
+              <div class="container" id="panel">
+                 <h1>Scrivi Il Tuo Feedback</h1>
+                 <hr>
+                 <textarea id="feedback" name="feedback" rows="6" cols="50" placeholder="Scrivi il tuo feedback..." required></textarea>
+                 <div class="clearfix" id="btnDiv">
+                 </div>
+              </div>
+           </form>
+        </div>
+        <%@include file="footer.jsp"%>
     </body>
 </html>

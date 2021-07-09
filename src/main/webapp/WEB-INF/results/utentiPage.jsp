@@ -11,6 +11,7 @@
    </head>
    <body class="sidenavpresent">
       <%@include file="adminPanel.jsp" %>
+      <%@include file="header.jsp" %>
 
       <c:choose>
          <c:when test="${requestScope.utenteList == null}">
@@ -46,5 +47,6 @@
             </table>
          </c:otherwise>
       </c:choose>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

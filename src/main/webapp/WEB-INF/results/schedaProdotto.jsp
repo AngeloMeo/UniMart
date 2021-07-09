@@ -8,6 +8,8 @@
       <%@include file="general.jsp" %>
    </head>
    <body>
+      <%@include file="header.jsp" %>
+
       <fieldset>
          <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
          <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
@@ -17,5 +19,6 @@
          <h3>Volume Occupato: ${prodotto.volumeOccupato}</h3>
          <h3>Descrizione: ${prodotto.descrizione}</h3>
       </fieldset>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

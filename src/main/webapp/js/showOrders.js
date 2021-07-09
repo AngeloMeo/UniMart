@@ -6,7 +6,7 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $("button").click(function(){
+    $(".deleteBtn").click(function(){
         if (confirm("Vuoi eliminare tale ordine ?"))
         {
             $.post("./OrdiniManager/deleteOrdine",

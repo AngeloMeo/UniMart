@@ -10,6 +10,7 @@
       <%@include file="general.jsp" %>
    </head>
    <body>
+      <%@include file="header.jsp" %>
       <c:set var="ordine" scope="request" value="${requestScope.ordine}"/>
 
       <h1>Dettaglio Ordine</h1>
@@ -78,5 +79,6 @@
       </fieldset>
 
       <button onclick="javascript:history.go(-1)">Torna Indietro</button>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

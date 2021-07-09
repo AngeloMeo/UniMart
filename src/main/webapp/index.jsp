@@ -5,7 +5,6 @@
 
       <%@include file="WEB-INF/results/general.jsp"%>
       <link href="css/homepage.css" type="text/css" rel="stylesheet">
-      <script type="text/javascript" src="${pageContext.request.contextPath}/js/navbar/navbar.js" defer></script>
    </head>
    <body>
       <%@include file="WEB-INF/results/header.jsp"%>
@@ -25,5 +24,6 @@
             Sed nec ullamcorper lorem. In hac habitasse platea dictumst. Vestibulum consequat id leo sit amet euismod. Ut et maximus nibh. Proin aliquam feugiat congue. Sed ante est, auctor a varius et, elementum ac tellus. Mauris ultricies ultrices velit et mollis. Phasellus ut volutpat orci. Aliquam enim velit, feugiat non posuere malesuada, pellentesque vitae dui.
          </div>
       </section>
+      <%@include file="/WEB-INF/results/footer.jsp"%>
    </body>
 </html>

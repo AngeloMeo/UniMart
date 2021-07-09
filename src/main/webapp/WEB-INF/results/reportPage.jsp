@@ -8,6 +8,7 @@
       <%@include file="general.jsp" %>
    </head>
    <body>
+      <%@include file="header.jsp" %>
 
       <c:if test="${not empty utente.fotoProfilo}">
          <div>
@@ -82,5 +83,6 @@
               window.location = "${pageContext.request.contextPath}/HelloServlet";
           }
       </script>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

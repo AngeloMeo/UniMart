@@ -133,6 +133,9 @@ public class OrdiniManager extends HttpServlet
                   }
                }
                break;
+
+            default:
+               response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
          }
       }
       else
@@ -192,6 +195,42 @@ public class OrdiniManager extends HttpServlet
                   }
                }
                break;
+
+            case "/feedbackOrdine":
+
+               if(request.getParameter("id") != null && request.getParameter("feedback") != null)
+               {
+                  int id = Integer.parseInt(request.getParameter("id"));
+
+                  try
+                  {
+                     if (utente.getTipo().equals(TipoUtente.Semplice))
+                     {
+                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
+
+                        if(ordine.getStatoOrdine().equals(StatoOrdine.Consegnato) && utente.getCF().equalsIgnoreCase(ordine.getCliente().getCF()))
+                        {
+                           ordine.setFeedback(request.getParameter("feedback"));
+
+                           OrdineDAO.doUpdate(ordine);
+                        }
+                     }
+
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
+                  }
+
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
+               }
+               break;
+
+            default:
+               response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
          }
       }
       else

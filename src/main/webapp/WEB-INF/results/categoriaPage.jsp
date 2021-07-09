@@ -12,7 +12,7 @@
     <%@include file="general.jsp"%>
   </head>
   <body class="sidenavpresent">
-
+    <%@include file="header.jsp" %>
     <%@include file="adminPanel.jsp"%>
 
     <button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
@@ -58,5 +58,6 @@
         </div>
       </form>
     </div>
+    <%@include file="footer.jsp"%>
   </body>
 </html>

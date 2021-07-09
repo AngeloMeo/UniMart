@@ -9,9 +9,7 @@
         <link href="./css/loginUtente.css" type="text/css" rel="stylesheet">
     </head>
     <body class="text-center">
-        <header style="border: 1px solid;">
-            <h1>HEADER</h1>
-        </header>
+        <%@include file="header.jsp" %>
 
         <form action="LoginManager" method="post">
             <a href="index.jsp"><img class="mb-3" src="./icons/logo.svg" alt="Logo"></a>
@@ -32,5 +30,6 @@
         </form>
 
         <p class="mt-5 mb-3 text-muted">© UniMart Team</p>
+
     </body>
 </html>

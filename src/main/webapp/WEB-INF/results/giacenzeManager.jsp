@@ -8,6 +8,7 @@
         <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
+        <%@include file="header.jsp" %>
         <%@include file="adminPanel.jsp" %>
         <c:set var="index" scope="page" value="0"></c:set>
 
@@ -53,5 +54,6 @@
                 </form>
             </c:otherwise>
         </c:choose>
+        <%@include file="footer.jsp"%>
     </body>
 </html>

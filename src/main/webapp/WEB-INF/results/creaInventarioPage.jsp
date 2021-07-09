@@ -10,6 +10,7 @@
 
    </head>
    <body class="sidenavpresent">
+      <%@include file="header.jsp" %>
       <%@include file="adminPanel.jsp"%>
 
       <form method="post">
@@ -43,5 +44,6 @@
             </c:otherwise>
          </c:choose>
       </form>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

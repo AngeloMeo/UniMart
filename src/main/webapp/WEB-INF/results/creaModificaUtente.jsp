@@ -17,6 +17,7 @@
       <script src="${pageContext.request.contextPath}/js/check/creaUtente.js" defer></script>
    </head>
    <body>
+      <%@include file="header.jsp" %>
       <div>
          <c:choose>
             <c:when test="${sessionScope.utente != null}">
@@ -110,5 +111,6 @@
             </fieldset>
          </form>
       </div>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

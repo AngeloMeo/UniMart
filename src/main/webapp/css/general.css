@@ -120,3 +120,56 @@ input[type=number] {
     nav div a {font-size: 18px;}
 }
 
+header input {
+    display: block;
+    border-radius: 20px;
+    width: 500px;
+    height: auto;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+header form {
+    display: block;
+}
+
+header .dropdown-content {
+    display: inline-block;
+    position: relative;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+
+header {
+    background-color: #253340;
+    padding: 20px;
+    text-align: center;
+}
+
+header img {
+    display: block;
+    float: right;
+    padding: 0px 10px 0px 10px;
+}
+
+@media screen and (max-width:700px) {
+    header input[type="text"] {
+        width: 300px;
+        /*! height: auto; */
+        padding: 5px 1px;
+        /*! text-align: center; */
+    }
+}
+
+@media screen and (min-width:1000px) {
+    header input[type="text"] {
+        width: 700px;
+        height: auto;
+        padding: 10px 5px;
+        text-align: center;
+    }
+}
+

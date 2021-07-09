@@ -9,6 +9,7 @@
         <link href="./css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
+        <%@include file="header.jsp" %>
 
         <form action="ProdottoManager/CreaProdotto" method="get">
             <button id="btn1">Crea Nuovo Prodotto</button>
@@ -49,6 +50,6 @@
                 </table>
             </c:otherwise>
         </c:choose>
-
+        <%@include file="footer.jsp"%>
     </body>
 </html>

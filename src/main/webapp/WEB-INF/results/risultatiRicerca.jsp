@@ -10,6 +10,7 @@
       <script type="text/javascript" src="${pageContext.request.contextPath}/js/risultatiRicerca.js" defer></script>
    </head>
    <body>
+      <%@include file="header.jsp" %>
       <h1>Risultati per ${categoria}</h1>
 
       <c:forEach items="${prodotti}" var="prodotto">
@@ -20,5 +21,6 @@
             <h3>Prezzo: ${prodotto.prezzo}</h3>
          </fieldset>
       </c:forEach>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

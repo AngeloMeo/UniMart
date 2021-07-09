@@ -11,6 +11,7 @@
       <script src="${pageContext.request.contextPath}/js/couponCategoria/couponPage.js" defer></script>
    </head>
    <body class="sidenavpresent">
+      <%@include file="header.jsp" %>
       <%@include file="adminPanel.jsp" %>
       <button onclick="modifyForCrea()" id="btn1">Crea Nuovo Coupon</button>
 
@@ -21,7 +22,7 @@
          <c:otherwise>
             <table>
                <tr>
-                  <th># Coupon${idC}</th>
+                  <th># Coupon</th>
                   <th>Stato</th>
                   <th>Sconto</th>
                   <th>Codice Fiscale Creatore</th>
@@ -76,5 +77,6 @@
             </div>
          </form>
       </div>
+      <%@include file="footer.jsp"%>
    </body>
 </html>

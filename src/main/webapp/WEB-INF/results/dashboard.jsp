@@ -10,6 +10,8 @@
         <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
     </head>
     <body class="sidenavpresent">
+        <%@include file="header.jsp" %>
+
         <c:choose>
             <c:when test="${utente.tipo == 'Semplice'}">
                 <%@include file="userPanel.jsp" %>
@@ -79,5 +81,6 @@
                 </c:choose>
             </div>
         </c:if>
+        <%@include file="footer.jsp"%>
     </body>
 </html>
