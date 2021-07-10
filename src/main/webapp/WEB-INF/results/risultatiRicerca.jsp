@@ -11,16 +11,18 @@
    </head>
    <body>
       <%@include file="header.jsp" %>
-      <h1>Risultati per ${categoria}</h1>
+      <section>
+         <h1>Risultati per ${categoria}</h1>
 
-      <c:forEach items="${prodotti}" var="prodotto">
-         <fieldset id="${prodotto.codiceIAN}">
-            <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-            <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
-            <h3>Nome: ${prodotto.nome}</h3>
-            <h3>Prezzo: ${prodotto.prezzo}</h3>
-         </fieldset>
-      </c:forEach>
+         <c:forEach items="${prodotti}" var="prodotto">
+            <fieldset id="${prodotto.codiceIAN}">
+               <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
+               <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
+               <h3>Nome: ${prodotto.nome}</h3>
+               <h3>Prezzo: ${prodotto.prezzo}</h3>
+            </fieldset>
+         </c:forEach>
+      </section>
       <%@include file="footer.jsp"%>
    </body>
 </html>

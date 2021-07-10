@@ -52,12 +52,13 @@ $(document).ready(
     function () {
         if((Math.round(Math.random() * 2)) % 2)
             $('.assistenza').attr("href", "https://wa.me/+393663096054");
-    }
-);
-$(document).ready(
-    function ()
-    {
+
         $('.logo').click(function (){
             $(window.location).attr('href', "./index.jsp");
         })
-    });
+
+        $('#searchBar').dblclick(function(){
+            $(".assistenza").toggle();
+        });
+    }
+);
