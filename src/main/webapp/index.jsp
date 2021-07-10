@@ -4,7 +4,6 @@
       <title>Unimart</title>
 
       <%@include file="WEB-INF/results/general.jsp"%>
-      <link href="css/homepage.css" type="text/css" rel="stylesheet">
    </head>
    <body>
       <%@include file="WEB-INF/results/header.jsp"%>

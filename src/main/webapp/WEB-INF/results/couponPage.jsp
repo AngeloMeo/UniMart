@@ -6,7 +6,7 @@
       <title>Coupon Manager</title>
 
       <%@include file="general.jsp" %>
-      <link href="${pageContext.request.contextPath}/css/dashboardPages.css" type="text/css" rel="stylesheet">
+      <link href="${pageContext.request.contextPath}/css/old/dashboardPages.css" type="text/css" rel="stylesheet">
       <script src="${pageContext.request.contextPath}/js/couponCategoria/general.js" defer></script>
       <script src="${pageContext.request.contextPath}/js/couponCategoria/couponPage.js" defer></script>
    </head>

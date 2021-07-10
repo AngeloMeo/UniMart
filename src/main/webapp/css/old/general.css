@@ -1,0 +1,175 @@
+:root {
+    --white: #ffffff;
+    --black: #000000;
+    --ocra: #f29727;
+    --primary: #253340;
+    --primaryT: rgba(37, 51, 64, 0.1);
+    --secondary: #87CE1E;
+    --warning: #FF2F27;
+    --neutral: #EAEDED;
+}
+
+.sidenavpresent {
+    margin-left: 210px; /* Same as the width of the sidenav */
+    margin-right: 20px;
+}
+
+#login {
+    display: block;
+    top: 10px;
+    position: absolute;
+    right: 10px;
+}
+
+nav div a {
+    background-color: red;
+    box-shadow: 0 5px 0 darkred;
+    color: white;
+    padding: 1em 1.5em;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+nav a:hover {
+    background-color: #ce0606;
+}
+
+nav a:active {
+    box-shadow: none;
+    top: 5px;
+}
+nav div {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: black;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+nav div a {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 20px;
+    color: #818181;
+    display: block;
+}
+
+nav div a:hover {
+    color: #f1f1f1;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+.tooltip {
+    position: relative;
+}
+
+.tooltip .tooltiptext {
+    display: none;
+    visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    display: inline;
+    visibility: visible;
+    opacity: 1;
+}
+
+@media screen and (max-height: 450px) {
+    nav div {padding-top: 15px;}
+    nav div a {font-size: 18px;}
+}
+
+header input {
+    display: block;
+    border-radius: 20px;
+    width: 500px;
+    height: auto;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+header form {
+    display: block;
+}
+
+header .dropdown-content {
+    display: inline-block;
+    position: relative;
+    background-color: #f6f6f6;
+    min-width: 230px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+
+header {
+    background-color: #253340;
+    padding: 20px;
+    text-align: center;
+}
+
+header img {
+    display: block;
+    float: right;
+    padding: 0px 10px 0px 10px;
+}
+
+@media screen and (max-width:700px) {
+    header input[type="text"] {
+        width: 300px;
+        /*! height: auto; */
+        padding: 5px 1px;
+        /*! text-align: center; */
+    }
+}
+
+@media screen and (min-width:1000px) {
+    header input[type="text"] {
+        width: 700px;
+        height: auto;
+        padding: 10px 5px;
+        text-align: center;
+    }
+}
+

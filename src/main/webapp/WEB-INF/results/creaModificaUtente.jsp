@@ -13,7 +13,7 @@
       </c:choose>
 
       <%@include file="general.jsp" %>
-      <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/creaUtente.css">
+      <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/old/creaUtente.css">
       <script src="${pageContext.request.contextPath}/js/check/creaUtente.js" defer></script>
    </head>
    <body>
