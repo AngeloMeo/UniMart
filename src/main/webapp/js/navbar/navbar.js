@@ -18,8 +18,6 @@ $(document).ready(
 
                         $('#resultsSearch').empty();
                         $('#resultsSearch').css("display", "block");
-                        $('#resultsSearch').css("border", "1px solid #A5ACB2");
-                        $('#resultsSearch').css("backgroundColor", "white");
 
                         if(obj['default'] == null)
                         {
@@ -48,4 +46,18 @@ $(document).ready(
                 $('#resultsSearch').css("display", "none");
             }
         });
+    });
+
+$(document).ready(
+    function () {
+        if((Math.round(Math.random() * 2)) % 2)
+            $('.assistenza').attr("href", "https://wa.me/+393663096054");
+    }
+);
+$(document).ready(
+    function ()
+    {
+        $('.logo').click(function (){
+            $(window.location).attr('href', "./index.jsp");
+        })
     });

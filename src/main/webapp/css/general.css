@@ -88,6 +88,9 @@
 
 * {
     box-sizing: border-box;
+    font-family: 'Roboto-Medium';
+    font-style: normal;
+    font-weight: normal;
 }
 
 body, html {
@@ -121,30 +124,31 @@ header {
     display: flex;
 }
 
-header img{
+header img {
     width: 60px;
     height: 50%;
     margin: 20px 0px 0px;
-    display: inline;
+    display: block;
     float: left;
-
+    border-radius: 20px;
 }
 
 header form {
     height: 100%;
     width: 70%;
-    margin: 0% 2%;
     padding: 0px;
     margin: 20px 0px 0px;
 }
 
-header input[type=text]{
+header input[type=text] {
     display: block;
     float: left;
     height: 50%;
     width: 100%;
     padding: 0%;
     border-radius: 20px;
+    text-align: center;
+    max-width: 750px;
 }
 
 header .logo {
@@ -152,10 +156,26 @@ header .logo {
     height: 92%;
     float: left;
     margin: 0px 15px 0px;
+    border-radius: 0px;
+    cursor: pointer;
 }
 
-header .assistenza {
-    display: none;
+header #resultsSearch {
+    border-radius: 20px;
+    text-align: center;
+    background-color: var(--neutral);
+    margin: 25px;
+    max-width: 750px;
+}
+
+header #resultsSearch a {
+    color: var(--black);
+    margin: 15px;
+    display: inline-block;
+}
+
+section {
+    padding: 5px 20px;
 }
 
 /* MODAL */
@@ -229,27 +249,50 @@ header .assistenza {
 }
 
 @media screen and (min-height: 320px) and (max-width: 480px){
-    body{
+    body {
         background-color: red;
     }
+
+    /* HEADER */
 
     header .logo {
         display: none;
     }
 
     header .assistenza {
+        display: inline-block;
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+    }
 
+    header form {
+        margin: 20px 15px 0px;
     }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px){
-    body{
+    body {
         background-color: green;
     }
 }
 
 @media screen and (min-width: 769px){
-    body{
+    body {
         background-color: yellow;
+    }
+
+    /* HEADER */
+
+    header img {
+        margin: 20px 20px 0px;
+    }
+
+    header .logo {
+        margin: 0px 25px;
+    }
+
+    header #resultsSearch {
+        margin: 0px;
     }
 }
