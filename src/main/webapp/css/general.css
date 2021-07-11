@@ -175,7 +175,6 @@ header #resultsSearch a {
     color: var(--black);
     margin: 15px;
     display: inline-block;
-    transition: all 100ms ease-in-out;
 }
 
 header img:hover {
@@ -206,6 +205,16 @@ footer a{
     width: 33.33%;
     padding: 10px 0px;
     text-align: center;
+}
+
+footer a:hover{
+    transform: scale(1.2);
+}
+
+/* ALL */
+
+.transition {
+    transition: all 100ms ease-in-out;
 }
 
 /* INDEX */
