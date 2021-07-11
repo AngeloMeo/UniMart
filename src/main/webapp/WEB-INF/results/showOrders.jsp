@@ -6,7 +6,6 @@
        <title>Ordini Effettuati</title>
 
        <%@include file="general.jsp" %>
-       <!--<link href="${pageContext.request.contextPath}/css/old/dashboardPages.css" type="text/css" rel="stylesheet">-->
 
        <script type="text/javascript" src="${pageContext.request.contextPath}/js/showOrders.js" defer></script>
        <script type="text/javascript" src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/ordinePage.js" defer></script>

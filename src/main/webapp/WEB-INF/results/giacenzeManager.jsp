@@ -5,7 +5,6 @@
     <head>
         <title>${title}</title>
         <%@include file="general.jsp"%>
-        <!--<link href="${pageContext.request.contextPath}/css/old/dashboardPages.css" type="text/css" rel="stylesheet">-->
     </head>
     <body class="sidenavpresent">
         <%@include file="header.jsp" %>

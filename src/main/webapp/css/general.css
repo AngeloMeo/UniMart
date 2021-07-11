@@ -87,34 +87,6 @@
     src: url("../fonts/Roboto-ThinItalic.ttf");
 }
 
-* {
-    box-sizing: border-box;
-    font-family: 'Roboto-Medium';
-    font-style: normal;
-    font-weight: normal;
-}
-
-body, html {
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-    -moz-appearance:textfield;
-}
-
-a {
-    text-decoration: none;
-}
-
 /* HEADER */
 
 header {
@@ -194,7 +166,8 @@ footer {
     display: flex;
     width: 100%;
     padding: 0px;
-    position: fixed;
+    margin: auto 0px;
+    position: inherit;
 }
 
 footer a{
@@ -213,14 +186,211 @@ footer a:hover{
 
 /* ALL */
 
+* {
+    box-sizing: border-box;
+    font-family: 'Roboto-Medium';
+    font-style: normal;
+    font-weight: normal;
+}
+
+body, html {
+    padding: 0;
+    margin: 0 auto;
+}
+
+main {
+    overflow: auto;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+a {
+    text-decoration: none;
+}
+
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+    margin: 15px auto;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-align: center;
+}
 .transition {
     transition: all 100ms ease-in-out;
 }
 
+.gradient {
+    background: linear-gradient(90deg, var(--primary), var(--primaryT)) repeat;
+}
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    align-items: center;
+}
+
+.flex-dirCol {
+    flex-direction: column;
+}
+
+.flex-dirRow {
+    flex-direction: row;
+}
+
+.flex-item-40 {
+    padding: 10px;
+    flex: 30%;
+    width: 30%;
+    margin: 10px 10px 0px 10px;
+}
+
+.flex-item-50 {
+    padding: 10px;
+    flex: 50%;
+    width: 50%;
+    margin: 10px 10px 0px 10px;
+}
+
+.flex-item-80 {
+    padding: 10px;
+    flex: 80%;
+    width: 80%;
+    margin: 10px 10px 0px 10px;
+}
+
+.flex-item-100 {
+    padding: 10px;
+    flex: 100%;
+    width: 100%;
+    margin: 10px 10px 0px 10px;
+}
+
+.flex-item-40, .flex-item-50, .flex-item-100 {
+    margin: 10px auto;
+}
+
+.btn {
+    max-width: 300px;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 25px;
+    margin: 10px auto;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary {
+    color: var(--white);
+    background-color: var(--warning);
+    border-color: var(--black);
+}
+
+.btn-primary:hover {
+    color: var(--black);
+    background-color: var(--white);
+    border-color: var(--warning);
+}
+
+.btn-secondary {
+    color: var(--white);
+    background-color: var(--ocra);
+    border-color: var(--black);
+}
+
+.btn-secondary:hover {
+    color: var(--black);
+    background-color: var(--white);
+    border-color: var(--ocra);
+}
+
+.btn-primary:active {
+    color: var(--white);
+    background-color: var(--warning);
+    border-color: var(--black);
+}
+
+.btn-primary:active:focus {
+    box-shadow: 0 0 0 0.25rem rgba(49, 132, 253, 0.5);
+}
+
+.btn-primary:disabled {
+    color: var(--white);
+    background-color: var(--secondary);
+    border-color: var(--black);
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-copy {
+    color: var(--white) !important;
+}
+label {
+    font-size: 22px;
+    max-width: 300px;
+}
+
+input {
+    text-align: center;
+    border-radius: 10px;
+    height: 35px;
+    width: 90%;
+    max-width: 300px;
+}
+
+.button-center {
+    max-width: 170px;
+}
+
+/* LOGIN */
+
+.login main {
+    overflow-x: hidden;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.login .error {
+    margin: 15px auto;
+    color: var(--ocra);
+}
+
+.login main .logo, .creaUtente main .logo {
+    height: 150px;
+}
+
+/* CREA UTENTE */
+
+
 /* INDEX */
 
-section {
-    padding: 5px 20px 50px;
+main {
+    padding: 5px 20px 10px;
 }
 
 /* MODAL */
@@ -293,11 +463,7 @@ section {
     opacity: 1;
 }
 
-@media screen and (min-height: 320px) and (max-width: 480px){
-    body {
-        background-color: red;
-    }
-
+@media screen and (min-height: 320px) and (max-width: 480px) {
     /* HEADER */
 
     header .logo {
@@ -309,6 +475,10 @@ section {
         position: fixed;
         bottom: 120px;
         right: 10px;
+    }
+
+    header .assistenza img {
+        background: var(--primaryT05);
     }
 
     header form {
@@ -325,24 +495,44 @@ section {
         width: 100%;
     }
 
+    /* LOGIN */
+
+    .login .flex-dirRow{
+        flex-direction: column;
+    }
+
+    .login .assistenza {
+        bottom: 30px;
+
+    }
+
     /* ALL */
 
-    section {
-        padding: 5px 20px 150px;
+    .flex-item-50 {
+        padding: 10px;
+        flex: 90%;
+        width: 90%;
+        margin: 10px 10px 0px 10px;
+    }
+
+    .text-right {
+        text-align: center !important;
+    }
+
+    .text-left {
+        text-align: center !important;
+    }
+
+    main {
+        padding: 5px 0px;
     }
 }
 
-@media screen and (min-width: 481px) and (max-width: 768px){
-    body {
-        background-color: green;
-    }
+@media screen and (min-width: 481px) and (max-width: 768px) {
+
 }
 
-@media screen and (min-width: 769px){
-    body {
-        background-color: yellow;
-    }
-
+@media screen and (min-width: 769px) {
     /* HEADER */
 
     header img {

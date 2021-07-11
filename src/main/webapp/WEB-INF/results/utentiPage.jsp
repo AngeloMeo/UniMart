@@ -6,7 +6,6 @@
       <title>Utenti Presenti</title>
 
       <%@include file="general.jsp" %>
-      <!--<link href="${pageContext.request.contextPath}/css/old/dashboardPages.css" type="text/css" rel="stylesheet">-->
       <script type="text/javascript" src="${pageContext.request.contextPath}/js/utentiPage/utentiPage.js" defer></script>
    </head>
    <body class="sidenavpresent">

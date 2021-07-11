@@ -6,7 +6,6 @@
       <title>Inventario Manager</title>
 
       <%@include file="general.jsp" %>
-      <!--<link href="./css/dashboardPages.css" type="text/css" rel="stylesheet">-->
    </head>
    <body class="sidenavpresent">
       <%@include file="header.jsp" %>
