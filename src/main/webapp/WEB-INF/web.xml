@@ -5,12 +5,6 @@
          version="4.0">
 
     <context-param>
-        <description>Cartella dove vengono conservate le immagini</description>
-        <param-name>uploadpath</param-name>
-        <param-value>../webapps/uploads/</param-value>
-    </context-param>
-
-    <context-param>
         <param-name>homepage</param-name>
         <param-value>/index.jsp</param-value>
     </context-param>

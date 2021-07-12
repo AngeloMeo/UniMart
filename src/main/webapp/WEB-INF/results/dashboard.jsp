@@ -8,7 +8,7 @@
 
         <%@include file="general.jsp" %>
     </head>
-    <body>
+    <body class="flex-container">
         <%@include file="header.jsp" %>
         <c:choose>
             <c:when test="${utente.tipo == 'Semplice'}">

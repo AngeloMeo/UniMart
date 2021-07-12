@@ -10,39 +10,40 @@
 
     <%@include file="general.jsp"%>
   </head>
-  <body class="sidenavpresent">
+  <body>
     <%@include file="header.jsp" %>
     <%@include file="adminPanel.jsp"%>
 
-    <button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
+    <main>
+      <button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
 
-    <c:choose>
-      <c:when test="${categoriaList == null}">
-      <h1>Nessuna Categoria creata...</h1>
-      </c:when>
+      <c:choose>
+        <c:when test="${categoriaList == null}">
+          <h1>Nessuna Categoria creata...</h1>
+        </c:when>
 
-      <c:otherwise>
-        <table>
-          <tr>
-            <th>Nome Categoria</th>
-            <th>Aliquota</th>
-          </tr>
-
-          <c:forEach items="${categoriaList}" var="cat">
+        <c:otherwise>
+          <table>
             <tr>
-              <td>${cat.nome}</td>
-              <td>${cat.aliquota}</td>
-              <td>
-                <button onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
-              </td>
+              <th>Nome Categoria</th>
+              <th>Aliquota</th>
             </tr>
-          </c:forEach>
-        </table>
-      </c:otherwise>
-    </c:choose>
 
-    <div id="creaModal" class="creaModal">
-      <form class="creaModal-form" method="post">
+            <c:forEach items="${categoriaList}" var="cat">
+              <tr>
+                <td>${cat.nome}</td>
+                <td>${cat.aliquota}</td>
+                <td>
+                  <button onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
+                </td>
+              </tr>
+            </c:forEach>
+          </table>
+        </c:otherwise>
+      </c:choose>
+
+      <div id="creaModal" class="creaModal">
+        <form class="creaModal-form" method="post">
           <div class="container">
             <h1>Crea Categoria</h1>
             <hr>
@@ -53,10 +54,12 @@
             <input type="number" name="ali" id="aliquota" placeholder="aliquota" required>
 
             <div class="clearfix" id="btnDiv">
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </main>
+
     <%@include file="footer.jsp"%>
   </body>
 </html>

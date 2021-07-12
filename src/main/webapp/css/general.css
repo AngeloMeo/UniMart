@@ -96,6 +96,8 @@ header {
     top: 0;
     position: sticky;
     display: flex;
+    padding: 2px 10px;
+    z-index: 1;
 }
 
 header img {
@@ -168,6 +170,7 @@ footer {
     padding: 0px;
     margin: auto 0px;
     position: inherit;
+    z-index: 1;
 }
 
 footer a{
@@ -242,6 +245,10 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 
 .gradient3 {
     background: linear-gradient(40deg, var(--secondary), var(--neutral)) repeat;
+}
+
+.gradient4 {
+    background: linear-gradient(120deg, var(--primary), var(--primaryT05)) repeat;
 }
 
 .flex-container {
@@ -422,17 +429,17 @@ hr {
     height: 150px;
 }
 
-/* NAVBAR */
+/* DASHBOARD PAGES */
 
-nav a{
-    color: var(--black);
+nav + main {
+    margin: 15px 15px 15px 170px;
 }
 
 /* DASHBOARD */
 
 .dashboard main>.box {
     border: 2px solid var(--black);
-    padding: 20px;
+    padding: 20px 5px;
     margin: 10px;
     height: 90%;
     width: 90%;
@@ -443,8 +450,43 @@ nav a{
 }
 
 .dashboard main>.box>.data {
-    padding: 20px;
+    padding: 20px 5px;
     margin: 10px auto;
+}
+
+nav~main {
+    overflow: auto;
+    padding: 5px 20px 10px;
+    width: 80%;
+}
+
+/* NAV */
+
+nav {
+    width: 130px;
+    position: fixed;
+    z-index: 1;
+    top: 115px;
+    left: 10px;
+    background: #eee;
+    overflow-x: hidden;
+    padding: 8px 0;
+}
+
+nav a {
+    padding: 6px 2px;
+    text-decoration: none;
+    color: var(--black);
+    display: block;
+    text-align: center;
+}
+
+nav a:hover {
+    color: var(--ocra);
+}
+
+.btn-menu-mobile {
+    display: none;
 }
 
 /* MODAL */
@@ -519,7 +561,6 @@ nav a{
 
 @media screen and (min-height: 320px) and (max-width: 480px) {
     /* HEADER */
-
     header .logo {
         display: none;
     }
@@ -540,18 +581,16 @@ nav a{
     }
 
     /* FOOTER */
-
     footer {
         flex-direction: column;
     }
 
-    footer a{
+    footer a {
         width: 100%;
     }
 
     /* LOGIN */
-
-    .login .flex-dirRow{
+    .login .flex-dirRow {
         flex-direction: column;
     }
 
@@ -561,7 +600,6 @@ nav a{
     }
 
     /* ALL */
-
     .flex-item-50 {
         padding: 10px;
         flex: 90%;
@@ -582,16 +620,68 @@ nav a{
     }
 
     /* DASHBOARD */
-
-    .dashboard main>.box {
+    .dashboard main > .box {
         margin: 5px auto;
+    }
+
+    /* NAV */
+
+    nav ~ main {
+        width: 90%;
+        margin: 5px auto !important;
+    }
+
+    .btn-menu-mobile {
+        display: inline-block;
+        margin: 0 auto;
+        font-size: xx-large;
+        padding: 10px;
+        cursor: pointer;
+        position: sticky;
+        top: 100px;
+        opacity: 1;
+        background: var(--neutral);
+        width: 100%;
+        z-index: 1;
+    }
+
+    nav {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        /*background-color: #111;*/
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+    }
+
+    nav a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        display: block;
+        transition: 0.3s;
+        color: var(--neutral);
+    }
+
+    nav .closebtn {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+        background: var(--primaryT);
+        width: auto;
     }
 }
 
 @media screen and (min-width: 481px) and (max-width: 768px) {
-    /* ALL */
-
-
+    .gradient4 {
+        background: var(--neutral);
+    }
 }
 
 @media screen and (min-width: 769px) {
@@ -616,5 +706,9 @@ nav a{
         flex: 30%;
         width: 30%;
         margin: 10px 10px 0px 10px;
+    }
+
+    .gradient4 {
+        background: var(--neutral);
     }
 }

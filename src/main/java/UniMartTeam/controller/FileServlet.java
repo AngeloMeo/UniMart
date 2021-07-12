@@ -49,7 +49,7 @@ public class FileServlet extends HttpServlet
    @Override
    public void init() throws ServletException {
 
-      this.basePath = getServletContext().getInitParameter("uploadpath");
+      this.basePath = System.getenv("CATALINA_HOME") + File.separator + "webapps" + File.separator + "uploads";
 
       // Validate base path.
       if (this.basePath == null) {

@@ -1,5 +1,5 @@
 <header class="transition">
-  <script src="${pageContext.request.contextPath}/js/navbar/navbar.js" defer></script>
+  <script src="${pageContext.request.contextPath}/js/header/header.js" defer></script>
 
   <img class="logo" src="${pageContext.request.contextPath}/icons/logo.svg">
 
