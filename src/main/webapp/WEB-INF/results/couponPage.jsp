@@ -13,8 +13,8 @@
       <%@include file="header.jsp" %>
       <%@include file="adminPanel.jsp" %>
 
-      <main>
-         <button onclick="modifyForCrea()" id="btn1">Crea Nuovo Coupon</button>
+      <main class="flex-container">
+         <button onclick="modifyForCrea()" id="btn-crea">Crea Nuovo Coupon</button>
 
          <c:choose>
             <c:when test="${couponList == null}">
