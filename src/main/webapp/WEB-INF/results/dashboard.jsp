@@ -19,68 +19,146 @@
             </c:otherwise>
         </c:choose>
 
-        <main class="flex-container">
+        <main class="grid-container">
             <c:if test="${CouponTotali != null}">
-                <div>Coupon Totali: ${CouponTotali}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${CouponTotali}
+                    </div>
+                    <hr>
+                    Coupon Totali
+                </div>
             </c:if>
 
             <c:if test="${CouponRiscattati != null}">
-                <div>Coupon Riscattati: ${CouponRiscattati}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${CouponRiscattati}
+                    </div>
+                    <hr>
+                    Coupon Riscattati
+                </div>
             </c:if>
 
             <c:if test="${UtentiTotali != null}">
-                <div>Utenti Totali: ${UtentiTotali}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                            ${UtentiTotali}
+                    </div>
+                    <hr>
+                    Utenti Totali
+                </div>
             </c:if>
 
             <c:if test="${ClientiTotali != null}">
-                <div>Clienti Totali: ${ClientiTotali}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${ClientiTotali}
+                    </div>
+                    <hr>
+                    Clienti Totali
+                </div>
             </c:if>
 
             <c:if test="${OrdiniEvasi != null}">
-                <div>Ordini Evasi: ${OrdiniEvasi}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${OrdiniEvasi}
+                    </div>
+                    <hr>
+                    Ordini Evasi
+                </div>
             </c:if>
 
             <c:if test="${NumeroInventari != null}">
-                <div>Numero Inventari: ${NumeroInventari}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${NumeroInventari}
+                    </div>
+                    <hr>
+                    Numero Inventari
+                </div>
             </c:if>
 
             <c:if test="${ProdottiStatistiche != null}">
-                <div>Statistiche vendite: Incasso totale: ${ProdottiStatistiche.incasso} Quantita = ${ProdottiStatistiche.getQuantitaProdottiVenduti()} ProdottiVenduti: ${ProdottiStatistiche.getProdottiVenduti()}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        Incasso totale: ${ProdottiStatistiche.incasso} &euro;
+                        <br>
+                        Quantità = ${ProdottiStatistiche.getQuantitaProdottiVenduti()}
+                        <br>
+                        Prodotti Venduti: ${ProdottiStatistiche.getProdottiVenduti()}
+                    </div>
+                    <hr>
+                    Statistiche Vendite
+                </div>
             </c:if>
 
             <c:if test="${OrdiniSalvati != null}">
-                <div>Ordini Salvati: ${OrdiniSalvati}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${OrdiniSalvati}
+                    </div>
+                    <hr>
+                    Ordini Salvati
+                </div>
             </c:if>
 
             <c:if test="${SpedizionePreferita != null}">
-                <c:choose>
-                    <c:when test="${utente.tipo == 'Semplice'}">
-                        <div>Spedizione Preferita: ${SpedizionePreferita.nome}</div>
-                    </c:when>
-                    <c:otherwise>
-                        <div>Spedizione Preferita: Nome = ${SpedizionePreferita.nome} Utilizzi = ${SpedizionePreferita.utilizzi}</div>
-                    </c:otherwise>
-                </c:choose>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        <c:choose>
+                            <c:when test="${utente.tipo == 'Semplice'}">
+                                ${SpedizionePreferita.nome}
+                            </c:when>
+                            <c:otherwise>
+                                Nome = ${SpedizionePreferita.nome}
+                                <br>
+                                Utilizzi = ${SpedizionePreferita.utilizzi}
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                    <hr>
+                    Spedizione Preferita
+                </div>
             </c:if>
 
             <c:if test="${OrdiniTotali != null}">
-                <div>Ordini Totali: ${OrdiniTotali}</div>
+                <div class="gradient3 box transition2">
+                    <div class="data">
+                        ${OrdiniTotali}
+                    </div>
+                    <hr>
+                    Ordini Totali
+                </div>
             </c:if>
 
             <c:if test="${ProdottoPreferito != null}">
-                <div>Prodotto Più Venduto:
-                    <img src="file/${ProdottoPreferito.foto}" height="100" width="100">
+                <div class="gradient3 box transition2">
+                    <img src="file/${ProdottoPreferito.foto}" alt="Foto Prodotto" onclick="redirect('SearchManager/prodotto?id=${ProdottoPreferito.codiceIAN}')">
+                    <br>
                     <c:choose>
                         <c:when test="${utente.tipo == 'Semplice'}">
                             ${ProdottoPreferito.nome}
                         </c:when>
                         <c:otherwise>
-                            Nome = ${ProdottoPreferito.nome} Acquistato = ${ProdottoPreferito.nAcquisti}
+                            Nome = ${ProdottoPreferito.nome}
+                            <br>
+                            Acquistato = ${ProdottoPreferito.nAcquisti}
                         </c:otherwise>
                     </c:choose>
+                    <hr>
+                    Prodotto Più Venduto
                 </div>
             </c:if>
         </main>
+
+        <script>
+            function redirect(target)
+            {
+                window.location.href = target;
+            }
+        </script>
 
         <%@include file="footer.jsp"%>
     </body>
