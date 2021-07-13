@@ -29,27 +29,28 @@
            </c:when>
            <c:otherwise>
               <table>
-                 <tr>
-                    <thead>
-                       <th scope="NumeroOrdine">Numero Ordine</th>
-                       <th scope="Stato">Stato</th>
-                       <th scope="Feedback">Feedback</th>
-                       <th scope="CF">CF Cliente</th>
-                       <th scope="Data">Data Acquisto</th>
-                       <th scope="MetodoSpedizione">Metodo Spedizione</th>
+                 <thead>
+                    <tr>
+                       <th>Numero Ordine</th>
+                       <th>Stato</th>
+                       <th>Feedback</th>
+                       <th>CF Cliente</th>
+                       <th>Data Acquisto</th>
+                       <th>Metodo Spedizione</th>
                        <c:if test="${utente.tipo == 'Semplice'}">
-                          <th scope="Gestisci">Gestisci</th>
+                          <th>Gestisci</th>
                        </c:if>
-                    </thead>
-                 </tr>
+                    </tr>
+                 </thead>
+
                  <c:forEach items="${ordiniList}" var="ordine">
                     <tr>
-                       <td class="numeroOrdine" data-label="NumeroOrdine">${ordine.numeroOrdine}</td>
+                       <td class="numeroOrdine" data-label="Numero Ordine">${ordine.numeroOrdine}</td>
                        <td data-label="Stato">${ordine.statoOrdine}</td>
                        <td data-label="Feedback">${ordine.feedback}</td>
-                       <td data-label="CF">${ordine.cliente.CF}</td>
-                       <td data-label="Data">${ordine.dataAcquisto}</td>
-                       <td data-label="MetodoSpedizione">${ordine.spedizione.nome}</td>
+                       <td data-label="Codice Fiscale">${ordine.cliente.CF}</td>
+                       <td data-label="Data Acquisto">${ordine.dataAcquisto}</td>
+                       <td data-label="Metodo Spedizione">${ordine.spedizione.nome}</td>
                           <c:if test="${utente.tipo == 'Semplice' && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito')}">
                        <td data-label="Gestisci">
                              <button class="deleteBtn" value="${ordine.numeroOrdine}">Elimina Ordine</button>
