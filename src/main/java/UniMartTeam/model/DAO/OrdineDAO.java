@@ -125,7 +125,7 @@ public class OrdineDAO
       }
    }
 
-   public static Ordine doRetiveProducts(Ordine ordine) throws SQLException
+   public static Ordine doRetrieveProducts(Ordine ordine) throws SQLException
    {
       if(ordine != null)
       {

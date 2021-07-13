@@ -68,7 +68,7 @@ public class OrdiniManager extends HttpServlet
 
                      if ((utente.getTipo().equals(TipoUtente.Amministratore)) || ordine.getCliente().getCF().equalsIgnoreCase(utente.getCF()))
                      {
-                        OrdineDAO.doRetiveProducts(ordine);
+                        OrdineDAO.doRetrieveProducts(ordine);
                      }
                      else
                      {
@@ -162,7 +162,7 @@ public class OrdiniManager extends HttpServlet
                      if (utente.getTipo().equals(TipoUtente.Semplice))
                      {
                         Ordine ordine = OrdineDAO.doRetrieveByID(id);
-                        OrdineDAO.doRetiveProducts(ordine);
+                        OrdineDAO.doRetrieveProducts(ordine);
 
                         if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato) ||
                                 ordine.getStatoOrdine().equals(StatoOrdine.Preparazione) ||
