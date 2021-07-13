@@ -61,7 +61,10 @@ public class OrdineDAO
 
    private static boolean executeStatement(Connection con, Ordine o, QueryBuilder qb) throws SQLException
    {
-      try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+      if (con == null || o == null || qb == null)
+         return false;
+
+      try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
       {
          ps.setString(1, o.getStatoOrdine().toString());
          ps.setString(2, o.getFeedback());
@@ -70,7 +73,12 @@ public class OrdineDAO
          ps.setString(5, o.getCliente().getCF());
          ps.setInt(6, o.getSpedizione().getID());
 
-         return ps.executeUpdate() != 0;
+         ps.executeUpdate();
+         ResultSet rs = ps.getGeneratedKeys();
+         if(rs.next())
+            o.setNumeroOrdine(rs.getInt(1));
+
+         return true;
       }
    }
 
