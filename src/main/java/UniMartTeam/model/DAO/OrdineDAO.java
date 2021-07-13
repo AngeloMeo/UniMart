@@ -182,7 +182,7 @@ public class OrdineDAO
       while (rs.next())
       {
          Utente utente = UtenteDAO.doRetrieveByCond(UtenteDAO.CF, "'" + rs.getString("cfCliente") + "'").get(0);
-         Spedizione spedizione = SpedizioneDAO.doRetriveById(rs.getInt("ID"));
+         Spedizione spedizione = SpedizioneDAO.doRetrieveById(rs.getInt("ID"));
          Ordine ordine = OrdineExtractor.Extract(rs, "", utente, null, spedizione);
          Coupon coupon = CouponDAO.doRetrieveByCond(ordine);
          ordine.setCoupon(coupon);
@@ -232,6 +232,23 @@ public class OrdineDAO
       }
    }
 
+   public static List<Ordine> doRetrieveByCond(Utente u, StatoOrdine statoOrdine) throws SQLException
+   {
+      if (u == null || u.getCF() == null)
+         return null;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("ordine", "").select("*", "cfCliente AS CF", "metodoSpedizione AS ID").where("cfCliente=? and stato=?");
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setString(1, u.getCF());
+            ps.setString(2, statoOrdine.toString());
+            return ListFiller(ps);
+         }
+      }
+   }
    public static List<Ordine> doRetrieveByCond(int metodoSpedizione) throws SQLException
    {
       if (metodoSpedizione <= 0)

@@ -1,10 +1,10 @@
 package UniMartTeam.controller;
 
-import UniMartTeam.model.Beans.Composto;
-import UniMartTeam.model.Beans.Ordine;
-import UniMartTeam.model.Beans.Prodotto;
-import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
+import UniMartTeam.model.DAO.SpedizioneDAO;
+import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Utils.ConPool;
 
 import javax.servlet.ServletException;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class CarrelloManager extends HttpServlet {
 
@@ -24,10 +23,18 @@ public class CarrelloManager extends HttpServlet {
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
         SessionManager sessionManager = new SessionManager(request);
         Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
-//TODO
-//solo visual
 
-
+        if(utente != null && !utente.getCF().isBlank()){
+            try {
+                request.setAttribute("orders", OrdineDAO.doRetrieveByCond(utente, StatoOrdine.Salvato));
+            } catch (SQLException e) {
+                request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:doGet)");
+                request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                e.printStackTrace();
+            }
+        }
+//todo manda alla pagina carrello
     }
 
 
@@ -54,8 +61,67 @@ public class CarrelloManager extends HttpServlet {
                     alterQuantities(request, response, sessionManager);
                 break;
             case "/saveOrder":
-                //TODO
+                saveOrder(request, response, sessionManager);
                 break;
+            case "/saved2cart":
+                saved2cart(request, response, sessionManager);
+                break;
+        }
+
+    }
+
+    private void saved2cart(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException {
+
+        Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
+
+        if(utente != null && !utente.getCF().isEmpty()){
+
+            String id = request.getParameter("orderID");
+
+            if(!id.isBlank()){
+                try {
+                    sessionManager.setAttribute(OrdineDAO.doRetrieveByID(Integer.parseInt(id)), "cart");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            /*TODO ajax*/
+        }
+    }
+
+    private void saveOrder(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException {
+
+        Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
+
+        if(utente != null && !utente.getCF().isEmpty()){
+
+            Ordine o = (Ordine) sessionManager.getObjectFromSession("cart");
+            o.setCliente(utente);
+            o.setStatoOrdine(StatoOrdine.Salvato);
+            o.setRegione(utente.getRegione());
+            o.setCitta(utente.getCitta());
+            o.setViaCivico(utente.getViaCivico());
+
+            try {
+                o.setSpedizione(SpedizioneDAO.doRetrieveById(1));
+            } catch (SQLException e) {
+                request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:saveOrder)");
+                request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                e.printStackTrace();
+            }
+
+            try {
+                OrdineDAO.doSave(o);
+            } catch (SQLException e) {
+                request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:saveOrder)");
+                request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                e.printStackTrace();
+            }
+
+            sessionManager.removeAttribute("cart");
+            /*TODO: ajax*/
         }
 
     }
