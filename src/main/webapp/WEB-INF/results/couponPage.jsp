@@ -22,12 +22,15 @@
             </c:when>
             <c:otherwise>
                <table>
-                  <tr>
-                     <th># Coupon</th>
-                     <th>Stato</th>
-                     <th>Sconto</th>
-                     <th>Codice Fiscale Creatore</th>
-                  </tr>
+                  <thead>
+                     <tr>
+                        <th scope="Coupon"># Coupon</th>
+                        <th scope="Stato">Stato</th>
+                        <th scope="Sconto">Sconto</th>
+                        <th scope="CF">Codice Fiscale Creatore</th>
+                        <th scope="Gestisci">Gestisci</th>
+                     </tr>
+                  </thead>
                   <c:forEach items="${couponList}" var="coupon">
                      <c:choose>
                         <c:when test="${coupon.numeroCoupon == ultimoCoupon.numeroCoupon}">
@@ -38,19 +41,19 @@
                         </c:otherwise>
                      </c:choose>
 
-                     <td>${coupon.numeroCoupon}</td>
+                     <td data-label="Coupon">${coupon.numeroCoupon}</td>
                      <c:choose>
                         <c:when test="${coupon.statoCoupon == 'Disponibile'}">
-                           <td style="color: green">
+                           <td style="color: green" data-label="Stato">
                         </c:when>
                         <c:otherwise>
-                           <td style="color: red">
+                           <td style="color: red" data-label="Stato">
                         </c:otherwise>
                      </c:choose>
                         ${coupon.statoCoupon}</td>
-                     <td>${coupon.sconto}</td>
-                     <td>${coupon.creatore.CF}</td>
-                     <td>
+                     <td data-label="Sconto">${coupon.sconto}</td>
+                     <td data-label="CF">${coupon.creatore.CF}</td>
+                     <td data-label="Gestisci">
                         <c:if test="${coupon.creatore.CF == utente.CF && coupon.statoCoupon == 'Disponibile'}">
                            <button class="tdSmall"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
                         </c:if>

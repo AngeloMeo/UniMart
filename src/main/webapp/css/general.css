@@ -540,10 +540,11 @@ td > button, td > form > button {
     font-family: Verdana, sans-serif;
     font-size: 23px;
     position: fixed;
-    top: 12%;
     background-color: var(--ocra);
     margin: 0px auto;
     display: inline-block;
+    text-align: center;
+    left: 25%;
 }
 
 .clearfix::after {
@@ -593,7 +594,83 @@ td > button, td > form > button {
     opacity: 1;
 }
 
-/* BETA */
+/* TABLE */
+
+table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+}
+
+table tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+}
+
+table th, table td {
+    padding: .625em;
+    text-align: center;
+}
+
+table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+@media screen and (max-width: 800px) {
+    table {
+        border: 0;
+    }
+
+    table caption {
+        font-size: 1.3em;
+    }
+
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    table tr {
+        border-bottom: 3px solid #ddd;
+        display: block;
+        margin-bottom: .625em;
+    }
+
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .8em;
+        text-align: right;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    table td:last-child {
+        border-bottom: 0;
+    }
+}
 
 @media screen and (min-height: 320px) and (max-width: 480px) {
     /* HEADER */
@@ -685,6 +762,7 @@ td > button, td > form > button {
         background: var(--neutral);
         width: 100%;
         z-index: 1;
+        text-align: center;
     }
 
     nav {
@@ -743,6 +821,12 @@ td > button, td > form > button {
         color: var(--black);
         display: block;
         text-align: center;
+    }
+
+    /* TABLE */
+
+    table {
+        width: 80%;
     }
 }
 
