@@ -160,7 +160,7 @@ public class SpedizioneDAO
       return true;
    }
 
-   public static Spedizione doRetriveById(int id) throws SQLException
+   public static Spedizione doRetrieveById(int id) throws SQLException
    {
       try(Connection con = ConPool.getConnection())
       {
