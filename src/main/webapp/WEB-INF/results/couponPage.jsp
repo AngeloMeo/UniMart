@@ -24,11 +24,11 @@
                <table>
                   <thead>
                      <tr>
-                        <th scope="Coupon"># Coupon</th>
-                        <th scope="Stato">Stato</th>
-                        <th scope="Sconto">Sconto</th>
-                        <th scope="CF">Codice Fiscale Creatore</th>
-                        <th scope="Gestisci">Gestisci</th>
+                        <th># Coupon</th>
+                        <th>Stato</th>
+                        <th>Sconto</th>
+                        <th>Codice Fiscale Creatore</th>
+                        <th>Gestisci</th>
                      </tr>
                   </thead>
                   <c:forEach items="${couponList}" var="coupon">
@@ -55,7 +55,7 @@
                      <td data-label="CF">${coupon.creatore.CF}</td>
                      <td data-label="Gestisci">
                         <c:if test="${coupon.creatore.CF == utente.CF && coupon.statoCoupon == 'Disponibile'}">
-                           <button class="tdSmall"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
+                           <button class="btn btn-small"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
                         </c:if>
                      </td>
                   </tr>

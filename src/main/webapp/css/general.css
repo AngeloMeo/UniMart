@@ -169,7 +169,7 @@ footer {
     width: 100%;
     padding: 0px;
     margin: auto 0px;
-    position: inherit;
+    position: fixed;
     z-index: 1;
 }
 
@@ -341,6 +341,12 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     border-color: var(--black);
 }
 
+.btn-small {
+    padding: 8px;
+    width: min-content;
+    height: min-content;
+}
+
 .btn-primary:hover {
     color: var(--black);
     background-color: var(--white);
@@ -413,7 +419,7 @@ button {
 }
 
 main img {
-    heigh: 200px;
+    height: 200px;
     width: 200px;
     border-radius: 20px;
 }
@@ -477,7 +483,7 @@ nav + main {
 
 nav~main {
     overflow: auto;
-    padding: 5px 20px 10px;
+    padding: 5px 0px 10px;
     width: 80%;
 }
 
@@ -541,10 +547,12 @@ td > button, td > form > button {
     font-size: 23px;
     position: fixed;
     background-color: var(--ocra);
-    margin: 0px auto;
+    margin: 2px 0px;
     display: inline-block;
     text-align: center;
-    left: 25%;
+    left: 50%;
+    top: 100px;
+    height: max-content;
 }
 
 .clearfix::after {
@@ -603,6 +611,8 @@ table {
     padding: 0;
     width: 100%;
     table-layout: fixed;
+    margin-block-end: 30px;
+    margin-block-start: 50px;
 }
 
 table caption {
@@ -614,11 +624,21 @@ table tr {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     padding: .35em;
+    height: 70px;
 }
 
 table th, table td {
     padding: .625em;
     text-align: center;
+    height: 30px;
+}
+
+table td {
+    word-break:break-all;
+}
+
+table td button{
+    word-break:normal;
 }
 
 table th {
@@ -629,7 +649,17 @@ table th {
 
 @media screen and (max-width: 800px) {
     table {
-        border: 0;
+        margin-block-end: 110px;
+    }
+
+    table tbody tr td .btn-small{
+        word-break:normal;
+        padding: 0px 10px;
+        margin: auto;
+    }
+
+    table tbody tr td form {
+        float: right;
     }
 
     table caption {
@@ -650,7 +680,8 @@ table th {
     table tr {
         border-bottom: 3px solid #ddd;
         display: block;
-        margin-bottom: .625em;
+        margin-bottom: 10px;
+        height: auto;
     }
 
     table td {
@@ -696,7 +727,8 @@ table th {
     /* MODAL */
 
     #btn-crea {
-        top: 20%;
+        top: 150px;
+        left: 25%;
     }
 
     /* FOOTER */

@@ -14,8 +14,8 @@
     <%@include file="header.jsp" %>
     <%@include file="adminPanel.jsp"%>
 
-    <main>
-      <button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
+    <main class="flex-container">
+      <button id="btn-crea" onclick="modifyForCrea()">Crea Nuova Categoria</button>
 
       <c:choose>
         <c:when test="${categoriaList == null}">
@@ -24,17 +24,20 @@
 
         <c:otherwise>
           <table>
-            <tr>
-              <th>Nome Categoria</th>
-              <th>Aliquota</th>
-            </tr>
+            <thead>
+              <tr>
+                <th>Nome Categoria</th>
+                <th>Aliquota</th>
+                <td>Gestisci</td>
+              </tr>
+            </thead>
 
             <c:forEach items="${categoriaList}" var="cat">
               <tr>
-                <td>${cat.nome}</td>
-                <td>${cat.aliquota}</td>
-                <td>
-                  <button onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
+                <td data-label="Nome">${cat.nome}</td>
+                <td data-label="Aliquota">${cat.aliquota}</td>
+                <td data-label="Gestisci">
+                  <button class="btn btn-small" onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
                 </td>
               </tr>
             </c:forEach>
