@@ -6,6 +6,8 @@ import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.DAO.SpedizioneDAO;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Utils.ConPool;
+import com.google.gson.Gson;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -193,6 +195,7 @@ public class CarrelloManager extends HttpServlet {
 
             /*TODO: quando aggiungo un prodotto al carrello rimane sulla pagina; ajax cambierà il testo di "Aggiungi al carrello" in "Aggiunto"*/
 
+            return;
 
         }
     }
