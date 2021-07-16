@@ -25,14 +25,14 @@ $(document).ready(
                             {
                                 let text = obj['categorie'][i];
 
-                                $('#resultsSearch').append("<a href='SearchManager/categoria?id=" + text + "'>" + text + "</a><br>");
+                                $('#resultsSearch').append("<a href='" + getPageContext() + "/SearchManager/categoria?id=" + text + "'>" + text + "</a><br>");
                             }
 
                             for(let i in obj['prodotti'])
                             {
                                 let text = obj['prodotti'][i];
                                 let key = text.substring(text.indexOf(':') + 2);
-                                $('#resultsSearch').append("<a href='SearchManager/prodotto?id=" + key + "'>" + text + "</a><br>");
+                                $('#resultsSearch').append("<a href='" + getPageContext() + "/SearchManager/prodotto?id=" + key + "'>" + text + "</a><br>");
                             }
                         }
                         else
