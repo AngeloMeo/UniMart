@@ -18,7 +18,7 @@
         </c:when>
 
         <c:otherwise>
-            <c:forEach items="${cart.compostoList}" var = "prod">
+            <c:forEach items="${cart.compostoList}" var="prodotto">
                 <fieldset id="${prodotto.codiceIAN}">
                     <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
                     <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
