@@ -35,7 +35,7 @@
             <c:forEach items="${categoriaList}" var="cat">
               <tr>
                 <td data-label="Nome">${cat.nome}</td>
-                <td data-label="Aliquota">${cat.aliquota}</td>
+                <td data-label="Aliquota">${cat.aliquota} &#37;</td>
                 <td data-label="Gestisci">
                   <button class="btn btn-small" onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
                 </td>

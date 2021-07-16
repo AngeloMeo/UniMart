@@ -13,72 +13,81 @@
       <%@include file="header.jsp" %>
       <c:set var="ordine" scope="request" value="${requestScope.ordine}"/>
 
-      <h1>Dettaglio Ordine</h1>
-      <h3>Stato: ${ordine.statoOrdine}</h3>
+      <main class="flex-container">
+         <h1 class="flex-item-100">Dettaglio Ordine</h1>
+         <h3 class="flex-item-100">Stato: ${ordine.statoOrdine}</h3>
 
-      <fieldset>
-         <caption>Prodotti Ordinati</caption>
-         <table>
-            <tr>
-               <th>Nome Prodotto</th>
-               <th>Foto</th>
-               <th>Prezzo Acquisto</th>
-               <th>Quantità</th>
-               <th>Categoria</th>
-               <th>Peso</th>
-            </tr>
+         <fieldset class="flex-item-100">
+            <caption>Prodotti Ordinati</caption>
+            <table class="table">
+               <thead>
+                  <tr>
+                     <th>Nome Prodotto</th>
+                     <th>Foto</th>
+                     <th>Prezzo Acquisto</th>
+                     <th>Quantità</th>
+                     <th>Categoria</th>
+                     <th>Peso</th>
+                  </tr>
+               </thead>
 
-            <c:forEach items="${ordine.compostoList}" var="composto">
+               <c:forEach items="${ordine.compostoList}" var="composto">
+                  <tr>
+                     <td data-label="Nome">${composto.prodotto.nome}</td>
+                     <td data-label="Foto">
+                        <img src="${pageContext.request.contextPath}/file/${composto.prodotto.foto}" class="img-medium" alt="Foto Prodotto" >
+                     </td>
+                     <td data-label="Prezzo Acquisto">${composto.prezzo} &euro;</td>
+                     <td data-label="Quantità">${composto.quantita}</td>
+                     <td data-label="Categoria">${composto.prodotto.categoria.nome}</td>
+                     <td data-label="Peso">${composto.prodotto.peso}</td>
+                  </tr>
+               </c:forEach>
+
                <tr>
-                  <td>${composto.prodotto.nome}</td>
-                  <td>
-                     <img src="${pageContext.request.contextPath}/file/${composto.prodotto.foto}" height="100" width="100" alt="Foto Prodotto" >
-                  </td>
-                  <td>${composto.prezzo}</td>
-                  <td>${composto.quantita}</td>
-                  <td>${composto.prodotto.categoria.nome}</td>
-                  <td>${composto.prodotto.peso}</td>
-               </tr>
-            </c:forEach>
-               <tr>
-                  <td colspan="4">
+                  <td colspan="6">
                      Totale:
                      <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale}" />
+                     &euro;
                   </td>
                </tr>
                <c:if test="${ordine.coupon != null}">
                   <tr>
-                     <td colspan="4">
+                     <td colspan="6">
                         Totale con coupon:
                         <fmt:formatNumber type="number" maxFractionDigits="2" value="${totaleCoupon}" />
+                        &euro;
                      </td>
                   </tr>
                </c:if>
-         </table>
-      </fieldset>
-
-      <fieldset>
-         <caption>Fatturazione E Spedizione</caption>
-
-         <c:if test="${ordine.coupon != null}">
-            <h4>Numero coupon: ${ordine.coupon.numeroCoupon}</h4>
-            <h4>Sconto: ${ordine.coupon.sconto}</h4>
-         </c:if>
-
-         <fieldset>
-            <caption>Indirizzo Spedizione</caption>
-
-            <h4>Via e Civico: ${ordine.viaCivico}</h4>
-            <h4>Citt&agrave;: ${ordine.citta}</h4>
-            <h4>Regione: ${ordine.regione}</h4>
+            </table>
          </fieldset>
 
-         <h4>Spedizione Scelta: ${ordine.spedizione.nome}</h4>
-         <h4>Ricevuta Acquisto: ${ordine.ricevutaPagamento}</h4>
-         <h4>Data Acquisto: ${ordine.dataAcquisto}</h4>
-      </fieldset>
+         <fieldset class="flex-item-100">
+            <caption>Fatturazione E Spedizione</caption>
 
-      <button onclick="javascript:history.go(-1)">Torna Indietro</button>
-      <%@include file="footer.jsp"%>
+            <h4>Spedizione Scelta: ${ordine.spedizione.nome}</h4>
+            <h4>Ricevuta Acquisto: ${ordine.ricevutaPagamento}</h4>
+            <h4>Data Acquisto: ${ordine.dataAcquisto}</h4>
+
+            <fieldset class="flex-item-100">
+               <caption>Indirizzo Spedizione</caption>
+
+               <h4>Via e Civico: ${ordine.viaCivico}</h4>
+               <h4>Citt&agrave;: ${ordine.citta}</h4>
+               <h4>Regione: ${ordine.regione}</h4>
+            </fieldset>
+
+            <c:if test="${ordine.coupon != null}">
+               <h4>Coupon utilizzato:</h4>
+               <h4>Numero coupon: ${ordine.coupon.numeroCoupon}</h4>
+               <h4>Sconto: ${ordine.coupon.sconto} &#37;</h4>
+            </c:if>
+
+         </fieldset>
+         <div class="flex-item-100">
+            <button onclick="javascript:history.go(-1)" class="btn btn-verde">Torna Indietro</button>
+         </div>
+      </main>
    </body>
 </html>

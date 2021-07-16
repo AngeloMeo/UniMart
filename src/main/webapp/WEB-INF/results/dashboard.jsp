@@ -135,7 +135,7 @@
 
             <c:if test="${ProdottoPreferito != null}">
                 <div class="gradient3 box transition2">
-                    <img src="file/${ProdottoPreferito.foto}" alt="Foto Prodotto" onclick="redirect('SearchManager/prodotto?id=${ProdottoPreferito.codiceIAN}')">
+                    <img src="file/${ProdottoPreferito.foto}" class="img-medium" alt="Foto Prodotto" onclick="redirect('SearchManager/prodotto?id=${ProdottoPreferito.codiceIAN}')">
                     <br>
                     <c:choose>
                         <c:when test="${utente.tipo == 'Semplice'}">

@@ -46,7 +46,7 @@
                                     </td>
 
                                     <td data-label="Prezzo">
-                                            ${list.prodotto.prezzo}
+                                            ${list.prodotto.prezzo} &euro;
                                     </td>
 
                                     <td data-label="Foto">

@@ -521,7 +521,7 @@ nav + main {
 
 nav~main {
     overflow: auto;
-    padding: 5px 0px 10px;
+    padding: 5px 0px 35px;
     width: 80%;
 }
 
@@ -804,11 +804,15 @@ td > button, td > form > button {
     }
 
     /* ALL */
-    .flex-item-50 {
-        padding: 10px;
-        flex: 90%;
-        width: 90%;
+    .flex-item-40, .flex-item-50 {
+        flex: 100%;
+        width: 100%;
+
+    }
+
+    .flex-item-40, .flex-item-50 {
         margin: 10px 10px 0px 10px;
+        padding: 10px;
     }
 
     .text-right {
@@ -832,7 +836,7 @@ td > button, td > form > button {
 
     nav ~ main {
         width: 90%;
-        margin: 5px auto !important;
+        margin: 5px auto 140px !important;
     }
 
     .btn-menu-mobile {
