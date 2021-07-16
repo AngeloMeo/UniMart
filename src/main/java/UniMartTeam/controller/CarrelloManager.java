@@ -8,6 +8,7 @@ import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Utils.ConPool;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+@WebServlet(name = "CarrelloManager", value = "/CarrelloManager/*")
 public class CarrelloManager extends HttpServlet {
 
     @Override
@@ -34,7 +36,7 @@ public class CarrelloManager extends HttpServlet {
                 e.printStackTrace();
             }
         }
-//todo manda alla pagina carrello
+        request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
     }
 
 
@@ -49,7 +51,7 @@ public class CarrelloManager extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
-        String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+        String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/CarrelloManager", "");
         SessionManager sessionManager = new SessionManager(request);
 
         switch(path){

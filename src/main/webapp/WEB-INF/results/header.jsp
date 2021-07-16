@@ -8,7 +8,7 @@
     <div id="resultsSearch" ></div>
   </form>
 
-  <a href="">
+  <a href="CarrelloManager">
     <img src="${pageContext.request.contextPath}/icons/shopping_cart_empty.svg">
   </a>
 

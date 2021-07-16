@@ -19,6 +19,11 @@
          <h3>Volume Occupato: ${prodotto.volumeOccupato}</h3>
          <h3>Descrizione: ${prodotto.descrizione}</h3>
       </fieldset>
+      <form action="CarrelloManager/add2cart" method="post">
+         <input type="hidden" name="IAN" value="${prodotto.codiceIAN}">
+         <input type="number" name="quantity" aria-valuemax="">
+         <button type="submit">ADD</button>
+      </form>
       <%@include file="footer.jsp"%>
    </body>
 </html>
