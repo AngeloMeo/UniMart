@@ -18,12 +18,12 @@
         </c:when>
 
         <c:otherwise>
-            <c:forEach items="${cart.compostoList}" var="prodotto">
-                <fieldset id="${prodotto.codiceIAN}">
-                    <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-                    <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
-                    <h3>Nome: ${prodotto.nome}</h3>
-                    <h3>Prezzo: ${prodotto.prezzo}</h3>
+            <c:forEach items="${cart.compostoList}" var="composto">
+                <fieldset id="${composto.prodotto.codiceIAN}">
+                    <img src="${pageContext.request.contextPath}/file/${composto.prodotto.foto}" height="100" width="100">
+                    <h3>CodiceIAN: ${composto.prodotto.codiceIAN}</h3>
+                    <h3>Nome: ${composto.prodotto.nome}</h3>
+                    <h3>Prezzo: ${composto.prezzo}</h3>
                 </fieldset>
             </c:forEach>
         </c:otherwise>
