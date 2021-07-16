@@ -2,7 +2,7 @@ $(document).ready(
     function () {
         $("#add2cart").click(
             function () {
-                $.post("CarrelloManager/add2cart",
+                $.post(getPageContext() + "/CarrelloManager/add2cart",
                     {
 
                         IAN: $(this).siblings("#IAN").text(),
