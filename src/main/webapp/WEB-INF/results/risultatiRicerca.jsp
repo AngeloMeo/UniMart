@@ -11,18 +11,25 @@
    </head>
    <body>
       <%@include file="header.jsp" %>
-      <section>
-         <h1>Risultati per ${categoria}</h1>
+      <main>
+         <section class="flex-container flex-dirRow justify-content-center">
+            <h1 class="flex-item-100">Risultati per ${categoria}</h1>
 
-         <c:forEach items="${prodotti}" var="prodotto">
-            <fieldset id="${prodotto.codiceIAN}">
-               <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-               <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
-               <h3>Nome: ${prodotto.nome}</h3>
-               <h3>Prezzo: ${prodotto.prezzo}</h3>
-            </fieldset>
-         </c:forEach>
-      </section>
+            <c:if test="${prodotti == null}">
+               <h2 class="flex-item-100">Nessun elemento corrispondente</h2>
+            </c:if>
+
+            <c:forEach items="${prodotti}" var="prodotto">
+               <fieldset id="${prodotto.codiceIAN}">
+                  <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
+                  <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
+                  <h3>Nome: ${prodotto.nome}</h3>
+                  <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
+               </fieldset>
+            </c:forEach>
+         </section>
+      </main>
+
       <%@include file="footer.jsp"%>
    </body>
 </html>

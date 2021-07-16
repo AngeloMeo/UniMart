@@ -206,6 +206,9 @@ public class CategoriaDAO
             while (rs.next())
                list.add(ProdottoExtractor.Extract(rs, "p", c));
 
+            if(list.isEmpty())
+               return null;
+
             return list;
          }
       }
