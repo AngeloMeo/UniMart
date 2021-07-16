@@ -11,7 +11,7 @@ function createBtn(){
     if (obj != null)
     {
         document.getElementById("btnDiv").innerHTML =
-            '<button type="submit" formaction="CouponManager/updateCoupon" class="btn btn-primary">Salva Modifiche</button>' +
+            '<button type="submit" formaction="CouponManager/updateCoupon" class="btn btn-verde">Salva Modifiche</button>' +
             '<button type="submit" formaction="CouponManager/deleteCoupon" class="btn btn-primary">Elimina Coupon</button>';
         document.getElementById("idCoupon").value = obj;
         obj = null;

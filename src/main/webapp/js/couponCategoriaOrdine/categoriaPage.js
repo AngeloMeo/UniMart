@@ -9,8 +9,8 @@ function createBtn(){
     if (name != "")
     {
         document.getElementById("btnDiv").innerHTML =
-            '<button type="submit" class="button" formaction="CategoriaManager/updateCategoria">Salva Modifiche</button>' +
-            '<button type="submit" class="button" formaction="CategoriaManager/deleteCategoria" onclick="removeRequired()">Elimina Categoria</button>';
+            '<button type="submit" class="btn btn-verde" formaction="CategoriaManager/updateCategoria">Salva Modifiche</button>' +
+            '<button type="submit" class="btn btn-primary" formaction="CategoriaManager/deleteCategoria" onclick="removeRequired()">Elimina Categoria</button>';
         document.getElementById("name").value = name;
         name = "";
     }
@@ -18,7 +18,7 @@ function createBtn(){
     {
         document.getElementById('name').value = name;
         document.getElementById('aliquota').value = aliquota;
-        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="CategoriaManager/creaCategoria">Crea Categoria</button>';
+        document.getElementById("btnDiv").innerHTML = '<button type="submit" id="btn2" formaction="CategoriaManager/creaCategoria" class="btn btn-secondary">Crea Categoria</button>';
     }
 }
 

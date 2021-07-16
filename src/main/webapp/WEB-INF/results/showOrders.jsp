@@ -28,7 +28,7 @@
               <h1>Nessun ordine trovato...</h1>
            </c:when>
            <c:otherwise>
-              <table>
+              <table class="table">
                  <thead>
                     <tr>
                        <th>Numero Ordine</th>

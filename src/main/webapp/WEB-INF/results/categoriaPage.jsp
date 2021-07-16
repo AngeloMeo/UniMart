@@ -23,7 +23,7 @@
         </c:when>
 
         <c:otherwise>
-          <table>
+          <table class="table">
             <thead>
               <tr>
                 <th>Nome Categoria</th>
@@ -47,14 +47,14 @@
 
       <div id="creaModal" class="creaModal">
         <form class="creaModal-form" method="post">
-          <div class="container">
-            <h1>Crea Categoria</h1>
-            <hr>
-            <label for="name">Nome</label>
-            <input type="text" name="nomecat" id="name" placeholder="name" >
+          <div class="container flex-container flex-dirCol">
+            <h1 class="flex-item-80">Crea Categoria</h1>
 
-            <label for="aliquota">Aliquota</label>
-            <input type="number" name="ali" id="aliquota" placeholder="aliquota" required>
+            <label for="name" class="flex-item-80">Nome</label>
+            <input type="text" name="nomecat" id="name" placeholder="name" class="flex-item-80">
+
+            <label for="aliquota" class="flex-item-80">Aliquota</label>
+            <input type="number" name="ali" id="aliquota" placeholder="aliquota" class="flex-item-80" required>
 
             <div class="clearfix" id="btnDiv">
             </div>

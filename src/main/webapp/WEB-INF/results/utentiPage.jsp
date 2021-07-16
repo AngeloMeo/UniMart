@@ -18,7 +18,7 @@
             <h1>Non sono presenti altri utenti oltre te!</h1>
          </c:when>
          <c:otherwise>
-            <table>
+            <table class="table">
                <thead>
                   <tr>
                      <th>CF</th>

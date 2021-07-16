@@ -339,6 +339,7 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     color: var(--white);
     background-color: var(--warning);
     border-color: var(--black);
+    border-radius: 4px;
 }
 
 .btn-small {
@@ -357,12 +358,26 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     color: var(--white);
     background-color: var(--ocra);
     border-color: var(--black);
+    border-radius: 4px;
 }
 
 .btn-secondary:hover {
     color: var(--black);
     background-color: var(--white);
     border-color: var(--ocra);
+}
+
+.btn-verde {
+    color: var(--white);
+    background-color: var(--secondary);
+    border-color: var(--black);
+    border-radius: 4px;
+}
+
+.btn-verde:hover {
+    color: var(--black);
+    background-color: var(--white);
+    border-color: var(--secondary);
 }
 
 .btn-primary:active {
@@ -409,6 +424,10 @@ input {
     max-width: 300px;
 }
 
+input[type=file] {
+    border-radius: 0px;
+}
+
 .button-center {
     max-width: 170px;
 }
@@ -437,6 +456,12 @@ main img {
 
 hr {
     border-top: 2px solid var(--neutral);
+}
+
+.img-medium {
+    height: 100px;
+    width: 100px;
+    border-radius: 10px;
 }
 
 /* LOGIN */
@@ -604,7 +629,7 @@ td > button, td > form > button {
 
 /* TABLE */
 
-table {
+.table {
     border: 1px solid #ccc;
     border-collapse: collapse;
     margin: 0;
@@ -615,58 +640,66 @@ table {
     margin-block-start: 50px;
 }
 
-table caption {
+.table tr:nth-child(even){
+    background-color: #f2f2f2;
+}
+
+.table tr:hover{
+    background-color: rgba(221, 221, 221, 0.5);
+}
+
+.table caption {
     font-size: 1.5em;
     margin: .5em 0 .75em;
 }
 
-table tr {
+.table tr {
     background-color: #f8f8f8;
     border: 1px solid #ddd;
     padding: .35em;
     height: 70px;
 }
 
-table th, table td {
+.table th, .table td {
     padding: .625em;
     text-align: center;
     height: 30px;
 }
 
-table td {
+.table td {
     word-break:break-all;
 }
 
-table td button{
+.table td button{
     word-break:normal;
 }
 
-table th {
+.table th {
     font-size: .85em;
     letter-spacing: .1em;
     text-transform: uppercase;
 }
 
-@media screen and (max-width: 800px) {
-    table {
+@media screen and (max-width: 850px) {
+    .table {
         margin-block-end: 110px;
     }
 
-    table tbody tr td .btn-small{
+    .table tbody tr td .btn-small{
         word-break:normal;
         padding: 0px 10px;
         margin: auto;
     }
 
-    table tbody tr td form {
+    .table tbody tr td form {
         float: right;
     }
 
-    table caption {
+    .table caption {
         font-size: 1.3em;
     }
 
-    table thead {
+    .table thead {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -677,28 +710,31 @@ table th {
         width: 1px;
     }
 
-    table tr {
+    .table tr {
         border-bottom: 3px solid #ddd;
         display: block;
         margin-bottom: 10px;
         height: auto;
     }
 
-    table td {
+    .table td {
         border-bottom: 1px solid #ddd;
         display: block;
         font-size: .8em;
         text-align: right;
+        height: auto;
+        width: auto;
+        min-height: 35px;
     }
 
-    table td::before {
+    .table td::before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
         text-transform: uppercase;
     }
 
-    table td:last-child {
+    .table td:last-child {
         border-bottom: 0;
     }
 }
@@ -748,6 +784,10 @@ table th {
     .login .assistenza {
         bottom: 30px;
 
+    }
+
+    .container h1 {
+        border-bottom: 2px solid var(--secondary);
     }
 
     /* ALL */
@@ -857,7 +897,7 @@ table th {
 
     /* TABLE */
 
-    table {
+    .table {
         width: 80%;
     }
 }
@@ -878,13 +918,6 @@ table th {
     }
 
     /* ALL */
-
-    .flex-item-50 {
-        padding: 10px;
-        flex: 30%;
-        width: 30%;
-        margin: 10px 10px 0px 10px;
-    }
 
     .gradient4 {
         background: #5F819F9E;

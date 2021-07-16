@@ -23,7 +23,7 @@
             </c:when>
 
             <c:otherwise>
-               <table>
+               <table class="table">
                   <thead>
                      <tr>
                         <th>Codice Inventario</th>
