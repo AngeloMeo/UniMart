@@ -51,7 +51,7 @@
                         </c:otherwise>
                      </c:choose>
                         ${coupon.statoCoupon}</td>
-                     <td data-label="Sconto">${coupon.sconto}</td>
+                     <td data-label="Sconto">${coupon.sconto} &#37;</td>
                      <td data-label="CF">${coupon.creatore.CF}</td>
                      <td data-label="Gestisci">
                         <c:if test="${coupon.creatore.CF == utente.CF && coupon.statoCoupon == 'Disponibile'}">

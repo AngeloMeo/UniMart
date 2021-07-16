@@ -6,7 +6,6 @@ import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.DAO.SpedizioneDAO;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Utils.ConPool;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
