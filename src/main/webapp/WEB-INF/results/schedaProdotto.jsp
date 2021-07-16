@@ -6,6 +6,7 @@
       <title>Scheda Prodotto</title>
 
       <%@include file="general.jsp" %>
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/add2cart.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>
