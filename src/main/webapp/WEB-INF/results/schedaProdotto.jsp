@@ -12,18 +12,16 @@
 
       <fieldset>
          <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-         <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
+         <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
          <h3>Nome: ${prodotto.nome}</h3>
          <h3>Prezzo: ${prodotto.prezzo}</h3>
          <h3>Peso: ${prodotto.peso}</h3>
          <h3>Volume Occupato: ${prodotto.volumeOccupato}</h3>
          <h3>Descrizione: ${prodotto.descrizione}</h3>
+         <input type="number" id="quantity" aria-valuemax="">
+         <button type="submit" class="add2cart" id="add2cart">ADD</button>
       </fieldset>
-      <form action="${pageContext.request.contextPath}/CarrelloManager/add2cart" method="post">
-         <input type="hidden" name="IAN" value="${prodotto.codiceIAN}">
-         <input type="number" name="quantity" aria-valuemax="">
-         <button type="submit">ADD</button>
-      </form>
+
       <%@include file="footer.jsp"%>
    </body>
 </html>

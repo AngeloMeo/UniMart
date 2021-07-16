@@ -23,7 +23,8 @@
                     <img src="${pageContext.request.contextPath}/file/${composto.prodotto.foto}" height="100" width="100">
                     <h3>CodiceIAN: ${composto.prodotto.codiceIAN}</h3>
                     <h3>Nome: ${composto.prodotto.nome}</h3>
-                    <h3>Prezzo: ${composto.prezzo}</h3>
+                    <h3>Quantità: ${composto.quantita}</h3>
+                    <h3>Prezzo: ${composto.prezzo} (${composto.prodotto.prezzo}€/Unità)</h3>
                 </fieldset>
             </c:forEach>
         </c:otherwise>
