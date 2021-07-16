@@ -10,7 +10,7 @@
     <body class="text-center">
         <main>
             <form action="LoginManager" method="post">
-                <div class="flex-container flex-dirCol">
+                <div class="flex-container flex-dirCol justify-content-center">
                     <a href="index.jsp"><img class="flex-item-100 logo" src="./icons/logo.svg" alt="Logo"></a>
                     <h1 class="flex-item-100">LOGIN</h1>
                     <input type="text" class="form-control flex-item-100" name="usernameEmail" placeholder="Username o Email" autocomplete="off">
@@ -22,7 +22,7 @@
                         </div>
                     </c:if>
                 </div>
-                <div class="flex-container flex-dirRow">
+                <div class="flex-container flex-dirCol justify-content-center">
                     <button class="btn btn-primary flex-item-50 " type="submit">Login</button>
                     <button class="btn btn-primary flex-item-50 " type="submit" formaction="./UtenteManager/creaUtente" formmethod="get">Registrati</button>
                 </div>

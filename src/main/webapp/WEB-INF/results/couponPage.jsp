@@ -21,14 +21,14 @@
                <h1>Non sono stati ancora creati dei coupon...</h1>
             </c:when>
             <c:otherwise>
-               <table>
+               <table class="table">
                   <thead>
                      <tr>
-                        <th scope="Coupon"># Coupon</th>
-                        <th scope="Stato">Stato</th>
-                        <th scope="Sconto">Sconto</th>
-                        <th scope="CF">Codice Fiscale Creatore</th>
-                        <th scope="Gestisci">Gestisci</th>
+                        <th># Coupon</th>
+                        <th>Stato</th>
+                        <th>Sconto</th>
+                        <th>Codice Fiscale Creatore</th>
+                        <th>Gestisci</th>
                      </tr>
                   </thead>
                   <c:forEach items="${couponList}" var="coupon">
@@ -51,11 +51,11 @@
                         </c:otherwise>
                      </c:choose>
                         ${coupon.statoCoupon}</td>
-                     <td data-label="Sconto">${coupon.sconto}</td>
+                     <td data-label="Sconto">${coupon.sconto} &#37;</td>
                      <td data-label="CF">${coupon.creatore.CF}</td>
                      <td data-label="Gestisci">
                         <c:if test="${coupon.creatore.CF == utente.CF && coupon.statoCoupon == 'Disponibile'}">
-                           <button class="tdSmall"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
+                           <button class="btn btn-small"  onclick="modifyForUpdateCoupon(${coupon.numeroCoupon}, ${coupon.sconto}, '${coupon.creatore.CF}')">Modifica</button>
                         </c:if>
                      </td>
                   </tr>
@@ -66,15 +66,15 @@
 
          <div id="creaModal" class="creaModal">
             <form class="creaModal-form" method="post">
-               <div class="container" id="panel">
-                  <h1>Crea Coupon</h1>
-                  <hr>
-                  <input type="hidden" name="idCoupon" id="idCoupon" value="null" required/>
-                  <label for="CF_Creatore">Codice Fiscale Creatore</label>
-                  <input type="text" name="CF_Creatore" id="CF_Creatore" placeholder="CF Creatore" value="${sessionScope.utente.CF}" readonly>
+               <div class="container flex-container flex-dirCol" id="panel">
+                  <h1 class="flex-item-80">Crea Coupon</h1>
 
-                  <label for="sconto">Sconto</label>
-                  <input type="number" name="sconto" id="sconto" placeholder="Sconto" required>
+                  <input type="hidden" name="idCoupon" id="idCoupon" value="null" required/>
+                  <label class="flex-item-80" for="CF_Creatore">Codice Fiscale Creatore</label>
+                  <input class="flex-item-80" type="text" name="CF_Creatore" id="CF_Creatore" placeholder="CF Creatore" value="${sessionScope.utente.CF}" readonly>
+
+                  <label class="flex-item-80" for="sconto">Sconto</label>
+                  <input class="flex-item-80" type="number" name="sconto" id="sconto" placeholder="Sconto" required>
 
                   <div class="clearfix" id="btnDiv">
                   </div>

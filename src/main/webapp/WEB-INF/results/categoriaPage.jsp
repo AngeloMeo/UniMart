@@ -14,8 +14,8 @@
     <%@include file="header.jsp" %>
     <%@include file="adminPanel.jsp"%>
 
-    <main>
-      <button id="btn1" onclick="modifyForCrea()">Crea Nuova Categoria</button>
+    <main class="flex-container">
+      <button id="btn-crea" onclick="modifyForCrea()">Crea Nuova Categoria</button>
 
       <c:choose>
         <c:when test="${categoriaList == null}">
@@ -23,18 +23,21 @@
         </c:when>
 
         <c:otherwise>
-          <table>
-            <tr>
-              <th>Nome Categoria</th>
-              <th>Aliquota</th>
-            </tr>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Nome Categoria</th>
+                <th>Aliquota</th>
+                <td>Gestisci</td>
+              </tr>
+            </thead>
 
             <c:forEach items="${categoriaList}" var="cat">
               <tr>
-                <td>${cat.nome}</td>
-                <td>${cat.aliquota}</td>
-                <td>
-                  <button onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
+                <td data-label="Nome">${cat.nome}</td>
+                <td data-label="Aliquota">${cat.aliquota} &#37;</td>
+                <td data-label="Gestisci">
+                  <button class="btn btn-small" onclick="modifyForUpdateCategoria('${cat.nome}', ${cat.aliquota})">Modifica</button>
                 </td>
               </tr>
             </c:forEach>
@@ -44,14 +47,14 @@
 
       <div id="creaModal" class="creaModal">
         <form class="creaModal-form" method="post">
-          <div class="container">
-            <h1>Crea Categoria</h1>
-            <hr>
-            <label for="name">Nome</label>
-            <input type="text" name="nomecat" id="name" placeholder="name" >
+          <div class="container flex-container flex-dirCol">
+            <h1 class="flex-item-80">Crea Categoria</h1>
 
-            <label for="aliquota">Aliquota</label>
-            <input type="number" name="ali" id="aliquota" placeholder="aliquota" required>
+            <label for="name" class="flex-item-80">Nome</label>
+            <input type="text" name="nomecat" id="name" placeholder="name" class="flex-item-80">
+
+            <label for="aliquota" class="flex-item-80">Aliquota</label>
+            <input type="number" name="ali" id="aliquota" placeholder="aliquota" class="flex-item-80" required>
 
             <div class="clearfix" id="btnDiv">
             </div>

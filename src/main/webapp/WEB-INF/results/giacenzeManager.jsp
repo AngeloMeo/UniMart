@@ -6,53 +6,68 @@
         <title>${title}</title>
         <%@include file="general.jsp"%>
     </head>
-    <body class="sidenavpresent">
+    <body>
         <%@include file="header.jsp" %>
         <%@include file="adminPanel.jsp" %>
         <c:set var="index" scope="page" value="0"></c:set>
+        <main class="flex-container">
+            <c:choose>
+                <c:when test="${inventario.possiedeList == null}">
+                    <h1>Nessun prodotto creato...</h1>
+                </c:when>
+                <c:otherwise>
+                    <form action="GiacenzeManager/Modify" method="post">
+                        <input type="hidden" name="codiceInventario" id="codiceInventario" value="${inventario.codiceInventario}">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Codice IAN</th>
+                                    <th>Nome</th>
+                                    <th>Categoria</th>
+                                    <th>Prezzo</th>
+                                    <th>Foto</th>
+                                    <th>Giacenza</th>
+                                </tr>
+                            </thead>
+                            <c:forEach items="${inventario.possiedeList}" var="list">
+                                <tr>
+                                    <td data-label="IAN">
+                                            ${list.prodotto.codiceIAN}
+                                    </td>
 
-        <c:choose>
-            <c:when test="${inventario.possiedeList == null}">
-                <h1>Nessun prodotto creato...</h1>
-            </c:when>
-            <c:otherwise>
-                <form action="GiacenzeManager/Modify" method="post">
-                    <input type="hidden" name="codiceInventario" id="codiceInventario" value="${inventario.codiceInventario}">
-                    <table>
-                        <tr>
-                            <th>Codice IAN</th>
-                            <th>Nome</th>
-                            <th>Categoria</th>
-                            <th>Prezzo</th>
-                            <th>Foto</th>
-                            <th>Giacenza</th>
-                        </tr>
-                        <c:forEach items="${inventario.possiedeList}" var="list">
-                            <tr>
-                                <td class="tdSmall">${list.prodotto.codiceIAN}</td>
-                                <input type="hidden" name="codiceIAN${index}" value="${list.prodotto.codiceIAN}">
-                                <td class="tdSmall">${list.prodotto.nome}</td>
+                                    <input type="hidden" name="codiceIAN${index}" value="${list.prodotto.codiceIAN}">
 
-                                <td class="tdSmall">${list.prodotto.categoria.nome}</td>
+                                    <td data-label="Nome">
+                                            ${list.prodotto.nome}
+                                    </td>
 
-                                <td class="tdSmall">${list.prodotto.prezzo}</td>
+                                    <td data-label="Categoria">
+                                            ${list.prodotto.categoria.nome}
+                                    </td>
 
-                                <td class="tdSmall">
-                                    <c:if test="${not empty list.prodotto.foto}">
-                                        <img src="${pageContext.request.contextPath}/file/${list.prodotto.foto}" height="100" width="100" alt="Foto Prodotto">
-                                    </c:if>
-                                </td>
-                                <td class="tdSmall">
-                                    <input type="number" name="giacenza${index}" value="${list.giacenza}">
-                                </td>
-                            </tr>
-                            <c:set var="index" value="${index+1}"/>
-                        </c:forEach>
+                                    <td data-label="Prezzo">
+                                            ${list.prodotto.prezzo} &euro;
+                                    </td>
+
+                                    <td data-label="Foto">
+                                        <c:if test="${not empty list.prodotto.foto}">
+                                            <img src="${pageContext.request.contextPath}/file/${list.prodotto.foto}" class="img-medium" alt="Foto Prodotto">
+                                        </c:if>
+                                    </td>
+                                    <td data-label="Giacenza">
+                                        <input type="number" name="giacenza${index}" value="${list.giacenza}">
+                                    </td>
+                                </tr>
+                                <c:set var="index" value="${index+1}"/>
+                            </c:forEach>
                     </table>
-                    <button type="submit">Salva modifiche</button>
+                    <div class="flex-container flex-dirCol justify-content-center">
+                        <button type="submit" class="flex-item-50 btn btn-verde">Salva modifiche</button>
+                        <button type="button" onclick="javascript:history.go(-1)" class="flex-item-50 btn btn-secondary">Indietro</button>
+                    </div>
                 </form>
             </c:otherwise>
         </c:choose>
-        <%@include file="footer.jsp"%>
+        </main>
     </body>
 </html>

@@ -15,14 +15,14 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.*;
 
-@WebServlet(name= "SearchManager", value = "/SearchManager/*")
+@WebServlet(name= "SearchManager", value = "/SearchManager/*", loadOnStartup = 0)
 public class SearchManager extends HttpServlet
 {
    @Override
    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/SearchManager", "");
-
+      
       switch (path)
       {
          case "/":

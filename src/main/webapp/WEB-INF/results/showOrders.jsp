@@ -28,7 +28,7 @@
               <h1>Nessun ordine trovato...</h1>
            </c:when>
            <c:otherwise>
-              <table>
+              <table class="table">
                  <thead>
                     <tr>
                        <th>Numero Ordine</th>
@@ -53,12 +53,12 @@
                        <td data-label="Metodo Spedizione">${ordine.spedizione.nome}</td>
                           <c:if test="${utente.tipo == 'Semplice' && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito')}">
                        <td data-label="Gestisci">
-                             <button class="deleteBtn" value="${ordine.numeroOrdine}">Elimina Ordine</button>
+                             <button class="deleteBtn btn btn-small" value="${ordine.numeroOrdine}">Elimina Ordine</button>
                        </td>
                           </c:if>
                           <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Consegnato'}">
                        <td data-label="Gestisci">
-                             <button onclick="modifyForOrdine(${ordine.numeroOrdine}, '${ordine.feedback}')">Scrivi Feedback</button>
+                             <button class="btn btn-small" onclick="modifyForOrdine(${ordine.numeroOrdine}, '${ordine.feedback}')">Scrivi Feedback</button>
                        </td>
                           </c:if>
                     </tr>
@@ -69,10 +69,9 @@
 
          <div id="creaModal" class="creaModal">
            <form class="creaModal-form" method="post" action="OrdiniManager/feedbackOrdine">
-              <div class="container" id="panel">
-                 <h1>Scrivi Il Tuo Feedback</h1>
-                 <hr>
-                 <textarea id="feedback" name="feedback" rows="6" cols="50" placeholder="Scrivi il tuo feedback..." required></textarea>
+              <div class="container flex-container flex-dirCol" id="panel">
+                 <h1 class="flex-item-80">Scrivi Il Tuo Feedback</h1>
+                 <textarea class="flex-item-80" id="feedback" name="feedback" rows="6" cols="50" placeholder="Scrivi il tuo feedback..." required></textarea>
                  <div class="clearfix" id="btnDiv">
                  </div>
               </div>
