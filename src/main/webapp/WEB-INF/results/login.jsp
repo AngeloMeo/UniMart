@@ -22,7 +22,7 @@
                         </div>
                     </c:if>
                 </div>
-                <div class="flex-container flex-dirRow">
+                <div class="flex-container flex-dirCol">
                     <button class="btn btn-primary flex-item-50 " type="submit">Login</button>
                     <button class="btn btn-primary flex-item-50 " type="submit" formaction="./UtenteManager/creaUtente" formmethod="get">Registrati</button>
                 </div>
