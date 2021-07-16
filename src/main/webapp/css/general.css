@@ -273,6 +273,13 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     margin: 10px 10px 0px 10px;
 }
 
+.flex-item-16 {
+    padding: 10px;
+    flex: 16%;
+    width: 16%;
+    margin: 10px 10px 0px 10px;
+}
+
 .flex-item-20 {
     padding: 10px;
     flex: 20%;
@@ -315,8 +322,9 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
     margin: 10px 10px 0px 10px;
 }
 
-.flex-item-40, .flex-item-50, .flex-item-100 {
-    margin: 10px auto;
+.flex-item-10, .flex-item-16, .flex-item-20, .flex-item-25, .flex-item-40, .flex-item-50, .flex-item-80, .flex-item-100 {
+    padding: 10px;
+    margin: 10px 10px 0px 10px;
 }
 
 .btn {
@@ -411,6 +419,11 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
 .text-copy {
     color: var(--white) !important;
 }
+
+.justify-content-center {
+    justify-content: center;
+}
+
 label {
     font-size: 22px;
     max-width: 300px;
@@ -421,7 +434,7 @@ input {
     border-radius: 10px;
     height: 35px;
     width: 90%;
-    max-width: 300px;
+    max-width: max-content;
 }
 
 input[type=file] {
