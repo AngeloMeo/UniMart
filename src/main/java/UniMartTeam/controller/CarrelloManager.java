@@ -152,7 +152,7 @@ public class CarrelloManager extends HttpServlet {
 
             sessionManager.setAttribute(cart, "cart");
 
-            /*TODO: quando aggiungo un prodotto al carrello rimane sulla pagina; ajax cambierà il testo di "Aggiungi al carrello" in "Aggiunto"*/
+            /*TODO: ajax*/
 
 
         }
@@ -171,12 +171,12 @@ public class CarrelloManager extends HttpServlet {
                 cart.setCompostoList(new ArrayList<>());
             }
 
-            Composto prod = new Composto();
-            prod.setOrdine(cart);
+            Composto composto = new Composto();
+            composto.setOrdine(cart);
 
             try {
-                prod.setProdotto(ProdottoDAO.doRetrieveByID(productIan));
-                prod.setPrezzo(prod.getProdotto().getPrezzo() * quantity);
+                composto.setProdotto(ProdottoDAO.doRetrieveByID(productIan));
+                composto.setPrezzo(composto.getProdotto().getPrezzo() * quantity);
             } catch (SQLException e) {
                 request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:Add2Cart)");
                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -186,8 +186,8 @@ public class CarrelloManager extends HttpServlet {
             }
 
 
-            prod.setQuantita(quantity);
-            cart.addCompostoList(prod);
+            composto.setQuantita(quantity);
+            cart.addCompostoList(composto);
 
             sessionManager.setAttribute(cart, "cart");
 
