@@ -9,7 +9,7 @@ $(document).ready(
                         quantity: $(this).siblings("#quantity").val()
                     },
                     function (data, status) {
-                        if(status == 200)
+                        if(status == 'success')
                             alert("t'appost")
                     });
             }

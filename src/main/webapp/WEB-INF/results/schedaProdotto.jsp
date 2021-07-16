@@ -13,7 +13,7 @@
 
       <fieldset>
          <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-         <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
+         <h3 id="IAN" value="${prodotto.codiceIAN}">CodiceIAN: ${prodotto.codiceIAN}</h3>
          <h3>Nome: ${prodotto.nome}</h3>
          <h3>Prezzo: ${prodotto.prezzo}</h3>
          <h3>Peso: ${prodotto.peso}</h3>
