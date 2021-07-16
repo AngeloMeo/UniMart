@@ -19,7 +19,7 @@
          <h3>Peso: ${prodotto.peso}</h3>
          <h3>Volume Occupato: ${prodotto.volumeOccupato}</h3>
          <h3>Descrizione: ${prodotto.descrizione}</h3>
-         <input type="number" id="quantity" aria-valuemax="">
+         <input type="number" id="quantity">
          <button type="submit" class="add2cart" id="add2cart">ADD</button>
       </fieldset>
 

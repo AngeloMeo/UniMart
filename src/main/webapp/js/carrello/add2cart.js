@@ -5,8 +5,8 @@ $(document).ready(
                 $.post(getPageContext() + "/CarrelloManager/add2cart",
                     {
 
-                        IAN: $(this).siblings("#IAN").text(),
-                        quantity: $(this).siblings("#quantity").text()
+                        IAN: $(this).siblings("#IAN").text().replace('CodiceIAN: ', ''),
+                        quantity: $(this).siblings("#quantity").val()
                     },
                     function (data, status) {
                         if(status == 200)
