@@ -143,7 +143,7 @@ public class CarrelloManager extends HttpServlet {
                         cart.getCompostoList().remove(c);
                     }
                     else {
-                        c.setQuantita(quantity);
+                        c.setQuantita(quantity); //TODO non va bene
                         c.setPrezzo(c.getProdotto().getPrezzo() * quantity);
                     }
                 }
