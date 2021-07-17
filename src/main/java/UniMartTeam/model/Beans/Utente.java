@@ -2,6 +2,7 @@ package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
@@ -223,7 +224,8 @@ public class Utente implements Serializable
          try (InputStream is = filePart.getInputStream())
          {
             String fileName = getCF() + "_" + filePart.getSubmittedFileName();
-            Files.copy(is, Paths.get(path + fileName), StandardCopyOption.REPLACE_EXISTING);
+            File file = new File(path + File.separator + fileName);
+            Files.copy(is, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
             setFotoProfilo(fileName);
          }

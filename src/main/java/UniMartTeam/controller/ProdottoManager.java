@@ -164,7 +164,7 @@ public class ProdottoManager extends HttpServlet {
                     if(!request.getPart("foto").getSubmittedFileName().isEmpty() && request.getPart("foto") != null){
                         try
                         {
-                            p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
+                            p.uploadFoto(request.getPart("foto"), FileServlet.basePath);
                         }
                         catch (IOException e)
                         {

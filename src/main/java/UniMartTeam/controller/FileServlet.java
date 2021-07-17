@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "FileServlet", urlPatterns = "/file/*")
+@WebServlet(name = "FileServlet", urlPatterns = "/file/*", loadOnStartup = 0)
 public class FileServlet extends HttpServlet
 {
    //Opzione valida, ma non gestisce la cache
@@ -37,7 +37,7 @@ public class FileServlet extends HttpServlet
 
    // Properties ---------------------------------------------------------------------------------
 
-   private String basePath;
+   protected static String basePath;
 
    // Actions ------------------------------------------------------------------------------------
 

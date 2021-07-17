@@ -34,7 +34,7 @@ public class SearchManager extends HttpServlet
 
             try
             {
-               List<Categoria> resultsCategoria = CategoriaDAO.doRetrieveByKey(text+"%", true, true, 0, 2);
+               List<Categoria> resultsCategoria = CategoriaDAO.doRetrieveByKey(text+"%", true, true, 0, 3);
 
                if(resultsCategoria != null && resultsCategoria.get(0) != null)
                {
@@ -44,7 +44,7 @@ public class SearchManager extends HttpServlet
                      ((ArrayList<String>) results.get("categorie")).add(c.getNome());
                }
 
-               List<Prodotto> resultsProdotto = ProdottoDAO.doRetrieveByCondLimit("nome LIKE('" + text + "%')", 0, 2);
+               List<Prodotto> resultsProdotto = ProdottoDAO.doRetrieveByCondLimit("nome LIKE('" + text + "%')", 0, 3);
 
                if(resultsProdotto != null && resultsProdotto.get(0) != null)
                {
@@ -55,7 +55,7 @@ public class SearchManager extends HttpServlet
                }
 
                resultsProdotto = null;
-               resultsProdotto = ProdottoDAO.doRetrieveByCondLimit("codiceIAN LIKE('" + text + "%')", 0, 2);
+               resultsProdotto = ProdottoDAO.doRetrieveByCondLimit("codiceIAN LIKE('" + text + "%')", 0, 3);
 
                if(resultsProdotto != null && resultsProdotto.get(0) != null)
                {

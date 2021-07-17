@@ -108,7 +108,7 @@ public class UtenteManager extends HttpServlet
 
          try
          {
-            utente.uploadFoto(request.getPart("fotoProfilo"), getServletContext().getInitParameter("uploadpath"));
+            utente.uploadFoto(request.getPart("fotoProfilo"), FileServlet.basePath);
          } catch (IOException e)
          {
             request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
