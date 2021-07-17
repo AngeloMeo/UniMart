@@ -27,6 +27,7 @@
                     <h3>Nome: ${composto.prodotto.nome}</h3>
                     <h3>Quantità: ${composto.quantita}</h3>
                     <h3>Prezzo: <fmt:formatNumber type="number" maxFractionDigits="2" value="${composto.prezzo * composto.quantita}" /> &euro; (${composto.prezzo}&euro;/Unità)</h3>
+                    <c:set scope="page" value="${composto.prodotto}" var="prodotto"></c:set>
                     <%@include file="partialProdotto.jsp"%>
                 </fieldset>
             </c:forEach>

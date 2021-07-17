@@ -195,8 +195,6 @@ public class CarrelloManager extends HttpServlet {
             sessionManager.setAttribute(cart, "cart");
 
             /*TODO: quando aggiungo un prodotto al carrello rimane sulla pagina; ajax cambierà il testo di "Aggiungi al carrello" in "Aggiunto"*/
-
-            request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
         }
     }
 
