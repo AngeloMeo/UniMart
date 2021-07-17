@@ -452,13 +452,34 @@ main img {
 }
 
 hr {
-    border-top: 2px solid var(--neutral);
+    border-top: 2px solid var(--warning);
+    width: 100%;
 }
 
 .img-medium {
     height: 100px;
     width: 100px;
     border-radius: 10px;
+}
+
+.hide {
+    display: none
+}
+
+.display-inlineBlock {
+    display: inline-block;
+}
+
+.col-gap {
+    column-gap: 20px;
+}
+
+.row-gap {
+    row-gap: 20px;
+}
+
+fieldset {
+    max-width: 1000px;
 }
 
 /* LOGIN */
@@ -771,6 +792,10 @@ td > button, td > form > button {
 
     footer a {
         width: 100%;
+    }
+
+    .footer-present {
+        margin-block-end: 90px;
     }
 
     /* LOGIN */

@@ -8,11 +8,11 @@
     <div id="resultsSearch" ></div>
   </form>
 
-  <a href="CarrelloManager">
+  <a href="${pageContext.request.contextPath}/CarrelloManager">
     <img src="${pageContext.request.contextPath}/icons/shopping_cart_empty.svg">
   </a>
 
-  <a href="LoginManager" id="login">
+  <a href="${pageContext.request.contextPath}/LoginManager" id="login">
     <c:choose>
       <c:when test="${utente != null}">
         <img src="${pageContext.request.contextPath}/file/${utente.fotoProfilo}">

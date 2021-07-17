@@ -6,8 +6,7 @@
       <title>Risultati Ricerca</title>
 
       <%@include file="general.jsp" %>
-
-      <script type="text/javascript" src="${pageContext.request.contextPath}/js/risultatiRicerca.js" defer></script>
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/prodottoShow.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>
@@ -20,11 +19,12 @@
             </c:if>
 
             <c:forEach items="${prodotti}" var="prodotto">
-               <fieldset id="${prodotto.codiceIAN}">
-                  <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" height="100" width="100">
-                  <h3>CodiceIAN: ${prodotto.codiceIAN}</h3>
+               <fieldset>
+                  <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" class="img-medium">
+                  <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
                   <h3>Nome: ${prodotto.nome}</h3>
                   <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
+                  <%@include file="partialProdotto.jsp"%>
                </fieldset>
             </c:forEach>
          </section>

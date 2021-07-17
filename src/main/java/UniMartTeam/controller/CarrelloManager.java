@@ -146,7 +146,7 @@ public class CarrelloManager extends HttpServlet {
                     }
                     else {
                         c.setQuantita(quantity); //TODO non va bene
-                        c.setPrezzo(c.getProdotto().getPrezzo() * quantity);
+                        c.setPrezzo(c.getProdotto().getPrezzo());
                     }
                 }
             }
@@ -178,7 +178,7 @@ public class CarrelloManager extends HttpServlet {
 
             try {
                 composto.setProdotto(ProdottoDAO.doRetrieveByID(productIan));
-                composto.setPrezzo(composto.getProdotto().getPrezzo() * quantity);
+                composto.setPrezzo(composto.getProdotto().getPrezzo());
             } catch (SQLException e) {
                 request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:Add2Cart)");
                 request.setAttribute("exceptionStackTrace", e.getStackTrace());

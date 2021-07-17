@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>Carrello</title>
     <%@include file="general.jsp"%>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/prodottoShow.js" defer></script>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -21,10 +23,11 @@
             <c:forEach items="${cart.compostoList}" var="composto">
                 <fieldset id="${composto.prodotto.codiceIAN}">
                     <img src="${pageContext.request.contextPath}/file/${composto.prodotto.foto}" height="100" width="100">
-                    <h3>CodiceIAN: ${composto.prodotto.codiceIAN}</h3>
+                    <h3 id="IAN">CodiceIAN: ${composto.prodotto.codiceIAN}</h3>
                     <h3>Nome: ${composto.prodotto.nome}</h3>
                     <h3>Quantità: ${composto.quantita}</h3>
-                    <h3>Prezzo: ${composto.prezzo} (${composto.prodotto.prezzo}€/Unità)</h3>
+                    <h3>Prezzo: <fmt:formatNumber type="number" maxFractionDigits="2" value="${composto.prezzo * composto.quantita}" /> &euro; (${composto.prezzo}&euro;/Unità)</h3>
+                    <%@include file="partialProdotto.jsp"%>
                 </fieldset>
             </c:forEach>
         </c:otherwise>
