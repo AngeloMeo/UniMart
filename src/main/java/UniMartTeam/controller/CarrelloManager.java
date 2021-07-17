@@ -160,7 +160,8 @@ public class CarrelloManager extends HttpServlet {
         }
     }
 
-    private void add2cart(HttpServletResponse response, HttpServletRequest request, SessionManager sessionManager) throws IOException {
+    private void add2cart(HttpServletResponse response, HttpServletRequest request, SessionManager sessionManager) throws IOException, ServletException
+    {
 
         int productIan = Integer.parseInt(request.getParameter("IAN"));
         float quantity = Float.parseFloat(request.getParameter("quantity"));
@@ -195,8 +196,7 @@ public class CarrelloManager extends HttpServlet {
 
             /*TODO: quando aggiungo un prodotto al carrello rimane sulla pagina; ajax cambierà il testo di "Aggiungi al carrello" in "Aggiunto"*/
 
-            return;
-
+            request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
         }
     }
 

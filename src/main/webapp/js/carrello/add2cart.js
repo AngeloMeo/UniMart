@@ -10,13 +10,12 @@ $(document).ready(
 
                 $.post(getPageContext() + "/CarrelloManager/add2cart",
                     {
-                        IAN: element.siblings("#IAN").text().replace('CodiceIAN: ', ''),
+                        IAN: element.val(),
                         quantity: quantityVar
                     },
                     function (data, status) {
                         if(status == 'success')
                         {
-                            console.log(element.siblings("#IAN").text().replace('CodiceIAN: ', ''));
                             $(element).addClass('hide');
                             $(element).next('button').removeClass('hide');
                         }

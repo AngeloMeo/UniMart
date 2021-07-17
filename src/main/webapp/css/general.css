@@ -650,12 +650,10 @@ td > button, td > form > button {
 .table {
     border: 1px solid #ccc;
     border-collapse: collapse;
-    margin: 0;
     padding: 0;
     width: 100%;
     table-layout: fixed;
-    margin-block-end: 30px;
-    margin-block-start: 50px;
+    margin: 50px 0 30px;
 }
 
 .table tr:nth-child(even){
@@ -700,7 +698,7 @@ td > button, td > form > button {
 
 @media screen and (max-width: 850px) {
     .table {
-        margin-block-end: 110px;
+        margin-bottom: 110px;
     }
 
     .table tbody tr td .btn-small{
@@ -795,7 +793,7 @@ td > button, td > form > button {
     }
 
     .footer-present {
-        margin-block-end: 90px;
+        margin-bottom: 90px;
     }
 
     /* LOGIN */
