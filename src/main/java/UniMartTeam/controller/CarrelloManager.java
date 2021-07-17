@@ -23,7 +23,7 @@ public class CarrelloManager extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
-        String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
+        String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/CarrelloManager", "");
         SessionManager sessionManager = new SessionManager(request);
         Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
 

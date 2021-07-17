@@ -1,4 +1,5 @@
-function add(ianVar, caller) {
+function add(ianVar, caller)
+{
     let quantityVar = caller.parentElement.firstElementChild.valueAsNumber;
 
     if(quantityVar == null)
