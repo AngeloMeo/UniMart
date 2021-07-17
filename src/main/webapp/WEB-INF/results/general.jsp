@@ -16,6 +16,8 @@
 <link rel="icon" href="${pageContext.request.contextPath}/icons/logo.svg">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/nav/nav.js" defer></script>
+
+<c:set scope="application" value="${pageContext.request.contextPath}" var="context"></c:set>
 <script>
    var context = '';
 

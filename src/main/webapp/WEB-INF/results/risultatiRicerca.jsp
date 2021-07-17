@@ -22,7 +22,7 @@
                <fieldset>
                   <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" class="img-medium">
                   <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
-                  <h3>Nome: ${prodotto.nome}</h3>
+                  <h3>${prodotto.nome}</h3>
                   <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
                   <%@include file="partialProdotto.jsp"%>
                </fieldset>

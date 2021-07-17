@@ -1,42 +1,33 @@
 package UniMartTeam.controller;
 
-import UniMartTeam.model.Beans.Composto;
-import UniMartTeam.model.Beans.Ordine;
-import UniMartTeam.model.Beans.Utente;
-import UniMartTeam.model.DAO.OrdineDAO;
-import UniMartTeam.model.EnumForBeans.StatoOrdine;
-import UniMartTeam.model.EnumForBeans.TipoUtente;
-
+import UniMartTeam.model.Beans.Categoria;
+import UniMartTeam.model.DAO.CategoriaDAO;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "LandingManager", value = "/LandingManager/*")
+@WebServlet(name = "LandingManager", value = "/Home", loadOnStartup = 0)
 public class LandingManager extends HttpServlet
 {
    @Override
-   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+   public void init() throws ServletException
    {
-      String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/LandingManager", "");
+      super.init();
 
-      switch (path)
+      List <Categoria> categorie = null;
+
+      try
       {
-         case "/":
-            /*catch (SQLException e)
-            {
-               request.setAttribute("message", "Errore nel recupero ordini dal Database(Servlet:OrdiniManager Metodo:doGet)");
-               request.setAttribute("exceptionStackTrace", e.getStackTrace());
-               response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-               return;
-            }*/
-
-            break;
-
-         default:
-            response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
+         categorie = CategoriaDAO.doRetrieveAll();
       }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+         return;
+      }
+
+      getServletContext().setAttribute("categorie", categorie);
    }
 }
