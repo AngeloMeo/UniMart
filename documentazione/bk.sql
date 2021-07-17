@@ -22,19 +22,31 @@ DELIMITER ;
 DROP TABLE IF EXISTS `categoria`;
 CREATE TABLE IF NOT EXISTS `categoria` (
   `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `aliquota` float NOT NULL,
+  `aliquota` float NOT NULL DEFAULT '0',
   PRIMARY KEY (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `categoria`;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
 INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
-	('alimentari', 20),
-	('biscotti', 15),
-	('formaggi', 14),
-	('frutta', 11),
-	('frutta secca', 10),
-	('pasta', 3);
+	('acqua e analcolici', 5),
+	('animali', 2),
+	('bucato', 20),
+	('carne', 15),
+	('casa', 18),
+	('cura della persona', 22),
+	('dispensa', 15),
+	('frutta', 1),
+	('gastronomia', 15),
+	('gelati e surgelati', 17),
+	('infanzia', 10),
+	('pane farine e preparati', 25),
+	('pesce', 4),
+	('prodotti biologici', 5),
+	('salumi e formaggi', 10),
+	('uova latte e latticini', 5),
+	('verdura', 4),
+	('vini e birre', 16);
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `coupon`;
@@ -46,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
@@ -67,12 +79,11 @@ INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
 	(18, 'Disponibile', 6, 'ERFDPG92A23L322U'),
 	(19, 'Disponibile', 59, 'ERFDPG92A23L322U'),
 	(20, 'Disponibile', 2, 'ERFDPG92A23L322U'),
-	(39, 'Disponibile', 89, 'test'),
-	(42, 'Disponibile', 15, 'test'),
-	(44, 'Riscattato', 90, 'test'),
-	(47, 'Disponibile', 23, 'test'),
-	(48, 'Disponibile', 19, 'test'),
-	(49, 'Disponibile', 18, 'test');
+	(39, 'Disponibile', 89, 'LLFJPG92A23L322U'),
+	(42, 'Disponibile', 20, 'LLFJPG92A23L322U'),
+	(44, 'Riscattato', 90, 'LLFJPG92A23L322U'),
+	(47, 'Disponibile', 23, 'LLFJPG92A23L322U'),
+	(48, 'Disponibile', 19, 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `coupon_applicato`;
@@ -107,10 +118,10 @@ CREATE TABLE IF NOT EXISTS `inventario` (
 DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
-	(1, 'via po, 2', 'Campania', 'euroCampania', 'Magazzino alimentare', 'test'),
+	(1, 'via po, 3', 'Campania', 'euroCampania', 'Magazzino alimentare', 'LLFJPG92A23L322U'),
 	(2, 'test', 'test', 'test', 'test', 'ERFDPG92A23L322U'),
-	(6, 'via rossi,9', 'Lazio', 'LazioMart', 'Contiene anche prodotti tipici della regione.Lazio', 'test'),
-	(7, 'ciao', 'ewfwe', 'ewrwe', 'ehguierninvuignreiuviojasjiioijfdfhdiufckcidkodsjiofrgroehgioejiorgoegvmijviuiomok', 'test');
+	(6, 'via rossi,9', 'Lazio', 'LazioMart', 'Contiene anche prodotti tipici della regione.Lazio', 'LLFJPG92A23L322U'),
+	(7, 'ciao', 'ewfwe', 'ewrwe', 'ehguierninvuignreiuviojasjiioijfdfhdiufckcidkodsjiofrgroehgioejiorgoegvmijviuiomok', 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `inventario_prodotto`;
@@ -128,11 +139,12 @@ DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
 	(1, 1, 15),
-	(7, 1, 10),
+	(7, 1, 12),
 	(1, 2, 15),
 	(7, 2, 6),
 	(1, 3, 9),
-	(7, 3, 16);
+	(7, 3, 16),
+	(1, 4, 1);
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine`;
@@ -160,7 +172,7 @@ DELETE FROM `ordine`;
 INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
 	(1, 'salvato', 'ok', '000', '2021-06-12 18:52:11', 'we', 1, 'Campania', 'nola', 'via po,3'),
 	(2, 'preparazione', 'bene', '123', '2021-06-12 18:52:11', 'we', 3, 'Campania', 'visciano', 'via po,3'),
-	(3, 'accettato', 'bene', '9999', '2021-06-12 18:52:11', 'we', 3, 'Campania', 'visciano', 'via po,3'),
+	(3, 'consegnato', 'Perfetto', '9999', '2021-06-12 00:00:00', 'we', 3, 'Campania', 'visciano', 'via po,3'),
 	(5, 'annullato', 'bene', '99', '2021-06-12 00:00:00', 'we', 3, 'Campania', 'visciano', 'via po,3');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
@@ -199,15 +211,15 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
-	(1, 'abbracci', 15.15, 10, '1_inventario.jpg', 2, 'biscotti buoni', 'biscotti'),
-	(2, 'Mandorle', 1.5, 1.9, '2_inventario.jpg', 2, 'Buone da mangiare', 'frutta secca'),
-	(3, 'fettuccine', 1.5, 6, '2_inventario.jpg', 3, 'Buone da mangiare', 'pasta'),
-	(4, 'candele', 1.9, 5, '2_inventario.jpg', 1, 'Ottime', 'pasta');
+	(1, 'abbracci', 15.15, 10, '1_inventario.jpg', 2, 'biscotti ottimi', 'prodotti biologici'),
+	(2, 'Mandorle', 1.5, 1.9, '2_inventario.jpg', 2, 'Buone da mangiare', 'carne'),
+	(3, 'fettuccine', 1.5, 6, '2_inventario.jpg', 3, 'Buone da mangiare', 'pesce'),
+	(4, 'candele', 1.9, 5, '2_inventario.jpg', 1, 'Ottime', 'pesce');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP VIEW IF EXISTS `prodotto_preferito`;
@@ -272,10 +284,11 @@ DELETE FROM `utente`;
 INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
 	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
 	('DCFJPG92A23L322U', 'sabato', 'genovese', 'po,2', NULL, 'Semplice', 'visciano', 'campania', '33334888', '2000-05-05', 's@s.com', 'sabato', '795cbb3993ff966ec0444d87de357bb33f302897'),
-	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Amministratore', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
+	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Semplice', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
+	('Gehuebevehdb', 'Bho', 'Come ', 'Domenico 5', 'Gehuebevehdb_image.jpg', 'Semplice', 'Napoli ', 'Campania ', '3333557834', '2003-07-11', 'monica@gmail.com', 'Monica ', '4b4446969034c7b0cee153226a398194c133f65b'),
+	('LLFJPG92A23L322U', 'test', 'test', 'via test', 'test_inventario.jpg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
-	('test', 'test', 'test', 'via test', 'test_wallpaper.jpg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test', 'test', 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'),
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
 	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
