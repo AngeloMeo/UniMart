@@ -452,7 +452,7 @@ main img {
 }
 
 hr {
-    border-top: 2px solid var(--warning);
+    border-top: 1px solid var(--warning);
     width: 100%;
 }
 
@@ -538,6 +538,40 @@ nav a:hover {
 
 .btn-menu-mobile {
     display: none;
+}
+
+/* HOMEPAGE */
+
+.categorie-container {
+    text-align: center;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.categorie-container a {
+    text-decoration: none;
+    color: var(--black);
+}
+
+.categorie-container div {
+    border: 1.5px solid var(--secondary);
+    background-color: var(--neutral);
+}
+
+.categorie-container div:hover {
+    background-color: var(--white);
+    border: 1.5px solid var(--warning);
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.cover-container {
+    background-color: var(--primaryT);
+    padding: 0px;
+}
+
+.cover-container img {
+    border-radius: 0px;
+    padding: 0px;
 }
 
 /* MODAL */
@@ -753,6 +787,12 @@ td > button, td > form > button {
     .table td:last-child {
         border-bottom: 0;
     }
+
+    /* ALL */
+
+    .flex-item-20{
+        flex: 40%;
+    }
 }
 
 @media screen and (min-height: 320px) and (max-width: 480px) {
@@ -816,7 +856,7 @@ td > button, td > form > button {
         width: 100%;
     }
 
-    .flex-item-40, .flex-item-50 {
+    .flex-item-20, .flex-item-40, .flex-item-50 {
         margin: 10px auto 10px;
         padding: 10px;
     }
