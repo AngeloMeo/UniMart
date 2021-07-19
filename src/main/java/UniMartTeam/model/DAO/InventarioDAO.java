@@ -2,11 +2,8 @@ package UniMartTeam.model.DAO;
 
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Possiede;
-import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Utente;
-import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Extractors.InventarioExtractor;
-import UniMartTeam.model.Extractors.UtenteExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 import java.sql.*;

@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
@@ -176,7 +176,27 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(9, 'ace candeggina', 1.7, 1, '9_ace.jpg', 3, 'utilizzare solo su panni bianchi', 'casa'),
 	(10, 'crocchette cane', 3.5, 3, '10_crocchette.jpg', 5, 'per cani di grande taglia', 'animali'),
 	(11, 'bagnoschiuma', 1.8, 1, '11_dove.png', 2, 'per pelli delicate', 'cura della persona'),
-	(12, 'crema corpo', 1.9, 2, '12_crema.jpg', 2, 'per un\'idratazione della pelle ', 'cura della persona');
+	(12, 'crema corpo', 1.9, 2, '12_crema.jpg', 2, 'per un\'idratazione della pelle ', 'cura della persona'),
+	(13, 'merluzzo', 5.5, 1.2, '13_3D-Cap-Filetti-Merluzzo.png', 1, 'ottimo per i bambini', 'gelati e surgelati'),
+	(14, 'ace pavimento', 1.9, 1, '14_82518-fancybox_default.jpg', 2, 'UTILIZZARE PER IL PAVIMENTO', 'casa'),
+	(16, 'elive shampo', 2.9, 10, '16_dream-long-shampoo-ripara-lunghezze.jpg', 1, 'per capelli lunghi', 'cura della persona'),
+	(17, 'patate vivaci', 1.5, 1, '17_l_20651.jpg', 2, 'un mix di sapori', 'dispensa'),
+	(18, 'carne di bovino', 6, 1.5, '18_eg-0021614_1_big.jpg', 5, 'buona alla brace', 'carne'),
+	(19, 'deodorante dove', 2.8, 0.25, '19_big_167236_066184_02_nkyuy1zjkyc7hltv.jpg', 6, 'per una profumazione migliore', 'cura della persona'),
+	(20, 'pasta divella', 1.5, 1, '20_0000079161.jpg', 4, 'ideale per mille idee', 'dispensa'),
+	(21, 'sale', 0.85, 1, '21_CG0155-1.jpg', 3, 'utilizzato per tutto', 'dispensa'),
+	(22, 'pan carrè', 1.5, 2, '22_PANCARRE24FETTEMULINOB-8076809530842-1.png', 5, 'ideale per mille idee', 'dispensa'),
+	(23, 'olio per friggere', 1.95, 1.5, '23_31960_2.jpg', 4, 'utilizzato per tutto', 'dispensa'),
+	(24, 'mirtilli', 1.5, 1.6, '24_IMMAGINO_IMMAGINO_EAN8028873001728_1_renditions_600x600.png', 5, 'ideale per dolci', 'frutta'),
+	(25, 'banane', 1.78, 1.7, '25_Chiquita_Banana_Class_Extra_Yellow.jpg', 3, 'ricca di vitamine', 'frutta'),
+	(26, 'mandorle ', 2.41, 3, '26_0000168662-1024x1024.jpg', 2, 'ricco di vitamine', 'frutta'),
+	(27, 'pizza surgelata', 3.14, 2, '27_PIZZAMARGHERITABELLANAPOLI-8000300391961-1.png', 2, 'rapida e veloce', 'gelati e surgelati'),
+	(28, 'mais in scatola', 2.3, 2.3, '28_mais-bonduelle-in-scatola-300-g-.jpg', 3, 'per mille ricette', 'gastronomia'),
+	(29, 'olive verdi', 1.5, 2, '29_phoca_thumb_l_2biolverd250ec_a.jpg', 4, 'pratiche e veloci', 'verdura'),
+	(30, 'farina barilla', 0.9, 2, '30_279FARINA00BARILLA-8076802795019-1.png', 3, 'utilizzata per dolci e pizza', 'casa'),
+	(31, 'gelato nuji', 3.8, 3, '31_Nuii_Multipack_x4_SaltedCaramelAustralianMacadamia_IT-980x748.jpg', 2, 'per chi ama il caramello e non puÃ² farne almeno', 'gelati e surgelati'),
+	(32, 'petto di pollo', 6.82, 6, '32_PAM_442323_MINIFILETTO-POLLO-PP.jpg', 5, 'per cotolette ', 'gastronomia'),
+	(33, 'piselli findus', 5.5, 2, '33_191206_pack piselli novelli 450.png', 2, 'buoni', 'gelati e surgelati');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto_preferito`;

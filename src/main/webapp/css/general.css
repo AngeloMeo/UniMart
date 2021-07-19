@@ -220,6 +220,12 @@ input[type=number] {
 
 a {
     text-decoration: none;
+    color: var(--black);
+}
+
+img {
+    object-fit: contain;
+    margin: 2px auto;
 }
 
 h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
@@ -462,6 +468,16 @@ hr {
     border-radius: 10px;
 }
 
+.img-large {
+    height: 150px;
+    width: 150px;
+}
+
+.img-responsive {
+    height: 95%;
+    width: 95%;
+}
+
 .hide {
     display: none
 }
@@ -572,6 +588,19 @@ nav a:hover {
 .cover-container img {
     border-radius: 0px;
     padding: 0px;
+}
+
+.card {
+    border: 1px solid black;
+    height: max-content;
+    width: max-content;
+    padding: 10px;
+    margin: 5px;
+}
+
+.container-slick {
+    width: 90%;
+    margin: 0px auto;
 }
 
 /* MODAL */

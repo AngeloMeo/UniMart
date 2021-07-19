@@ -3,11 +3,9 @@ package UniMartTeam.model.DAO;
 import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.Beans.Views.ProdottoPreferito;
-import UniMartTeam.model.Extractors.CategoriaExtractor;
 import UniMartTeam.model.Extractors.ProdottoExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -219,6 +217,7 @@ public class ProdottoDAO
          }
       }
    }
+
    public static List<Prodotto> doRetrieveByCond(int type, String param) throws SQLException
    {
       if (param.isEmpty())
@@ -254,6 +253,25 @@ public class ProdottoDAO
       }
    }
 
+   public static List<Prodotto> prodottiRandom(int size) throws SQLException
+   {
+      if (size < 1)
+         return null;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         String alias = "p";
+
+         QueryBuilder qb = new QueryBuilder("prodotto", alias).select().orderBy("RAND()").limit(false);
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setInt(1, size);
+
+            return ListFiller(ps, alias);
+         }
+      }
+   }
 
    public static ProdottoPreferito getProdottoPreferito() throws SQLException {
       try (Connection connection = ConPool.getConnection()) {

@@ -1,7 +1,7 @@
 <span onclick="openNav()" class="btn-menu-mobile">&#9776; Men&ugrave;</span>
 <nav class="gradient4">
     <div>
-        <a href="index.jsp">Index</a>
+        <a href="${pageContext.request.contextPath}/Home">Index</a>
         <a href="${pageContext.request.contextPath}/HelloServlet">Dashboard</a>
         <a href="${pageContext.request.contextPath}/CouponManager">Coupon</a>
         <a href="${pageContext.request.contextPath}/InventarioManager">Inventario</a>

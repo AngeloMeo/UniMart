@@ -12,7 +12,7 @@
 
       <main class="flex-container justify-content-center footer-present">
          <fieldset class="flex-item-100 flex-container flex-dirRow">
-            <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" class="flex-item-40">
+            <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" class="flex-item-40 img-responsive">
 
             <div class="flex-item-50 flex-container">
                <h3 id="IAN" value="${prodotto.codiceIAN}" class="flex-item-100">CodiceIAN: ${prodotto.codiceIAN}</h3>

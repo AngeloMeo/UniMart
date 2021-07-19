@@ -132,7 +132,7 @@ public class ProdottoManager extends HttpServlet {
 
                     try {
                         ProdottoDAO.doSave(p);
-                        p.uploadFoto(request.getPart("foto"), getServletContext().getInitParameter("uploadpath"));
+                        p.uploadFoto(request.getPart("foto"), FileServlet.basePath);
                         ProdottoDAO.doUpdate(p);
                     }
                     catch (SQLException | IOException e)
