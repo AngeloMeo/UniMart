@@ -496,6 +496,7 @@ hr {
 
 fieldset {
     max-width: 1000px;
+    margin: 10px;
 }
 
 /* LOGIN */
@@ -865,6 +866,10 @@ td > button, td > form > button {
         margin-bottom: 90px;
     }
 
+    .footer-present-big {
+        margin-bottom: 120px;
+    }
+
     /* LOGIN */
     .login .flex-dirRow {
         flex-direction: column;
@@ -958,6 +963,12 @@ td > button, td > form > button {
         margin-left: 50px;
         background: var(--primaryT);
         width: auto;
+    }
+
+    /* HOMEPAGE */
+
+    .container-slick {
+        width: 50%;
     }
 }
 

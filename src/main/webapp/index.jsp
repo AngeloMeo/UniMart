@@ -8,7 +8,7 @@
    </head>
    <body>
       <%@include file="WEB-INF/results/header.jsp"%>
-      <main class="footer-present">
+      <main class="footer-present-big">
          <hr>
 
          <div class="flex-container flex-dirRow col-gap cover-container">

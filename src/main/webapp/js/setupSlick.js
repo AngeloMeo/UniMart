@@ -27,7 +27,7 @@ $('.container-slick').slick({
             }
         },
         {
-            breakpoint: 400,
+            breakpoint: 470,
             settings: {
                 slidesToShow: 1,
                 slidesToScroll: 1,
