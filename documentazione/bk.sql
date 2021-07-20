@@ -11,7 +11,7 @@ USE `unimart`;
 
 DROP EVENT IF EXISTS `AggiornamentoOrdini`;
 DELIMITER //
-CREATE DEFINER=`root`@`%` EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 5 MINUTE STARTS '2021-05-04 08:00:00' ENDS '2021-05-04 18:00:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
+CREATE EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 5 MINUTE STARTS '2021-05-04 08:00:00' ENDS '2021-05-04 18:00:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
 	UPDATE ordini o SET o.Stato = 'consegnato' WHERE o.Stato = 'in consegna';
 	UPDATE ordini o SET o.Stato = 'in consegna' WHERE o.Stato = 'spedito';
 	UPDATE ordini o SET o.Stato = 'spedito' WHERE o.Stato = 'preparazione';
@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `categoria`;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
 INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
 	('acqua e analcolici', 5),
@@ -57,9 +58,12 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
+INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
+	(1, 'Riscattato', 10, 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `coupon_applicato`;
@@ -72,7 +76,10 @@ CREATE TABLE IF NOT EXISTS `coupon_applicato` (
   CONSTRAINT `FK_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `coupon_applicato`;
 /*!40000 ALTER TABLE `coupon_applicato` DISABLE KEYS */;
+INSERT INTO `coupon_applicato` (`idCoupon`, `idOrdine`) VALUES
+	(1, 1);
 /*!40000 ALTER TABLE `coupon_applicato` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `inventario`;
@@ -88,6 +95,7 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
 	(1, 'via po, 3', 'Campania', 'euroCampania', 'Magazzino alimentare', 'LLFJPG92A23L322U'),
@@ -107,6 +115,7 @@ CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
   CONSTRAINT `FK__prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
@@ -128,9 +137,12 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
+INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
+	(1, 'preparazione', NULL, '1', '2021-07-20 19:29:38', 'we', 3, 'campania', 'nola', 'via po,2');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -145,7 +157,12 @@ CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
   CONSTRAINT `FK_ordine_prodotto_prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `ordine_prodotto`;
 /*!40000 ALTER TABLE `ordine_prodotto` DISABLE KEYS */;
+INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quantita`) VALUES
+	(1, 14, 10, 1),
+	(1, 39, 14, 3),
+	(1, 49, 12, 10);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto`;
@@ -163,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
 	(1, 'zucchero ', 0.9, 1, '1_zucchero.jpg', 2, 'ottimo per dolci/bevande calde', 'gastronomia'),
@@ -209,7 +227,7 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(43, 'origano', 4.15, 3, '43_Origano-secco-frantumato-per-salumi-salmistrati-Dama.jpg', 3, 'ottimno per pane e fagioli', 'frutta'),
 	(44, 'cipolle', 3.5, 0.5, '44_sacchetto-carta-dorata-943x1024.jpg', 6, 'ideale per il brodo', 'prodotti biologici'),
 	(45, 'bastoncini findus', 3.6, 6, '45_70600236.jpg', 7, 'merluzzo inpanato', 'pesce'),
-	(46, 'crocchÃ¨', 1.9, 0.9, '46_pim-00000008002411402055-main-20201002-140225.jpg', 5, 'pronti in poco tempo', 'gelati e surgelati'),
+	(46, 'crocché', 1.9, 0.9, '46_pim-00000008002411402055-main-20201002-140225.jpg', 5, 'pronti in poco tempo', 'gelati e surgelati'),
 	(47, 'pane', 0.89, 0.1, '47_baguettes-precotte-dailybread-2-panini-300gr.jpg', 4, 'pratico da portare anche in viaggio', 'pane farine e preparati'),
 	(48, 'cereali', 3.9, 1.5, '48_2974-home_default.jpg', 4, 'ideale per la colazione', 'dispensa'),
 	(49, 'chilly intimo', 4.1, 2.1, '49_chilly-detergente-intimo-delicato-formula-lenitiva.jpg', 2, 'per intimo ', 'cura della persona'),
@@ -223,7 +241,7 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(57, 'carta forno', 2, 4, '57_614c8x6j8QL._AC_SS450_.jpg', 3, 'ottimo da utillizare per il forno', 'casa'),
 	(58, 'pellicola', 3.4, 2, '58_069767c1-9ecb-44e4-8c18-2f9b90e3d2ad.jpg', 6, 'ideale per il frigo', 'dispensa'),
 	(59, 'pan grattato', 3.1, 2, '59_0000000064-1024x1024.jpg', 1, 'ottimo per le cotolette', 'pane farine e preparati'),
-	(60, 'thÃ¨ limone', 1.4, 4, '60_l_23393.jpg', 5, 'ottimo per l\'estate', 'gastronomia');
+	(60, 'thè limone', 1.4, 4, '60_l_23393.jpg', 5, 'ottimo per l\'estate', 'gastronomia');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto_preferito`;
@@ -239,6 +257,7 @@ CREATE TABLE IF NOT EXISTS `prodotto_preferito` (
   `Quantità Totale Acquistata` double DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `prodotto_preferito`;
 /*!40000 ALTER TABLE `prodotto_preferito` DISABLE KEYS */;
 /*!40000 ALTER TABLE `prodotto_preferito` ENABLE KEYS */;
 
@@ -250,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `spedizione` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `spedizione`;
 /*!40000 ALTER TABLE `spedizione` DISABLE KEYS */;
 INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
 	(1, 'eco', 5.99),
@@ -265,6 +285,7 @@ CREATE TABLE IF NOT EXISTS `spedizione_preferita` (
   `Utilizzi` bigint DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `spedizione_preferita`;
 /*!40000 ALTER TABLE `spedizione_preferita` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spedizione_preferita` ENABLE KEYS */;
 
@@ -288,6 +309,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
   UNIQUE KEY `Indice 4` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `utente`;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
 INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
 	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
@@ -304,7 +326,7 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
+CREATE TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
 	UPDATE coupon c SET c.stato = 'Riscattato' WHERE c.numeroCoupon = NEW.idCoupon; 
 END//
 DELIMITER ;
@@ -313,7 +335,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `coupon_before_delete`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
+CREATE TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
 	UPDATE coupon c SET c.stato = 'Disponibile' WHERE c.numeroCoupon = OLD.idCoupon; 
 END//
 DELIMITER ;
@@ -322,7 +344,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `NormalizeCategoriaInsert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `NormalizeCategoriaInsert` BEFORE INSERT ON `categoria` FOR EACH ROW BEGIN
+CREATE TRIGGER `NormalizeCategoriaInsert` BEFORE INSERT ON `categoria` FOR EACH ROW BEGIN
 	SET new.nome = LOWER(new.nome);
 END//
 DELIMITER ;
@@ -331,7 +353,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `NormalizeCategoriaUpdate`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `NormalizeCategoriaUpdate` BEFORE UPDATE ON `categoria` FOR EACH ROW BEGIN
+CREATE TRIGGER `NormalizeCategoriaUpdate` BEFORE UPDATE ON `categoria` FOR EACH ROW BEGIN
 SET new.nome = LOWER(new.nome);
 END//
 DELIMITER ;
