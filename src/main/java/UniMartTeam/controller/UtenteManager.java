@@ -136,7 +136,6 @@ public class UtenteManager extends HttpServlet
 
             utente.setPasswordHash("");
 
-            SessionManager.invalidateSession(request);
             SessionManager sessionManager = new SessionManager(request);
             sessionManager.setAttribute(utente, "utente");
 

@@ -80,7 +80,6 @@ public class LoginManager extends HttpServlet
 
       fromDB.setPassword("");
 
-      SessionManager.invalidateSession(request);
       SessionManager sessionManager = new SessionManager(request, true);
       sessionManager.setAttribute(fromDB, "utente");
 

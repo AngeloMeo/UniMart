@@ -90,7 +90,7 @@
                                });
                            </script>
                            <td class="flex-item-40 text-center">
-                              <input class="btn btn-secondary" type="submit" formaction="./UtenteManager/modificaProfilo" value="Modifica Utente">
+                              <input class="btn btn-secondary" type="submit" formaction="${context}/UtenteManager/modificaProfilo" value="Modifica Utente">
                               <input class="btn btn-secondary" type="submit" onclick="javascript:history.go(-1)" value="Annulla">
                            </td>
                         </c:when>
@@ -101,7 +101,7 @@
                                });
                            </script>
                            <td colspan="2" class="flex-item-100">
-                              <input class="btn-secondary" type="submit" formaction="./UtenteManager/creaUtente" value="Registra Utente">
+                              <input class="btn-secondary" type="submit" formaction="${context}/UtenteManager/creaUtente" value="Registra Utente">
                            </td>
                         </c:otherwise>
                      </c:choose>
