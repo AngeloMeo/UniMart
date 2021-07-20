@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
@@ -196,7 +196,34 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(30, 'farina barilla', 0.9, 2, '30_279FARINA00BARILLA-8076802795019-1.png', 3, 'utilizzata per dolci e pizza', 'casa'),
 	(31, 'gelato nuji', 3.8, 3, '31_Nuii_Multipack_x4_SaltedCaramelAustralianMacadamia_IT-980x748.jpg', 2, 'per chi ama il caramello e non puÃ² farne almeno', 'gelati e surgelati'),
 	(32, 'petto di pollo', 6.82, 6, '32_PAM_442323_MINIFILETTO-POLLO-PP.jpg', 5, 'per cotolette ', 'gastronomia'),
-	(33, 'piselli findus', 5.5, 2, '33_191206_pack piselli novelli 450.png', 2, 'buoni', 'gelati e surgelati');
+	(33, 'piselli findus', 5.5, 2, '33_191206_pack piselli novelli 450.png', 2, 'buoni', 'gelati e surgelati'),
+	(34, 'fagioli cannellini', 2.3, 1, '34_cannellini-vaso-vetro-new.jpg', 3, 'ottimi per qualsiasi cosa', 'dispensa'),
+	(35, 'lenticchie secche', 3.01, 2, '35_lenticchie-verdi.jpg', 3, 'ottime per gli amanti dei legumi', 'gastronomia'),
+	(36, 'cotechino', 4.2, 3, '36_G7122 NEGRONI Grancotechino.png', 3, 'un sapore inaspettato', 'carne'),
+	(37, 'nascondini mulino bianco', 2.5, 3, '37_0000187449.jpg', 5, 'un mix di biscotti e cioccolato', 'gastronomia'),
+	(38, 'caramelle haribo', 0.39, 2, '38_l_60940.jpg', 2, 'mix di gusto', 'gastronomia'),
+	(39, 'cioccolata lindt', 3.5, 4, '39_l_21773.jpg', 3, 'un viaggio nel sapore della cioccolata', 'dispensa'),
+	(40, 'mix party', 2.62, 3, '40_Snack Friends Bretzel 100 g.png', 4, 'un mix di sa', 'acqua e analcolici'),
+	(41, 'mix party', 2.62, 3, '41_Snack Friends Bretzel 100 g.png', 4, 'un mix di salato', 'pane farine e preparati'),
+	(42, 'plumcake', 2.85, 0.4, '42_083443-mulino-bianco-plumcake-classico-allo-yogurt-confezione-da-10-plumcake---350-grammi-totali.jpg', 5, 'ottimi per la colazione', 'gastronomia'),
+	(43, 'origano', 4.15, 3, '43_Origano-secco-frantumato-per-salumi-salmistrati-Dama.jpg', 3, 'ottimno per pane e fagioli', 'frutta'),
+	(44, 'cipolle', 3.5, 0.5, '44_sacchetto-carta-dorata-943x1024.jpg', 6, 'ideale per il brodo', 'prodotti biologici'),
+	(45, 'bastoncini findus', 3.6, 6, '45_70600236.jpg', 7, 'merluzzo inpanato', 'pesce'),
+	(46, 'crocchÃ¨', 1.9, 0.9, '46_pim-00000008002411402055-main-20201002-140225.jpg', 5, 'pronti in poco tempo', 'gelati e surgelati'),
+	(47, 'pane', 0.89, 0.1, '47_baguettes-precotte-dailybread-2-panini-300gr.jpg', 4, 'pratico da portare anche in viaggio', 'pane farine e preparati'),
+	(48, 'cereali', 3.9, 1.5, '48_2974-home_default.jpg', 4, 'ideale per la colazione', 'dispensa'),
+	(49, 'chilly intimo', 4.1, 2.1, '49_chilly-detergente-intimo-delicato-formula-lenitiva.jpg', 2, 'per intimo ', 'cura della persona'),
+	(50, 'sgrassatore ', 3.41, 0.7, '50_51X1F1n5IIL._AC_SY879_.jpg', 5, 'adatto per mille usi', 'casa'),
+	(51, 'nelsen piatti', 0.78, 0.7, '51_71f4pa9VJCL._AC_SS450_.jpg', 4, 'ottimo per il lavaggio dei piatti', 'casa'),
+	(52, 'spugnette piatti', 0.78, 2, '52_unnamed.jpg', 1, 'utilizzare per i piatti', 'casa'),
+	(53, 'riso ', 4.5, 1.7, '53_81vKrhUZuYL._AC_SX679_.jpg', 5, 'ottimo per il risotto', 'dispensa'),
+	(54, 'capsule dixan', 3.5, 2, '54_l_62446.jpg', 4, 'pratica e veloce', 'bucato'),
+	(55, 'carta igienica', 2.5, 3, '55_01.jpg', 4, 'utilizzata per il bagno', 'casa'),
+	(56, 'carta argentata', 1.9, 2, '56_l_3551.jpg', 1, 'ottimo', 'dispensa'),
+	(57, 'carta forno', 2, 4, '57_614c8x6j8QL._AC_SS450_.jpg', 3, 'ottimo da utillizare per il forno', 'casa'),
+	(58, 'pellicola', 3.4, 2, '58_069767c1-9ecb-44e4-8c18-2f9b90e3d2ad.jpg', 6, 'ideale per il frigo', 'dispensa'),
+	(59, 'pan grattato', 3.1, 2, '59_0000000064-1024x1024.jpg', 1, 'ottimo per le cotolette', 'pane farine e preparati'),
+	(60, 'thÃ¨ limone', 1.4, 4, '60_l_23393.jpg', 5, 'ottimo per l\'estate', 'gastronomia');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto_preferito`;
