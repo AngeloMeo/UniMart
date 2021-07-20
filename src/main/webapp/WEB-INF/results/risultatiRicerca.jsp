@@ -14,13 +14,13 @@
          <section class="flex-container flex-dirRow justify-content-center">
             <h1 class="flex-item-100">Risultati per ${categoria}</h1>
 
-            <c:if test="${prodotti == null}">
+            <c:if test="${requestScope.prodotti == null}">
                <h2 class="flex-item-100">Nessun elemento corrispondente</h2>
             </c:if>
 
-            <c:forEach items="${prodotti}" var="prodotto">
+            <c:forEach items="${requestScopeprodotti}" var="prodotto">
                <fieldset>
-                  <img src="${pageContext.request.contextPath}/file/${prodotto.foto}" class="img-medium">
+                  <img src="${context}/file/${prodotto.foto}" class="img-medium">
                   <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
                   <h3>${prodotto.nome}</h3>
                   <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
