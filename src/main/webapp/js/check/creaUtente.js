@@ -6,4 +6,6 @@ function checkUsername(){
     }
     else
         document.reg.submit();
+
+    //TODO da rifare
 }

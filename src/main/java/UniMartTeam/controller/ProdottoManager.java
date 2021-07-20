@@ -7,6 +7,8 @@ import UniMartTeam.model.DAO.CategoriaDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -23,7 +25,6 @@ import java.util.List;
 @MultipartConfig
 public class ProdottoManager extends HttpServlet {
 
-
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
@@ -37,9 +38,21 @@ public class ProdottoManager extends HttpServlet {
                 {
                     case "/":
                         List<Prodotto> prodottoList = null;
+                        Validator validator = new Validator(request);
+                        validator.assertInt("size", "Error size");
+                        validator.assertInt("offset", "Error offset");
+
                         try
                         {
-                             prodottoList = ProdottoDAO.doRetrieveAll();
+                            int size = 5, offset = 0;
+
+                            if(!validator.hasErrors())
+                            {
+                                size = Integer.parseInt(request.getParameter("size"));
+                                offset = Integer.parseInt(request.getParameter("offset"));
+                            }
+
+                            prodottoList = ProdottoDAO.doRetrieveAll(offset, size);
                         }
                         catch (SQLException e)
                         {
@@ -52,8 +65,13 @@ public class ProdottoManager extends HttpServlet {
                         if (prodottoList.get(0) == null)
                             prodottoList = null;
 
+                        request.removeAttribute("prodottoList");
                         request.setAttribute("prodottoList", prodottoList);
-                        request.getRequestDispatcher("/WEB-INF/results/prodottoPage.jsp").forward(request, response);
+
+                        if(!validator.hasErrors())
+                            request.getRequestDispatcher("/WEB-INF/results/partProdotto.jsp").forward(request, response);
+                        else
+                            request.getRequestDispatcher("/WEB-INF/results/prodottoPage.jsp").forward(request, response);
                     break;
 
                     case "/CreaProdotto":

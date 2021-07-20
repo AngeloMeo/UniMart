@@ -255,22 +255,40 @@ public class ProdottoDAO
 
    public static List<Prodotto> prodottiRandom(int size) throws SQLException
    {
-      if (size < 1)
-         return null;
+      String alias = "p";
+      QueryBuilder qb = new QueryBuilder("prodotto", alias).select().orderBy("RAND()").limit(false);
 
-      try (Connection con = ConPool.getConnection())
+      return exexuteQuery(qb, alias, 0, size);
+   }
+
+   public static List<Prodotto> prodottiPiuAcquistati(int size) throws SQLException
+   {
+      String alias = "p";
+      QueryBuilder qb = new QueryBuilder("prodotto", alias).select(alias + ".*").innerJoin("ordine_prodotto", "op");
+      qb.on("p.codiceIAN = op.idProdotto").groupBy("p.codiceIAN").orderBy("op.quantita DESC").limit(false);
+
+      return exexuteQuery(qb, alias, 0, size);
+   }
+
+   public static List<Prodotto> exexuteQuery(QueryBuilder query, String alias, int offset, int size) throws SQLException
+   {
+      if ((query != null) && (offset >= 0) && (size > 0) && (alias != null))
       {
-         String alias = "p";
-
-         QueryBuilder qb = new QueryBuilder("prodotto", alias).select().orderBy("RAND()").limit(false);
-
-         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         try (Connection con = ConPool.getConnection())
          {
-            ps.setInt(1, size);
+            try (PreparedStatement ps = con.prepareStatement(query.getQuery()))
+            {
+               ps.setInt(1, size);
 
-            return ListFiller(ps, alias);
+               if(offset != 0)
+                  ps.setInt(2, offset);
+
+               return ListFiller(ps, alias);
+            }
          }
       }
+
+      return null;
    }
 
    public static ProdottoPreferito getProdottoPreferito() throws SQLException {
@@ -283,7 +301,7 @@ public class ProdottoDAO
 
             if (rs.next()){
                Categoria c = new Categoria();
-               c.setNome(rs.getString(""+"nomeCategoria"));
+               c.setNome(rs.getString("nomeCategoria"));
                Prodotto p = ProdottoExtractor.Extract(rs, "", c);
                return fill(p, rs);
             }

@@ -6,13 +6,16 @@
         <title>ProdottoManager</title>
 
         <%@include file="general.jsp" %>
+        <script src="${context}/js/paginatorProdotto.js" defer></script>
+        <script src="${context}/js/scrollDetect.js" defer></script>
+
     </head>
     <body>
         <%@include file="header.jsp" %>
         <%@include file="adminPanel.jsp"%>
 
         <main>
-            <form action="ProdottoManager/CreaProdotto" method="get">
+            <form action="${context}/ProdottoManager/CreaProdotto" method="get">
                 <button id="btn-crea">Crea Nuovo Prodotto</button>
             </form>
 
@@ -32,24 +35,7 @@
                                 <th>Gestisci</th>
                             </tr>
                         </thead>
-                    <c:forEach items="${prodottoList}" var="prodotto">
-                        <tr>
-                            <td data-label="IAN">${prodotto.codiceIAN}</td>
-                            <td data-label="Nome">${prodotto.nome}</td>
-                            <td data-label="Categoria">${prodotto.categoria.nome}</td>
-                            <td data-label="Prezzo">${prodotto.prezzo} &euro;</td>
-                            <td data-label="Foto">
-                            <c:if test="${not empty prodotto.foto}">
-                                    <img src="file/${prodotto.foto}" class="img-medium">
-                            </c:if>
-                            </td>
-                            <td data-label="Gestisci">
-                                <form method="post" action="ProdottoManager/getProdotto">
-                                    <button type="submit" class="btn btn-small" name="codiceIAN" value="${prodotto.codiceIAN}">Modifica</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                        <%@include file="partProdotto.jsp"%>
                     </table>
                 </c:otherwise>
             </c:choose>

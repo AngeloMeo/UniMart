@@ -17,6 +17,10 @@
       <c:forEach items="${exception}" var="errore">
          <h3>${errore}</h3>
       </c:forEach>
+
+      <c:forEach items="${error}" var="errore">
+         <h3>${errore}</h3>
+      </c:forEach>
       <%@include file="footer.jsp"%>
    </body>
 </html>

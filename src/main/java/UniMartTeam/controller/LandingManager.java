@@ -22,6 +22,7 @@ public class LandingManager extends HttpServlet
 
       loadcategorie();
       loadProdottiRandom(20);
+      loadProdottiPiuAcquistati(15);
    }
 
    @Override
@@ -29,6 +30,7 @@ public class LandingManager extends HttpServlet
    {
       loadcategorie();
       loadProdottiRandom(20);
+      loadProdottiPiuAcquistati(15);
 
       response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
    }
@@ -48,6 +50,24 @@ public class LandingManager extends HttpServlet
       }
    }
 
+   private void loadProdottiPiuAcquistati(int size)
+   {
+      List <Prodotto> prodottiList = null;
+
+      try
+      {
+         prodottiList = ProdottoDAO.prodottiPiuAcquistati(size);
+      }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+         return;
+      }
+
+      getServletContext().removeAttribute("prodottiPiuAcquistati");
+      getServletContext().setAttribute("prodottiPiuAcquistati", prodottiList);
+   }
+
    private void loadProdottiRandom(int size)
    {
       List <Prodotto> prodotti = null;
@@ -62,6 +82,7 @@ public class LandingManager extends HttpServlet
          return;
       }
 
+      getServletContext().removeAttribute("prodotti");
       getServletContext().setAttribute("prodotti", prodotti);
    }
 
@@ -79,6 +100,7 @@ public class LandingManager extends HttpServlet
          return;
       }
 
+      getServletContext().removeAttribute("categorie");
       getServletContext().setAttribute("categorie", categorie);
    }
 }

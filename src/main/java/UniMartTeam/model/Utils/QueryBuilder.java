@@ -67,7 +67,7 @@ public class QueryBuilder
       return this;
    }
 
-   public QueryBuilder groupBy(boolean asc, String...argv)
+   public QueryBuilder groupBy(String...argv)
    {
       int argc = argv.length;
 
@@ -77,7 +77,7 @@ public class QueryBuilder
          StringJoiner commaSJ = new StringJoiner(",", "(", ")");
 
          for (int i = 0; i < argc; i++)
-            commaSJ.add("?");
+            commaSJ.add(argv[i]);
 
          query.append(commaSJ.toString());
       }

@@ -54,7 +54,7 @@ $(document).ready(
             $('.assistenza').attr("href", "https://wa.me/+393663096054");
 
         $('.logo').click(function (){
-            $(window.location).attr('href', "./index.jsp");
+            $(window.location).attr('href', getPageContext() + "/Home");
         })
 
         $('#searchBar').dblclick(function(){

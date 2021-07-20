@@ -52,7 +52,7 @@
          <hr>
 
          <c:if test="${prodotti != null}">
-            <h2 class="text-center">Prodotti in evidenza</h2>
+            <h2 class="text-center">Prodotti scelti per te</h2>
             <div class="container-slick">
                <c:forEach items="${prodotti}" var="prodotto">
                   <div class="card text-center">
@@ -61,6 +61,26 @@
                            <img src="${context}/file/${prodotto.foto}" class="img-large">
                         </div>
                         ${prodotto.nome}
+                        <br>
+                        <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
+                     </a>
+                  </div>
+               </c:forEach>
+            </div>
+         </c:if>
+
+         <hr>
+
+         <c:if test="${prodottiPiuAcquistati != null}">
+            <h2 class="text-center">Prodotti pi&ugrave; acquistati</h2>
+            <div class="container-slick">
+               <c:forEach items="${prodottiPiuAcquistati}" var="prodotto">
+                  <div class="card text-center">
+                     <a href="${context}/SearchManager/prodotto?id=${prodotto.codiceIAN}">
+                        <div>
+                           <img src="${context}/file/${prodotto.foto}" class="img-large">
+                        </div>
+                           ${prodotto.nome}
                         <br>
                         <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
                      </a>
