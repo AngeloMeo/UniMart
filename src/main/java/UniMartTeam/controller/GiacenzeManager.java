@@ -8,6 +8,8 @@ import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,8 +29,9 @@ public class GiacenzeManager extends HttpServlet
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/GiacenzeManager", "");
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+      Validator validator = new Validator(request);
 
-      if(utente != null)
+      if (utente != null)
       {
          if (utente.getTipo().equals(TipoUtente.Amministratore))
          {
@@ -37,132 +40,145 @@ public class GiacenzeManager extends HttpServlet
 
                case "/Modify":
                {
-                  Enumeration<String> paramss = request.getParameterNames();
-                  while (paramss.hasMoreElements())
+                  if (validator.assertInt("codiceInventario", "Formato Codice Inventario non valido"))
                   {
-                     String paramName = paramss.nextElement();
-                  }
-
-                  String codiceInventario = request.getParameter("codiceInventario");
-
-                  Inventario i = fillInventario(request, codiceInventario);
-
-                  Enumeration<String> params = request.getParameterNames();
-
-                  int index = 0;
-                  Inventario inventarioDummy = new Inventario();
-
-                  String paramName = params.nextElement(); //codiceInventario
-                  inventarioDummy.setCodiceInventario(Integer.parseInt(request.getParameter(paramName)));
-
-                  while (params.hasMoreElements())
-                  {
-                     List<Possiede> list = i.getPossiedeList();
-                     Possiede fromPage = new Possiede();
-
-                     fromPage.setInventario(inventarioDummy);
-
-                     Prodotto prodottoDummy = new Prodotto();
-
-                     paramName = params.nextElement();//IAN
-                     prodottoDummy.setCodiceIAN(Integer.parseInt(request.getParameter(paramName)));
-                     fromPage.setProdotto(prodottoDummy);
-
-                     paramName = params.nextElement();//Giacenza
-                     fromPage.setGiacenza(Float.parseFloat(request.getParameter(paramName)));
-
-                     if (!list.get(index).equals(fromPage))
+                     Enumeration<String> paramss = request.getParameterNames();
+                     while (paramss.hasMoreElements())
                      {
-                        Possiede fromDB = list.get(index);
-
-                        if (fromPage.getGiacenza() == 0)
-                        {
-                           try
-                           {
-                              InventarioDAO.deleteProdottoInventario(fromPage);
-                           } catch (SQLException e)
-                           {
-                              request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                              response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                              return;
-                           }
-                        }
-                        else if (fromPage.getGiacenza() > 0)
-                        {
-                           if (fromDB.getGiacenza() == 0)
-                           {
-                              try
-                              {
-                                 InventarioDAO.addProdottoInventario(fromPage);
-                              } catch (SQLException e)
-                              {
-                                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                                 return;
-                              }
-                           }
-                           else if (fromDB.getGiacenza() > 0)
-                           {
-                              try
-                              {
-                                 InventarioDAO.updateProdottoInventario(fromPage);
-                              } catch (SQLException e)
-                              {
-                                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                                 return;
-                              }
-                           }
-                        }
+                        String paramName = paramss.nextElement();
                      }
-                     index++;
+
+                     String codiceInventario = request.getParameter("codiceInventario");
+
+                     Inventario i = fillInventario(request, codiceInventario);
+
+                     Enumeration<String> params = request.getParameterNames();
+
+                     int index = 0;
+                     Inventario inventarioDummy = new Inventario();
+
+                     String paramName = params.nextElement(); //codiceInventario
+                     inventarioDummy.setCodiceInventario(Integer.parseInt(request.getParameter(paramName)));
+
+                     while (params.hasMoreElements())
+                     {
+                        List<Possiede> list = i.getPossiedeList();
+                        Possiede fromPage = new Possiede();
+
+                        fromPage.setInventario(inventarioDummy);
+
+                        Prodotto prodottoDummy = new Prodotto();
+
+                        paramName = params.nextElement();//IAN
+                        prodottoDummy.setCodiceIAN(Integer.parseInt(request.getParameter(paramName)));
+                        fromPage.setProdotto(prodottoDummy);
+
+                        paramName = params.nextElement();//Giacenza
+                        fromPage.setGiacenza(Float.parseFloat(request.getParameter(paramName)));
+
+                        if (!list.get(index).equals(fromPage))
+                        {
+                           Possiede fromDB = list.get(index);
+
+                           if (fromPage.getGiacenza() == 0)
+                           {
+                              try
+                              {
+                                 InventarioDAO.deleteProdottoInventario(fromPage);
+                              }
+                              catch (SQLException e)
+                              {
+                                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                 return;
+                              }
+                           }
+                           else if (fromPage.getGiacenza() > 0)
+                           {
+                              if (fromDB.getGiacenza() == 0)
+                              {
+                                 try
+                                 {
+                                    InventarioDAO.addProdottoInventario(fromPage);
+                                 }
+                                 catch (SQLException e)
+                                 {
+                                    request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                    return;
+                                 }
+                              }
+                              else if (fromDB.getGiacenza() > 0)
+                              {
+                                 try
+                                 {
+                                    InventarioDAO.updateProdottoInventario(fromPage);
+                                 } catch (SQLException e)
+                                 {
+                                    request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                    response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                    return;
+                                 }
+                              }
+                           }
+                        }
+                        index++;
+                     }
                   }
                }
                break;
 
                case "/addGiacenze":
                {
-                  Inventario i = null;
-                  try
+                  if (validator.assertInt("codiceInventario", "Formato Codice Inventario non valido") &&
+                          validator.assertDouble("giacenza", "Errore nel formato della giacenza") && validator.assertInt("prodotto", "Formato IAN non valido"))
                   {
-                     i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + request.getParameter("codiceInventario")).get(0);
-                  } catch (SQLException e)
-                  {
-                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                     return;
+                     Inventario i = null;
+
+                     try
+                     {
+                        i = InventarioDAO.doRetrieveByCond(InventarioDAO.CODICE_INVENTARIO, "=" + request.getParameter("codiceInventario")).get(0);
+                     } catch (SQLException e)
+                     {
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
+                     }
+
+                     Possiede p = new Possiede();
+                     Inventario dummy = new Inventario();
+
+                     dummy.setCodiceInventario(i.getCodiceInventario());
+                     p.setInventario(i);
+
+                     try
+                     {
+                        p.setProdotto(ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("prodotto"))));
+                     } catch (SQLException e)
+                     {
+                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                        return;
+                     }
+
+                     p.setGiacenza(Float.parseFloat(request.getParameter("giacenza")));
+                     i.addPossiedeList(p);
+
+                     try
+                     {
+                        InventarioDAO.addProdottoInventario(p);
+                     } catch (SQLException throwables)
+                     {
+                        throwables.printStackTrace();
+                     }
+
                   }
-
-                  Possiede p = new Possiede();
-                  Inventario dummy = new Inventario();
-
-                  dummy.setCodiceInventario(i.getCodiceInventario());
-                  p.setInventario(i);
-                  try
-                  {
-                     p.setProdotto(ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("prodotto"))));
-                  } catch (SQLException e)
-                  {
-                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                     return;
-                  }
-                  p.setGiacenza(Float.parseFloat(request.getParameter("giacenza")));
-                  i.addPossiedeList(p);
-
-                  try
-                  {
-                     InventarioDAO.addProdottoInventario(p);
-                  } catch (SQLException throwables)
-                  {
-                     throwables.printStackTrace();
-                  }
-
                }
                break;
+
                case "/":
                {
-                  if (request.getParameter("codiceInventario&CF") != null)
+                  if (validator.required(request.getParameter("codiceInventario&CF")))
                   {
                      String[] info = request.getParameter("codiceInventario&CF").split(",");
                      if (info.length == 2)
@@ -223,7 +239,8 @@ public class GiacenzeManager extends HttpServlet
          {
             if (!InventarioDAO.getProdottoInventarioStock(possiede))
                possiede.setGiacenza(0);
-         } catch (SQLException throwables)
+         }
+         catch (SQLException throwables)
          {
             throwables.printStackTrace();
          }
@@ -240,10 +257,12 @@ public class GiacenzeManager extends HttpServlet
       try
       {
          ConPool.deleteConnection();
-      } catch (SQLException e)
+      }
+      catch (SQLException e)
       {
          e.printStackTrace();
-      } finally
+      }
+      finally
       {
          super.destroy();
       }
