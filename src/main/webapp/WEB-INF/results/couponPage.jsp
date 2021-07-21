@@ -8,6 +8,7 @@
       <%@include file="general.jsp" %>
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/general.js" defer></script>
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/couponPage.js" defer></script>
+
    </head>
    <body>
       <%@include file="header.jsp" %>
