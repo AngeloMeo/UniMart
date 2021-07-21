@@ -12,7 +12,11 @@ public class Validator
    private final HttpServletRequest request;
    private static final Pattern INT_PATTERN = Pattern.compile("^\\d+$");
    private static final Pattern DOUBLE_PATTERN = Pattern.compile("^(-)?(0|[1-9]\\d+)\\.\\d+$");
+   private static final Pattern USERNAME_PATTERN = Pattern.compile("^([a-zA-Z\\s]){6,}$");
    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[a-zA-Z0-9.!#$%&’*+/=?^_{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$");
+   private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,}$");
+   private static final Pattern CODICE_FISCALE_PATTERN = Pattern.compile("^[A-Z]{6}\\d{2}[A-Z]\\d{2}[A-Z]\\d{3}[A-Z]$");
+   private static final Pattern PHONE_PATTERN = Pattern.compile("^(\\d){10}$");
 
    public Validator(HttpServletRequest request)
    {
@@ -43,7 +47,7 @@ public class Validator
       }
    }
 
-   private boolean required(String value)
+   public boolean required(String value)
    {
       return value != null && !value.isBlank();
    }
@@ -61,6 +65,11 @@ public class Validator
       return assertMatch(value, INT_PATTERN, msg);
    }
 
+   public boolean assertPassword(String value, String msg)
+   {
+      return assertMatch(value, PASSWORD_PATTERN, msg);
+   }
+
    public boolean assertDouble(String value, String msg)
    {
       return assertMatch(value, DOUBLE_PATTERN, msg);
@@ -69,6 +78,21 @@ public class Validator
    public boolean assertEmail(String value, String msg)
    {
       return assertMatch(value, EMAIL_PATTERN, msg);
+   }
+
+   public boolean assertPhone(String value, String msg)
+   {
+      return assertMatch(value, PHONE_PATTERN, msg);
+   }
+
+   public boolean assertUsername(String value, String msg)
+   {
+      return assertMatch(value, USERNAME_PATTERN, msg);
+   }
+
+   public boolean assertCF(String value, String msg)
+   {
+      return assertMatch(value, CODICE_FISCALE_PATTERN, msg);
    }
 
    public boolean assertInts(String values, String msg)
@@ -83,5 +107,10 @@ public class Validator
       String[] firstList = request.getParameterValues(first);
       String[] secondList = request.getParameterValues(second);
       return gatherError(firstList.length == secondList.length, msg);
+   }
+
+   public void reset()
+   {
+      errors.clear();
    }
 }
