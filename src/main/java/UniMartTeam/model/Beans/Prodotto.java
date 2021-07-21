@@ -155,4 +155,19 @@ public class Prodotto
               ", categoria=" + categoria.getNome() +
               '}';
    }
+
+   @Override
+   public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+
+      Prodotto prodotto = (Prodotto) o;
+
+      return codiceIAN == prodotto.codiceIAN;
+   }
+
+   @Override
+   public int hashCode() {
+      return codiceIAN;
+   }
 }

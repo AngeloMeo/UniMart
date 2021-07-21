@@ -40,15 +40,6 @@ public class CarrelloManager extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
     }
 
-
-    /**
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     * ADD 2 CART
-     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
@@ -145,7 +136,7 @@ public class CarrelloManager extends HttpServlet {
                         cart.getCompostoList().remove(c);
                     }
                     else {
-                        c.setQuantita(quantity); //TODO non va bene
+                        c.setQuantita(quantity);
                         c.setPrezzo(c.getProdotto().getPrezzo());
                     }
                 }
@@ -177,9 +168,10 @@ public class CarrelloManager extends HttpServlet {
             Composto composto = new Composto();
             composto.setOrdine(cart);
 
-            try {
-                composto.setProdotto(ProdottoDAO.doRetrieveByID(productIan));
-                composto.setPrezzo(composto.getProdotto().getPrezzo());
+
+            Prodotto p = null;
+            try{
+                p = ProdottoDAO.doRetrieveByID(productIan);
             } catch (SQLException e) {
                 request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:Add2Cart)");
                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -189,7 +181,23 @@ public class CarrelloManager extends HttpServlet {
             }
 
 
-            composto.setQuantita(quantity);
+            boolean contains = false;
+
+            for(Composto c : cart.getCompostoList())
+                if(c.getProdotto().equals(p)){
+                    c.setQuantita(c.getQuantita()+quantity);
+                    contains = true;
+                }
+
+
+            if(!contains) {
+                composto.setProdotto(p);
+                composto.setQuantita(quantity);
+            }
+
+
+            composto.setPrezzo(composto.getProdotto().getPrezzo());
+
             cart.addCompostoList(composto);
 
             sessionManager.setAttribute(cart, "cart");
