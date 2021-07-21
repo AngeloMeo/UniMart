@@ -6,6 +6,7 @@ import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -27,21 +28,18 @@ public class CouponManager extends HttpServlet
       {
          if(utente.getTipo().equals(TipoUtente.Amministratore))
          {
-            switch (path)
+            if ("/".equals(path))
             {
-               case "/":
-                  if(sessionManager.getObjectFromSession("ultimoCoupon") != null)
-                  {
-                     request.setAttribute("ultimoCoupon", sessionManager.getObjectFromSession("ultimoCoupon"));
-                     sessionManager.removeAttribute("ultimoCoupon");
-                  }
+               if (sessionManager.getObjectFromSession("ultimoCoupon") != null)
+               {
+                  request.setAttribute("ultimoCoupon", sessionManager.getObjectFromSession("ultimoCoupon"));
+                  sessionManager.removeAttribute("ultimoCoupon");
+               }
 
-                  listCoupon(request, response);
-                  break;
-               default:
-                  response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
-                  break;
+               listCoupon(request, response);
             }
+            else
+               response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
          }
          else
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
@@ -56,8 +54,9 @@ public class CouponManager extends HttpServlet
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
       SessionManager sessionManager = new SessionManager(request);
       Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
+      Validator validator = new Validator(request);
 
-      if(utente != null && !utente.getCF().isEmpty())
+      if(utente != null && validator.required(utente.getCF()))
       {
          if(!utente.getTipo().equals(TipoUtente.Amministratore))
          {
@@ -69,9 +68,9 @@ public class CouponManager extends HttpServlet
          {
             case "/creaCoupon":
             {
-               Coupon coupon = null;
+               Coupon coupon;
 
-               if (request.getParameter("sconto") != null)
+               if (validator.assertDouble("sconto", "Formato Sconto non valido"))
                {
                   coupon = new Coupon();
                   coupon.setSconto(Float.parseFloat(request.getParameter("sconto")));
@@ -95,7 +94,7 @@ public class CouponManager extends HttpServlet
 
             case "/deleteCoupon":
             {
-               if (checkParam(request) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
+               if (checkParam(validator) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
                {
                   int idCoupon = Integer.parseInt(request.getParameter("idCoupon"));
                   if (checkStatus(idCoupon))
@@ -117,7 +116,7 @@ public class CouponManager extends HttpServlet
 
             case "/updateCoupon":
             {
-               if (checkParam(request) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
+               if (checkParam(validator) && request.getParameter("CF_Creatore").equalsIgnoreCase(utente.getCF()))
                {
                   Coupon coupon = new Coupon();
 
@@ -151,15 +150,15 @@ public class CouponManager extends HttpServlet
 
 
 
-   private boolean checkParam(HttpServletRequest request)
+   private boolean checkParam(Validator validator)
    {
-      return request.getParameter("CF_Creatore") != null && request.getParameter("sconto") != null &&
-              request.getParameter("idCoupon") != null;
+      return validator.assertCF("CF_Creatore", "Formato CF non valido") &&
+              validator.assertDouble("sconto", "Formato Sconto non corretto") && validator.assertInt("idCoupon", "Formato Id coupon non valido");
    }
 
    private boolean checkStatus(int id)
    {
-      Coupon coupon = null;
+      Coupon coupon;
 
       try
       {
@@ -170,7 +169,10 @@ public class CouponManager extends HttpServlet
          return false;
       }
 
-      return coupon.getStatoCoupon().equals(StatoCoupon.Riscattato) ? false : true;
+      if(coupon != null)
+         return !coupon.getStatoCoupon().equals(StatoCoupon.Riscattato);
+
+      return false;
    }
 
    private void listCoupon(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
