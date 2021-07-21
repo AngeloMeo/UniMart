@@ -508,8 +508,12 @@ fieldset {
 }
 
 .login .error {
-    margin: 15px auto;
+    margin: -30px auto 10px;
     color: var(--ocra);
+    background-color: var(--neutral);
+    z-index: -1;
+    width: 200px;
+    border-radius: 20px;
 }
 
 .login main .logo, .creaUtente main .logo {

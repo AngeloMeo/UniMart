@@ -4,6 +4,8 @@ import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.UtenteDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,42 +49,45 @@ public class LoginManager extends HttpServlet
    @Override
    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
-      String usernameEmail = request.getParameter("usernameEmail");
-      String password = request.getParameter("password");
+      Validator validator = new Validator(request);
 
-      Utente dummy = new Utente();
-      dummy.setPasswordHash(password);
-
-      Utente fromDB = null;
-      try
+      if(validator.assertPassword("password", "Errore formato Password") &&
+         (validator.assertEmail("usernameEmail", "Formato Email non valido") || validator.assertUsername("usernameEmail", "Formato Username non valido")))
       {
-         if(usernameEmail.contains("@"))
+         String usernameEmail = request.getParameter("usernameEmail");
+         String password = request.getParameter("password");
+         Utente dummy = new Utente();
+         dummy.setPasswordHash(password);
+
+         Utente fromDB = null;
+         try
          {
-            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.EMAIL, "'" + usernameEmail + "'").get(0);
+            if(usernameEmail.contains("@"))
+               fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.EMAIL, "'" + usernameEmail + "'").get(0);
+            else
+               fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.USERNAME, "'" + usernameEmail + "'").get(0);
          }
-         else
-            fromDB = UtenteDAO.doRetrieveByCond(UtenteDAO.USERNAME, "'" + usernameEmail + "'").get(0);
+         catch (SQLException e)
+         {
+            request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:LoginManager Metodo:doPost)");
+            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+            return;
+         }
+
+         if (fromDB != null && fromDB.getPasswordHash().equals(dummy.getPasswordHash()))
+         {
+            fromDB.setPassword("");
+
+            SessionManager sessionManager = new SessionManager(request, true);
+            sessionManager.setAttribute(fromDB, "utente");
+
+            doGet(request, response);
+            return;
+         }
       }
-      catch (SQLException e)
-      {
-         request.setAttribute("message", "Errore nella ricerca dell'utente nel Database(Servlet:LoginManager Metodo:doPost)");
-         request.setAttribute("exceptionStackTrace", e.getStackTrace());
-         response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-         return;
-      }
 
-      if (fromDB == null || !fromDB.getPasswordHash().equals(dummy.getPasswordHash()))
-      {
-         request.setAttribute("loginFail", new Utente());
-         doGet(request, response);
-         return;
-      }
-
-      fromDB.setPassword("");
-
-      SessionManager sessionManager = new SessionManager(request, true);
-      sessionManager.setAttribute(fromDB, "utente");
-
+      request.setAttribute("loginFail", "Username/Email o password errata");
       doGet(request, response);
    }
 
