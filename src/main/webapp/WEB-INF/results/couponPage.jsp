@@ -74,7 +74,7 @@
                   <input class="flex-item-80" type="text" name="CF_Creatore" id="CF_Creatore" placeholder="CF Creatore" value="${sessionScope.utente.CF}" readonly>
 
                   <label class="flex-item-80" for="sconto">Sconto</label>
-                  <input class="flex-item-80" type="number" name="sconto" id="sconto" placeholder="Sconto" required>
+                  <input class="flex-item-80" type="text" name="sconto" id="sconto" placeholder="Sconto" required>
 
                   <div class="clearfix" id="btnDiv">
                   </div>

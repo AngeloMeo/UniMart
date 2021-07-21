@@ -5,6 +5,8 @@ import UniMartTeam.model.Beans.Utente;
 import UniMartTeam.model.DAO.CategoriaDAO;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,10 +50,10 @@ public class CategoriaManager extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
     {
         String path = request.getPathInfo();
-        HttpSession session = request.getSession();
         Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+        Validator validator = new Validator(request);
 
-        if(utente != null && !utente.getCF().isEmpty())
+        if(utente != null && validator.required(utente.getCF()))
         {
             if(!utente.getTipo().equals(TipoUtente.Amministratore))
             {
@@ -64,7 +66,7 @@ public class CategoriaManager extends HttpServlet
                 {
                     Categoria categoria = null;
 
-                    if (checkParam(request))
+                    if (validator.required(request.getParameter("nomecat")) && validator.assertDouble("ali", "Formato aliquota errato"))
                     {
                         categoria = new Categoria();
                         categoria.setNome(request.getParameter("nomecat"));
@@ -86,7 +88,7 @@ public class CategoriaManager extends HttpServlet
 
                 case "/deleteCategoria":
                 {
-                    if (checkParam(request))
+                    if (validator.required(request.getParameter("nomecat")))
                     {
                         String catname = request.getParameter("nomecat");
 
@@ -106,7 +108,7 @@ public class CategoriaManager extends HttpServlet
 
                 case "/updateCategoria":
                 {
-                    if (checkParam(request))
+                    if (validator.required(request.getParameter("nomecat")) && validator.assertDouble("ali", "Formato aliquota errato"))
                     {
                         Categoria categoria = new Categoria();
 
@@ -134,13 +136,6 @@ public class CategoriaManager extends HttpServlet
         }
 
         response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
-    }
-
-
-
-    private boolean checkParam(HttpServletRequest request)
-    {
-        return request.getParameter("nomecat") != null && request.getParameter("ali") != null;
     }
 
     private void listCategorie(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

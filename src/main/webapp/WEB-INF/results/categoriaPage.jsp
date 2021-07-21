@@ -54,7 +54,7 @@
             <input type="text" name="nomecat" id="name" placeholder="name" class="flex-item-80">
 
             <label for="aliquota" class="flex-item-80">Aliquota</label>
-            <input type="number" name="ali" id="aliquota" placeholder="aliquota" class="flex-item-80" required>
+            <input type="text" name="ali" id="aliquota" placeholder="aliquota" class="flex-item-80" required>
 
             <div class="clearfix" id="btnDiv">
             </div>
