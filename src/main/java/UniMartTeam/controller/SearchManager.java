@@ -5,6 +5,7 @@ import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.DAO.CategoriaDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
 import com.google.gson.Gson;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +23,7 @@ public class SearchManager extends HttpServlet
    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/SearchManager", "");
+      Validator validator = new Validator(request);
       
       switch (path)
       {
@@ -29,7 +31,7 @@ public class SearchManager extends HttpServlet
             String text = request.getParameter("text");
             HashMap<String, Object> results = new HashMap<>();
 
-            if(text != null)
+            if(validator.required(text))
                text = text.trim();
 
             try
@@ -87,15 +89,10 @@ public class SearchManager extends HttpServlet
 
             int codiceIAN = 0;
 
-            try
-            {
-               codiceIAN = Integer.parseInt(request.getParameter("id"));
-            }
-            catch (NumberFormatException ex)
-            {
-               response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
+            if(!validator.assertInt("id", "Id sbagliato"))
                return;
-            }
+
+            codiceIAN = Integer.parseInt(request.getParameter("id"));
 
             Prodotto prodotto = null;
 
@@ -124,7 +121,7 @@ public class SearchManager extends HttpServlet
 
             String categoria = request.getParameter("id");
 
-            if(categoria != null)
+            if(validator.required(categoria))
             {
                try
                {
