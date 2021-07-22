@@ -52,3 +52,23 @@ function assertCF(value, msg)
 {
     return assertMatch(value, CODICE_FISCALE_PATTERN, msg);
 }
+
+var formElement = document.getElementById('form');
+
+formElement.addEventListener('submit', function (event)
+{
+    if (check())
+        event.preventDefault();
+    else
+        formElement.submit();
+});
+
+function error(element)
+{
+    element.style.border = '2px solid var(--warning)';
+}
+
+function reset(element)
+{
+    element.style.border = '4px solid var(--secondary)';
+}

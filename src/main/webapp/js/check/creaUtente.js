@@ -1,13 +1,3 @@
-var formElement = document.getElementById('form');
-
-formElement.addEventListener('submit', function (event)
-    {
-        if (check())
-            event.preventDefault();
-        else
-            formElement.submit();
-    });
-
 function check()
 {
     let flag = false;
@@ -103,14 +93,4 @@ function check()
     }
 
     return flag;
-}
-
-function error(element)
-{
-    element.style.border = '2px solid var(--warning)';
-}
-
-function reset(element)
-{
-    element.style.border = '4px solid var(--secondary)';
 }
