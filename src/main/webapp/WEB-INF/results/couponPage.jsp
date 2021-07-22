@@ -9,6 +9,8 @@
 
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/general.js" defer></script>
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/couponPage.js" defer></script>
+      <script src="${context}/js/validator.js" defer></script>
+      <script src="${context}/js/check/coupon.js" defer></script>
 
    </head>
    <body>
@@ -67,7 +69,7 @@
          </c:choose>
 
          <div id="creaModal" class="creaModal">
-            <form class="creaModal-form" method="post">
+            <form class="creaModal-form" method="post" id="form">
                <div class="container flex-container flex-dirCol" id="panel">
                   <h1 class="flex-item-80">Crea Coupon</h1>
 
