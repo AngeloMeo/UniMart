@@ -9,7 +9,6 @@
 
         <script src="${context}/js/validator.js" defer></script>
         <script src="${context}/js/check/login.js" defer></script>
-
     </head>
     <body class="text-center">
         <main>
