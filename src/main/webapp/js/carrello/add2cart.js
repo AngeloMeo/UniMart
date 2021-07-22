@@ -5,6 +5,14 @@ function add(ianVar, caller)
     if(quantityVar == null)
         quantityVar = 1;
 
+    $(".add2cart").html("Aggiunto al carrello")
+    $(".add2cart").attr("disabled", "disabled");
+
+    setTimeout(function() {
+        $(".add2cart").html("Aggiungi al carrello")
+        $(".add2cart").removeAttr("disabled");
+    }, 1500);
+
     $.post(getPageContext() + "/CarrelloManager/add2cart",
         {
             IAN: ianVar,
@@ -13,8 +21,7 @@ function add(ianVar, caller)
         function (data, status) {
             if(status == 'success')
             {
-                caller.classList.add('hide');
-                caller.nextElementSibling.classList.remove('hide');
+
             }
         });
 }

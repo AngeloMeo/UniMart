@@ -6,6 +6,7 @@
       <title>Risultati Ricerca</title>
 
       <%@include file="general.jsp" %>
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/add2cart.js" defer></script>
       <script type="text/javascript" src="${pageContext.request.contextPath}/js/prodottoShow.js" defer></script>
    </head>
    <body>
@@ -25,7 +26,7 @@
                         <h3 id="IAN">CodiceIAN: ${prodotto.codiceIAN}</h3>
                         <h3>${prodotto.nome}</h3>
                         <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
-                        <%@include file="partialProdotto.jsp"%>
+                        <button class="add2cart" onclick="add(${prodotto.codiceIAN}, this)">Aggiungi al carrello</button>
                      </fieldset>
                   </c:forEach>
                </c:otherwise>

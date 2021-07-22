@@ -4,7 +4,7 @@
 <html>
    <head>
       <title>Scheda Prodotto</title>
-
+      <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/add2cart.js" defer></script>
       <%@include file="general.jsp" %>
    </head>
    <body>
@@ -23,6 +23,7 @@
 
                <div class="flex-item-100 flex-container justify-content-center col-gap row-gap">
                   <input type="number" id="quantity">
+                  <button class="add2cart" onclick="add(${prodotto.codiceIAN}, this)">Aggiungi al carrello</button>
                   <%@include file="partialProdotto.jsp"%>
                </div>
 
