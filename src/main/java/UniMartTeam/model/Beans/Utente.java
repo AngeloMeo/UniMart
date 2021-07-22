@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -143,7 +142,8 @@ public class Utente implements Serializable
          digest.reset();
          digest.update(password.getBytes(StandardCharsets.UTF_8));
          this.passwordHash = String.format("%040x", new BigInteger(1, digest.digest()));
-      } catch (NoSuchAlgorithmException e)
+      }
+      catch (NoSuchAlgorithmException e)
       {
          throw new RuntimeException(e);
       }

@@ -6,11 +6,17 @@ import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
+import UniMartTeam.model.Utils.Validator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @WebServlet(name = "OrdiniManager", value = "/OrdiniManager/*")
@@ -21,6 +27,7 @@ public class OrdiniManager extends HttpServlet
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/OrdiniManager", "");
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+      Validator validator = new Validator(request);
 
       if (utente != null)
       {
@@ -40,7 +47,8 @@ public class OrdiniManager extends HttpServlet
                      response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                      return;
                   }
-               } catch (SQLException e)
+               }
+               catch (SQLException e)
                {
                   request.setAttribute("message", "Errore nel recupero ordini dal Database(Servlet:OrdiniManager Metodo:doGet)");
                   request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -57,7 +65,7 @@ public class OrdiniManager extends HttpServlet
                break;
 
             case "/getOrdine":
-               if (request.getParameter("id") != null)
+               if (validator.assertInt("id", "Formato ID non valido"))
                {
                   int idOrdine = Integer.parseInt(request.getParameter("id"));
                   Ordine ordine = null;
@@ -105,7 +113,7 @@ public class OrdiniManager extends HttpServlet
                break;
 
             case "/deleteOrdine":
-               if(request.getParameter("id") != null)
+               if (validator.assertInt("id", "Formato ID non valido"))
                {
                   int id = Integer.parseInt(request.getParameter("id"));
 
@@ -147,13 +155,14 @@ public class OrdiniManager extends HttpServlet
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/OrdiniManager", "");
       Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+      Validator validator = new Validator(request);
 
       if (utente != null)
       {
          switch (path)
          {
             case "/deleteOrdine":
-               if(request.getParameter("id") != null)
+               if (validator.assertInt("id", "Formato ID non valido"))
                {
                   int id = Integer.parseInt(request.getParameter("id"));
 
@@ -198,7 +207,7 @@ public class OrdiniManager extends HttpServlet
 
             case "/feedbackOrdine":
 
-               if(request.getParameter("id") != null && request.getParameter("feedback") != null)
+               if (validator.assertInt("id", "Formato ID non valido") && validator.required(request.getParameter("feedback")))
                {
                   int id = Integer.parseInt(request.getParameter("id"));
 
@@ -235,6 +244,22 @@ public class OrdiniManager extends HttpServlet
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
+   }
+
+   private String processPayment (String data)
+   {
+      try
+      {
+         data += LocalDate.now();
+         MessageDigest digest = MessageDigest.getInstance("SHA-1");
+         digest.reset();
+         digest.update(data.getBytes(StandardCharsets.UTF_8));
+         return String.format("%040x", new BigInteger(1, digest.digest()));
+      }
+      catch (NoSuchAlgorithmException e)
+      {
+         throw new RuntimeException(e);
+      }
    }
 
    @Override
