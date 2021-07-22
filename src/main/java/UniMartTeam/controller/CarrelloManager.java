@@ -41,7 +41,7 @@ public class CarrelloManager extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    public synchronized void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/CarrelloManager", "");
         SessionManager sessionManager = new SessionManager(request);
@@ -55,10 +55,10 @@ public class CarrelloManager extends HttpServlet {
                     alterQuantities(request, response, sessionManager);
                 break;
             case "/saveOrder":
-                saveOrder(request, response, sessionManager);
+                    saveOrder(request, response, sessionManager);
                 break;
             case "/saved2cart":
-                saved2cart(request, response, sessionManager);
+                    saved2cart(request, response, sessionManager);
                 break;
         }
 
@@ -136,16 +136,22 @@ public class CarrelloManager extends HttpServlet {
                         cart.getCompostoList().remove(c);
                     }
                     else {
-                        c.setQuantita(quantity);
-                        c.setPrezzo(c.getProdotto().getPrezzo());
+                        c.setQuantita(Math.abs(quantity));
+
+                        Composto dummy = new Composto();
+                        dummy.setQuantita(Math.abs(quantity));
+                        dummy.setPrezzo(c.getProdotto().getPrezzo());
+
+                        Gson json = new Gson();
+                        response.setContentType("application/JSON");
+                        response.setCharacterEncoding("UTF-8");
+                        response.getWriter().println(json.toJson(dummy));
                     }
+                    sessionManager.setAttribute(cart, "cart");
+                    return;
                 }
             }
 
-
-            sessionManager.setAttribute(cart, "cart");
-
-            /*TODO: ajax*/
 
 
         }
@@ -180,15 +186,14 @@ public class CarrelloManager extends HttpServlet {
                 return;
             }
 
-
             boolean contains = false;
 
-            for(Composto c : cart.getCompostoList())
+            for(Composto c : cart.getCompostoList()){
                 if(c.getProdotto().equals(p)){
                     c.setQuantita(c.getQuantita()+quantity);
                     contains = true;
                 }
-
+            }
 
             if(!contains) {
                 composto.setProdotto(p);

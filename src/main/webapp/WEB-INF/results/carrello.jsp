@@ -8,6 +8,7 @@
     <title>Carrello</title>
     <%@include file="general.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/prodottoShow.js" defer></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/alterQuantity.js" defer></script>
 </head>
 <body>
     <%@include file="header.jsp" %>
@@ -30,7 +31,6 @@
                             <th>Nome</th>
                             <th>Quantità</th>
                             <th>Prezzo</th>
-                            <th>Gestisci</th>
                         </tr>
                     </thead>
                     <c:forEach items="${cart.compostoList}" var="composto">
@@ -46,14 +46,12 @@
                                 <h3>${composto.prodotto.nome}</h3>
                             </td>
                             <td data-label="Quantità">
-                                <h3>${composto.quantita}</h3>
+
+                                <input type="number" value="${composto.quantita}" id="quantity" onchange="alter(this, ${composto.prodotto.codiceIAN})">
+
                             </td>
                             <td data-label="Prezzo">
-                                <h3><fmt:formatNumber type="number" maxFractionDigits="2" value="${composto.prezzo * composto.quantita}" /> &euro; <br> (${composto.prezzo}&euro;/Unità)</h3>
-                            </td>
-                            <td data-label="Gestisci">
-                                <c:set scope="page" value="${composto.prodotto}" var="prodotto"></c:set>
-                                <%@include file="partialProdotto.jsp"%>
+                                <h3 id="price${composto.prodotto.codiceIAN}"><fmt:formatNumber type="number" maxFractionDigits="2" value="${composto.prezzo * composto.quantita}" /> &euro; <br> (${composto.prezzo}&euro;/Unità)</h3>
                             </td>
                         </tr>
                     </c:forEach>

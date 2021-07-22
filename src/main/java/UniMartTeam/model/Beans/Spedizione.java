@@ -1,8 +1,9 @@
 package UniMartTeam.model.Beans;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Spedizione
+public class Spedizione implements Serializable
 {
    private int id;
    private String nome;

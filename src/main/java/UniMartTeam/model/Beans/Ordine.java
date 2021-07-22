@@ -1,10 +1,12 @@
 package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-public class Ordine
+public class Ordine implements Serializable
 {
    private int numeroOrdine;
    private StatoOrdine statoOrdine;

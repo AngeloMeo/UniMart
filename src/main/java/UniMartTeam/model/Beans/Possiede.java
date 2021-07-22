@@ -1,8 +1,9 @@
 package UniMartTeam.model.Beans;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Possiede
+public class Possiede implements Serializable
 {
    private Inventario inventario;
    private Prodotto prodotto;

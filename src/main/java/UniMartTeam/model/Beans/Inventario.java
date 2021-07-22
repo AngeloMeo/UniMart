@@ -1,9 +1,10 @@
 package UniMartTeam.model.Beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventario
+public class Inventario implements Serializable
 {
    private int codiceInventario;
    private String indirizzo, regione, nome, note;

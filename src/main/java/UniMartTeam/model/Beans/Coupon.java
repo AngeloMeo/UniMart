@@ -2,7 +2,9 @@ package UniMartTeam.model.Beans;
 
 import UniMartTeam.model.EnumForBeans.StatoCoupon;
 
-public class Coupon
+import java.io.Serializable;
+
+public class Coupon implements Serializable
 {
    private int numeroCoupon;
    private StatoCoupon statoCoupon = StatoCoupon.Disponibile;

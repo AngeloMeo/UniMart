@@ -1,9 +1,10 @@
 package UniMartTeam.model.Beans;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Categoria
+public class Categoria implements Serializable
 {
    private String nome;
    private float aliquota;

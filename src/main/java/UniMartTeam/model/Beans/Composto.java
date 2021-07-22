@@ -1,6 +1,8 @@
 package UniMartTeam.model.Beans;
 
-public class Composto
+import java.io.Serializable;
+
+public class Composto implements Serializable
 {
    private float prezzo, quantita;
    private Ordine ordine;
