@@ -1,17 +1,12 @@
 function check()
 {
-    let flag = false;
-
     let element = document.getElementById('usernameEmail');
 
     if(!assertUsername(element, 'Formato Username non corretto'))
-        if(!assertEmail(element, 'Formato Email non corretto'))
-            flag = true;
+    {
+        flag = false;
+        assertEmail(element, 'Formato Email non corretto');
+    }
 
-    element = document.getElementById('password');
-
-    if(!assertPassword(element, 'Formato Password non corretto'))
-        flag = true;
-
-    return flag;
+    assertPassword(document.getElementById('password'), 'Formato Password non corretto');
 }

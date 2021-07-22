@@ -7,10 +7,14 @@ const CODICE_FISCALE_PATTERN = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/;
 const PHONE_PATTERN = /^\d{10}$/;
 
 var formElement = document.getElementById('form');
+let flag = false;
 
 formElement.addEventListener('submit', function (event)
 {
-    if (check())
+    flag = false;
+    check();
+
+    if (flag)
         event.preventDefault();
     else
         formElement.submit();
@@ -39,7 +43,10 @@ function colorElement(results, element)
     if(results)
         ok(element);
     else
+    {
+        flag = true;
         error(element);
+    }
 }
 
 function assertInt(element, msg)
