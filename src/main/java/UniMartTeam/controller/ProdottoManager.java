@@ -23,12 +23,13 @@ import java.util.List;
 
 @WebServlet(name = "ProdottoManager", value = "/ProdottoManager/*")
 @MultipartConfig
-public class ProdottoManager extends HttpServlet {
-
+public class ProdottoManager extends HttpServlet
+{
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
         Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+        Validator validator = new Validator(request);
 
         if(utente != null)
         {
@@ -38,7 +39,6 @@ public class ProdottoManager extends HttpServlet {
                 {
                     case "/":
                         List<Prodotto> prodottoList = null;
-                        Validator validator = new Validator(request);
                         validator.assertInt("size", "Error size");
                         validator.assertInt("offset", "Error offset");
 
@@ -74,6 +74,36 @@ public class ProdottoManager extends HttpServlet {
                             request.getRequestDispatcher("/WEB-INF/results/prodottoPage.jsp").forward(request, response);
                     break;
 
+                    case "/getProdotto":
+
+                        Prodotto p = null;
+
+                        if(validator.assertInt("codiceIAN", "Formato codice IAN non corretto"))
+                        {
+                            try
+                            {
+                                p = ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("codiceIAN")));
+                            }
+                            catch (SQLException e)
+                            {
+                                request.setAttribute("message", "Errore nel get Prodotto dal Database(Servlet:ProdottoManager Metodo:doPost)");
+                                request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                                return;
+                            }
+                        }
+
+                        if (p != null)
+                        {
+                            request.setAttribute("title", "Modifica Prodotto");
+                            request.setAttribute("prodotto", p);
+                            request.setAttribute("categoria", retrieveCategoria());
+
+                            request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
+                            return;
+                        }
+                        break;
+
                     case "/CreaProdotto":
                         request.setAttribute("title", "Nuovo Prodotto");
                         request.setAttribute("categoria", retrieveCategoria());
@@ -93,55 +123,34 @@ public class ProdottoManager extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    {
         String path = request.getPathInfo() == null ? "/" : request.getPathInfo();
         Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+        Validator validator = new Validator(request);
 
-        if(utente != null && !utente.getCF().isEmpty()) {
-
-            if (!utente.getTipo().equals(TipoUtente.Amministratore)) {
+        if(utente != null && !utente.getCF().isEmpty())
+        {
+            if (!utente.getTipo().equals(TipoUtente.Amministratore))
+            {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");
                 return;
             }
+
             Prodotto p = null;
-            switch (path){
-
-                case "/getProdotto":
-
-                    try
-                    {
-                        p = ProdottoDAO.doRetrieveByID(Integer.parseInt(request.getParameter("codiceIAN")));
-                    } catch (SQLException e)
-                    {
-                        request.setAttribute("message", "Errore nel eliminazione del coupon dal Database(Servlet:InventarioManager Metodo:doPost)");
-                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                        return;
-                    }
-
-                    if (p != null)
-                    {
-                        request.setAttribute("title", "Modifica Prodotto");
-                        request.setAttribute("prodotto", p);
-                        request.setAttribute("categoria", retrieveCategoria());
-
-                        request.getRequestDispatcher("/WEB-INF/results/creaProdottoPage.jsp").forward(request, response);
-                        return;
-                    }
-                break;
-
+            switch (path)
+            {
                 case "/creaProdotto":
 
-                    if(convert(request.getParameter("prezzo")) == -0.1F || convert(request.getParameter("peso")) == -0.1F || convert(request.getParameter("volumeOccupato")) == -0.1F)
+                    if(!validateProduct(request, validator))
                         return;
 
                     p = new Prodotto();
 
                     p.setNome(request.getParameter("nome"));
-                    p.setPrezzo(convert(request.getParameter("prezzo")));
-                    p.setPeso(convert(request.getParameter("peso")));
-                    p.setVolumeOccupato(convert(request.getParameter("volumeOccupato")));
+                    p.setPrezzo(Float.parseFloat(request.getParameter("prezzo")));
+                    p.setPeso(Float.parseFloat(request.getParameter("peso")));
+                    p.setVolumeOccupato(Float.parseFloat(request.getParameter("volumeOccupato")));
                     p.setDescrizione(request.getParameter("descrizione"));
                     p.setFoto("");
                     Categoria c = new Categoria();
@@ -165,15 +174,15 @@ public class ProdottoManager extends HttpServlet {
 
                 case "/updateProdotto":
 
-                    if(convert(request.getParameter("prezzo")) == -0.1F || convert(request.getParameter("peso")) == -0.1F || convert(request.getParameter("volumeOccupato")) == -0.1F)
+                    if(!validateProduct(request, validator))
                         return;
 
                     p = new Prodotto();
                     p.setCodiceIAN(Integer.parseInt(request.getParameter("codiceIAN")));
                     p.setNome(request.getParameter("nome"));
-                    p.setPrezzo(convert(request.getParameter("prezzo")));
-                    p.setPeso(convert(request.getParameter("peso")));
-                    p.setVolumeOccupato(convert(request.getParameter("volumeOccupato")));
+                    p.setPrezzo(Float.parseFloat(request.getParameter("prezzo")));
+                    p.setPeso(Float.parseFloat(request.getParameter("peso")));
+                    p.setVolumeOccupato(Float.parseFloat(request.getParameter("volumeOccupato")));
                     p.setDescrizione(request.getParameter("descrizione"));
                     Categoria c1 = new Categoria();
                     c1.setNome(request.getParameter("categoria"));
@@ -192,33 +201,49 @@ public class ProdottoManager extends HttpServlet {
                             return;
                         }
                     }
-                    else{
-                        int ian = Integer.parseInt(request.getParameter("codiceIAN"));
-                        String name = null;
-                        try {
-                            name = ProdottoDAO.doRetrieveByID(ian).getFoto();
-                        } catch (SQLException throwables) {
-                            throwables.printStackTrace();
+                    else
+                    {
+                        if(validator.assertInt("codiceIAN", "Formato codice IAN non corretto"))
+                        {
+                            int ian = Integer.parseInt(request.getParameter("codiceIAN"));
+                            String name = null;
+                            try
+                            {
+                                name = ProdottoDAO.doRetrieveByID(ian).getFoto();
+                            }
+                            catch (SQLException throwables)
+                            {
+                                throwables.printStackTrace();
+                            }
+
+                            p.setFoto(name);
                         }
-                        p.setFoto(name);
                     }
-                    try {
+                    try
+                    {
                         ProdottoDAO.doUpdate(p);
-                    } catch (SQLException throwables) {
+                    }
+                    catch (SQLException throwables)
+                    {
                         throwables.printStackTrace();
                     }
+
                 break;
+
                 case "/deleteProdotto":
-
-                    try {
-                        ProdottoDAO.doDelete(Integer.parseInt(request.getParameter("codiceIAN")));
-                    } catch (SQLException e) {
-                        request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
-                        request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                        return;
+                    if(validator.assertInt("codiceIAN", "Formato codice IAN non corretto"))
+                    {
+                        try
+                        {
+                            ProdottoDAO.doDelete(Integer.parseInt(request.getParameter("codiceIAN")));
+                        } catch (SQLException e)
+                        {
+                            request.setAttribute("message", "Errore nel caricamento della foto(Servlet:CreaUtente Metodo:doPost)");
+                            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                            return;
+                        }
                     }
-
                     break;
             }
             response.sendRedirect(request.getContextPath() + "/ProdottoManager");
@@ -228,25 +253,25 @@ public class ProdottoManager extends HttpServlet {
         response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
     }
 
-    private float convert(String c){
-        try {
-            return Float.parseFloat(c);
-        }catch (NumberFormatException e){
-            e.printStackTrace();
-            return -0.1F;
-        }
-    }
-
     private List<Categoria> retrieveCategoria()
     {
-        try {
+        try
+        {
             return CategoriaDAO.doRetrieveAll();
         }
-        catch (SQLException throwables) {
+        catch (SQLException throwables)
+        {
             throwables.printStackTrace();
         }
 
         return null;
+    }
+
+    private boolean validateProduct(HttpServletRequest request, Validator validator)
+    {
+        return validator.required(request.getParameter("nome")) && validator.required(request.getParameter("descrizione")) &&
+                validator.assertDouble("prezzo", "Formato prezzo non valido") && validator.assertDouble("peso", "Formato Peso non valido") &&
+                validator.assertDouble("volumeOccupato", "Formato volume non valido");
     }
 
     @Override

@@ -12,7 +12,7 @@
          </c:if>
       </td>
       <td data-label="Gestisci">
-         <form method="post" action="${context}/ProdottoManager/getProdotto">
+         <form method="get" action="${context}/ProdottoManager/getProdotto">
             <button type="submit" class="btn btn-small" name="codiceIAN" value="${prodotto.codiceIAN}">Modifica</button>
          </form>
       </td>
