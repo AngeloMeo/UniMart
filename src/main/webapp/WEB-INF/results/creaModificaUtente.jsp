@@ -13,7 +13,8 @@
       </c:choose>
 
       <%@include file="general.jsp" %>
-      <script src="${pageContext.request.contextPath}/js/check/creaUtente.js" defer></script>
+      <script src="${context}/js/validator.js" defer></script>
+      <script src="${context}/js/check/creaUtente.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>
@@ -30,51 +31,81 @@
                </c:otherwise>
             </c:choose>
 
-            <form method="post" class="flex-item-100" onsubmit="return checkUsername()" enctype="multipart/form-data">
+            <form method="post" class="flex-item-100" id="form" enctype="multipart/form-data">
                <table class="flex-item-100">
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="CF">Codice Fiscale</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="CF" id="CF" placeholder="Codice Fiscale" value="${sessionScope.utente.CF}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta Codice Fiscale nel formato italiano</span>
+                        <input type="text" name="CF" id="CF" placeholder="Codice Fiscale" value="${sessionScope.utente.CF}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="nome">Nome</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="nome" id="nome" placeholder="Nome" value="${sessionScope.utente.nome}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta una stringa di lettere</span>
+                        <input type="text" name="nome" id="nome" placeholder="Nome" value="${sessionScope.utente.nome}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="cognome">Cognome</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="cognome" id="cognome" placeholder="Cognome" value="${sessionScope.utente.cognome}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta una stringa di lettere</span>
+                        <input type="text" name="cognome" id="cognome" placeholder="Cognome" value="${sessionScope.utente.cognome}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="viaCivico">Via e Civico</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="viaCivico" id="viaCivico" placeholder="Via e Civico" value="${sessionScope.utente.viaCivico}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta il formato via xxx,civico</span>
+                        <input type="text" name="viaCivico" id="viaCivico" placeholder="Via e Civico" value="${sessionScope.utente.viaCivico}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="citta">Città</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="citta" id="citta" placeholder="Città" value="${sessionScope.utente.citta}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta una stringa di lettere</span>
+                        <input type="text" name="citta" id="citta" placeholder="Città" value="${sessionScope.utente.citta}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="regione">Regione</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="regione" id="regione" placeholder="Regione" value="${sessionScope.utente.regione}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta una stringa di lettere</span>
+                        <input type="text" name="regione" id="regione" placeholder="Regione" value="${sessionScope.utente.regione}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="telefono">Telefono</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="telefono" id="telefono" placeholder="Telefono" value="${sessionScope.utente.telefono}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta un numero di 10 cifre</span>
+                        <input type="text" name="telefono" id="telefono" placeholder="Telefono" value="${sessionScope.utente.telefono}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="dataDiNascita">Data Di Nascita</label></td>
-                     <td class="flex-item-40 text-left"><input type="date" name="dataDiNascita" id="dataDiNascita" placeholder="Data Di Nascita" value="${sessionScope.utente.dataDiNascita}"required></td>
+                     <td class="flex-item-40 text-left tooltip"><input type="date" name="dataDiNascita" id="dataDiNascita" placeholder="Data Di Nascita" value="${sessionScope.utente.dataDiNascita}"required></td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="email">Email</label></td>
-                     <td class="flex-item-40 text-left"><input type="email" name="email" id="email" placeholder="Email" value="${sessionScope.utente.email}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta il formato xxx@yyy.zzz</span>
+                        <input type="email" name="email" id="email" placeholder="Email" value="${sessionScope.utente.email}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="username">Username</label></td>
-                     <td class="flex-item-40 text-left"><input type="text" name="username" id="username" placeholder="Username" value="${sessionScope.utente.username}" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Lunghezza minimo 6 tutte lettere</span>
+                        <input type="text" name="username" id="username" placeholder="Username" value="${sessionScope.utente.username}" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="password">Password</label></td>
-                     <td class="flex-item-40 text-left"><input type="password" name="password" id="password" placeholder="Password" required></td>
+                     <td class="flex-item-40 text-left tooltip">
+                        <span class="tooltiptext">Accetta almento un carattere speciale, un numero e lettere lunghezza min 8</span>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                     </td>
                   </tr>
                   <tr class="flex-container">
                      <td class="flex-item-40 text-right"><label for="fotoProfilo">Foto Profilo</label></td>
