@@ -5,6 +5,8 @@
     <head>
         <title>${title}</title>
         <%@include file="general.jsp"%>
+        <script src="${context}/js/check/giacenze.js" defer></script>
+        <script src="${context}/js/validator.js" defer></script>
     </head>
     <body>
         <%@include file="header.jsp" %>
@@ -16,7 +18,7 @@
                     <h1>Nessun prodotto creato...</h1>
                 </c:when>
                 <c:otherwise>
-                    <form action="GiacenzeManager/Modify" method="post">
+                    <form action="GiacenzeManager/Modify" method="post" id="form">
                         <input type="hidden" name="codiceInventario" id="codiceInventario" value="${inventario.codiceInventario}">
                         <table class="table">
                             <thead>
@@ -55,7 +57,7 @@
                                         </c:if>
                                     </td>
                                     <td data-label="Giacenza">
-                                        <input type="number" name="giacenza${index}" value="${list.giacenza}">
+                                        <input type="text" name="giacenza${index}" class="giacenza" value="${list.giacenza}">
                                     </td>
                                 </tr>
                                 <c:set var="index" value="${index+1}"/>

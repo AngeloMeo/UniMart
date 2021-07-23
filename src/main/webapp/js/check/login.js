@@ -10,3 +10,8 @@ function check()
 
     assertPassword(document.getElementById('password'), 'Formato Password non corretto');
 }
+
+function registrazione()
+{
+    window.location = getPageContext() + "/UtenteManager/creaUtente";
+}

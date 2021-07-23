@@ -9,9 +9,8 @@
 
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/general.js" defer></script>
       <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/couponPage.js" defer></script>
-      <script src="${context}/js/validator.js" defer></script>
       <script src="${context}/js/check/coupon.js" defer></script>
-
+      <script src="${context}/js/validator.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>
