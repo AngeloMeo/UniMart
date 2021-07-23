@@ -6,69 +6,90 @@ const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#
 const CODICE_FISCALE_PATTERN = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/;
 const PHONE_PATTERN = /^\d{10}$/;
 
-function required(value)
-{
-    value = value.trim();
-
-    return value != null && value != '';
-}
-
-function assertMatch(value, regexp, msg)
-{
-    return  required(value) && regexp.test(value);
-}
-
-function assertInt(value, msg)
-{
-    return assertMatch(value, INT_PATTERN, msg);
-}
-
-function assertPassword(value, msg)
-{
-    return assertMatch(value, PASSWORD_PATTERN, msg);
-}
-
-function assertDouble(value, msg)
-{
-    return assertMatch(value, DOUBLE_PATTERN, msg);
-}
-
-function assertEmail(value, msg)
-{
-    return assertMatch(value, EMAIL_PATTERN, msg);
-}
-
-function assertPhone(value, msg)
-{
-    return assertMatch(value, PHONE_PATTERN, msg);
-}
-
-function assertUsername(value, msg)
-{
-    return assertMatch(value, USERNAME_PATTERN, msg);
-}
-
-function assertCF(value, msg)
-{
-    return assertMatch(value, CODICE_FISCALE_PATTERN, msg);
-}
-
 var formElement = document.getElementById('form');
+let flag = false;
 
 formElement.addEventListener('submit', function (event)
 {
-    if (check())
+    flag = false;
+    check();
+
+    if (flag)
         event.preventDefault();
     else
         formElement.submit();
 });
+
+function required(element)
+{
+    let results = element.value != null && element.value !== '';
+
+    colorElement(results, element);
+
+    return results;
+}
+
+function assertMatch(element, regexp, msg)
+{
+    let results = required(element) && regexp.test(element.value);
+
+    colorElement(results, element);
+
+    return results;
+}
+
+function colorElement(results, element)
+{
+    if(results)
+        ok(element);
+    else
+    {
+        flag = true;
+        error(element);
+    }
+}
+
+function assertInt(element, msg)
+{
+    return assertMatch(element, INT_PATTERN, msg);
+}
+
+function assertPassword(element, msg)
+{
+    return assertMatch(element, PASSWORD_PATTERN, msg);
+}
+
+function assertDouble(element, msg)
+{
+    return assertMatch(element, DOUBLE_PATTERN, msg);
+}
+
+function assertEmail(element, msg)
+{
+    return assertMatch(element, EMAIL_PATTERN, msg);
+}
+
+function assertPhone(element, msg)
+{
+    return assertMatch(element, PHONE_PATTERN, msg);
+}
+
+function assertUsername(element, msg)
+{
+    return assertMatch(element, USERNAME_PATTERN, msg);
+}
+
+function assertCF(element, msg)
+{
+    return assertMatch(element, CODICE_FISCALE_PATTERN, msg);
+}
 
 function error(element)
 {
     element.style.border = '2px solid var(--warning)';
 }
 
-function reset(element)
+function ok(element)
 {
     element.style.border = '4px solid var(--secondary)';
 }

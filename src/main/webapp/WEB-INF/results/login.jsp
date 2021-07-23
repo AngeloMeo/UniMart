@@ -7,9 +7,8 @@
 
         <%@include file="general.jsp" %>
 
-        <script src="${context}/js/validator.js" defer></script>
         <script src="${context}/js/check/login.js" defer></script>
-
+        <script src="${context}/js/validator.js" defer></script>
     </head>
     <body class="text-center">
         <main>
@@ -28,7 +27,7 @@
                 </div>
                 <div class="flex-container flex-dirCol justify-content-center">
                     <button class="btn btn-primary flex-item-50 " type="submit">Login</button>
-                    <button class="btn btn-primary flex-item-50 " type="submit" formaction="./UtenteManager/creaUtente" formmethod="get">Registrati</button>
+                    <button class="btn btn-primary flex-item-50 " type="button" onclick="registrazione()" >Registrati</button>
                 </div>
             </form>
 

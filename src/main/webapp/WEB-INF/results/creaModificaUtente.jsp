@@ -13,8 +13,8 @@
       </c:choose>
 
       <%@include file="general.jsp" %>
-      <script src="${context}/js/validator.js" defer></script>
       <script src="${context}/js/check/creaUtente.js" defer></script>
+      <script src="${context}/js/validator.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>

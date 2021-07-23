@@ -7,14 +7,15 @@
       <title>${title}</title>
 
       <%@include file="general.jsp"%>
-
+      <script src="${context}/js/check/inventario.js" defer></script>
+      <script src="${context}/js/validator.js" defer></script>
    </head>
    <body>
       <%@include file="header.jsp" %>
       <%@include file="adminPanel.jsp"%>
 
       <main class="flex-container">
-         <form method="post" class="flex-item-100 flex-container justify-content-center">
+         <form method="post" class="flex-item-100 flex-container justify-content-center" id="form">
             <c:if test="${inventario.codiceInventario != null}">
                <label class="flex-item-50" for="codiceInventario">Codice Inventario</label>
                <input class="flex-item-50" type="text" id="codiceInventario" name="codiceInventario" value="${inventario.codiceInventario}" readonly>

@@ -1,24 +1,17 @@
 function check()
 {
-    let flag = false;
+    let element = document.getElementById('usernameEmail');
 
-    element = document.getElementById('usernameEmail');
-    reset(element);
-
-    if(!(assertUsername(element.value, 'Formato Username non corretto') || assertEmail(element.value, 'Formato Email non corretto')))
+    if(!assertUsername(element, 'Formato Username non corretto'))
     {
-        flag = true;
-        error(element);
+        flag = false;
+        assertEmail(element, 'Formato Email non corretto');
     }
 
-    element = document.getElementById('password');
-    reset(element);
+    assertPassword(document.getElementById('password'), 'Formato Password non corretto');
+}
 
-    if(!assertPassword(element.value, 'Formato Password non corretto'))
-    {
-        flag = true;
-        error(element);
-    }
-
-    return flag;
+function registrazione()
+{
+    window.location = getPageContext() + "/UtenteManager/creaUtente";
 }

@@ -23,7 +23,7 @@
     </c:choose>
   </a>
 
-  <a class="assistenza" href="https://wa.me/+393391904141">
+  <a class="assistenza" href="https://wa.me/+393391904141" target="_blank">
     <img src="${pageContext.request.contextPath}/icons/help_center.svg">
   </a>
 
