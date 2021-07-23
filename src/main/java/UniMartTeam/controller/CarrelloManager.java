@@ -87,11 +87,11 @@ public class CarrelloManager extends HttpServlet {
                 try {
                     o = OrdineDAO.doRetrieveByID(Integer.parseInt(id));
                     o = OrdineDAO.doRetrieveProducts(o);
-                    for(Composto c : o.getCompostoList()){
+                   /* for(Composto c : o.getCompostoList()){
                         OrdineDAO.deleteProdottoOrdine(c);
                     }
 
-                    OrdineDAO.doDelete(o); //todo
+                    OrdineDAO.doDelete(o); //todo*/
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

@@ -215,7 +215,7 @@ public class OrdiniManager extends HttpServlet
                break;
 
             case "/saveOrdine":
-            case "/processOrdine":
+            case"/processOrdine":
                {
                   Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
 
