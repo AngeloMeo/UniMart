@@ -6,13 +6,16 @@
         <title>${title}</title>
 
         <%@include file="general.jsp"%>
+        <script src="${context}/js/check/prodotto.js" defer></script>
+        <script src="${context}/js/validator.js" defer></script>
+
     </head>
     <body>
         <%@include file="header.jsp" %>
         <%@include file="adminPanel.jsp" %>
 
         <main class="flex-container">
-            <form method="post" enctype="multipart/form-data" class="flex-item-100">
+            <form method="post" enctype="multipart/form-data" class="flex-item-100" id="form">
                 <table class="flex-item-100">
                     <c:if test="${prodotto.codiceIAN != null}">
                         <tr class="flex-container">
