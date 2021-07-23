@@ -9,7 +9,15 @@
   </form>
 
   <a href="${pageContext.request.contextPath}/CarrelloManager">
-    <img src="${pageContext.request.contextPath}/icons/shopping_cart_empty.svg">
+    <c:choose>
+      <c:when test="${cart.compostoList == null || cart.compostoList.size() == 0}">
+        <img src="${pageContext.request.contextPath}/icons/shopping_cart_empty.svg">
+      </c:when>
+      <c:otherwise>
+        <img src="${pageContext.request.contextPath}/icons/shopping_cart.svg">
+      </c:otherwise>
+    </c:choose>
+
   </a>
 
   <a href="${pageContext.request.contextPath}/LoginManager" id="login">

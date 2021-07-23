@@ -141,11 +141,8 @@ public class CarrelloManager extends HttpServlet {
                         Composto dummy = new Composto();
                         dummy.setQuantita(Math.abs(quantity));
                         dummy.setPrezzo(c.getProdotto().getPrezzo());
-                        dummy.setProdotto(c.getProdotto());
-                        dummy.setOrdine(c.getOrdine());
-                        /* TODO errore come prima; ho aggiunto anche prodotto e ordine perchè andavo a popolare il carrello di compostolist solo con prezzo e quantità, senza prodotto
-                        o ordine. che minchia faccio? il carrello è una compostolist, devo modificare qualche checkout?
-                        * */
+
+
                         Gson json = new Gson();
                         response.setContentType("application/JSON");
                         response.setCharacterEncoding("UTF-8");
@@ -155,9 +152,6 @@ public class CarrelloManager extends HttpServlet {
                     return;
                 }
             }
-
-
-
         }
     }
 
@@ -211,7 +205,6 @@ public class CarrelloManager extends HttpServlet {
 
             sessionManager.setAttribute(cart, "cart");
 
-            /*TODO: quando aggiungo un prodotto al carrello rimane sulla pagina; ajax cambierà il testo di "Aggiungi al carrello" in "Aggiunto"*/
         }
     }
 

@@ -341,8 +341,7 @@ public class ProdottoDAO
 
       while (rs.next())
       {
-         Categoria c = new Categoria();
-         c.setNome(rs.getString(alias+"nomeCategoria"));
+         Categoria c = CategoriaDAO.doRetrieveByKey(rs.getString(alias+"nomeCategoria"));
          Prodotto p = ProdottoExtractor.Extract(rs, alias, c);
          list.add(p);
       }
