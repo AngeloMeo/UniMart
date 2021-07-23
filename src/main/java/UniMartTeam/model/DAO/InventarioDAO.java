@@ -1,10 +1,8 @@
 package UniMartTeam.model.DAO;
 
-import UniMartTeam.model.Beans.Composto;
-import UniMartTeam.model.Beans.Inventario;
-import UniMartTeam.model.Beans.Possiede;
-import UniMartTeam.model.Beans.Utente;
+import UniMartTeam.model.Beans.*;
 import UniMartTeam.model.Extractors.InventarioExtractor;
+import UniMartTeam.model.Extractors.PossiedeExtractor;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.QueryBuilder;
 import java.sql.*;
@@ -228,6 +226,37 @@ public class InventarioDAO
          }
       }
       return false;
+   }
+
+   public static List<Possiede> doRetrieveInventarioProducts(Composto composto) throws SQLException
+   {
+      if(composto != null && composto.getQuantita() >= 0)
+      {
+         try (Connection con = ConPool.getConnection())
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select();
+            qb.where("idProdotto=" + composto.getProdotto().getCodiceIAN()).orderBy("giacenza desc");
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               ResultSet rs = pss.executeQuery();
+               List<Possiede> list = new ArrayList<>();
+
+               while(rs.next())
+               {
+                  Inventario inventario = new Inventario();
+                  Prodotto prodotto = new Prodotto();
+                  prodotto.setCodiceIAN(rs.getInt("idProdotto"));
+                  inventario.setCodiceInventario(rs.getInt("idInventario"));
+
+                  list.add(PossiedeExtractor.Extract(rs, "", inventario, prodotto));
+               }
+
+               return list;
+            }
+         }
+      }
+      return null;
    }
 
    public static boolean updateProdottoInventario(Possiede possiede) throws SQLException

@@ -121,15 +121,14 @@ DELETE FROM `inventario_prodotto`;
 INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
 	(1, 1, 5),
 	(6, 1, 15),
-	(7, 1, 47),
+	(7, 1, 0),
 	(1, 2, 1),
 	(1, 3, 3),
 	(1, 4, 10),
 	(1, 6, 29),
 	(7, 6, 13),
 	(6, 8, 20),
-	(1, 10, 10),
-	(6, 10, 10),
+	(6, 10, 20),
 	(7, 10, 9),
 	(7, 11, 39),
 	(1, 12, 11),
@@ -173,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
@@ -182,12 +181,8 @@ INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, 
 	(2, 'accettato', '', '123', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(3, 'annullato', '', 'a7fbbad7be1568484fbbbde283e0e546a33692bd', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(4, 'annullato', '', 'c2a417f171748b29d3fd116d511b2631f65db8ad', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
-	(13, 'accettato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
-	(14, 'annullato', '', 'ed6b9f1afe31cd50ca9039c093a58dce33e7cf82', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
-	(15, 'accettato', '', 'e07540c261ba4afd541a94c4596db86e5aec1efa', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
-	(18, 'accettato', '', 'dd5d30388b501520289c96fc666834e3cd02f9ae', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
-	(19, 'annullato', '', 'fa560c41290b33a04a3cc4e8461b3ace3ad3c458', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
-	(20, 'accettato', '', '5b26a698f3e46b5e6459f3d03162251cca7c14bb', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test');
+	(5, 'accettato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(6, 'annullato', '', 'ed6b9f1afe31cd50ca9039c093a58dce33e7cf82', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -211,32 +206,15 @@ INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quan
 	(2, 10, 3.5, 1),
 	(3, 27, 3.14, 1),
 	(4, 27, 3.14, 1),
-	(13, 10, 3.5, 1),
-	(13, 27, 3.14, 1),
-	(14, 6, 1.1, 1),
-	(14, 8, 4.2, 1),
-	(14, 11, 1.8, 1),
-	(14, 12, 1.9, 1),
-	(14, 16, 2.9, 1),
-	(14, 19, 2.8, 1),
-	(14, 49, 4.1, 1),
-	(15, 6, 1.1, 13),
-	(15, 8, 4.2, 1),
-	(15, 11, 1.8, 1),
-	(15, 12, 1.9, 1),
-	(15, 16, 2.9, 1),
-	(15, 19, 2.8, 1),
-	(15, 49, 4.1, 1),
-	(18, 10, 3.5, 4),
-	(19, 6, 1.1, 19),
-	(19, 8, 4.2, 20),
-	(19, 11, 1.8, 21),
-	(19, 12, 1.9, 1),
-	(19, 16, 2.9, 1),
-	(19, 19, 2.8, 1),
-	(19, 49, 4.1, 1),
-	(20, 28, 2.3, 1),
-	(20, 29, 1.5, 1);
+	(5, 10, 3.5, 1),
+	(5, 27, 3.14, 1),
+	(6, 6, 1.1, 1),
+	(6, 8, 4.2, 1),
+	(6, 11, 1.8, 1),
+	(6, 12, 1.9, 1),
+	(6, 16, 2.9, 1),
+	(6, 19, 2.8, 1),
+	(6, 49, 4.1, 1);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto`;

@@ -329,6 +329,33 @@ public class OrdineDAO
                {
                   c.setOrdine(ordine);
                   OrdineDAO.addProdottoOrdine(c);
+
+                  if(!ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
+                  {
+                     float quantitaRichiesta = c.getQuantita();
+                     List<Possiede> listInventari = InventarioDAO.doRetrieveInventarioProducts(c);
+                     int index = 0;
+
+                     while(quantitaRichiesta > 0)
+                     {
+                        Possiede tmp = listInventari.get(index);
+
+                        if(tmp.getGiacenza() >= quantitaRichiesta)
+                        {
+                           tmp.setGiacenza(tmp.getGiacenza() - quantitaRichiesta);
+                           quantitaRichiesta = 0;
+                           InventarioDAO.updateProdottoInventario(tmp);
+                        }
+                        else
+                        {
+                           quantitaRichiesta -= tmp.getGiacenza();
+                           tmp.setGiacenza(0);
+                           InventarioDAO.deleteProdottoInventario(tmp);
+                        }
+
+                        index++;
+                     }
+                  }
                }
                else
                   OrdineDAO.updateProdottoOrdine(c);
