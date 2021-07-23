@@ -61,12 +61,12 @@
                         </tr>
                     </c:forEach>
                 </table>
-                <form action="${context}/OrdiniManager/finalizzaOrdine" method="post">
-                    <input type="submit">
+                <form action="${context}/OrdiniManager/saveOrdine" method="post">
+                    <input type="submit" value="SALVA">
                 </form>
 
-                <form action="${context}/CarrelloManager/saveOrder" method="post">
-                    <input type="submit" value="SALVA">
+                <form action="${context}/OrdiniManager/processOrdine" method="post">
+                    <input type="submit" value="ORDINA">
                 </form>
             </c:otherwise>
         </c:choose>
@@ -97,9 +97,6 @@
                             </form>
                         </details>
                     </c:forEach>
-
-
-
                 </c:when>
                 <c:otherwise>
                     <h2 class="flex-item-100">Nessun Carrello Salvato...</h2>

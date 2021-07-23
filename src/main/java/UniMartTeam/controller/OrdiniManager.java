@@ -125,7 +125,8 @@ public class OrdiniManager extends HttpServlet
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
    {
       String path = request.getPathInfo() == null ? "/" : request.getPathInfo().replace("/OrdiniManager", "");
-      Utente utente = (Utente) SessionManager.getObjectFromSession(request, "utente");
+      SessionManager sessionManager = new SessionManager(request);
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
       Validator validator = new Validator(request);
 
       if (utente != null)
@@ -213,8 +214,17 @@ public class OrdiniManager extends HttpServlet
                }
                break;
 
-            case "/finalizzaOrdine":
+            case "/saveOrdine":
+            case "/processOrdine":
+               {
+                  Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
+
+                  if(path.equalsIgnoreCase("/saveOrdine"))
+                     ordine.setStatoOrdine(StatoOrdine.Salvato);
+                  else
+                     ordine.setStatoOrdine(StatoOrdine.Accettato);
                   processOrder(request, response);
+               }
                break;
 
             default:
@@ -229,28 +239,53 @@ public class OrdiniManager extends HttpServlet
    {
       SessionManager sessionManager = new SessionManager(request);
       Ordine ordine = (Ordine) sessionManager.getObjectFromSession( "cart");
+      Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
+      Validator validator = new Validator(request);
 
-      if (ordine != null)
+      if (ordine != null && utente != null)
       {
          try
-         {/* DUMMY OBJECT */
-            Spedizione s = new Spedizione();
-            s.setID(1);
-            ordine.setSpedizione(s);
-            ordine.setRicevutaPagamento(processPayment(("123")));
-            ordine.setDataAcquisto(LocalDate.now());
-            ordine.setStatoOrdine(StatoOrdine.Salvato);
-            ordine.setViaCivico("via giotto,5");
-            ordine.setCitta("Visciano");
-            ordine.setRegione("Campania");
-            ordine.setFeedback("");
+         {
+            ordine.setCliente(utente);
 
-            /* END */
-            OrdineDAO.doSave(ordine);
-            if(!OrdineDAO.elaboraOrdine(ordine))
-               OrdineDAO.doDelete(ordine);
+            if(ordine.getNumeroOrdine() == 0)
+            {
+               if (ordine.getSpedizione() == null)
+               {
+                  Spedizione s = new Spedizione();
+                  s.setID(1);
+                  ordine.setSpedizione(s);
+               }
+
+               if (!validator.required(ordine.getViaCivico()))
+                  ordine.setViaCivico(utente.getViaCivico());
+
+               if (!validator.required(ordine.getCitta()))
+                  ordine.setCitta(utente.getCitta());
+
+               if (!validator.required(ordine.getRegione()))
+                  ordine.setRegione(utente.getRegione());
+
+               ordine.setRicevutaPagamento(processPayment(utente.getCF()));
+               ordine.setDataAcquisto(LocalDate.now());
+               ordine.setFeedback("");
+
+               OrdineDAO.doSave(ordine);
+
+               if(!OrdineDAO.elaboraOrdine(ordine, true))
+               {
+                  ordine.setStatoOrdine(StatoOrdine.Salvato);
+                  OrdineDAO.doUpdate(ordine);
+                  OrdineDAO.elaboraOrdine(ordine, true);
+               }
+            }
             else
-               sessionManager.removeAttribute("cart");
+            {
+               OrdineDAO.doUpdate(ordine);
+               OrdineDAO.elaboraOrdine(ordine, false);
+            }
+
+            sessionManager.removeAttribute("cart");
          }
          catch (SQLException e)
          {

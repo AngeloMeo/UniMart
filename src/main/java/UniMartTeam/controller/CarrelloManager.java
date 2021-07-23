@@ -67,9 +67,7 @@ public class CarrelloManager extends HttpServlet {
             case "/alterquantities":
                     alterQuantities(request, response, sessionManager);
                 break;
-            case "/saveOrder":
-                    saveOrder(request, response, sessionManager);
-                break;
+
             case "/saved2cart":
                     saved2cart(request, response, sessionManager);
                 break;
@@ -96,43 +94,6 @@ public class CarrelloManager extends HttpServlet {
             sessionManager.setAttribute(o, "cart");
             request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
         }
-    }
-
-    private void saveOrder(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException {
-
-        Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
-
-        if(utente != null && !utente.getCF().isEmpty()){
-
-            Ordine o = (Ordine) sessionManager.getObjectFromSession("cart");
-            o.setCliente(utente);
-            o.setStatoOrdine(StatoOrdine.Salvato);
-            o.setRegione(utente.getRegione());
-            o.setCitta(utente.getCitta());
-            o.setViaCivico(utente.getViaCivico());
-
-            try {
-                o.setSpedizione(SpedizioneDAO.doRetrieveById(1));
-            } catch (SQLException e) {
-                request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:saveOrder)");
-                request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                e.printStackTrace();
-            }
-
-            try {
-                OrdineDAO.doSave(o);
-            } catch (SQLException e) {
-                request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:saveOrder)");
-                request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                e.printStackTrace();
-            }
-
-            sessionManager.removeAttribute("cart");
-            /*TODO: ajax*/
-        }
-
     }
 
     private void alterQuantities(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException {

@@ -73,7 +73,7 @@ public class OrdineDAO
          ps.setString(1, o.getStatoOrdine().toString());
          ps.setString(2, o.getFeedback());
          ps.setString(3, o.getRicevutaPagamento());
-         ps.setDate(4, Date.valueOf(o.getDataAcquisto()));//TODO o.getDataAcquisto NULL
+         ps.setDate(4, Date.valueOf(o.getDataAcquisto()));
          ps.setString(5, o.getCliente().getCF());
          ps.setInt(6, o.getSpedizione().getID());
          ps.setString(7, o.getRegione());
@@ -312,27 +312,29 @@ public class OrdineDAO
       }
    }
 
-   public static synchronized boolean elaboraOrdine(Ordine ordine) throws SQLException
+   public static synchronized boolean elaboraOrdine(Ordine ordine, boolean newOrder) throws SQLException
    {
       if(ordine != null && ordine.getCompostoList() != null)
       {
-         if(ordine.getStatoOrdine() == StatoOrdine.Salvato)
+         try (Connection con = ConPool.getConnection())
          {
-            try (Connection con = ConPool.getConnection())
-            {
-               if(!ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
-                  for(Composto c : ordine.getCompostoList())
-                     if(!InventarioDAO.infoQuantitaProdottoInventario(c))
-                        return false;
-
+            if(!ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
                for(Composto c : ordine.getCompostoList())
+                  if(!InventarioDAO.infoQuantitaProdottoInventario(c))
+                     return false;
+
+            for(Composto c : ordine.getCompostoList())
+            {
+               if(newOrder)
                {
                   c.setOrdine(ordine);
                   OrdineDAO.addProdottoOrdine(c);
                }
+               else
+                  OrdineDAO.updateProdottoOrdine(c);
             }
-            return true;
          }
+         return true;
       }
 
       return false;
