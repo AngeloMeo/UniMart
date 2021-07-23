@@ -69,10 +69,11 @@ public class OrdineDAO
 
       try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
       {
+
          ps.setString(1, o.getStatoOrdine().toString());
          ps.setString(2, o.getFeedback());
          ps.setString(3, o.getRicevutaPagamento());
-         ps.setDate(4, Date.valueOf(o.getDataAcquisto()));
+         ps.setDate(4, Date.valueOf(o.getDataAcquisto()));//TODO o.getDataAcquisto NULL
          ps.setString(5, o.getCliente().getCF());
          ps.setInt(6, o.getSpedizione().getID());
          ps.setString(7, o.getRegione());
@@ -439,6 +440,8 @@ public class OrdineDAO
 
       return executeQueryCount(query);
    }
+
+
 
    public static int countOrdiniTotali() throws SQLException
    {

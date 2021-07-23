@@ -61,16 +61,52 @@
                         </tr>
                     </c:forEach>
                 </table>
+                <form action="${context}/OrdiniManager/finalizzaOrdine" method="post">
+                    <input type="submit">
+                </form>
+
+                <form action="${context}/CarrelloManager/saveOrder" method="post">
+                    <input type="submit" value="SALVA">
+                </form>
             </c:otherwise>
         </c:choose>
         <hr>
         <c:if test="${sessionScope.utente != null}">
             <h1 class="flex-item-100">Carrelli Salvati</h1>
             <hr>
+
+
+            <c:choose>
+                <c:when test="${orders != null}">
+
+                    <c:forEach var="order" items="${orders}">
+                        <details>
+                            <summary>
+                                Ordine n°: ${order.numeroOrdine}
+                            </summary>
+                            <ul>
+                                <c:forEach var="prodList" items="${order.compostoList}">
+                                    <li>
+                                        <h4>${prodList.prodotto.nome}</h4>
+                                    </li>
+                                </c:forEach>
+                            </ul>
+                            <form action="${context}/CarrelloManager/saved2cart" method="post">
+                                <input type="hidden" name="orderID" value="${order.numeroOrdine}">
+                                <button type="submit">Sposta nel carrello</button>
+                            </form>
+                        </details>
+                    </c:forEach>
+
+
+
+                </c:when>
+                <c:otherwise>
+                    <h2 class="flex-item-100">Nessun Carrello Salvato...</h2>
+                </c:otherwise>
+            </c:choose>
         </c:if>
-<form action="${context}/OrdiniManager/finalizzaOrdine" method="post">
-    <input type="submit">
-</form>
+
     </main>
     <%@include file="footer.jsp"%>
 </body>

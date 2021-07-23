@@ -62,7 +62,8 @@
                         </div>
                         ${prodotto.nome}
                         <br>
-                        <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
+                        <c:set var="price"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${prodotto.prezzo+(prodotto.prezzo*prodotto.categoria.aliquota)/100}"/></c:set>
+                        <h3>Prezzo: <c:out value="${price}"/> &euro;</h3>
                      </a>
                   </div>
                </c:forEach>
@@ -82,7 +83,8 @@
                         </div>
                            ${prodotto.nome}
                         <br>
-                        <h3>Prezzo: ${prodotto.prezzo} &euro;</h3>
+                        <c:set var="price"><fmt:formatNumber type="number" minFractionDigits="2" maxFractionDigits="2" value="${prodotto.prezzo+(prodotto.prezzo*prodotto.categoria.aliquota)/100}"/></c:set>
+                        <h3>Prezzo: ${price} &euro;</h3>
                      </a>
                   </div>
                </c:forEach>

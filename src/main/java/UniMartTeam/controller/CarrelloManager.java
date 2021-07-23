@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "CarrelloManager", value = "/CarrelloManager/*")
 public class CarrelloManager extends HttpServlet {
@@ -29,7 +30,20 @@ public class CarrelloManager extends HttpServlet {
 
         if(utente != null && !utente.getCF().isBlank()){
             try {
-                request.setAttribute("orders", OrdineDAO.doRetrieveByCond(utente, StatoOrdine.Salvato));
+
+                List<Ordine> ol = OrdineDAO.doRetrieveByCond(utente, StatoOrdine.Salvato);
+
+                if(ol.get(0) == null)
+                    request.setAttribute("orders", null);
+
+                else {
+
+                    for(Ordine o : ol){
+                        OrdineDAO.doRetrieveProducts(o);
+                    }
+                    request.setAttribute("orders", ol);
+                }
+
             } catch (SQLException e) {
                 request.setAttribute("message", "Errore Database(Servlet:CarrelloManager Metodo:doGet)");
                 request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -50,7 +64,6 @@ public class CarrelloManager extends HttpServlet {
             case "/add2cart":
                     add2cart(response, request, sessionManager);
                 break;
-
             case "/alterquantities":
                     alterQuantities(request, response, sessionManager);
                 break;
@@ -64,22 +77,24 @@ public class CarrelloManager extends HttpServlet {
 
     }
 
-    private void saved2cart(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException {
+    private void saved2cart(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException, ServletException {
 
         Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
-
         if(utente != null && !utente.getCF().isEmpty()){
 
             String id = request.getParameter("orderID");
-
+            Ordine o = null;
             if(!id.isBlank()){
                 try {
-                    sessionManager.setAttribute(OrdineDAO.doRetrieveByID(Integer.parseInt(id)), "cart");
+                    o = OrdineDAO.doRetrieveByID(Integer.parseInt(id));
+                    o = OrdineDAO.doRetrieveProducts(o);
+                    OrdineDAO.doDelete(o); //todo
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
-            /*TODO ajax*/
+            sessionManager.setAttribute(o, "cart");
+            request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
         }
     }
 
