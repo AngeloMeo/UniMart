@@ -9,6 +9,9 @@
     <script src="${pageContext.request.contextPath}/js/couponCategoriaOrdine/categoriaPage.js" defer></script>
 
     <%@include file="general.jsp"%>
+    <script src="${context}/js/check/categoria.js" defer></script>
+    <script src="${context}/js/validator.js" defer></script>
+
   </head>
   <body>
     <%@include file="header.jsp" %>
@@ -46,7 +49,7 @@
       </c:choose>
 
       <div id="creaModal" class="creaModal">
-        <form class="creaModal-form" method="post">
+        <form class="creaModal-form" method="post" id="form">
           <div class="container flex-container flex-dirCol">
             <h1 class="flex-item-80">Crea Categoria</h1>
 
