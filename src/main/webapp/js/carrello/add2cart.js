@@ -5,16 +5,16 @@ function add(ianVar, caller)
     //if(!assertDouble(caller.parentElement.firstElementChild, "Sei simpatico"))
     if(quantityVar == null ||  typeof quantityVar != 'number'){
         quantityVar = 1;
-        $(".add2cart").html("Aggiunta 1 unità")
+        $(caller).html("Aggiunta 1 unità")
     }
     else
-        $(".add2cart").html("Aggiunto al carrello")
+        $(caller).html("Aggiunto al carrello")
 
-    $(".add2cart").attr("disabled", "disabled");
+    $(caller).attr("disabled", "disabled");
 
     setTimeout(function() {
-        $(".add2cart").html("Aggiungi al carrello")
-        $(".add2cart").removeAttr("disabled");
+        $(caller).html("Aggiungi al carrello")
+        $(caller).removeAttr("disabled");
     }, 1000);
 
     $.post(getPageContext() + "/CarrelloManager/add2cart",

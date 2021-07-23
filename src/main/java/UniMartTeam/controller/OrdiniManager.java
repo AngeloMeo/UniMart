@@ -238,6 +238,30 @@ public class OrdiniManager extends HttpServlet
                }
                break;
 
+            case "/finalizzaOrdine":
+               Ordine ordine = (Ordine) SessionManager.getObjectFromSession(request, "cart");
+
+               if (ordine != null)
+               {
+                  for(Composto c : ordine.getCompostoList())
+                     System.out.println(c.getPrezzo() + " " + c.getQuantita() + " " + c.getProdotto().getCodiceIAN());
+
+                  /*try
+                  {
+
+                  }
+                  catch (SQLException e)
+                  {
+                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
+                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
+                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                     return;
+                  }*/
+
+                  response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
+               }
+               break;
+
             default:
                response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
          }

@@ -5,7 +5,6 @@
    <head>
       <title>Scheda Prodotto</title>
       <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/add2cart.js" defer></script>
-      <script type="text/javascript" src="${pageContext.request.contextPath}/js/validator.js" defer></script>
       <%@include file="general.jsp" %>
    </head>
    <body>
