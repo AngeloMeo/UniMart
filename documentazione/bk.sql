@@ -11,7 +11,7 @@ USE `unimart`;
 
 DROP EVENT IF EXISTS `AggiornamentoOrdini`;
 DELIMITER //
-CREATE DEFINER=`root`@`%` EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 5 MINUTE STARTS '2021-05-04 08:00:00' ENDS '2021-05-04 18:00:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
+CREATE EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 5 MINUTE STARTS '2021-05-04 08:00:00' ENDS '2021-05-04 18:00:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
 	UPDATE ordini o SET o.Stato = 'consegnato' WHERE o.Stato = 'in consegna';
 	UPDATE ordini o SET o.Stato = 'in consegna' WHERE o.Stato = 'spedito';
 	UPDATE ordini o SET o.Stato = 'spedito' WHERE o.Stato = 'preparazione';
@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`nome`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `categoria`;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
 INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
 	('acqua e analcolici', 5),
@@ -59,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
 INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
 	(1, 'Riscattato', 10, 'LLFJPG92A23L322U'),
@@ -75,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `coupon_applicato` (
   CONSTRAINT `FK_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `coupon_applicato`;
 /*!40000 ALTER TABLE `coupon_applicato` DISABLE KEYS */;
 INSERT INTO `coupon_applicato` (`idCoupon`, `idOrdine`) VALUES
 	(1, 1);
@@ -93,6 +96,7 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
 	(1, 'via po, 3', 'Campania', 'euroCampania', 'Magazzino alimentare', 'LLFJPG92A23L322U'),
@@ -112,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
   CONSTRAINT `FK__prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
 	(1, 1, 5),
@@ -120,26 +125,31 @@ INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VAL
 	(1, 2, 1),
 	(1, 3, 3),
 	(1, 4, 10),
-	(1, 6, 10),
+	(1, 6, 29),
 	(7, 6, 13),
+	(6, 8, 20),
 	(1, 10, 10),
 	(6, 10, 10),
 	(7, 10, 9),
-	(7, 11, 18),
-	(1, 12, 10),
-	(6, 16, 11),
+	(7, 11, 39),
+	(1, 12, 11),
+	(6, 16, 12),
 	(7, 17, 11),
+	(1, 19, 1),
 	(6, 21, 3),
 	(7, 21, 5),
 	(6, 24, 2),
 	(7, 25, 78),
 	(6, 27, 10),
+	(2, 28, 2),
+	(7, 29, 1),
 	(6, 31, 10),
 	(7, 31, 4),
 	(6, 35, 54),
 	(7, 35, 44),
 	(6, 37, 15),
 	(6, 42, 14),
+	(6, 49, 1),
 	(1, 58, 15),
 	(1, 59, 15),
 	(1, 60, 16);
@@ -163,15 +173,21 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
 INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
 	(1, 'consegnato', 'tutto ok', '1', '2021-07-20 00:00:00', 'we', 3, 'campania', 'nola', 'via po,2'),
-	(2, 'salvato', '', '123', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(2, 'accettato', '', '123', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(3, 'annullato', '', 'a7fbbad7be1568484fbbbde283e0e546a33692bd', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(4, 'annullato', '', 'c2a417f171748b29d3fd116d511b2631f65db8ad', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
-	(13, 'salvato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5');
+	(13, 'accettato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(14, 'annullato', '', 'ed6b9f1afe31cd50ca9039c093a58dce33e7cf82', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(15, 'accettato', '', 'e07540c261ba4afd541a94c4596db86e5aec1efa', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
+	(18, 'accettato', '', 'dd5d30388b501520289c96fc666834e3cd02f9ae', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
+	(19, 'annullato', '', 'fa560c41290b33a04a3cc4e8461b3ace3ad3c458', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test'),
+	(20, 'accettato', '', '5b26a698f3e46b5e6459f3d03162251cca7c14bb', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via test');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -186,6 +202,7 @@ CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
   CONSTRAINT `FK_ordine_prodotto_prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `ordine_prodotto`;
 /*!40000 ALTER TABLE `ordine_prodotto` DISABLE KEYS */;
 INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quantita`) VALUES
 	(1, 14, 10, 1),
@@ -195,7 +212,31 @@ INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quan
 	(3, 27, 3.14, 1),
 	(4, 27, 3.14, 1),
 	(13, 10, 3.5, 1),
-	(13, 27, 3.14, 1);
+	(13, 27, 3.14, 1),
+	(14, 6, 1.1, 1),
+	(14, 8, 4.2, 1),
+	(14, 11, 1.8, 1),
+	(14, 12, 1.9, 1),
+	(14, 16, 2.9, 1),
+	(14, 19, 2.8, 1),
+	(14, 49, 4.1, 1),
+	(15, 6, 1.1, 13),
+	(15, 8, 4.2, 1),
+	(15, 11, 1.8, 1),
+	(15, 12, 1.9, 1),
+	(15, 16, 2.9, 1),
+	(15, 19, 2.8, 1),
+	(15, 49, 4.1, 1),
+	(18, 10, 3.5, 4),
+	(19, 6, 1.1, 19),
+	(19, 8, 4.2, 20),
+	(19, 11, 1.8, 21),
+	(19, 12, 1.9, 1),
+	(19, 16, 2.9, 1),
+	(19, 19, 2.8, 1),
+	(19, 49, 4.1, 1),
+	(20, 28, 2.3, 1),
+	(20, 29, 1.5, 1);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto`;
@@ -213,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
 	(1, 'zucchero ', 0.9, 1, '1_zucchero.jpg', 2, 'ottimo per dolci/bevande calde', 'gastronomia'),
@@ -289,6 +331,7 @@ CREATE TABLE IF NOT EXISTS `prodotto_preferito` (
   `Quantità Totale Acquistata` double DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `prodotto_preferito`;
 /*!40000 ALTER TABLE `prodotto_preferito` DISABLE KEYS */;
 /*!40000 ALTER TABLE `prodotto_preferito` ENABLE KEYS */;
 
@@ -300,6 +343,7 @@ CREATE TABLE IF NOT EXISTS `spedizione` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `spedizione`;
 /*!40000 ALTER TABLE `spedizione` DISABLE KEYS */;
 INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
 	(1, 'eco', 5.99),
@@ -315,6 +359,7 @@ CREATE TABLE IF NOT EXISTS `spedizione_preferita` (
   `Utilizzi` bigint DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `spedizione_preferita`;
 /*!40000 ALTER TABLE `spedizione_preferita` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spedizione_preferita` ENABLE KEYS */;
 
@@ -338,6 +383,7 @@ CREATE TABLE IF NOT EXISTS `utente` (
   UNIQUE KEY `Indice 4` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+DELETE FROM `utente`;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
 INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
 	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
@@ -358,7 +404,7 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
+CREATE TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
 	UPDATE coupon c SET c.stato = 'Riscattato' WHERE c.numeroCoupon = NEW.idCoupon; 
 END//
 DELIMITER ;
@@ -367,7 +413,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `coupon_before_delete`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
+CREATE TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
 	UPDATE coupon c SET c.stato = 'Disponibile' WHERE c.numeroCoupon = OLD.idCoupon; 
 END//
 DELIMITER ;
@@ -376,7 +422,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `NormalizeCategoriaInsert`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `NormalizeCategoriaInsert` BEFORE INSERT ON `categoria` FOR EACH ROW BEGIN
+CREATE TRIGGER `NormalizeCategoriaInsert` BEFORE INSERT ON `categoria` FOR EACH ROW BEGIN
 	SET new.nome = LOWER(new.nome);
 END//
 DELIMITER ;
@@ -385,7 +431,7 @@ SET SQL_MODE=@OLDTMP_SQL_MODE;
 DROP TRIGGER IF EXISTS `NormalizeCategoriaUpdate`;
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
-CREATE DEFINER=`root`@`%` TRIGGER `NormalizeCategoriaUpdate` BEFORE UPDATE ON `categoria` FOR EACH ROW BEGIN
+CREATE TRIGGER `NormalizeCategoriaUpdate` BEFORE UPDATE ON `categoria` FOR EACH ROW BEGIN
 SET new.nome = LOWER(new.nome);
 END//
 DELIMITER ;
