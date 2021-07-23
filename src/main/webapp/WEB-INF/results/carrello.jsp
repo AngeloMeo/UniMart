@@ -9,7 +9,6 @@
     <%@include file="general.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/prodottoShow.js" defer></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/carrello/alterQuantity.js" defer></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/js/validator.js" defer></script>
 </head>
 <body>
     <%@include file="header.jsp" %>
