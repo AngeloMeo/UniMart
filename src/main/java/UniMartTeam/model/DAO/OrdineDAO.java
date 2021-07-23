@@ -319,9 +319,10 @@ public class OrdineDAO
          {
             try (Connection con = ConPool.getConnection())
             {
-               for(Composto c : ordine.getCompostoList())
-                  if(!InventarioDAO.infoQuantitaProdottoInventario(c))
-                     return false;
+               if(!ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
+                  for(Composto c : ordine.getCompostoList())
+                     if(!InventarioDAO.infoQuantitaProdottoInventario(c))
+                        return false;
 
                for(Composto c : ordine.getCompostoList())
                {
