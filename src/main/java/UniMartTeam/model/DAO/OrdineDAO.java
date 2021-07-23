@@ -435,7 +435,7 @@ public class OrdineDAO
    public static int countOrdiniEvasi() throws SQLException
    {
       QueryBuilder query = new QueryBuilder("ordine", "o");
-      query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Consegnato + "'");
+      query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Spedito + "'");
 
       return executeQueryCount(query);
    }
@@ -465,7 +465,7 @@ public class OrdineDAO
       if(u != null && u.validateObject())
       {
          QueryBuilder query = new QueryBuilder("ordine", "o");
-         query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Consegnato + "' AND cfCliente='" + u.getCF() + "'");
+         query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Spedito + "' AND cfCliente='" + u.getCF() + "'");
 
          return executeQueryCount(query);
       }
