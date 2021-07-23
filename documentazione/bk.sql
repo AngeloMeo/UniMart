@@ -57,11 +57,12 @@ CREATE TABLE IF NOT EXISTS `coupon` (
   PRIMARY KEY (`numeroCoupon`),
   KEY `FK__utente` (`cfCreatore`),
   CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
 INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
-	(1, 'Riscattato', 10, 'LLFJPG92A23L322U');
+	(1, 'Riscattato', 10, 'LLFJPG92A23L322U'),
+	(7, 'Disponibile', 10, 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `coupon_applicato`;
@@ -90,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `inventario` (
   PRIMARY KEY (`codiceInventario`),
   KEY `FK_utente` (`cfResponsabile`),
   CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
@@ -113,7 +114,35 @@ CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
 
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
-	(1, 3, 3);
+	(1, 1, 5),
+	(6, 1, 15),
+	(7, 1, 47),
+	(1, 2, 1),
+	(1, 3, 3),
+	(1, 4, 10),
+	(1, 6, 10),
+	(7, 6, 13),
+	(1, 10, 10),
+	(6, 10, 10),
+	(7, 10, 9),
+	(7, 11, 18),
+	(1, 12, 10),
+	(6, 16, 11),
+	(7, 17, 11),
+	(6, 21, 3),
+	(7, 21, 5),
+	(6, 24, 2),
+	(7, 25, 78),
+	(6, 27, 10),
+	(6, 31, 10),
+	(7, 31, 4),
+	(6, 35, 54),
+	(7, 35, 44),
+	(6, 37, 15),
+	(6, 42, 14),
+	(1, 58, 15),
+	(1, 59, 15),
+	(1, 60, 16);
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine`;
@@ -134,11 +163,15 @@ CREATE TABLE IF NOT EXISTS `ordine` (
   KEY `FK_spedizione` (`metodoSpedizione`),
   CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
   CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
 INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
-	(1, 'preparazione', NULL, '1', '2021-07-20 19:29:38', 'we', 3, 'campania', 'nola', 'via po,2');
+	(1, 'consegnato', 'tutto ok', '1', '2021-07-20 00:00:00', 'we', 3, 'campania', 'nola', 'via po,2'),
+	(2, 'salvato', '', '123', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(3, 'annullato', '', 'a7fbbad7be1568484fbbbde283e0e546a33692bd', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(4, 'annullato', '', 'c2a417f171748b29d3fd116d511b2631f65db8ad', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
+	(13, 'salvato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `ordine_prodotto`;
@@ -157,7 +190,12 @@ CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
 INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quantita`) VALUES
 	(1, 14, 10, 1),
 	(1, 39, 14, 3),
-	(1, 49, 12, 10);
+	(1, 49, 12, 10),
+	(2, 10, 3.5, 1),
+	(3, 27, 3.14, 1),
+	(4, 27, 3.14, 1),
+	(13, 10, 3.5, 1),
+	(13, 27, 3.14, 1);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
 DROP TABLE IF EXISTS `prodotto`;
@@ -173,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `prodotto` (
   PRIMARY KEY (`codiceIAN`),
   KEY `FK_prodotto_categoria` (`nomeCategoria`),
   CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
@@ -206,7 +244,7 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(28, 'mais in scatola', 2.3, 2.3, '28_mais-bonduelle-in-scatola-300-g-.jpg', 3, 'per mille ricette', 'gastronomia'),
 	(29, 'olive verdi', 1.5, 2, '29_phoca_thumb_l_2biolverd250ec_a.jpg', 4, 'pratiche e veloci', 'verdura'),
 	(30, 'farina barilla', 0.9, 2, '30_279FARINA00BARILLA-8076802795019-1.png', 3, 'utilizzata per dolci e pizza', 'casa'),
-	(31, 'gelato nuji', 3.8, 3, '31_Nuii_Multipack_x4_SaltedCaramelAustralianMacadamia_IT-980x748.jpg', 2, 'per chi ama il caramello e non puÃ² farne almeno', 'gelati e surgelati'),
+	(31, 'gelato nuji', 3.8, 3, '31_Nuii_Multipack_x4_SaltedCaramelAustralianMacadamia_IT-980x748.jpg', 2, 'per chi ama il caramello e non può farne almeno', 'gelati e surgelati'),
 	(32, 'petto di pollo', 6.82, 6, '32_PAM_442323_MINIFILETTO-POLLO-PP.jpg', 5, 'per cotolette ', 'gastronomia'),
 	(33, 'piselli findus', 5.5, 2, '33_191206_pack piselli novelli 450.png', 2, 'buoni', 'gelati e surgelati'),
 	(34, 'fagioli cannellini', 2.3, 1, '34_cannellini-vaso-vetro-new.jpg', 3, 'ottimi per qualsiasi cosa', 'dispensa'),
@@ -220,7 +258,7 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(42, 'plumcake', 2.85, 0.4, '42_083443-mulino-bianco-plumcake-classico-allo-yogurt-confezione-da-10-plumcake---350-grammi-totali.jpg', 5, 'ottimi per la colazione', 'gastronomia'),
 	(43, 'origano', 4.15, 3, '43_Origano-secco-frantumato-per-salumi-salmistrati-Dama.jpg', 3, 'ottimno per pane e fagioli', 'frutta'),
 	(44, 'cipolle', 3.5, 0.5, '44_sacchetto-carta-dorata-943x1024.jpg', 6, 'ideale per il brodo', 'prodotti biologici'),
-	(45, 'bastoncini findus', 3.6, 6, '45_70600236.jpg', 7, 'merluzzo inpanato', 'pesce'),
+	(45, 'bastoncini findus', 3.6, 6, '45_70600236.jpg', 7, 'merluzzo impanato', 'pesce'),
 	(46, 'crocché', 1.9, 0.9, '46_pim-00000008002411402055-main-20201002-140225.jpg', 5, 'pronti in poco tempo', 'gelati e surgelati'),
 	(47, 'pane', 0.89, 0.1, '47_baguettes-precotte-dailybread-2-panini-300gr.jpg', 4, 'pratico da portare anche in viaggio', 'pane farine e preparati'),
 	(48, 'cereali', 3.9, 1.5, '48_2974-home_default.jpg', 4, 'ideale per la colazione', 'dispensa'),
@@ -305,13 +343,16 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('cfcf', 'cf', 'cf', 'cf', 'cfcf_20180327_110324.jpg', 'Semplice', 'cf', 'cf', '123', '2020-08-25', 'cf@cf.com', 'cf', 'f78b64c9e0f2ea24fddce2b0d809cb2855fed1a6'),
 	('DCFJPG92A23L322U', 'sabato', 'genovese', 'po,2', NULL, 'Semplice', 'visciano', 'campania', '33334888', '2000-05-05', 's@s.com', 'sabato', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('ERFDPG92A23L322U', 'admin', 'admin', 'adige,9', NULL, 'Semplice', 'visciano', 'campania', '38974888', '2000-01-05', 'admin@admin.com', 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997'),
+	('FDMJCB86P16E185O', 'luigi', 'crescenzo', 'via cavour,23', 'FDMJCB86P16E185O_05.jpg', 'Amministratore', 'sarno', 'campania', '0123456789', '2023-05-21', 'luigi@gmail.com', 'crescenzo', '52d92f4db63498b43ed949190afd56a5fa49c463'),
+	('FMEJRH67L53D462P', 'uytfuiytkf', 'gvuygfv', 'yutgfyhjyu', 'FMEJRH67L53D462P_05.jpg', 'Semplice', 'gyutg', 'yugtg', '0122456788', '2020-06-22', 'jhyfuyj@gmail.com', 'gyuygl', '459ee0e1bc34dd04312447f89b500b82e3584532'),
 	('Gehuebevehdb', 'Bho', 'Come ', 'Domenico 5', 'Gehuebevehdb_image.jpg', 'Semplice', 'Napoli ', 'Campania ', '3333557834', '2003-07-11', 'monica@gmail.com', 'Monica ', '4b4446969034c7b0cee153226a398194c133f65b'),
 	('KLPNBA32P28L037Q', 'sabato', 'geno', 'ciao,3', 'KLPNBA32P28L037Q_01 (2).jpg', 'Semplice', 'dsf', 'dsf', '3391904141', '2021-07-07', 'dsf@dsf.dsf', 'lafoca', '1b23aecc420daee59f146461aaad71d54bdfbc09'),
 	('LLFJPG92A23L322U', 'test', 'test', 'via test', 'LLFJPG92A23L322U_admin.svg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test.it', 'testtt', 'ec0695a0fb09cdcd75fdf99ecb9dfc8340272ec8'),
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
-	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'we', '676e6f35cfc173f73fea9fe27699cf8185397f0c');
+	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'wewewe', 'ec0695a0fb09cdcd75fdf99ecb9dfc8340272ec8'),
+	('YGXRLB88C60A485Q', 'uygfyu', 'fgyugvf', 'yutgfvyt', 'YGXRLB88C60A485Q_02.jpg', 'Semplice', 'fgtyu', 'fuytf', '0123456789', '2019-05-21', 'yufu@uygfuy.uyg', 'uyugfuy', '22391f8c001e6d8063d70d9baa4be4a537b21182');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
 
 DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;
