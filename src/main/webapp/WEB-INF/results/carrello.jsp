@@ -67,12 +67,10 @@
         <c:if test="${sessionScope.utente != null}">
             <h1 class="flex-item-100">Carrelli Salvati</h1>
             <hr>
-
-
-
         </c:if>
-
-
+<form action="${context}/OrdiniManager/finalizzaOrdine" method="post">
+    <input type="submit">
+</form>
     </main>
     <%@include file="footer.jsp"%>
 </body>

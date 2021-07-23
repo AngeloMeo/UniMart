@@ -1,5 +1,6 @@
 package UniMartTeam.model.DAO;
 
+import UniMartTeam.model.Beans.Composto;
 import UniMartTeam.model.Beans.Inventario;
 import UniMartTeam.model.Beans.Possiede;
 import UniMartTeam.model.Beans.Utente;
@@ -205,6 +206,24 @@ public class InventarioDAO
                pss.setFloat(3, possiede.getGiacenza());
 
                return pss.executeUpdate() != 0;
+            }
+         }
+      }
+      return false;
+   }
+
+   public static boolean infoQuantitaProdottoInventario(Composto composto) throws SQLException
+   {
+      if(composto != null && composto.getQuantita() >= 0)
+      {
+         try (Connection con = ConPool.getConnection())
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select("idProdotto AS 'IAN', SUM(giacenza) AS 'giacenza'");
+            qb.where("idProdotto=" + composto.getProdotto().getCodiceIAN()).groupBy("idProdotto").having("giacenza >= " + composto.getQuantita());
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               return pss.executeQuery().next();
             }
          }
       }

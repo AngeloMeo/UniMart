@@ -167,6 +167,7 @@ public class CarrelloManager extends HttpServlet {
             if(cart == null) { //se inesistente lo creo
                 cart = new Ordine();
                 cart.setCompostoList(new ArrayList<>());
+                cart.setCliente((Utente) sessionManager.getObjectFromSession("utente"));
             }
 
             Composto composto = new Composto();
@@ -200,7 +201,7 @@ public class CarrelloManager extends HttpServlet {
 
 
             composto.setPrezzo(composto.getProdotto().getPrezzo());
-
+//TODO da sistemare
             cart.addCompostoList(composto);
 
             sessionManager.setAttribute(cart, "cart");

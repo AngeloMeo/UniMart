@@ -37,26 +37,24 @@
                        <th>CF Cliente</th>
                        <th>Data Acquisto</th>
                        <th>Metodo Spedizione</th>
-                       <c:if test="${utente.tipo == 'Semplice'}">
-                          <th>Gestisci</th>
-                       </c:if>
+                       <th>Gestisci</th>
                     </tr>
                  </thead>
 
                  <c:forEach items="${ordiniList}" var="ordine">
                     <tr>
                        <td class="numeroOrdine" data-label="Numero Ordine">${ordine.numeroOrdine}</td>
-                       <td data-label="Stato">${ordine.statoOrdine}</td>
+                       <td data-label="Stato" id="stato${ordine.numeroOrdine}">${ordine.statoOrdine}</td>
                        <td data-label="Feedback">${ordine.feedback}</td>
                        <td data-label="Codice Fiscale">${ordine.cliente.CF}</td>
                        <td data-label="Data Acquisto">${ordine.dataAcquisto}</td>
                        <td data-label="Metodo Spedizione">${ordine.spedizione.nome}</td>
-                          <c:if test="${utente.tipo == 'Semplice' && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito')}">
+                          <c:if test="${ordine.cliente.CF == utente.CF && (ordine.statoOrdine == 'Accettato' || ordine.statoOrdine == 'Preparazione' || ordine.statoOrdine == 'Spedito' || ordine.statoOrdine == 'Salvato')}">
                        <td data-label="Gestisci">
                              <button class="deleteBtn btn btn-small" value="${ordine.numeroOrdine}">Elimina Ordine</button>
                        </td>
                           </c:if>
-                          <c:if test="${utente.tipo == 'Semplice' && ordine.statoOrdine == 'Consegnato'}">
+                          <c:if test="${ordine.statoOrdine == 'Consegnato'}">
                        <td data-label="Gestisci">
                              <button class="btn btn-small" onclick="modifyForOrdine(${ordine.numeroOrdine}, '${ordine.feedback}')">Scrivi Feedback</button>
                        </td>

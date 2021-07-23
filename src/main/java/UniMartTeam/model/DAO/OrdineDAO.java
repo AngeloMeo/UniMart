@@ -16,31 +16,34 @@ public class OrdineDAO
 {
    public static boolean doSave(Ordine o) throws SQLException
    {
-      if (o == null || o.getNumeroOrdine() == 0)
+      if (o == null)
          return false;
 
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("ordine", "").insert("stato",
-                 "feedback", "ricevutaPagamento", "dataAcquisto", "cfCliente", "metodoSpedizione");
+                 "feedback", "ricevutaPagamento", "dataAcquisto", "cfCliente", "metodoSpedizione", "regione", "citta", "viaCivico");
 
          boolean esito = executeStatement(con, o, qb);
 
-         qb = new QueryBuilder("coupon_applicato", "").insert("idCoupon", "idOrdine");
-
-         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         if(o.getCoupon() != null)
          {
-            ps.setInt(1, o.getNumeroOrdine());
-            ps.setInt(2, o.getCoupon().getNumeroCoupon());
+            qb = new QueryBuilder("coupon_applicato", "").insert("idCoupon", "idOrdine");
 
-            if(esito == false)
+            try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
             {
-               con.rollback();
+               ps.setInt(1, o.getNumeroOrdine());
+               ps.setInt(2, o.getCoupon().getNumeroCoupon());
+
+               if(esito == false)
+                  con.rollback();
+               else
+                  return ps.executeUpdate() != 0;
+
                return false;
             }
-            else
-               return (ps.executeUpdate() == 0);
          }
+         return esito;
       }
    }
 
@@ -52,7 +55,7 @@ public class OrdineDAO
       try (Connection con = ConPool.getConnection())
       {
          QueryBuilder qb = new QueryBuilder("ordine", "").update("stato",
-                 "feedback", "ricevutaPagamento", "dataAcquisto", "cfCliente", "metodoSpedizione").
+                 "feedback", "ricevutaPagamento", "dataAcquisto", "cfCliente", "metodoSpedizione", "regione", "citta", "viaCivico").
                  where("numeroOrdine = " + o.getNumeroOrdine());
 
          return executeStatement(con, o, qb);
@@ -72,9 +75,13 @@ public class OrdineDAO
          ps.setDate(4, Date.valueOf(o.getDataAcquisto()));
          ps.setString(5, o.getCliente().getCF());
          ps.setInt(6, o.getSpedizione().getID());
+         ps.setString(7, o.getRegione());
+         ps.setString(8, o.getCitta());
+         ps.setString(9, o.getViaCivico());
 
          ps.executeUpdate();
          ResultSet rs = ps.getGeneratedKeys();
+
          if(rs.next())
             o.setNumeroOrdine(rs.getInt(1));
 
@@ -97,18 +104,7 @@ public class OrdineDAO
              esito = ps.executeUpdate() != 0;
          }
 
-         qb = new QueryBuilder("coupon_applicato", "").delete().where("idCoupon=" + o.getCoupon().getNumeroCoupon() + " idOrdine=" + o.getNumeroOrdine());
-
-         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
-         {
-            if(esito == false)
-            {
-               con.rollback();
-               return false;
-            }
-            else
-               return (ps.executeUpdate() == 0);
-         }
+         return esito;
       }
    }
 
@@ -313,6 +309,31 @@ public class OrdineDAO
             return ListFiller(ps).get(0);
          }
       }
+   }
+
+   public static synchronized boolean elaboraOrdine(Ordine ordine) throws SQLException
+   {
+      if(ordine != null && ordine.getCompostoList() != null)
+      {
+         if(ordine.getStatoOrdine() == StatoOrdine.Salvato)
+         {
+            try (Connection con = ConPool.getConnection())
+            {
+               for(Composto c : ordine.getCompostoList())
+                  if(!InventarioDAO.infoQuantitaProdottoInventario(c))
+                     return false;
+
+               for(Composto c : ordine.getCompostoList())
+               {
+                  c.setOrdine(ordine);
+                  OrdineDAO.addProdottoOrdine(c);
+               }
+            }
+            return true;
+         }
+      }
+
+      return false;
    }
 
    public static boolean addProdottoOrdine(Composto composto) throws SQLException

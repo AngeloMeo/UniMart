@@ -17,6 +17,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @WebServlet(name = "OrdiniManager", value = "/OrdiniManager/*")
@@ -112,36 +113,6 @@ public class OrdiniManager extends HttpServlet
                }
                break;
 
-            case "/deleteOrdine":
-               if (validator.assertInt("id", "Formato ID non valido"))
-               {
-                  int id = Integer.parseInt(request.getParameter("id"));
-
-                  try
-                  {
-                     if (utente.getTipo().equals(TipoUtente.Semplice))
-                     {
-                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
-
-                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato))
-                        {
-                           ordine.setStatoOrdine(StatoOrdine.Annullato);
-                           OrdineDAO.doUpdate(ordine);
-                           response.getWriter().println("Ordine Eliminato");
-                        }
-                     }
-                     response.getWriter().println("Azione non permessa");
-                  }
-                  catch (SQLException e)
-                  {
-                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
-                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                     return;
-                  }
-               }
-               break;
-
             default:
                response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
          }
@@ -166,36 +137,42 @@ public class OrdiniManager extends HttpServlet
                {
                   int id = Integer.parseInt(request.getParameter("id"));
 
+                  response.setContentType("test/plain");
+                  response.setCharacterEncoding("UTF-8");
+
                   try
                   {
-                     if (utente.getTipo().equals(TipoUtente.Semplice))
+                     Ordine ordine = OrdineDAO.doRetrieveByID(id);
+
+                     if (utente.getCF().equalsIgnoreCase(ordine.getCliente().getCF()))
                      {
-                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
-                        OrdineDAO.doRetrieveProducts(ordine);
-
-                        if(ordine.getStatoOrdine().equals(StatoOrdine.Accettato) ||
-                                ordine.getStatoOrdine().equals(StatoOrdine.Preparazione) ||
-                                ordine.getStatoOrdine().equals(StatoOrdine.Spedito))
+                        if (ordine.getStatoOrdine().equals(StatoOrdine.Accettato) || ordine.getStatoOrdine().equals(StatoOrdine.Preparazione) ||
+                                ordine.getStatoOrdine().equals(StatoOrdine.Spedito) || ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
                         {
-                           ordine.setStatoOrdine(StatoOrdine.Annullato);
-
-                           for(Composto c : ordine.getCompostoList())
+                           if(!ordine.getStatoOrdine().equals(StatoOrdine.Salvato))
                            {
-                              Possiede possiede = new Possiede();
-                              possiede.setProdotto(c.getProdotto());
-                              possiede.setGiacenza(c.getQuantita());
+                              OrdineDAO.doRetrieveProducts(ordine);
 
-                              InventarioDAO.updateQuantitaProdottoInventario(possiede);
+                              for (Composto c : ordine.getCompostoList())
+                              {
+                                 Possiede possiede = new Possiede();
+                                 possiede.setProdotto(c.getProdotto());
+                                 possiede.setGiacenza(c.getQuantita());
+
+                                 InventarioDAO.updateQuantitaProdottoInventario(possiede);
+                              }
                            }
+                           ordine.setStatoOrdine(StatoOrdine.Annullato);
 
                            OrdineDAO.doUpdate(ordine);
                            response.getWriter().println("Ordine Eliminato");
                         }
+                        else
+                           response.getWriter().println("Errore");
                      }
                      else
                         response.getWriter().println("Azione non permessa");
-                  }
-                  catch (SQLException e)
+                  } catch (SQLException e)
                   {
                      request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
                      request.setAttribute("exceptionStackTrace", e.getStackTrace());
@@ -213,18 +190,16 @@ public class OrdiniManager extends HttpServlet
 
                   try
                   {
-                     if (utente.getTipo().equals(TipoUtente.Semplice))
+                     Ordine ordine = OrdineDAO.doRetrieveByID(id);
+                     if (utente.getCF().equalsIgnoreCase(ordine.getCliente().getCF()))
                      {
-                        Ordine ordine = OrdineDAO.doRetrieveByID(id);
-
-                        if(ordine.getStatoOrdine().equals(StatoOrdine.Consegnato) && utente.getCF().equalsIgnoreCase(ordine.getCliente().getCF()))
+                        if(ordine.getStatoOrdine().equals(StatoOrdine.Consegnato))
                         {
                            ordine.setFeedback(request.getParameter("feedback"));
 
                            OrdineDAO.doUpdate(ordine);
                         }
                      }
-
                   }
                   catch (SQLException e)
                   {
@@ -239,27 +214,7 @@ public class OrdiniManager extends HttpServlet
                break;
 
             case "/finalizzaOrdine":
-               Ordine ordine = (Ordine) SessionManager.getObjectFromSession(request, "cart");
-
-               if (ordine != null)
-               {
-                  for(Composto c : ordine.getCompostoList())
-                     System.out.println(c.getPrezzo() + " " + c.getQuantita() + " " + c.getProdotto().getCodiceIAN());
-
-                  /*try
-                  {
-
-                  }
-                  catch (SQLException e)
-                  {
-                     request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
-                     request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                     response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
-                     return;
-                  }*/
-
-                  response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
-               }
+                  processOrder(request, response);
                break;
 
             default:
@@ -270,11 +225,50 @@ public class OrdiniManager extends HttpServlet
          response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
    }
 
+   private synchronized void processOrder(HttpServletRequest request, HttpServletResponse response) throws IOException
+   {
+      SessionManager sessionManager = new SessionManager(request);
+      Ordine ordine = (Ordine) sessionManager.getObjectFromSession( "cart");
+
+      if (ordine != null)
+      {
+         try
+         {/* DUMMY OBJECT */
+            Spedizione s = new Spedizione();
+            s.setID(1);
+            ordine.setSpedizione(s);
+            ordine.setRicevutaPagamento(processPayment(("123")));
+            ordine.setDataAcquisto(LocalDate.now());
+            ordine.setStatoOrdine(StatoOrdine.Salvato);
+            ordine.setViaCivico("via giotto,5");
+            ordine.setCitta("Visciano");
+            ordine.setRegione("Campania");
+            ordine.setFeedback("");
+
+            /* END */
+            OrdineDAO.doSave(ordine);
+            if(!OrdineDAO.elaboraOrdine(ordine))
+               OrdineDAO.doDelete(ordine);
+            else
+               sessionManager.removeAttribute("cart");
+         }
+         catch (SQLException e)
+         {
+            request.setAttribute("message", "Errore (Servlet:OrdiniManager Metodo:doPost)");
+            request.setAttribute("exceptionStackTrace", e.getStackTrace());
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+            return;
+         }
+
+         response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
+      }
+   }
+
    private String processPayment (String data)
    {
       try
       {
-         data += LocalDate.now();
+         data += new GregorianCalendar().getTime();
          MessageDigest digest = MessageDigest.getInstance("SHA-1");
          digest.reset();
          digest.update(data.getBytes(StandardCharsets.UTF_8));

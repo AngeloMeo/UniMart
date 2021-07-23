@@ -2,10 +2,9 @@ function add(ianVar, caller)
 {
     let quantityVar = caller.parentElement.firstElementChild.value;
 
-    //if(!assertDouble(caller.parentElement.firstElementChild, "Sei simpatico"))
     if(quantityVar == null ||  typeof quantityVar != 'number'){
         quantityVar = 1;
-        $(caller).html("Aggiunta 1 unità")
+        $(caller).html("Aggiunto")
     }
     else
         $(caller).html("Aggiunto al carrello")

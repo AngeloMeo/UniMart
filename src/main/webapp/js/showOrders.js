@@ -9,18 +9,21 @@ $(document).ready(function(){
     $(".deleteBtn").click(function(){
         if (confirm("Vuoi eliminare tale ordine ?"))
         {
+            caller = $(this);
+
             $.post("./OrdiniManager/deleteOrdine",
                 {
-                    id: $(this).attr('value')
+                    id: caller.attr('value')
                 },
                 function (data, status)
                 {
                     if(status == 'success')
-                        alert(data);
-                    else
-                        alert(data);
+                    {
+                        document.getElementById('stato'+ caller.attr('value')).innerHTML = "Annullato";
+                        $(caller).remove();
+                    }
 
-                    location.reload();
+                    alert(data);
                 }
             )
         }
