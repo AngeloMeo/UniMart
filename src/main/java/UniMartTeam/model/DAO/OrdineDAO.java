@@ -420,7 +420,7 @@ public class OrdineDAO
       {
          try (Connection con = ConPool.getConnection())
          {
-            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").delete();
+            QueryBuilder qb = new QueryBuilder("ordine_prodotto", "").delete();
             qb.where("idOrdine=" + composto.getOrdine().getNumeroOrdine() + " and idProdotto=" + composto.getProdotto().getCodiceIAN());
 
             try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))

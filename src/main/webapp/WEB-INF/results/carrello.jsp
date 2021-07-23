@@ -75,7 +75,7 @@
             <h1 class="flex-item-100">Carrelli Salvati</h1>
             <hr>
             <c:choose>
-                <c:when test="${orders != null}">
+                <c:when test="${orders.get(0).compostoList != null}">
                     <div class="flex-item-100 flex-container flex-dirRow justify-content-center">
                         <c:forEach var="order" items="${orders}">
                             <details>

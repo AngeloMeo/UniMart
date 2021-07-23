@@ -503,10 +503,6 @@ details {
     margin: 10px auto;
 }
 
-summary {
-    color: var(--secondary);
-}
-
 /* LOGIN */
 
 .login main {

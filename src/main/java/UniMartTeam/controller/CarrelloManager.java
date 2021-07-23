@@ -40,6 +40,7 @@ public class CarrelloManager extends HttpServlet {
 
                     for(Ordine o : ol){
                         OrdineDAO.doRetrieveProducts(o);
+                        System.out.println(o);
                     }
                     request.setAttribute("orders", ol);
                 }
@@ -86,6 +87,10 @@ public class CarrelloManager extends HttpServlet {
                 try {
                     o = OrdineDAO.doRetrieveByID(Integer.parseInt(id));
                     o = OrdineDAO.doRetrieveProducts(o);
+                    for(Composto c : o.getCompostoList()){
+                        OrdineDAO.deleteProdottoOrdine(c);
+                    }
+
                     OrdineDAO.doDelete(o); //todo
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
