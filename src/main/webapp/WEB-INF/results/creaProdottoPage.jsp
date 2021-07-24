@@ -108,6 +108,7 @@
                                 </c:forEach>
                             </select>
                         </td>
+                    </tr>
                 </table>
                 <div class="flex-item-100 flex-container flex-dirCol">
                     <c:choose>

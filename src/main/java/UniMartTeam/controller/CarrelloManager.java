@@ -197,7 +197,6 @@ public class CarrelloManager extends HttpServlet {
                 }
             }
 
-            System.out.println(contains);
             if(!contains) {
                 composto.setProdotto(p);
                 composto.setQuantita(quantity);

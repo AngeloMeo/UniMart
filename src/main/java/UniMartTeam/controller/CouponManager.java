@@ -7,6 +7,8 @@ import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.Validator;
+import com.google.gson.Gson;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -58,6 +60,39 @@ public class CouponManager extends HttpServlet
 
       if(utente != null && validator.required(utente.getCF()))
       {
+         if ("/validateCoupon".equals(path))
+         {
+            Coupon coupon = null;
+
+            if (validator.assertInt("ID", "Formato ID non valido"))
+            {
+               try
+               {
+                  coupon = CouponDAO.doRetrieveById(Integer.parseInt(request.getParameter("ID")));
+               }
+               catch (SQLException throwables)
+               {
+                  throwables.printStackTrace();
+               }
+            }
+
+            if(coupon != null)
+            {
+               coupon.setOrdine(null);
+               coupon.setCreatore(null);
+
+               if(coupon.getStatoCoupon().equals(StatoCoupon.Riscattato))
+                  coupon = null;
+            }
+
+            Gson json = new Gson();
+            response.setContentType("application/JSON");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().println(json.toJson(coupon));
+
+            return;
+         }
+
          if(!utente.getTipo().equals(TipoUtente.Amministratore))
          {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "L'utente corrente non è autorizzato a visualizzare questa pagina");

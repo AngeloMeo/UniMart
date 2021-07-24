@@ -8,6 +8,7 @@ const PHONE_PATTERN = /^\d{10}$/;
 
 var formElement = document.getElementById('form');
 let flag = false;
+let message = '';
 
 formElement.addEventListener('submit', function (event)
 {
@@ -32,6 +33,7 @@ function required(element)
 function assertMatch(element, regexp, msg)
 {
     let results = required(element) && regexp.test(element.value);
+    message = msg;
 
     colorElement(results, element);
 

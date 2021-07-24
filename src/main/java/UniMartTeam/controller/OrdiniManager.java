@@ -93,18 +93,7 @@ public class OrdiniManager extends HttpServlet
                      return;
                   }
 
-                  float totale = 0;
-
-                  for(Composto c : ordine.getCompostoList())
-                     totale += (c.getPrezzo() * c.getQuantita());
-
-                  request.setAttribute("totale", totale);
-
-                  if(ordine.getCoupon() != null)
-                  {
-                     totale -= ((totale * ordine.getCoupon().getSconto()) / 100);
-                     request.setAttribute("totaleCoupon", totale);
-                  }
+                  calcolaTotaleOrdine(ordine, request);
 
                   request.removeAttribute("ordine");
                   request.setAttribute("ordine", ordine);
@@ -214,6 +203,15 @@ public class OrdiniManager extends HttpServlet
                }
                break;
 
+            case "/checkout":
+               {
+                  Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
+                  calcolaTotaleOrdine(ordine, request);
+
+                  request.getRequestDispatcher("/WEB-INF/results/checkout.jsp").forward(request, response);
+               }
+               break;
+
             case "/saveOrdine":
             case"/processOrdine":
                {
@@ -223,6 +221,7 @@ public class OrdiniManager extends HttpServlet
                      ordine.setStatoOrdine(StatoOrdine.Salvato);
                   else
                      ordine.setStatoOrdine(StatoOrdine.Accettato);
+
                   processOrder(request, response);
                }
                break;
@@ -233,6 +232,22 @@ public class OrdiniManager extends HttpServlet
       }
       else
          response.sendRedirect(request.getServletContext().getContextPath() + "/LoginManager");
+   }
+
+   private void calcolaTotaleOrdine(Ordine ordine, HttpServletRequest request)
+   {
+      float totale = 0;
+
+      for(Composto c : ordine.getCompostoList())
+         totale += (c.getPrezzo() * c.getQuantita());
+
+      request.setAttribute("totale", totale);
+
+      if(ordine.getCoupon() != null)
+      {
+         totale -= ((totale * ordine.getCoupon().getSconto()) / 100);
+         request.setAttribute("totaleCoupon", totale);
+      }
    }
 
    private synchronized void processOrder(HttpServletRequest request, HttpServletResponse response) throws IOException

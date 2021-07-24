@@ -2,8 +2,10 @@ package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
+import UniMartTeam.model.Beans.Spedizione;
 import UniMartTeam.model.DAO.CategoriaDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
+import UniMartTeam.model.DAO.SpedizioneDAO;
 import UniMartTeam.model.Utils.ConPool;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -23,6 +25,7 @@ public class LandingManager extends HttpServlet
       loadcategorie();
       loadProdottiRandom(20);
       loadProdottiPiuAcquistati(15);
+      loadSpedizioni();
    }
 
    @Override
@@ -31,6 +34,7 @@ public class LandingManager extends HttpServlet
       loadcategorie();
       loadProdottiRandom(20);
       loadProdottiPiuAcquistati(15);
+      loadSpedizioni();
 
       response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
    }
@@ -47,6 +51,21 @@ public class LandingManager extends HttpServlet
       } finally
       {
          super.destroy();
+      }
+   }
+
+   private void loadSpedizioni()
+   {
+      try
+      {
+         List<Spedizione> spedizioni = SpedizioneDAO.doRetriveAll();
+
+         getServletContext().setAttribute("spedizioni", spedizioni);
+      }
+      catch (SQLException e)
+      {
+         e.printStackTrace();
+         return;
       }
    }
 
