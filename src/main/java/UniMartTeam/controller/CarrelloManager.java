@@ -100,7 +100,6 @@ public class CarrelloManager extends HttpServlet {
                     throwables.printStackTrace();
                 }
             }
-            sessionManager.setAttribute(o, "cart");
             this.doGet(request, response);
         }
     }
