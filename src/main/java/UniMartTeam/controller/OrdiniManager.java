@@ -1,8 +1,11 @@
 package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.DAO.OrdineDAO;
+import UniMartTeam.model.DAO.SpedizioneDAO;
+import UniMartTeam.model.EnumForBeans.StatoCoupon;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
@@ -215,14 +218,14 @@ public class OrdiniManager extends HttpServlet
             case "/saveOrdine":
             case"/processOrdine":
                {
-                  /*Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
+                  Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
 
                   if(path.equalsIgnoreCase("/saveOrdine"))
                      ordine.setStatoOrdine(StatoOrdine.Salvato);
                   else
                      ordine.setStatoOrdine(StatoOrdine.Accettato);
 
-                  processOrder(request, response);*/
+                  processOrder(request, response);
                }
                break;
 
@@ -241,6 +244,12 @@ public class OrdiniManager extends HttpServlet
       for(Composto c : ordine.getCompostoList())
          totale += (c.getPrezzo() * c.getQuantita());
 
+      if(ordine.getSpedizione() != null)
+      {
+         request.setAttribute("totaleSenzaSpedizione", totale);
+         totale += ordine.getSpedizione().getCosto();
+      }
+
       request.setAttribute("totale", totale);
 
       if(ordine.getCoupon() != null)
@@ -256,6 +265,39 @@ public class OrdiniManager extends HttpServlet
       Ordine ordine = (Ordine) sessionManager.getObjectFromSession( "cart");
       Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
       Validator validator = new Validator(request);
+
+      if(validator.required(request.getParameter("citta")))
+         ordine.setCitta(request.getParameter("citta"));
+
+      if(validator.required(request.getParameter("viaCivico")))
+         ordine.setViaCivico(request.getParameter("viaCivico"));
+
+      if(validator.required(request.getParameter("regione")))
+         ordine.setRegione(request.getParameter("regione"));
+
+      try
+      {
+         if (validator.assertInt("coupon", ""))
+         {
+            Coupon c = null;
+            c = CouponDAO.doRetrieveById(Integer.parseInt(request.getParameter("coupon")));
+
+            if (c != null && c.getStatoCoupon().equals(StatoCoupon.Disponibile))
+               ordine.setCoupon(c);
+         }
+
+         if (validator.assertInt("spedizione", ""))
+         {
+            Spedizione s = null;
+            s = SpedizioneDAO.doRetrieveById(Integer.parseInt(request.getParameter("spedizione")));
+
+            ordine.setSpedizione(s);
+         }
+      }
+      catch (SQLException throwables)
+      {
+         throwables.printStackTrace();
+      }
 
       if (ordine != null && utente != null)
       {

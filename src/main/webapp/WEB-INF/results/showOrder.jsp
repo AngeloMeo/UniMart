@@ -46,11 +46,20 @@
 
                <tr>
                   <td colspan="6">
+                     Totale Senza Spedizione:
+                     <fmt:formatNumber type="number" maxFractionDigits="2" value="${totaleSenzaSpedizione}" />
+                     &euro;
+                  </td>
+               </tr>
+
+               <tr>
+                  <td colspan="6">
                      Totale:
                      <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale}" />
                      &euro;
                   </td>
                </tr>
+
                <c:if test="${ordine.coupon != null}">
                   <tr>
                      <td colspan="6">

@@ -30,10 +30,10 @@ public class OrdineDAO
          {
             qb = new QueryBuilder("coupon_applicato", "").insert("idCoupon", "idOrdine");
 
-            try (PreparedStatement ps = con.prepareStatement(qb.getQuery(), Statement.RETURN_GENERATED_KEYS))
+            try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
             {
-               ps.setInt(1, o.getNumeroOrdine());
-               ps.setInt(2, o.getCoupon().getNumeroCoupon());
+               ps.setInt(1, o.getCoupon().getNumeroCoupon());
+               ps.setInt(2, o.getNumeroOrdine());
 
                if(esito == false)
                   con.rollback();

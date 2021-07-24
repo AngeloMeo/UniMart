@@ -29,7 +29,6 @@ function validateCoupon(caller)
 
 function check()
 {
-    assertInt(document.getElementById('coupon'), "Numero Coupon non valido");
     required(document.getElementById('viaCivico'));
     required(document.getElementById('citta'));
     required(document.getElementById('regione'));
