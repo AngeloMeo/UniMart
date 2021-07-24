@@ -17,8 +17,9 @@
 
          <section class="flex-container flex-dirRow justify-content-center">
             <label for="order">Ordina Per:</label>
-            <select name="orderby" id="order" onchange="orderSearchResult()">
-               <option value="Nome:Crescente" selected>Nome:Crescente</option>
+            <select id="order" onchange="orderSearchResult()">
+               <option disabled selected style="display:none">Filtra per...</option>
+               <option value="Nome:Crescente">Nome:Crescente</option>
                <option value="Nome:Decrescente">Nome:Decrescente</option>
                <option value="IAN:Crescente">IAN:Crescente</option>
                <option value="IAN:Decrescente">IAN:Decrescente</option>
