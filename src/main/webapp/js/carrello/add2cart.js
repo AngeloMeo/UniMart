@@ -2,7 +2,7 @@ function add(ianVar, caller)
 {
     let quantityVar = parseFloat(caller.parentElement.firstElementChild.value);
 
-    if(quantityVar == null ||  typeof quantityVar != "number"){
+    if(Number.isNaN(quantityVar)){
         quantityVar = 1;
         $(caller).html("Aggiunto")
     }
