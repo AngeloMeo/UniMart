@@ -12,6 +12,16 @@
    <body>
       <%@include file="header.jsp" %>
       <main>
+         <label for="order">Ordina Per:</label>
+         <select name="orderby" id="order">
+            <option value="Nome">Nome</option>
+            <option value="IAN">IAN</option>
+            <option value="Prezzo">Prezzo</option>
+         </select>
+         <select name="ascdesc" id="ascdesc">
+            <option value="Crescente">Crescente</option>
+            <option value="Decrescente">Decrescente</option>
+         </select>
          <section class="flex-container flex-dirRow justify-content-center">
             <h1 class="flex-item-100">Risultati per ${categoria}</h1>
 
