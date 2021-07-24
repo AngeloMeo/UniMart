@@ -1,8 +1,8 @@
 function add(ianVar, caller)
 {
-    let quantityVar = caller.parentElement.firstElementChild.value;
+    let quantityVar = parseFloat(caller.parentElement.firstElementChild.value);
 
-    if(quantityVar == null ||  typeof quantityVar != 'number'){
+    if(quantityVar == null ||  typeof quantityVar != "number"){
         quantityVar = 1;
         $(caller).html("Aggiunto")
     }

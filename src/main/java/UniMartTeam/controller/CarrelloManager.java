@@ -95,7 +95,7 @@ public class CarrelloManager extends HttpServlet {
 
                     if(c != null)
                         CouponDAO.doDeleteCoupon_Applicato(o.getCoupon().getNumeroCoupon());
-                    OrdineDAO.doDelete(o); //todo*/
+                    OrdineDAO.doDelete(o);
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
@@ -197,15 +197,15 @@ public class CarrelloManager extends HttpServlet {
                 }
             }
 
+            System.out.println(contains);
             if(!contains) {
                 composto.setProdotto(p);
                 composto.setQuantita(quantity);
+                composto.setPrezzo(composto.getProdotto().getPrezzo());
+                cart.addCompostoList(composto);
             }
 
 
-            composto.setPrezzo(composto.getProdotto().getPrezzo());
-//TODO da sistemare
-            cart.addCompostoList(composto);
 
             sessionManager.setAttribute(cart, "cart");
 
