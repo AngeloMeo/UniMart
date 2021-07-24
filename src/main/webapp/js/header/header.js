@@ -8,7 +8,7 @@ $(document).ready(
             if(regex.test(text))
             {
                 $.get(
-                    'SearchManager/',
+                    getPageContext()+'/SearchManager/',
                     {
                         text: text
                     },
