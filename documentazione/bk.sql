@@ -12,10 +12,10 @@ USE `unimart`;
 DROP EVENT IF EXISTS `AggiornamentoOrdini`;
 DELIMITER //
 CREATE EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 5 MINUTE STARTS '2021-05-04 08:00:00' ENDS '2021-05-04 18:00:00' ON COMPLETION PRESERVE DISABLE DO BEGIN
-	UPDATE ordini o SET o.Stato = 'consegnato' WHERE o.Stato = 'in consegna';
-	UPDATE ordini o SET o.Stato = 'in consegna' WHERE o.Stato = 'spedito';
-	UPDATE ordini o SET o.Stato = 'spedito' WHERE o.Stato = 'preparazione';
-	UPDATE ordini o SET o.Stato = 'accettato' WHERE o.Stato = 'preparazione';
+UPDATE ordine o SET o.stato = 'consegnato' WHERE o.stato = 'in consegna';
+UPDATE ordine o SET o.stato = 'in consegna' WHERE o.stato = 'spedito';
+UPDATE ordine o SET o.stato = 'spedito' WHERE o.stato = 'preparazione';
+UPDATE ordine o SET o.stato = 'preparazione' WHERE o.stato = 'accettato';
 END//
 DELIMITER ;
 
