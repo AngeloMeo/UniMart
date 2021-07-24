@@ -92,6 +92,7 @@
                                 <form action="${context}/CarrelloManager/saved2cart" method="post">
                                     <input type="hidden" name="orderID" value="${order.numeroOrdine}">
                                     <button type="submit" class="btn">Sposta nel carrello</button>
+                                    <button type="submit" class="btn" formaction="${context}/CarrelloManager/deleteSaved">Elimina</button>
                                 </form>
                             </details>
                         </c:forEach>

@@ -81,7 +81,27 @@ public class CouponDAO
          }
       }
    }
+   public static boolean doDeleteCoupon_Applicato(int numeroCoupon) throws SQLException
+   {
 
+      if(numeroCoupon == 0)
+         return false;
+
+      try (Connection con = ConPool.getConnection())
+      {
+         QueryBuilder qb = new QueryBuilder("coupon_applicato", "").delete().where("idCoupon=?");
+
+         try (PreparedStatement ps = con.prepareStatement(qb.getQuery()))
+         {
+            ps.setInt(1, numeroCoupon);
+
+            if (ps.executeUpdate() == 0)
+               return false;
+
+            return true;
+         }
+      }
+   }
    public static List<Coupon> doRetrieveAll(int offset, int size) throws SQLException
    {
       if(offset<1 || size<1)

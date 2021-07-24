@@ -1,6 +1,7 @@
 package UniMartTeam.controller;
 
 import UniMartTeam.model.Beans.*;
+import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.DAO.SpedizioneDAO;
@@ -40,7 +41,6 @@ public class CarrelloManager extends HttpServlet {
 
                     for(Ordine o : ol){
                         OrdineDAO.doRetrieveProducts(o);
-                        System.out.println(o);
                     }
                     request.setAttribute("orders", ol);
                 }
@@ -68,14 +68,42 @@ public class CarrelloManager extends HttpServlet {
             case "/alterquantities":
                     alterQuantities(request, response, sessionManager);
                 break;
-
+            case "/deleteSaved":
+                deleteSaved(request, response, sessionManager);
+                break;
             case "/saved2cart":
                     saved2cart(request, response, sessionManager);
                 break;
         }
 
     }
+    private void deleteSaved(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException, ServletException{
 
+        Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
+        if(utente != null && !utente.getCF().isEmpty()){
+
+            String id = request.getParameter("orderID");
+            Ordine o = null;
+            if(!id.isBlank()){
+                try {
+                    o = OrdineDAO.doRetrieveByID(Integer.parseInt(id));
+                    o = OrdineDAO.doRetrieveProducts(o);
+                    for(Composto c : o.getCompostoList()){
+                        OrdineDAO.deleteProdottoOrdine(c);
+                    }
+                    Coupon c = CouponDAO.doRetrieveByCond(o);
+
+                    if(c != null)
+                        CouponDAO.doDeleteCoupon_Applicato(o.getCoupon().getNumeroCoupon());
+                    OrdineDAO.doDelete(o); //todo*/
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            sessionManager.setAttribute(o, "cart");
+            this.doGet(request, response);
+        }
+    }
     private void saved2cart(HttpServletRequest request, HttpServletResponse response, SessionManager sessionManager) throws IOException, ServletException {
 
         Utente utente = (Utente) sessionManager.getObjectFromSession("utente");
@@ -87,17 +115,12 @@ public class CarrelloManager extends HttpServlet {
                 try {
                     o = OrdineDAO.doRetrieveByID(Integer.parseInt(id));
                     o = OrdineDAO.doRetrieveProducts(o);
-                   /* for(Composto c : o.getCompostoList()){
-                        OrdineDAO.deleteProdottoOrdine(c);
-                    }
-
-                    OrdineDAO.doDelete(o); //todo*/
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }
             }
             sessionManager.setAttribute(o, "cart");
-            request.getRequestDispatcher("/WEB-INF/results/carrello.jsp").forward(request, response);
+            this.doGet(request, response);
         }
     }
 

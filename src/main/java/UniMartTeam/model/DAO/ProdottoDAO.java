@@ -166,8 +166,7 @@ public class ProdottoDAO
                list.add(p);
             }
 
-            if (list.isEmpty())
-               list.add(null);
+
 
             return list;
          }
