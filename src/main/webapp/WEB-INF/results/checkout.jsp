@@ -7,7 +7,7 @@
 
       <%@include file="general.jsp"%>
 
-      <script src="${context}/js/checkout.js" defer></script>
+      <script src="${context}/js/check/checkout.js" defer></script>
       <script src="${context}/js/validator.js" defer></script>
    </head>
    <body>
@@ -16,7 +16,9 @@
       <main class="flex-container">
          <h1 class="flex-item-100">Checkout Ordine</h1>
 
-         <form method="post" class="flex-item-100" id="form">
+         <hr>
+
+         <form action="${context}/OrdiniManager/processOrdine" method="post" class="flex-item-100" id="form">
             <table class="flex-item-100">
                <tr class="flex-container">
                   <td class="flex-item-40 text-right"><label for="viaCivico">Via e Civico</label></td>
@@ -55,23 +57,41 @@
                   <td class="flex-item-40 text-left">
                      <select id="spedizione" name="spedizione" required>
                         <c:forEach items="${spedizioni}" var="spedizione">
-                           <option id="${spedizione.ID}">${spedizione.nome} costo: ${spedizione.costo}</option>
+                           <option value="${spedizione.ID}">${spedizione.nome} costo: ${spedizione.costo}</option>
                         </c:forEach>
                      </select>
                   </td>
                </tr>
+
+               <tr>
+                  <td colspan="2"> <hr> </td>
+               </tr>
+
                <tr>
                   <td colspan="2">
                      Totale:
-                     <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale}" />
+                     <span id="totale">
+                        <fmt:formatNumber type="number" maxFractionDigits="2" value="${totale}" />
+                     </span>
                      &euro;
                   </td>
                </tr>
-               <tr class="hide" id="totaleCoupon">
+               <tr class=" hide">
                   <td colspan="2">
-                     Totale con coupon:
-                     <fmt:formatNumber type="number" maxFractionDigits="2" value="${totaleCoupon}" />
-                     &euro;
+                     Totale con coupon: <span id="totaleCoupon"></span> &euro;
+                  </td>
+               </tr>
+
+               <tr>
+                  <td colspan="2"> <hr> </td>
+               </tr>
+
+               <tr class="flex-container justify-content-center">
+                  <td>
+                     <input type="button" value="Indietro" class="btn btn-secondary" onclick="javasript:window.history.back()">
+                  </td>
+                  <td>
+                     <input type="submit" class="btn btn-verde" value="Acquista">
                   </td>
                </tr>
             </table>

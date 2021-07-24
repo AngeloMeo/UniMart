@@ -62,11 +62,11 @@
                     </c:forEach>
                 </table>
                 <form action="${context}/OrdiniManager/saveOrdine" method="post">
-                    <input type="submit" value="Salva">
+                    <input type="submit" class="btn" value="Salva">
                 </form>
 
                 <form action="${context}/OrdiniManager/checkout" method="post">
-                    <input type="submit" value="Vai Al Checkout">
+                    <input type="submit" class="btn" value="Vai Al Checkout">
                 </form>
             </c:otherwise>
         </c:choose>

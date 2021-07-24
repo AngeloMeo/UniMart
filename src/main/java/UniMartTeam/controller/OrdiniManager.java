@@ -215,14 +215,14 @@ public class OrdiniManager extends HttpServlet
             case "/saveOrdine":
             case"/processOrdine":
                {
-                  Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
+                  /*Ordine ordine = (Ordine) sessionManager.getObjectFromSession("cart");
 
                   if(path.equalsIgnoreCase("/saveOrdine"))
                      ordine.setStatoOrdine(StatoOrdine.Salvato);
                   else
                      ordine.setStatoOrdine(StatoOrdine.Accettato);
 
-                  processOrder(request, response);
+                  processOrder(request, response);*/
                }
                break;
 
