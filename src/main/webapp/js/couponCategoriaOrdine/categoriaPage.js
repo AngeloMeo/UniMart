@@ -13,6 +13,8 @@ function createBtn(aliquota){
             '<button type="submit" class="btn btn-primary" formaction="CategoriaManager/deleteCategoria" onclick="removeRequired()">Elimina Categoria</button>';
         document.getElementById("name").value = name;
         document.getElementById('aliquota').value = aliquota;
+        $("#name").prop('required', true);
+        $("#name").prop('readOnly', true);
         name = "";
     }
     else
