@@ -465,7 +465,8 @@ public class OrdineDAO
    public static int countOrdiniEvasi() throws SQLException
    {
       QueryBuilder query = new QueryBuilder("ordine", "o");
-      query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Spedito + "'");
+      query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Salvato + "' AND o.stato != '" + StatoOrdine.Annullato +
+              "' AND o.stato != '" + StatoOrdine.Accettato + "'");
 
       return executeQueryCount(query);
    }
