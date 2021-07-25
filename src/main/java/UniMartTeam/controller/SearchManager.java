@@ -3,6 +3,7 @@ package UniMartTeam.controller;
 import UniMartTeam.model.Beans.Categoria;
 import UniMartTeam.model.Beans.Prodotto;
 import UniMartTeam.model.DAO.CategoriaDAO;
+import UniMartTeam.model.DAO.InventarioDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.Validator;
@@ -95,10 +96,13 @@ public class SearchManager extends HttpServlet
             codiceIAN = Integer.parseInt(request.getParameter("id"));
 
             Prodotto prodotto = null;
+            float quantitaDisponibile = 0;
 
             try
             {
                prodotto = ProdottoDAO.doRetrieveByID(codiceIAN);
+
+               quantitaDisponibile = InventarioDAO.quantitaTotaleProdottoInventario(prodotto);
             }
             catch (SQLException e)
             {
@@ -110,6 +114,7 @@ public class SearchManager extends HttpServlet
             if (prodotto != null)
             {
                request.setAttribute("prodotto", prodotto);
+               request.setAttribute("quantitaDisponibile", quantitaDisponibile);
                request.getRequestDispatcher("/WEB-INF/results/schedaProdotto.jsp").forward(request, response);
                return;
             }

@@ -4,11 +4,9 @@ import UniMartTeam.model.Beans.*;
 import UniMartTeam.model.DAO.CouponDAO;
 import UniMartTeam.model.DAO.OrdineDAO;
 import UniMartTeam.model.DAO.ProdottoDAO;
-import UniMartTeam.model.DAO.SpedizioneDAO;
 import UniMartTeam.model.EnumForBeans.StatoOrdine;
 import UniMartTeam.model.Utils.ConPool;
 import com.google.gson.Gson;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

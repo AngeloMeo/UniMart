@@ -7,7 +7,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $(".deleteBtn").click(function(){
-        if (confirm("Vuoi eliminare tale ordine ?"))
+        if (confirm("Vuoi eliminare quest'ordine ?"))
         {
             caller = $(this);
 

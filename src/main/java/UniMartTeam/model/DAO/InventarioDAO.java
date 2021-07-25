@@ -228,6 +228,29 @@ public class InventarioDAO
       return false;
    }
 
+   public static float quantitaTotaleProdottoInventario(Prodotto prodotto) throws SQLException
+   {
+      if(prodotto != null && prodotto.getCodiceIAN() > 0)
+      {
+         try (Connection con = ConPool.getConnection())
+         {
+            QueryBuilder qb = new QueryBuilder("inventario_prodotto", "").select("SUM(giacenza) AS 'giacenzaTotale'");
+            qb.where("idProdotto=" + prodotto.getCodiceIAN());
+
+            try (PreparedStatement pss = con.prepareStatement(qb.getQuery()))
+            {
+               ResultSet rs = pss.executeQuery();
+
+               if(rs.next())
+                  return rs.getFloat("giacenzaTotale");
+
+               return 0;
+            }
+         }
+      }
+      return -1;
+   }
+
    public static List<Possiede> doRetrieveInventarioProducts(Composto composto) throws SQLException
    {
       if(composto != null && composto.getQuantita() >= 0)

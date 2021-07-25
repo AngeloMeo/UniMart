@@ -54,7 +54,7 @@
                              <button class="deleteBtn btn btn-small" value="${ordine.numeroOrdine}">Elimina Ordine</button>
                        </td>
                           </c:if>
-                          <c:if test="${ordine.statoOrdine == 'Consegnato'}">
+                          <c:if test="${ordine.statoOrdine == 'Consegnato' && ordine.cliente.CF == utente.CF}">
                        <td data-label="Gestisci">
                              <button class="btn btn-small" onclick="modifyForOrdine(${ordine.numeroOrdine}, '${ordine.feedback}')">Scrivi Feedback</button>
                        </td>

@@ -26,11 +26,12 @@
                <h3 class="flex-item-100">Volume Occupato: ${prodotto.volumeOccupato}</h3>
 
                <div class="flex-item-100 flex-container justify-content-center col-gap row-gap">
-                  <input type="number" id="quantity" placeholder="Quantit&agrave;">
+                  <input type="text" id="quantity" placeholder="Quantit&agrave;">
                   <button class="add2cart" onclick="add(${prodotto.codiceIAN}, this)">Aggiungi al carrello</button>
                   <%@include file="partialProdotto.jsp"%>
                </div>
 
+               <h3 class="flex-item-100">Quantit&agrave; disponibile: ${quantitaDisponibile}</h3>
             </div>
             <hr>
             <h3 class="flex-item-100">Descrizione: <br>${prodotto.descrizione}</h3>
