@@ -503,6 +503,13 @@ details {
     margin: 10px auto;
 }
 
+select, option {
+    margin: 5px 10px;
+    font-family: 'Roboto-Light';
+    font-style: normal;
+    font-weight: normal;
+}
+
 /* LOGIN */
 
 .login main {

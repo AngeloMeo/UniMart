@@ -546,21 +546,21 @@ public class OrdineDAO
          QueryBuilder query = new QueryBuilder("prodotto", "p");
          query.select("sum(op.quantita) AS 'Quantità Prodotti Venduti', count(op.idProdotto) AS 'Prodotti Venduti', cast(SUM(op.prezzoAcquisto) AS DECIMAL(10,2)) AS 'Incasso Ordini'");
          query.outerJoin("ordine_prodotto", "op", 2).on("p.codiceIAN = op.idProdotto").outerJoin("ordine", "o", 1).on("op.idOrdine = o.numeroOrdine");
-         query.where("stato != 'Salvato' AND stato != 'Annullato'");
+         query.where("stato != 'Salvato' AND stato != 'Annullato' AND stato != 'Accettato'").groupBy("p.codiceIAN");
 
          try(PreparedStatement preparedStatement = connection.prepareStatement(query.getQuery()))
          {
             ResultSet rs = preparedStatement.executeQuery();
-            if(rs.next()){
-               ProdottiStats ps = new ProdottiStats();
-               ps.setQuantitaProdottiVenduti(rs.getFloat("Quantità Prodotti Venduti"));
-               ps.setProdottiVenduti(rs.getInt("Prodotti Venduti"));
-               ps.setIncasso(rs.getInt("Incasso Ordini"));
+            ProdottiStats ps = new ProdottiStats();
 
-               return ps;
+            while(rs.next())
+            {
+               ps.setQuantitaProdottiVenduti(ps.getQuantitaProdottiVenduti() + rs.getFloat("Quantità Prodotti Venduti"));
+               ps.setProdottiVenduti(ps.getProdottiVenduti() + 1);
+               ps.setIncasso(ps.getIncasso() + rs.getInt("Incasso Ordini"));
             }
+            return ps;
          }
       }
-      return null;
    }
 }
