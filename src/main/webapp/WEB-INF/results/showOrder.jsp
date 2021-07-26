@@ -72,28 +72,8 @@
             </table>
          </fieldset>
 
-         <fieldset class="flex-item-100">
-            <caption>Fatturazione E Spedizione</caption>
+         <%@include file="partialOrder.jsp" %>
 
-            <h4>Spedizione Scelta: ${ordine.spedizione.nome}</h4>
-            <h4>Ricevuta Acquisto: ${ordine.ricevutaPagamento}</h4>
-            <h4>Data Acquisto: ${ordine.dataAcquisto}</h4>
-
-            <fieldset class="flex-item-100">
-               <caption>Indirizzo Spedizione</caption>
-
-               <h4>Via e Civico: ${ordine.viaCivico}</h4>
-               <h4>Citt&agrave;: ${ordine.citta}</h4>
-               <h4>Regione: ${ordine.regione}</h4>
-            </fieldset>
-
-            <c:if test="${ordine.coupon != null}">
-               <h4>Coupon utilizzato:</h4>
-               <h4>Numero coupon: ${ordine.coupon.numeroCoupon}</h4>
-               <h4>Sconto: ${ordine.coupon.sconto} &#37;</h4>
-            </c:if>
-
-         </fieldset>
          <div class="flex-item-100">
             <button onclick="javascript:history.go(-1)" class="btn btn-verde">Torna Indietro</button>
          </div>

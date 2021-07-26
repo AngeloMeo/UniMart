@@ -259,7 +259,7 @@ public class OrdiniManager extends HttpServlet
       }
    }
 
-   private synchronized void processOrder(HttpServletRequest request, HttpServletResponse response) throws IOException
+   private synchronized void processOrder(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
    {
       SessionManager sessionManager = new SessionManager(request);
       Ordine ordine = (Ordine) sessionManager.getObjectFromSession( "cart");
@@ -343,6 +343,8 @@ public class OrdiniManager extends HttpServlet
             }
 
             sessionManager.removeAttribute("cart");
+            request.setAttribute("ordine", ordine);
+            calcolaTotaleOrdine(ordine, request);
          }
          catch (SQLException e)
          {
@@ -352,7 +354,7 @@ public class OrdiniManager extends HttpServlet
             return;
          }
 
-         response.sendRedirect(request.getServletContext().getContextPath() + "/OrdiniManager");
+         request.getRequestDispatcher("/WEB-INF/results/resultOrder.jsp").forward(request, response);
       }
    }
 

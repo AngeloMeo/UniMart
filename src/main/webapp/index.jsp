@@ -15,7 +15,7 @@
             <img src="${context}/images/cover.jpg" class="flex-item-40 img-responsive">
             <div class="flex-item-50">
                Il nostro shop punta ad eliminare le inutili attese alla cassa con conseguente
-               risparmio di tempo, inoltre ci sta a cuore tentare di aiutare l’ambiente
+               risparmio di tempo, inoltre ci sta a cuore tentare di aiutare l'ambiente
                consegnando noi la spesa ai nostri clienti per mezzo di hub sparsi in tutta la
                penisola.
                Offriamo ai nostri clienti vari tipi di consegna:
@@ -24,14 +24,15 @@
                <ul>
                   <li>
                      Express: entro un'ora la spesa verr&agrave; recapitata al cliente, disponibile tutta la
-                     giornata e ad un sovrapprezzo.
+                     giornata, il costo del servizio &egrave; ${spedizioni.get(2).costo}.
                   </li>
                   <li>
-                     Standard: sar&agrave; consegnata la spesa in giornata, ordinabile 8-13, senza
-                     sovrapprezzo.
+                     Standard: sar&agrave; consegnata la spesa in giornata, ordinabile 8-13, il costo
+                     del servizio &egrave; ${spedizioni.get(1).costo}.
                   </li>
                   <li>
-                     Eco: &egrave; una consegna nel rispetto dell'ambiente effettuata con Route planning e veicoli ecologici.
+                     Eco: &egrave; una consegna nel rispetto dell'ambiente effettuata con Route planning e veicoli ecologici il costo
+                     del servizio &egrave; ${spedizioni.get(0).costo}.
                   </li>
                </ul>
             </div>

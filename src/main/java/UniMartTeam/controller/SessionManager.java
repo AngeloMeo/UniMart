@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 public class SessionManager
 {
    private HttpSession session = null;
-   private int interval = 500;
+   private int interval = 2500;
 
    public SessionManager(HttpSession session)
    {
