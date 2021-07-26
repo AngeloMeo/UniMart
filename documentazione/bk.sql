@@ -123,7 +123,7 @@ INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, 
 	(4, 'annullato', '', 'c2a417f171748b29d3fd116d511b2631f65db8ad', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(5, 'consegnato', '', 'b9ff665fecc53a6fec054fba3733dba4c99a15d5', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
 	(6, 'annullato', '', 'ed6b9f1afe31cd50ca9039c093a58dce33e7cf82', '2021-07-23 00:00:00', 'LLFJPG92A23L322U', 1, 'Campania', 'Visciano', 'via giotto,5'),
-	(14, 'accettato', '', '4c3cc49df6fc1d94fc286a1be32ca6f2190fba76', '2021-07-25 00:00:00', 'MEOGPP61H27F839B', 3, 'campania', 'san paolo bel sito', 'f. scala 60');
+	(14, 'accettato', '', '4c3cc49df6fc1d94fc286a1be32ca6f2190fba76', '2021-07-25 00:00:00', 'LGUPCH80C47A149T', 3, 'campania', 'san paolo bel sito', 'f. scala 60');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
 -- Dump dei dati della tabella unimart.ordine_prodotto: ~15 rows (circa)
@@ -244,8 +244,8 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('FMEJRH67L53D462P', 'uytfuiytkf', 'gvuygfv', 'yutgfyhjyu', 'FMEJRH67L53D462P_05.jpg', 'Semplice', 'gyutg', 'yugtg', '0122456788', '2020-06-22', 'jhyfuyj@gmail.com', 'gyuygl', '459ee0e1bc34dd04312447f89b500b82e3584532'),
 	('Gehuebevehdb', 'Bho', 'Come ', 'Domenico 5', 'Gehuebevehdb_image.jpg', 'Semplice', 'Napoli ', 'Campania ', '3333557834', '2003-07-11', 'monica@gmail.com', 'Monica ', '4b4446969034c7b0cee153226a398194c133f65b'),
 	('KLPNBA32P28L037Q', 'sabato', 'geno', 'ciao,3', 'KLPNBA32P28L037Q_01 (2).jpg', 'Semplice', 'dsf', 'dsf', '3391904141', '2021-07-07', 'dsf@dsf.dsf', 'lafoca', '1b23aecc420daee59f146461aaad71d54bdfbc09'),
+	('LGUPCH80C47A149T', 'giuseppe', 'meo', 'f. scala 60', 'MEOGPP61H27F839B_P_20160318_124634.jpg', 'Semplice', 'san paolo bel sito', 'campania', '0818235695', '1961-06-27', 'giuseppe-meo@virgilio.it', 'angelo', '72dd5a9fc52d7c3953ef7bbf3d1d4bfb96c4d399'),
 	('LLFJPG92A23L322U', 'test', 'test', 'via test', 'LLFJPG92A23L322U_admin.svg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test.it', 'testtt', 'ec0695a0fb09cdcd75fdf99ecb9dfc8340272ec8'),
-	('MEOGPP61H27F839B', 'giuseppe', 'meo', 'f. scala 60', 'MEOGPP61H27F839B_P_20160318_124634.jpg', 'Amministratore', 'san paolo bel sito', 'campania', '0818235695', '1961-06-27', 'giuseppe-meo@virgilio.it', 'angelo', '72dd5a9fc52d7c3953ef7bbf3d1d4bfb96c4d399'),
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
 	('tttttt', 'ttttt', 'tttt', 'tttt', 'tttttt_20180327_110331.jpg', 'Semplice', 'tttt', 'tttt', '123456', '2019-07-25', 'tet@tetw.com', '00', 'b6589fc6ab0dc82cf12099d1c2d40ab994e8410c'),
