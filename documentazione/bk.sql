@@ -1,10 +1,3 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Versione server:              8.0.24 - MySQL Community Server - GPL
--- S.O. server:                  Win64
--- HeidiSQL Versione:            11.3.0.6295
--- --------------------------------------------------------
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
 /*!50503 SET NAMES utf8mb4 */;
@@ -12,7 +5,27 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- Dump dei dati della tabella unimart.categoria: ~18 rows (circa)
+DROP DATABASE IF EXISTS `unimart`;
+CREATE DATABASE IF NOT EXISTS `unimart` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `unimart`;
+
+DROP EVENT IF EXISTS `AggiornamentoOrdini`;
+DELIMITER //
+CREATE EVENT `AggiornamentoOrdini` ON SCHEDULE EVERY 15 SECOND STARTS '2021-07-24 15:54:45' ON COMPLETION PRESERVE DISABLE DO BEGIN
+	UPDATE ordine o SET o.stato = 'consegnato' WHERE o.stato = 'in consegna';
+	UPDATE ordine o SET o.stato = 'in consegna' WHERE o.stato = 'spedito';
+	UPDATE ordine o SET o.stato = 'spedito' WHERE o.stato = 'preparazione';
+    UPDATE ordine o SET o.stato = 'preparazione' WHERE o.stato = 'accettato';
+END//
+DELIMITER ;
+
+DROP TABLE IF EXISTS `categoria`;
+CREATE TABLE IF NOT EXISTS `categoria` (
+  `nome` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `aliquota` float NOT NULL DEFAULT '0',
+  PRIMARY KEY (`nome`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `categoria`;
 /*!40000 ALTER TABLE `categoria` DISABLE KEYS */;
 INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
@@ -36,7 +49,17 @@ INSERT INTO `categoria` (`nome`, `aliquota`) VALUES
 	('vini e birre', 16);
 /*!40000 ALTER TABLE `categoria` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.coupon: ~2 rows (circa)
+DROP TABLE IF EXISTS `coupon`;
+CREATE TABLE IF NOT EXISTS `coupon` (
+  `numeroCoupon` int NOT NULL AUTO_INCREMENT,
+  `stato` enum('Riscattato','Disponibile') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Disponibile',
+  `sconto` float NOT NULL,
+  `cfCreatore` varchar(16) NOT NULL DEFAULT '',
+  PRIMARY KEY (`numeroCoupon`),
+  KEY `FK__utente` (`cfCreatore`),
+  CONSTRAINT `FK__utente` FOREIGN KEY (`cfCreatore`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `coupon`;
 /*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
 INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
@@ -44,14 +67,35 @@ INSERT INTO `coupon` (`numeroCoupon`, `stato`, `sconto`, `cfCreatore`) VALUES
 	(7, 'Disponibile', 10, 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.coupon_applicato: ~0 rows (circa)
+DROP TABLE IF EXISTS `coupon_applicato`;
+CREATE TABLE IF NOT EXISTS `coupon_applicato` (
+  `idCoupon` int NOT NULL,
+  `idOrdine` int NOT NULL,
+  PRIMARY KEY (`idCoupon`),
+  KEY `FK_ordine` (`idOrdine`),
+  CONSTRAINT `FK_coupon` FOREIGN KEY (`idCoupon`) REFERENCES `coupon` (`numeroCoupon`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `coupon_applicato`;
 /*!40000 ALTER TABLE `coupon_applicato` DISABLE KEYS */;
 INSERT INTO `coupon_applicato` (`idCoupon`, `idOrdine`) VALUES
 	(1, 1);
 /*!40000 ALTER TABLE `coupon_applicato` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.inventario: ~4 rows (circa)
+DROP TABLE IF EXISTS `inventario`;
+CREATE TABLE IF NOT EXISTS `inventario` (
+  `codiceInventario` int NOT NULL AUTO_INCREMENT,
+  `indirizzo` varchar(150) NOT NULL,
+  `regione` varchar(50) NOT NULL,
+  `nome` varchar(50) NOT NULL,
+  `note` text,
+  `cfResponsabile` varchar(16) NOT NULL,
+  PRIMARY KEY (`codiceInventario`),
+  KEY `FK_utente` (`cfResponsabile`),
+  CONSTRAINT `FK_utente` FOREIGN KEY (`cfResponsabile`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `inventario`;
 /*!40000 ALTER TABLE `inventario` DISABLE KEYS */;
 INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `note`, `cfResponsabile`) VALUES
@@ -61,7 +105,17 @@ INSERT INTO `inventario` (`codiceInventario`, `indirizzo`, `regione`, `nome`, `n
 	(7, 'ciao', 'ewfwe', 'ewrwe', 'ehguierninvuignreiuviojasjiioijfdfhdiufckcidkodsjiofrgroehgioejiorgoegvmijviuiomok', 'LLFJPG92A23L322U');
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.inventario_prodotto: ~33 rows (circa)
+DROP TABLE IF EXISTS `inventario_prodotto`;
+CREATE TABLE IF NOT EXISTS `inventario_prodotto` (
+  `idInventario` int NOT NULL,
+  `idProdotto` int NOT NULL,
+  `giacenza` float NOT NULL,
+  PRIMARY KEY (`idProdotto`,`idInventario`),
+  KEY `FK__inventario` (`idInventario`),
+  CONSTRAINT `FK__inventario` FOREIGN KEY (`idInventario`) REFERENCES `inventario` (`codiceInventario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK__prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `inventario_prodotto`;
 /*!40000 ALTER TABLE `inventario_prodotto` DISABLE KEYS */;
 INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VALUES
@@ -113,7 +167,26 @@ INSERT INTO `inventario_prodotto` (`idInventario`, `idProdotto`, `giacenza`) VAL
 	(1, 60, 16);
 /*!40000 ALTER TABLE `inventario_prodotto` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.ordine: ~6 rows (circa)
+DROP TABLE IF EXISTS `ordine`;
+CREATE TABLE IF NOT EXISTS `ordine` (
+  `numeroOrdine` int NOT NULL AUTO_INCREMENT,
+  `stato` enum('salvato','accettato','preparazione','spedito','in consegna','consegnato','annullato') NOT NULL,
+  `feedback` text,
+  `ricevutaPagamento` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `dataAcquisto` timestamp NOT NULL,
+  `cfCliente` varchar(16) NOT NULL DEFAULT '',
+  `metodoSpedizione` int NOT NULL DEFAULT '0',
+  `regione` varchar(100) NOT NULL,
+  `citta` varchar(100) NOT NULL,
+  `viaCivico` varchar(100) NOT NULL,
+  PRIMARY KEY (`numeroOrdine`),
+  UNIQUE KEY `Indice 4` (`ricevutaPagamento`),
+  KEY `FK_cliente` (`cfCliente`),
+  KEY `FK_spedizione` (`metodoSpedizione`),
+  CONSTRAINT `FK_cliente` FOREIGN KEY (`cfCliente`) REFERENCES `utente` (`CF`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_spedizione` FOREIGN KEY (`metodoSpedizione`) REFERENCES `spedizione` (`ID`) ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `ordine`;
 /*!40000 ALTER TABLE `ordine` DISABLE KEYS */;
 INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, `dataAcquisto`, `cfCliente`, `metodoSpedizione`, `regione`, `citta`, `viaCivico`) VALUES
@@ -126,7 +199,18 @@ INSERT INTO `ordine` (`numeroOrdine`, `stato`, `feedback`, `ricevutaPagamento`, 
 	(14, 'accettato', '', '4c3cc49df6fc1d94fc286a1be32ca6f2190fba76', '2021-07-25 00:00:00', 'LGUPCH80C47A149T', 3, 'campania', 'san paolo bel sito', 'f. scala 60');
 /*!40000 ALTER TABLE `ordine` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.ordine_prodotto: ~15 rows (circa)
+DROP TABLE IF EXISTS `ordine_prodotto`;
+CREATE TABLE IF NOT EXISTS `ordine_prodotto` (
+  `idOrdine` int NOT NULL,
+  `idProdotto` int NOT NULL,
+  `prezzoAcquisto` float NOT NULL,
+  `quantita` float NOT NULL,
+  PRIMARY KEY (`idOrdine`,`idProdotto`) USING BTREE,
+  KEY `FK_ordine_prodotto_prodotto` (`idProdotto`),
+  CONSTRAINT `FK_ordine_prodotto_ordine` FOREIGN KEY (`idOrdine`) REFERENCES `ordine` (`numeroOrdine`) ON UPDATE CASCADE,
+  CONSTRAINT `FK_ordine_prodotto_prodotto` FOREIGN KEY (`idProdotto`) REFERENCES `prodotto` (`codiceIAN`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `ordine_prodotto`;
 /*!40000 ALTER TABLE `ordine_prodotto` DISABLE KEYS */;
 INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quantita`) VALUES
@@ -150,7 +234,21 @@ INSERT INTO `ordine_prodotto` (`idOrdine`, `idProdotto`, `prezzoAcquisto`, `quan
 	(14, 39, 3.5, 1);
 /*!40000 ALTER TABLE `ordine_prodotto` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.prodotto: ~59 rows (circa)
+DROP TABLE IF EXISTS `prodotto`;
+CREATE TABLE IF NOT EXISTS `prodotto` (
+  `codiceIAN` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL DEFAULT '',
+  `prezzo` float unsigned NOT NULL DEFAULT '0',
+  `peso` float unsigned NOT NULL DEFAULT '0',
+  `foto` varchar(200) NOT NULL DEFAULT '',
+  `volumeOccupato` float unsigned NOT NULL DEFAULT '0',
+  `descrizione` text NOT NULL,
+  `nomeCategoria` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  PRIMARY KEY (`codiceIAN`),
+  KEY `FK_prodotto_categoria` (`nomeCategoria`),
+  CONSTRAINT `FK_prodotto_categoria` FOREIGN KEY (`nomeCategoria`) REFERENCES `categoria` (`nome`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `prodotto`;
 /*!40000 ALTER TABLE `prodotto` DISABLE KEYS */;
 INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOccupato`, `descrizione`, `nomeCategoria`) VALUES
@@ -214,12 +312,31 @@ INSERT INTO `prodotto` (`codiceIAN`, `nome`, `prezzo`, `peso`, `foto`, `volumeOc
 	(60, 'Thè limone', 1.4, 4, '60_l_23393.jpg', 5, 'Fresca', 'gastronomia');
 /*!40000 ALTER TABLE `prodotto` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.prodotto_preferito: 0 rows
+DROP TABLE IF EXISTS `prodotto_preferito`;
+CREATE TABLE IF NOT EXISTS `prodotto_preferito` (
+  `codiceIAN` int DEFAULT NULL,
+  `nome` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `prezzo` float unsigned DEFAULT NULL,
+  `peso` float unsigned DEFAULT NULL,
+  `foto` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `volumeOccupato` float unsigned DEFAULT NULL,
+  `descrizione` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `nomeCategoria` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `Quantità Totale Acquistata` double DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `prodotto_preferito`;
 /*!40000 ALTER TABLE `prodotto_preferito` DISABLE KEYS */;
 /*!40000 ALTER TABLE `prodotto_preferito` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.spedizione: ~0 rows (circa)
+DROP TABLE IF EXISTS `spedizione`;
+CREATE TABLE IF NOT EXISTS `spedizione` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(80) NOT NULL DEFAULT '0',
+  `costo` float NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `spedizione`;
 /*!40000 ALTER TABLE `spedizione` DISABLE KEYS */;
 INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
@@ -228,12 +345,38 @@ INSERT INTO `spedizione` (`ID`, `nome`, `costo`) VALUES
 	(3, 'express', 14.99);
 /*!40000 ALTER TABLE `spedizione` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.spedizione_preferita: 0 rows
+DROP TABLE IF EXISTS `spedizione_preferita`;
+CREATE TABLE IF NOT EXISTS `spedizione_preferita` (
+  `ID` int DEFAULT NULL,
+  `nome` varchar(80) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `costo` float DEFAULT NULL,
+  `Utilizzi` bigint DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `spedizione_preferita`;
 /*!40000 ALTER TABLE `spedizione_preferita` DISABLE KEYS */;
 /*!40000 ALTER TABLE `spedizione_preferita` ENABLE KEYS */;
 
--- Dump dei dati della tabella unimart.utente: ~0 rows (circa)
+DROP TABLE IF EXISTS `utente`;
+CREATE TABLE IF NOT EXISTS `utente` (
+  `CF` varchar(16) NOT NULL DEFAULT '',
+  `nome` varchar(100) NOT NULL DEFAULT '',
+  `cognome` varchar(100) NOT NULL DEFAULT '',
+  `viaCivico` varchar(100) NOT NULL DEFAULT '',
+  `fotoProfilo` varchar(200) DEFAULT NULL,
+  `tipo` enum('Semplice','Amministratore') NOT NULL DEFAULT 'Semplice',
+  `citta` varchar(100) NOT NULL DEFAULT '',
+  `regione` varchar(100) NOT NULL DEFAULT '',
+  `telefono` varchar(10) NOT NULL DEFAULT '',
+  `dataDiNascita` date NOT NULL,
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `username` varchar(50) NOT NULL DEFAULT '',
+  `passwordHash` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`CF`),
+  UNIQUE KEY `Indice 2` (`username`),
+  UNIQUE KEY `Indice 4` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 DELETE FROM `utente`;
 /*!40000 ALTER TABLE `utente` DISABLE KEYS */;
 INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo`, `citta`, `regione`, `telefono`, `dataDiNascita`, `email`, `username`, `passwordHash`) VALUES
@@ -244,7 +387,7 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('FMEJRH67L53D462P', 'uytfuiytkf', 'gvuygfv', 'yutgfyhjyu', 'FMEJRH67L53D462P_05.jpg', 'Semplice', 'gyutg', 'yugtg', '0122456788', '2020-06-22', 'jhyfuyj@gmail.com', 'gyuygl', '459ee0e1bc34dd04312447f89b500b82e3584532'),
 	('Gehuebevehdb', 'Bho', 'Come ', 'Domenico 5', 'Gehuebevehdb_image.jpg', 'Semplice', 'Napoli ', 'Campania ', '3333557834', '2003-07-11', 'monica@gmail.com', 'Monica ', '4b4446969034c7b0cee153226a398194c133f65b'),
 	('KLPNBA32P28L037Q', 'sabato', 'geno', 'ciao,3', 'KLPNBA32P28L037Q_01 (2).jpg', 'Semplice', 'dsf', 'dsf', '3391904141', '2021-07-07', 'dsf@dsf.dsf', 'lafoca', '1b23aecc420daee59f146461aaad71d54bdfbc09'),
-	('LGUPCH80C47A149T', 'giuseppe', 'meo', 'f. scala 60', 'MEOGPP61H27F839B_P_20160318_124634.jpg', 'Semplice', 'san paolo bel sito', 'campania', '0818235695', '1961-06-27', 'giuseppe-meo@virgilio.it', 'angelo', '72dd5a9fc52d7c3953ef7bbf3d1d4bfb96c4d399'),
+	('LGUPCH80C47A149T', 'giuseppe', 'meo', 'f. scala 60', 'LGUPCH80C47A149T_admin.svg', 'Semplice', 'san paolo bel sito', 'campania', '0815554874', '1961-06-27', 'giuseppe@peppe.it', 'angelo', '72dd5a9fc52d7c3953ef7bbf3d1d4bfb96c4d399'),
 	('LLFJPG92A23L322U', 'test', 'test', 'via test', 'LLFJPG92A23L322U_admin.svg', 'Amministratore', 'Visciano', 'Campania', '4444', '2022-06-20', 'test@test.it', 'testtt', 'ec0695a0fb09cdcd75fdf99ecb9dfc8340272ec8'),
 	('MSFLTF44P15C400R', 'sabato', 'genovese', 'po,2', 'logo_small_icon_only_inverted.png', 'Semplice', 'nola', 'campania', '1234567890', '2000-07-05', 'sa@sa.com', 'tino', '795cbb3993ff966ec0444d87de357bb33f302897'),
 	('sabatoG', 'sabato', 'genovese', 'sg', 'sabatoG_20180327_110324.jpg', 'Semplice', 'ss', 'sss', '123456', '2019-07-26', 'sabato@genovese.com', 'sg', 'ff39796487e85a7066e18d814bcb63856de6cfff'),
@@ -252,6 +395,42 @@ INSERT INTO `utente` (`CF`, `nome`, `cognome`, `viaCivico`, `fotoProfilo`, `tipo
 	('we', 'we', 'we', 'we', 'we_wallpaper.jpg', 'Semplice', 'nola', 'campania', '3333333', '2019-06-27', 'we@we.it', 'wewewe', 'ec0695a0fb09cdcd75fdf99ecb9dfc8340272ec8'),
 	('YGXRLB88C60A485Q', 'uygfyu', 'fgyugvf', 'yutgfvyt', 'YGXRLB88C60A485Q_02.jpg', 'Semplice', 'fgtyu', 'fuytf', '0123456789', '2019-05-21', 'yufu@uygfuy.uyg', 'uyugfuy', '22391f8c001e6d8063d70d9baa4be4a537b21182');
 /*!40000 ALTER TABLE `utente` ENABLE KEYS */;
+
+DROP TRIGGER IF EXISTS `coupon_applicato_after_insert`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `coupon_applicato_after_insert` AFTER INSERT ON `coupon_applicato` FOR EACH ROW BEGIN
+	UPDATE coupon c SET c.stato = 'Riscattato' WHERE c.numeroCoupon = NEW.idCoupon; 
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+DROP TRIGGER IF EXISTS `coupon_before_delete`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `coupon_before_delete` AFTER DELETE ON `coupon_applicato` FOR EACH ROW BEGIN
+	UPDATE coupon c SET c.stato = 'Disponibile' WHERE c.numeroCoupon = OLD.idCoupon; 
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+DROP TRIGGER IF EXISTS `NormalizeCategoriaInsert`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `NormalizeCategoriaInsert` BEFORE INSERT ON `categoria` FOR EACH ROW BEGIN
+	SET new.nome = LOWER(new.nome);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+DROP TRIGGER IF EXISTS `NormalizeCategoriaUpdate`;
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `NormalizeCategoriaUpdate` BEFORE UPDATE ON `categoria` FOR EACH ROW BEGIN
+SET new.nome = LOWER(new.nome);
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;

@@ -510,6 +510,10 @@ select, option {
     font-weight: normal;
 }
 
+.test {
+    /* Non eseguo nulla */
+}
+
 /* LOGIN */
 
 .login main {
@@ -1059,5 +1063,23 @@ td > button, td > form > button {
         color: black;
         padding: 16px;
         text-decoration: none;
+    }
+
+    /* ANIMAZIONE */
+
+    .test {
+        position: relative;
+        animation-name: animazione;
+        animation-duration: 4s;
+        transition: all;
+    }
+
+    @keyframes animazione {
+        0%   {left:0px; top:0px; transform: rotateZ(-50deg);}
+        25%  {left:100px; top:0px; transform: rotateZ(-30deg);}
+        50%  {left:200px; top:0px; transform: rotateZ(-10deg);}
+        75%  {left:300px; top:0px; transform: rotateZ(0deg);}
+        86%  {left:350px; top:0px; transform: rotateZ(45deg);}
+        100% {left:0px; top:0px;}
     }
 }

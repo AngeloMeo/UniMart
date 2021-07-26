@@ -91,7 +91,7 @@
                      <input type="button" value="Indietro" class="btn btn-secondary" onclick="javasript:window.history.back()">
                   </td>
                   <td>
-                     <input type="submit" class="btn btn-verde" value="Acquista">
+                     <input type="submit" class="btn btn-verde test" value="Acquista">
                   </td>
                </tr>
             </table>

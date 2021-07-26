@@ -44,7 +44,9 @@
 
          <%@include file="partialOrder.jsp" %>
 
-         <a href="${pageContext.request.contextPath}/OrdiniManager" class="btn btn-primary">Vai ai miei ordini</a>
+         <div class="flex-item-100">
+            <a href="${pageContext.request.contextPath}/OrdiniManager" class="btn btn-primary">Vai ai miei ordini</a>
+         </div>
       </main>
    </body>
 </html>
