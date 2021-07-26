@@ -139,9 +139,7 @@ public class UtenteManager extends HttpServlet
                }
                catch (SQLException e)
                {
-                  request.setAttribute("message", "Errore nel salvataggio dell'utente nel Database(Servlet:CreaUtente Metodo:doPost)");
-                  request.setAttribute("exceptionStackTrace", e.getStackTrace());
-                  response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, null);
+                  response.sendRedirect(request.getServletContext().getContextPath() + getServletContext().getInitParameter("homepage"));
                   return;
                }
 
