@@ -16,6 +16,14 @@
     <main class="footer-present-big">
 
 
+        <ul>
+            <li>
+                Angelo Meo 09323
+            </li>
+            <li>
+                Sabato Genovese 09014
+            </li>
+        </ul>
 
     </main>
     <%@include file="WEB-INF/results/footer.jsp"%>
