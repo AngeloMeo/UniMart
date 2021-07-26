@@ -466,7 +466,7 @@ public class OrdineDAO
    {
       QueryBuilder query = new QueryBuilder("ordine", "o");
       query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Salvato + "' AND o.stato != '" + StatoOrdine.Annullato +
-              "' AND o.stato != '" + StatoOrdine.Accettato + "'");
+              "' AND o.stato != '" + StatoOrdine.Accettato + "' AND o.stato != '" + StatoOrdine.Preparazione + "'");
 
       return executeQueryCount(query);
    }
@@ -498,7 +498,8 @@ public class OrdineDAO
       if(u != null && u.validateObject())
       {
          QueryBuilder query = new QueryBuilder("ordine", "o");
-         query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Spedito + "' AND cfCliente='" + u.getCF() + "'");
+         query.select("COUNT(*)").where("o.stato != '" + StatoOrdine.Salvato + "' AND o.stato!= '"+ StatoOrdine.Annullato + "' AND o.stato!= '" + StatoOrdine.Accettato + "' AND o.stato!= '"+StatoOrdine.Preparazione
+                 +"' AND " + "cfCliente='" + u.getCF() + "'");
 
          return executeQueryCount(query);
       }
