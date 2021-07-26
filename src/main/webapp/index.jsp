@@ -14,22 +14,26 @@
          <div class="flex-container flex-dirRow col-gap cover-container">
             <img src="${context}/images/cover.jpg" class="flex-item-40 img-responsive">
             <div class="flex-item-50">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque dui eget mattis blandit. Cras
-               pellentesque vehicula dui, nec elementum felis suscipit eu. Proin ipsum massa, interdum sit amet rutrum sed,
-               porttitor vel tortor. Nunc molestie pharetra justo ut fermentum. In pharetra tempus eros, sed facilisis libero
-               hendrerit sed. Sed dictum magna sed metus blandit, at sodales ipsum finibus. In sollicitudin non leo et eleifend.
-               Donec dignissim, lorem vitae varius cursus, sem orci bibendum metus, vel placerat enim tortor non lectus.
-               Duis auctor nunc commodo quam molestie, eget consequat risus pharetra. Cras pellentesque urna sed diam porttitor,
-               sed tempor nibh.
+               Il nostro shop punta ad eliminare le inutili attese alla cassa con conseguente
+               risparmio di tempo, inoltre ci sta a cuore tentare di aiutare l’ambiente
+               consegnando noi la spesa ai nostri clienti per mezzo di hub sparsi in tutta la
+               penisola.
+               Offriamo ai nostri clienti vari tipi di consegna:
             </div>
             <div class="flex-item-50">
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean scelerisque dui eget mattis blandit. Cras
-               pellentesque vehicula dui, nec elementum felis suscipit eu. Proin ipsum massa, interdum sit amet rutrum sed,
-               porttitor vel tortor. Nunc molestie pharetra justo ut fermentum. In pharetra tempus eros, sed facilisis libero
-               hendrerit sed. Sed dictum magna sed metus blandit, at sodales ipsum finibus. In sollicitudin non leo et eleifend.
-               Donec dignissim, lorem vitae varius cursus, sem orci bibendum metus, vel placerat enim tortor non lectus.
-               Duis auctor nunc commodo quam molestie, eget consequat risus pharetra. Cras pellentesque urna sed diam porttitor,
-               sed tempor nibh.
+               <ul>
+                  <li>
+                     Express: entro un'ora la spesa verr&agrave; recapitata al cliente, disponibile tutta la
+                     giornata e ad un sovrapprezzo.
+                  </li>
+                  <li>
+                     Standard: sar&agrave; consegnata la spesa in giornata, ordinabile 8-13, senza
+                     sovrapprezzo.
+                  </li>
+                  <li>
+                     Eco: &egrave; una consegna nel rispetto dell'ambiente effettuata con Route planning e veicoli ecologici.
+                  </li>
+               </ul>
             </div>
 
             <img src="${context}/images/cover2.jpg" class="flex-item-40 img-responsive">

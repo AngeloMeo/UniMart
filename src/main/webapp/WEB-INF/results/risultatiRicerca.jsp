@@ -13,7 +13,7 @@
    </head>
    <body>
       <%@include file="header.jsp" %>
-      <main onload="orderSearchResult()">
+      <main>
 
          <section class="flex-container flex-dirRow justify-content-center">
             <label for="order">Ordina Per:</label>
