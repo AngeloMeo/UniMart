@@ -11,10 +11,10 @@
 
         <ul>
             <li>
-                Angelo Meo 09323
+                Angelo Meo 09323 - 30L
             </li>
             <li>
-                Sabato Genovese 09014
+                Sabato Genovese 09014 - 30L
             </li>
         </ul>
 
