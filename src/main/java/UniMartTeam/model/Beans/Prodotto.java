@@ -113,7 +113,7 @@ public class Prodotto implements Serializable
    {
       try(InputStream is = filePart.getInputStream())
       {
-         String fileName = getCodiceIAN() + "_" + filePart.getSubmittedFileName();
+         String fileName = getCodiceIAN() + "_" + filePart.getName();
          File file = new File(path + File.separator + fileName);
 
          Files.copy(is, file.toPath(), StandardCopyOption.REPLACE_EXISTING);

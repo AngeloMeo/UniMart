@@ -6,6 +6,7 @@
         <exploded>true</exploded>
         <module>UniMart</module>
         <packaging>war</packaging>
+        <unpackNestedArchives>false</unpackNestedArchives>
       </options>
     </properties>
     <root id="root">
@@ -15,6 +16,8 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.7" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-jdbc:10.0.14" />
+          <element id="library" level="project" name="Maven: org.apache.tomcat:tomcat-juli:10.0.14" />
         </element>
       </element>
       <element id="directory" name="META-INF">

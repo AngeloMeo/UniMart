@@ -9,7 +9,6 @@ import UniMartTeam.model.EnumForBeans.TipoUtente;
 import UniMartTeam.model.Utils.ConPool;
 import UniMartTeam.model.Utils.Validator;
 import com.google.gson.Gson;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -188,7 +187,7 @@ public class ProdottoManager extends HttpServlet
                     c1.setNome(request.getParameter("categoria"));
                     p.setCategoria(c1);
 
-                    if(!request.getPart("foto").getSubmittedFileName().isEmpty() && request.getPart("foto") != null){
+                    if(!request.getPart("foto").getName().isEmpty() && request.getPart("foto") != null){
                         try
                         {
                             p.uploadFoto(request.getPart("foto"), FileServlet.basePath);
